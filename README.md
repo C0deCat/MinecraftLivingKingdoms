@@ -1,11 +1,11 @@
 # Living Kingdoms
 
-Фэнтезийная сборка Minecraft 1.21.1 (NeoForge), которая шаг за шагом превращается в игру с живым миром: конечная карта, приключения, быт, магия, живые деревни на базе MCA Reborn, государства и мир, развивающийся без игроков. Рассчитана на 1–4 игроков.
+A Minecraft 1.21.1 (NeoForge) fantasy pack that step by step turns into a game with a living world: a finite map, adventure, household life, magic, living villages built on MCA Reborn, states and a world that develops without players. Made for 1–4 players in singleplayer or Open to LAN.
 
-**Статус:** планирование. Следующий этап — M0 (инфраструктура).
+**Status:** planning. Next stage — M0 (infrastructure).
 
-- [Дорожная карта](docs/roadmap.md)
-- [Архитектурные решения](docs/decisions/README.md)
-- [Лицензии](docs/licenses.md)
-- [Матрица совместимости](docs/compatibility-matrix.md)
-- [Правила для ИИ-агентов](AGENTS.md)
+- [Roadmap](docs/roadmap.md)
+- [Architecture decisions](docs/decisions/README.md)
+- [Licenses](docs/licenses.md)
+- [Compatibility matrix](docs/compatibility-matrix.md)
+- [Rules for AI agents](AGENTS.md)

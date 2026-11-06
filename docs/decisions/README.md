@@ -1,32 +1,32 @@
-# Архитектурные решения (ADR)
+# Architecture Decision Records (ADR)
 
-Здесь фиксируются решения, которые дорого менять: выбор модов-основ, порядок этапов, модели данных, лицензионные ограничения. Короткие решения без отдельного обоснования живут в таблице D-xx [роадмапа](../roadmap.md#11-принятые-архитектурные-решения).
+Decisions that are expensive to change live here: base mods, milestone order, data models, license constraints. Short decisions without a separate rationale live in the D-xx table of the [roadmap](../roadmap.md#11-architecture-decisions).
 
-| ADR | Решение | Статус | Дата |
+| ADR | Decision | Status | Date |
 | --- | --- | --- | --- |
-| [ADR-0001](ADR-0001-own-settlement-mod.md) | Собственный мод поселений на базе MCA Reborn вместо Millénaire | Принято | 2026-11-06 |
-| [ADR-0002](ADR-0002-milestone-order.md) | Порядок этапов: поселения → симуляция → экономика и государства → атмосфера → культуры | Принято | 2026-11-06 |
+| [ADR-0001](ADR-0001-own-settlement-mod.md) | Our own settlement mod on MCA Reborn instead of Millénaire | Accepted | 2026-11-06 |
+| [ADR-0002](ADR-0002-milestone-order.md) | Milestone order: settlements → simulation → economy and states → atmosphere → cultures | Accepted | 2026-11-06 |
 
-## Шаблон
+## Template
 
-Файл `ADR-NNNN-short-name.md`:
+File `ADR-NNNN-short-name.md`:
 
 ```markdown
-# ADR-NNNN: Название
+# ADR-NNNN: Title
 
-**Статус:** Предложено | Принято | Заменено ADR-XXXX · **Дата:** ГГГГ-ММ-ДД
+**Status:** Proposed | Accepted | Superseded by ADR-XXXX · **Date:** YYYY-MM-DD
 
-## Контекст
-Какая проблема, какие ограничения.
+## Context
+The problem and its constraints.
 
-## Решение
-Что выбрали.
+## Decision
+What we chose.
 
-## Рассмотренные варианты
-Что ещё рассматривали и почему отказались.
+## Options considered
+What else was considered and why it was rejected.
 
-## Последствия
-Что становится проще, что сложнее, что нужно проверить.
+## Consequences
+What gets easier, what gets harder, what needs to be checked.
 ```
 
-Принятый ADR не переписывается задним числом: если решение меняется, создаётся новый ADR, а старый получает статус «Заменено».
+An accepted ADR is never rewritten after the fact: if the decision changes, a new ADR is created and the old one is marked "Superseded".

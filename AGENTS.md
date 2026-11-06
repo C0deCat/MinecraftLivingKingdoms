@@ -1,117 +1,123 @@
 # AGENTS.md — Living Kingdoms
 
-Инструкции для ИИ-агентов (Codex, Claude Code и других), работающих в этом репозитории. Это главный файл правил: специализированные навыки и документы его дополняют, но не отменяют.
+Instructions for AI agents (Codex, Claude Code and others) working in this repository. This is the primary rules file: skills and other documents extend it but never override it.
 
-## 1. Что за проект
+## 1. The project
 
-**Living Kingdoms** — фэнтезийная сборка Minecraft, которая постепенно превращается в игру с живым миром: конечная карта, приключения, быт, магия, живые деревни, государства и мир, который развивается без игроков.
+**Living Kingdoms** is a Minecraft fantasy pack that gradually turns into a game with a living world: a finite map, adventure, household life, magic, living villages, states and a world that develops without players.
 
-- **Главный принцип:** каждый майлстоун — красивая, цельная, интересная для игры версия сборки. Связность модов и объём собственной логики растут постепенно.
-- **Игроки:** 1–4 человека, мультиплеер.
-- **Публикация:** планируется; площадка не выбрана.
+- **Core principle:** every milestone is a beautiful, cohesive, fun-to-play release of the pack. Mod cohesion and the amount of custom logic grow gradually.
+- **Play mode:** 1–4 players in singleplayer or Open to LAN; the world is hosted by one player. A dedicated server is a long-term goal.
+- **Publishing:** planned; platform not chosen.
 
-**Текущий статус:** планирование завершено, кода и манифеста сборки ещё нет. Следующий этап — **M0 (инфраструктура)**.
+**Current status:** planning is done; there is no code or pack manifest yet. Next stage — **M0 (infrastructure)**.
 
-## 2. Обязательно прочитать перед работой
+## 2. Read before working
 
-| Документ | Когда |
+| Document | When |
 | --- | --- |
-| [docs/roadmap.md](docs/roadmap.md) | Всегда: этапы, решения D-01…D-16, критерии приёмки |
-| [docs/decisions/](docs/decisions/README.md) | Перед изменением архитектуры или порядка этапов |
-| [docs/licenses.md](docs/licenses.md) | Перед добавлением мода, использованием чужого кода или ассетов |
-| [docs/compatibility-matrix.md](docs/compatibility-matrix.md) | Перед добавлением или обновлением мода |
+| [docs/roadmap.md](docs/roadmap.md) | Always: milestones, decisions D-01…D-17, acceptance criteria |
+| [docs/decisions/](docs/decisions/README.md) | Before changing the architecture or milestone order |
+| [docs/licenses.md](docs/licenses.md) | Before adding a mod or using third-party code or assets |
+| [docs/compatibility-matrix.md](docs/compatibility-matrix.md) | Before adding or updating a mod |
 
-## 3. Платформа — не менять без ADR
+## 3. Language
 
-- Minecraft Java **1.21.1**, **NeoForge 21.1.x** (точная версия закрепляется в M0), **Java 21**.
-- Все API сверять с документацией NeoForge для 1.21.1 и с исходниками/JAR **установленной** версии мода. Примеры из навыков, форумов и памяти модели часто относятся к другим версиям Minecraft — не доверять им без проверки.
-- Окружение разработчика: Windows 11, PowerShell. **Python не установлен** — скрипты пишем на PowerShell, Java/Gradle или Node.
+- **All documentation, code comments, commit messages and identifiers are in English.** No exceptions for new or edited files.
+- The only non-English file is the historical [docs/archive/roadmap-v0.2.md](docs/archive/roadmap-v0.2.md); leave it as is.
+- Chat with the user may be in any language the user writes in (usually Russian).
 
-## 4. Иерархия изменений
+## 4. Platform — do not change without an ADR
 
-Выбирать самый нижний уровень, который решает задачу:
+- Minecraft Java **1.21.1**, **NeoForge 21.1.x** (exact version pinned in M0), **Java 21**. Why 1.21.1: see D-02 in the roadmap.
+- Check every API against the NeoForge 1.21.1 documentation and the sources/JAR of the **installed** mod version. Examples from skills, forums and model memory often target other Minecraft versions — do not trust them without checking.
+- Developer environment: Windows 11, PowerShell (Git Bash is also available). Installed: Java 21, Node 24, Python 3.13, Git.
 
-0. Ничего не менять, если уже работает.
-1. Конфиг мода.
-2. Теги, датапак.
-3. Готовый аддон или мост между модами.
+## 5. Change hierarchy
+
+Pick the lowest level that solves the task:
+
+0. Change nothing if it already works.
+1. Mod config.
+2. Tags, datapack.
+3. Existing addon or bridge between mods.
 4. KubeJS.
-5. Собственный Java-код или адаптер (включая Mixin в **нашем** моде).
-6. Форк чужого мода — только при доказанной необходимости и лицензии, которая это позволяет. Требует ADR.
+5. Our own Java code or adapter (including Mixins in **our** mod).
+6. Fork of another mod — only when proven necessary and the license allows it. Requires an ADR.
 
-## 5. Лицензии — жёсткие правила
+## 6. Licenses — hard rules
 
-- **Не копировать код закрытых (All Rights Reserved) модов**, в том числе декомпилированный, и не класть его в репозиторий или в контекст для генерации кода. Изучать поведение такого мода можно в игре и по документации.
-- Ассеты (структуры, текстуры, модели, тексты) чужих модов не переделывать и не распространять как свои, если лицензия этого прямо не разрешает. Пример: CTOV — CC BY-NC-ND 4.0.
-- Перед добавлением мода проверить и записать его лицензию в [docs/licenses.md](docs/licenses.md).
-- **Millénaire не используется** ни как мод, ни как источник кода или ассетов — только идеи ([ADR-0001](docs/decisions/ADR-0001-own-settlement-mod.md)).
-- Код из открытых модов (MIT, LGPL, GPL) можно использовать с соблюдением условий лицензии; для GPL это влияет на лицензию нашего мода — фиксировать в ADR.
+- **Never copy code of closed (All Rights Reserved) mods**, including decompiled code, and never put it into the repository or into context for code generation. Such mods may be studied in-game and through their documentation.
+- Do not modify or redistribute third-party assets (structures, textures, models, texts) as our own unless the license explicitly allows it. Example: CTOV is CC BY-NC-ND 4.0.
+- Before adding a mod, check its license and record it in [docs/licenses.md](docs/licenses.md).
+- **Millénaire is not used** — neither as a mod nor as a source of code or assets; ideas only ([ADR-0001](docs/decisions/ADR-0001-own-settlement-mod.md)).
+- Code from open mods (MIT, LGPL, GPL) may be used under the license terms; for GPL this affects our mod's license — record it in an ADR.
 
-## 6. Добавление или обновление мода
+## 7. Adding or updating a mod
 
-1. Найти официальную страницу (Modrinth, CurseForge, GitHub автора). Не скачивать JAR с перезаливов.
-2. Проверить поддержку Minecraft 1.21.1 + NeoForge, зависимости, сторону установки (клиент/сервер), лицензию.
-3. Добавить через packwiz (после M0) — не класть JAR в репозиторий вручную.
-4. Запустить выделенный сервер и клиент, проверить базовый сценарий.
-5. Записать результат в [docs/compatibility-matrix.md](docs/compatibility-matrix.md) и [docs/licenses.md](docs/licenses.md).
-6. Обновлять моды по одному или малыми партиями, не всё сразу.
+1. Find the official page (Modrinth, CurseForge, the author's GitHub). Never download JARs from re-uploads.
+2. Check Minecraft 1.21.1 + NeoForge support, dependencies, side (client/server), license.
+3. Add via packwiz (after M0) — never commit JARs manually.
+4. Launch the game: singleplayer first, then Open to LAN with a second client; check a basic scenario.
+5. Record the result in [docs/compatibility-matrix.md](docs/compatibility-matrix.md) and [docs/licenses.md](docs/licenses.md).
+6. Update mods one at a time or in small batches, never all at once.
 
-## 7. Статусы задачи — сообщать честно
+## 8. Task status — report honestly
 
-| Статус | Что подтверждено |
+| Status | What is confirmed |
 | --- | --- |
-| Code complete | Код или конфиг написан |
-| Build passed | Сборка и проверки манифеста проходят |
-| Runtime passed | Выделенный сервер и клиент запускаются, нужное действие выполняется |
-| Gameplay verified | Механика корректна с точки зрения игры (часто требует человека) |
+| Code complete | Code or config is written |
+| Build passed | Build and manifest checks pass |
+| Runtime passed | The game launches (singleplayer/LAN) and the target action works |
+| Gameplay verified | The mechanic is correct from a gameplay point of view (often needs a human) |
 
-Не объявлять задачу готовой по успешной компиляции. В отчёте указывать достигнутый статус и то, что **не** проверено. Ноль найденных GameTest — это провал проверки, а не успех.
+Never declare a task done because it compiled. Report the status reached and what was **not** verified. Zero discovered GameTests is a failed check, not a success.
 
-## 8. Тестирование
+## 9. Testing
 
-- Основная среда — **выделенный сервер** + клиент: многие баги видны только в мультиплеере.
-- Игровые экземпляры в `runtime/` генерируются и не коммитятся.
-- До M10 тестовые миры **одноразовые**: при изменении генерации мир пересоздаётся.
-- Изменения, затрагивающие сохранения, проверять циклами выгрузки/загрузки и рестартами сервера.
-- Производительность измерять через spark, а не на глаз.
+- **Primary environment:** singleplayer and Open to LAN (integrated server on the host, 1–4 clients). Many bugs only show up with a remote client, so test LAN joins for anything with networking or synced state.
+- **Keep code server-safe:** no client-only classes in common code, correct client/server separation. A dedicated server is a long-term target and must not require a rewrite.
+- Game instances in `runtime/` are generated and never committed.
+- Until M10 test worlds are **disposable**: when worldgen changes, the world is recreated.
+- Changes that touch saves are tested with unload/load cycles and world reloads.
+- Measure performance with spark, not by eye. The host PC runs both the client and the integrated server — budget for that.
 
-## 9. Что требует подтверждения пользователя
+## 10. Needs user confirmation
 
-Не делать самостоятельно, а предложить и спросить:
+Propose and ask instead of doing it yourself:
 
-- изменения порядка этапов, платформы, решений D-xx;
-- добавление или удаление мода из основного профиля;
-- изменения генерации мира, формата сохранений, обязательных структур;
-- использование чужого кода или ассетов, форк любого мода;
-- публикацию чего-либо вовне (релизы, загрузка на площадки, сообщения авторам).
+- changes to milestone order, platform, or decisions D-xx;
+- adding or removing a mod from the main profile;
+- changes to world generation, save format, mandatory structures;
+- using third-party code or assets, forking any mod;
+- publishing anything externally (releases, uploads, messages to mod authors).
 
-Архитектурно значимое решение оформляется как ADR в [docs/decisions/](docs/decisions/README.md).
+Architecturally significant decisions are recorded as ADRs in [docs/decisions/](docs/decisions/README.md).
 
-## 10. Стиль работы
+## 11. Working style
 
-- Документация и общение — **на русском**. Идентификаторы кода, имена файлов, сообщения коммитов — на английском.
-- Небольшие коммиты с одной целью; формат `type(scope): summary` (`feat`, `fix`, `docs`, `chore`, `test`, `refactor`).
-- Сначала исследовать, что уже умеют существующие моды и аддоны, и только потом писать код.
-- Не строить собственные инструменты, пока готовый (packwiz, Gradle, Prism Launcher) решает задачу.
+- Small commits with one purpose; format `type(scope): summary` (`feat`, `fix`, `docs`, `chore`, `test`, `refactor`).
+- First research what existing mods and addons already do, then write code.
+- Do not build custom tools while an existing one (packwiz, Gradle, Prism Launcher) does the job.
 
-## 11. Структура репозитория
+## 12. Repository layout
 
-Сейчас:
+Now:
 
 ```text
-AGENTS.md            — этот файл
-CLAUDE.md            — подключает AGENTS.md для Claude Code
+AGENTS.md            — this file
+CLAUDE.md            — imports AGENTS.md for Claude Code
 README.md
 docs/
-  roadmap.md         — дорожная карта (источник истины по этапам)
-  decisions/         — ADR
-  licenses.md        — лицензии модов и правила
+  roadmap.md         — roadmap (source of truth for milestones)
+  decisions/         — ADRs
+  licenses.md        — mod licenses and rules
   compatibility-matrix.md
-  archive/           — прошлые редакции документов
+  archive/           — previous revisions of documents
 ```
 
-Планируемая структура — раздел 14 роадмапа. Каталоги создаются, когда в них появляется реальное содержимое.
+Planned layout — section 14 of the roadmap. Directories are created when they get real content.
 
-## 12. Команды
+## 13. Commands
 
-Появятся в M0 (packwiz, Gradle, запуск сервера и клиента). Пока сборки нет.
+Will be added in M0 (packwiz, Gradle, launching the client). There is no build yet.

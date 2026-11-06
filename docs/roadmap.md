@@ -1,402 +1,405 @@
 # LIVING KINGDOMS
-## Поэтапный план разработки модифицированной Minecraft-сборки
+## Staged development plan for a modded Minecraft pack
 
-**Редакция:** 0.3 · **Дата:** 6 ноября 2026 г. · **Статус:** рабочий архитектурный план  
-**Целевая платформа:** Minecraft Java 1.21.1 · NeoForge 21.1.x · Java 21  
-**Принцип разработки:** установить → устранить конфликты → объединить в целостную систему → зафиксировать результат.
+**Revision:** 0.3 · **Date:** 2026-11-06 · **Status:** working architecture plan
+**Target platform:** Minecraft Java 1.21.1 · NeoForge 21.1.x · Java 21
+**Development principle:** install → resolve conflicts → integrate into a cohesive system → lock in the result.
 
-> **Что изменилось в 0.3.** Millénaire заменён собственным модом поселений на базе MCA Reborn ([ADR-0001](decisions/ADR-0001-own-settlement-mod.md)). Этапы переупорядочены: поселения → симуляция выгруженного мира → экономика и государства → атмосфера → культуры ([ADR-0002](decisions/ADR-0002-milestone-order.md)). Добавлены требования к мультиплееру на 1–4 игрока и к публикации. Предыдущая редакция — [archive/roadmap-v0.2.md](archive/roadmap-v0.2.md).
+> **What changed in 0.3.** Millénaire is replaced by our own settlement mod built on MCA Reborn ([ADR-0001](decisions/ADR-0001-own-settlement-mod.md)). Milestones are reordered: settlements → unloaded-world simulation → economy and states → atmosphere → cultures ([ADR-0002](decisions/ADR-0002-milestone-order.md)). Added requirements for play mode (singleplayer / LAN, 1–4 players) and publishing. Documentation switched to English. The previous revision (Russian) is kept in [archive/roadmap-v0.2.md](archive/roadmap-v0.2.md).
 
-> **Важно.** Совместимость каждого конкретного набора JAR ещё не подтверждена запуском. Сведения о доступности отдельных модов проверены по публичным страницам проектов на 03.11.2026. Этот документ — план и техническая спецификация, а не утверждение, что все перечисленные моды уже работают совместно. Версии и зависимости нужно закреплять в манифесте после проверки.
+> **Important.** Compatibility of any specific set of JARs has not been confirmed by a launch yet. Mod availability was checked against public project pages on 2026-11-03 and 2026-11-06. This document is a plan and a technical specification, not a claim that all listed mods already work together. Versions and dependencies are pinned in the manifest only after verification.
 
-## 1. Цель, рамки и ключевые решения
+## 1. Goal, scope and key decisions
 
-**Living Kingdoms** — конечный фэнтезийный мир для длительного исследования, в котором красивый рельеф, подземелья, ремёсла, магия, деревни, население и государства образуют взаимосвязанную игру. Игрок не является центром симуляции: поселения, экономика, политика и природа продолжают развиваться, когда его нет рядом.
+**Living Kingdoms** is a finite fantasy world for long-term exploration where beautiful terrain, dungeons, crafts, magic, villages, population and states form one interconnected game. The player is not the center of the simulation: settlements, economy, politics and nature keep developing when the player is not nearby.
 
-**Основные требования:**
+**Core requirements:**
 
-- **Каждый майлстоун — играбельная версия.** После каждого этапа сборка должна быть красивой, цельной и интересной для игры. Связность между модами и объём собственной логики растут постепенно.
-- **Мультиплеер на 1–4 игрока.** Всё тестируется на выделенном сервере; игроки могут находиться в разных концах карты одновременно.
-- **Публикация.** Сборка будет опубликована (площадка и формат пока не выбраны). Цельный игровой опыт важнее невмешательства в код модов, но все изменения должны укладываться в лицензии — см. [licenses.md](licenses.md).
-- Конечная карта Верхнего мира ориентировочно **12 288 × 12 288 блоков**; исходно это 589 824 чанка в квадратном контуре. Реальная игровая граница может быть сложной формы и окружена океаном/иными естественными преградами.
-- Проходимость основного Minecraft и ключевых приключенческих цепочек **гарантирована**: портал в Энд, необходимые ресурсы, обязательные структуры, доступ к боссам и модовым измерениям. Не обязательно наличие всех возможных биомов.
-- Фэнтезийная эстетика, большое разнообразие мест, культур, ремёсел и магии; минимум промышленной технологии в визуальном и сюжетном ядре.
-- Жители и поселения образуют одну модель: личность и семья — MCA Reborn; поселения, работа, строительство и экономика — собственный мод; политика — MCA Capitals.
-- Изменения мира в удалённых областях рассчитываются абстрактно. Не требуется постоянно загружать все чанки.
-- По умолчанию используем **готовые моды, конфиги, датапаки и существующие аддоны**. Собственные механики разрабатываем только ради установленных функциональных пробелов, не «на всякий случай».
+- **Every milestone is a playable release.** After each stage the pack must be beautiful, cohesive and fun to play. Cohesion between mods and the amount of custom logic grow gradually.
+- **Play mode: 1–4 players, singleplayer or Open to LAN.** The world is hosted by one player (integrated server). A dedicated server is a long-term goal, so code must stay server-safe, but it is not the primary test environment.
+- **Publishing.** The pack will be published (platform and format not chosen yet). A cohesive game experience matters more than not touching mod code, but every change must stay within license limits — see [licenses.md](licenses.md).
+- Finite Overworld of roughly **12,288 × 12,288 blocks** (589,824 chunks inside the square outline). The playable border may have a complex shape and be surrounded by ocean or other natural barriers.
+- Completing vanilla Minecraft and key adventure chains is **guaranteed**: End portal, required resources, mandatory structures, access to bosses and modded dimensions. Not every possible biome has to exist.
+- Fantasy aesthetics, a wide variety of places, cultures, crafts and magic; minimal industrial technology in the visual and narrative core.
+- Residents and settlements form one model: personality and family — MCA Reborn; settlements, work, construction and economy — our own mod; politics — MCA Capitals.
+- Changes in distant areas are computed abstractly. Keeping all chunks loaded is not required.
+- By default we use **existing mods, configs, datapacks and addons**. Custom mechanics are built only for identified functional gaps, never "just in case".
 
-### 1.1. Принятые архитектурные решения
+### 1.1. Architecture decisions
 
-| Код | Решение | Статус |
+| Code | Decision | Status |
 | --- | --- | --- |
-| D-01 | Minecraft 1.21.1 + NeoForge + Java; не переносить игру на Rust | Зафиксировано |
-| D-02 | Точная версия NeoForge 21.1.x закрепляется в M0 и меняется только контролируемым обновлением | Решить в M0 |
-| D-03 | Первая карта около 12 288 × 12 288; география конечна, политические границы динамичны | Базовая гипотеза |
-| D-04 | Моды на лёгкий геймплей и магию **до** поселений и NPC | Зафиксировано |
-| D-05 | Каждую стадию доводить до целостной играбельной подсистемы до перехода дальше | Зафиксировано |
-| D-06 | Ars Nouveau — универсальная современная магия; Iron's — мощная древняя; Occultism — эффективная ритуальная/тайная | Зафиксировано как дизайн |
-| D-07 | Общая личная мана Ars и Iron's с коэффициентом конверсии; Source — отдельный ресурс машин, Occultism без общего манабара | Зафиксировано |
-| D-08 | Свитки Iron's можно воспроизводить имеющимися средствами мода; постоянный поиск расходных свитков не требуется. Сложные исследования формул — возможно позднее | Зафиксировано |
-| D-09 | Пока не добавлять большие новые договоры, риск призыва и уникальных духов для Occultism | Зафиксировано |
-| D-10 | Не заменять Minecraft ChunkManager; делать собственную **глобальную симуляцию состояния** и физическую материализацию только в загруженных областях | Зафиксировано |
-| D-11 | Модуль культур отделён от государств: народ/культура ≠ политическое образование | Зафиксировано |
-| D-12 | Прямое распространение переработанных чужих структур/кода возможно только с учётом лицензий и разрешений | Обязательное ограничение |
-| D-13 | Millénaire не используется; ниша поселений — собственный мод на базе жителей MCA Reborn ([ADR-0001](decisions/ADR-0001-own-settlement-mod.md)) | Зафиксировано |
-| D-14 | Порядок: поселения → симуляция выгруженного мира → экономика и государства → атмосфера → культуры ([ADR-0002](decisions/ADR-0002-milestone-order.md)) | Зафиксировано |
-| D-15 | Мультиплеер 1–4 игрока; выделенный сервер — обязательная тестовая среда с M0 | Зафиксировано |
-| D-16 | Код и ассеты закрытых (ARR) модов не копируются и не декомпилируются в репозиторий; поведение меняем конфигами, датапаками, KubeJS и Mixin в собственном моде | Обязательное ограничение |
+| D-01 | Minecraft 1.21.1 + NeoForge + Java; do not port the game to Rust | Locked |
+| D-02 | Stay on 1.21.1: as of 2026-11-06 Ars Nouveau, Iron's Spells, Ars 'n Spells, Farmer's Delight, the Let's Do mods and MCA Capitals have no NeoForge builds above 1.21.1. The exact NeoForge 21.1.x version is pinned in M0 and changed only via a controlled update | Locked; revisit when the core mods move to 26.x |
+| D-03 | First map about 12,288 × 12,288; geography is finite, political borders are dynamic | Working hypothesis |
+| D-04 | Light-gameplay and magic mods come **before** settlements and NPCs | Locked |
+| D-05 | Each stage is brought to a cohesive playable subsystem before moving on | Locked |
+| D-06 | Ars Nouveau — universal modern magic; Iron's — powerful ancient magic; Occultism — efficient ritual/secret magic | Locked as design |
+| D-07 | Shared personal mana for Ars and Iron's with a conversion rate; Source stays a separate machine resource; Occultism has no shared mana bar | Locked |
+| D-08 | Iron's scrolls can be reproduced with the mod's own tools; no constant hunt for consumable scrolls. Complex formula research — maybe later | Locked |
+| D-09 | No large new pacts, summoning risks or unique spirits for Occultism for now | Locked |
+| D-10 | Do not replace Minecraft's ChunkManager; build our own **global state simulation** and materialize physically only in loaded areas | Locked |
+| D-11 | Cultures are separate from states: people/culture ≠ political entity | Locked |
+| D-12 | Redistributing modified third-party structures/code only with respect to licenses and permissions | Hard constraint |
+| D-13 | Millénaire is not used; the settlement niche is filled by our own mod built on MCA Reborn residents ([ADR-0001](decisions/ADR-0001-own-settlement-mod.md)) | Locked |
+| D-14 | Order: settlements → unloaded-world simulation → economy and states → atmosphere → cultures ([ADR-0002](decisions/ADR-0002-milestone-order.md)) | Locked |
+| D-15 | Primary play and test mode: singleplayer and Open to LAN with 1–4 players. Dedicated server — long-term; code must not break on it (no client-only classes in common code) | Locked |
+| D-16 | Code and assets of closed (ARR) mods are never copied or decompiled into the repository; behavior is changed via configs, datapacks, KubeJS and Mixins in our own mod | Hard constraint |
+| D-17 | All documentation and code comments are in English | Locked |
 
-### 1.2. Правило «готовности к переходу»
+### 1.2. "Ready to move on" rule
 
-У каждого майлстоуна четыре фазы. **A. Установка:** собрать моды и зависимости, проверить отдельные механики. **B. Согласование:** устранить конфликты генерации, рецептов, предметов, UI, производительности и баланса конфигами/датапаками. **C. Интеграция:** сделать подсистему целостной, добавить небольшой адаптер только при необходимости. **D. Приёмка и фиксация:** автоматические тесты, воспроизводимый манифест, документация, сохранение проверенной конфигурации.
+Every milestone has four phases. **A. Install:** gather mods and dependencies, check individual mechanics. **B. Reconcile:** resolve worldgen, recipe, item, UI, performance and balance conflicts via configs/datapacks. **C. Integrate:** make the subsystem cohesive; add a small adapter only when necessary. **D. Accept and lock in:** automated tests, reproducible manifest, documentation, saved verified configuration.
 
-После завершения майлстоуна его подсистема считается **стабильным основанием**, а не «пока установленными JAR». Возврат к ней разрешён, но как контролируемое изменение с регрессионными тестами. Изменение генерации мира в существующих чанках требует отдельной стратегии миграции или нового мира.
+Once a milestone is finished its subsystem is a **stable foundation**, not "JARs that happen to be installed". Returning to it is allowed, but as a controlled change with regression tests. Changing worldgen in existing chunks requires a migration strategy or a new world.
 
-## 2. Дорожная карта
+## 2. Roadmap
 
-| Веха | Целостный результат | Контент / исходная база | Свой код | Контрольная сборка |
+| Milestone | Cohesive result | Content / base | Custom code | Reference build |
 | --- | --- | --- | --- | --- |
-| M0 — Инфраструктура | Сборка воспроизводима из Git | packwiz, NeoForge, spark, CI | Минимум | Foundation |
-| M1 — География и приключения | Завершённая конечная карта, доступная прогрессия | Bounded Not Free, Terralith, Tectonic, структуры и боссы | Валидатор мира, точечные правила | Adventure World |
-| M2 — Быт, фермерство, ремёсла | Целостные хозяйственные и декоративные механики игрока | Farmer’s Delight, Croptopia, Let’s Do, декор | Датапаки/KubeJS при необходимости | Living Gameplay |
-| M3 — Единая магическая экосистема | Три традиции магии с общей маной Ars–Iron's | Ars, Iron's, Occultism, готовые мосты | Балансные правки; без крупных новых механик | Fantasy Magic |
-| M4 — Поселения и жители | Живые деревни: жители MCA с профессиями, домами, складом и ростом деревни | MCA Reborn, контент M2 | Собственный мод `livingkingdoms-settlements` (срезы S1–S4) | Living Settlements |
-| M5 — Симуляция выгруженного мира | Деревни живут без игроков; результат виден при возвращении | Собственный Core | Регионы, время, абстрактный расчёт, материализация | Living World |
-| M6 — Экономика и государства | Торговля между деревнями, государства, NPC используют ремёсла и магию | MCA Capitals, контент M2–M3 | Контракты экономики, адаптер Capitals | Living Kingdoms |
-| M7 — Атмосфера | Сезоны, погода, леса влияют на мир и хозяйство | Serene Seasons, Dynamic Trees (?), один погодный мод | Региональный природный слой | Dynamic World |
-| M8 — Культуры и облик | Собственные народы, архитектура, внешность NPC | Шаблоны нашего мода, система MCA; CTOV и др. только как вдохновение | Контент-паки культур | Living Cultures |
-| M9 — Глубокая автономность | Миграция, войны, восстановление, история, масштабирование | Уже принятый набор | Расширение симулятора | Autonomous Kingdoms |
-| M10 — Релиз | Стабильная финальная карта и сборка | Зафиксированные моды | Оптимизация, миграции, инструменты | Release Candidate |
+| M0 — Infrastructure | Pack is reproducible from Git | packwiz, NeoForge, spark, CI | Minimal | Foundation |
+| M1 — Geography and adventure | Finished finite map, reachable progression | Bounded Not Free, Terralith, Tectonic, structures and bosses | World validator, targeted rules | Adventure World |
+| M2 — Everyday life, farming, crafts | Cohesive household and decorative mechanics for the player | Farmer's Delight, Croptopia, Let's Do, decor | Datapacks/KubeJS if needed | Living Gameplay |
+| M3 — Unified magic ecosystem | Three magic traditions with shared Ars–Iron's mana | Ars, Iron's, Occultism, existing bridges | Balance tweaks; no large new mechanics | Fantasy Magic |
+| M4 — Settlements and residents | Living villages: MCA residents with professions, homes, storage and village growth | MCA Reborn, M2 content | Our mod `livingkingdoms-settlements` (slices S1–S4) | Living Settlements |
+| M5 — Unloaded-world simulation | Villages live while no player is nearby; results are visible on return | Our Core | Regions, time, abstract computation, materialization | Living World |
+| M6 — Economy and states | Trade between villages, states, NPCs use crafts and magic | MCA Capitals, M2–M3 content | Economy contracts, Capitals adapter | Living Kingdoms |
+| M7 — Atmosphere | Seasons, weather and forests affect the world and economy | Serene Seasons, Dynamic Trees (?), one weather mod | Regional nature layer | Dynamic World |
+| M8 — Cultures and looks | Our own peoples, architecture, NPC appearance | Our mod's templates, MCA systems; CTOV etc. as inspiration only | Culture content packs | Living Cultures |
+| M9 — Deep autonomy | Migration, wars, recovery, history, scaling | Already accepted set | Simulator extensions | Autonomous Kingdoms |
+| M10 — Release | Stable final map and pack | Pinned mods | Optimization, migrations, tools | Release Candidate |
 
-**Параллельные работы:** лицензии и происхождение ресурсов, профилирование, резервные копии, автоматизация установки, тестирование сохранений, контрольный список прогрессии, дизайн культур. Ни одна из них не должна быть отложена до последнего майлстоуна.
+**Parallel work:** licenses and asset provenance, profiling, backups, install automation, save testing, progression checklist, culture design. None of these may be postponed to the last milestone.
 
-## 3. M0 — Инфраструктура и контракты
+## 3. M0 — Infrastructure and contracts
 
-**Цель:** любой разработчик или ИИ-агент может развернуть идентичный тестовый Minecraft-инстанс из чистого репозитория; проект готов к контролируемым экспериментам.
+**Goal:** any developer or AI agent can deploy an identical test Minecraft instance from a clean repository; the project is ready for controlled experiments.
 
-**Моды и инструменты:** NeoForge для 1.21.1, spark (профилирование), packwiz (манифест модпака), Prism Launcher или отдельный серверный инстанс, Git/GitHub Actions, Gradle; позже Chunky для предварительной генерации мира. Дополнительно после проверки совместимости — FerriteCore, ModernFix, Lithium. Они не заменяют измерение производительности. [S01] [S17] [S18]
+**Mods and tools:** NeoForge for 1.21.1, spark (profiling), packwiz (pack manifest), Prism Launcher, Git/GitHub Actions, Gradle; later Chunky for world pre-generation. After compatibility checks — FerriteCore, ModernFix, Lithium. They do not replace performance measurement. [S01] [S17] [S18]
 
-**A — установка.** Создать профили `worldgen`, `gameplay`, `magic`, `civilizations`, `full` и общий каталог закреплённых версий. Скачивать JAR через packwiz/Modrinth/CurseForge/официальные релизы. Учитывать обязательные зависимости и установки на клиент/сервер.
+**A — install.** Create profiles `worldgen`, `gameplay`, `magic`, `civilizations`, `full` and a shared catalog of pinned versions. Download JARs via packwiz/Modrinth/CurseForge/official releases. Respect required dependencies and client/server sides.
 
-**B — согласование.** Убрать дубли JAR, ошибочные loader-версии, конфликтующие клиентские оптимизаторы. Каждое обновление добавляет запись в changelog, резервную копию и отчёт о запуске сервера.
+**B — reconcile.** Remove duplicate JARs, wrong loader versions, conflicting client optimizers. Every update adds a changelog entry, a backup and a launch report.
 
-**C — единая система.** Ввести интерфейс проверки сборки (`verify-mods`), реестр модов с назначением, версией, лицензией, стороной установки и состоянием тестов. Создать пустой `livingkingdoms-core` или хотя бы Gradle-проект: без преждевременной реализации политической симуляции.
+**C — single system.** Introduce a pack check interface (`verify-mods`) and a mod registry with purpose, version, license, side and test status. Create an empty `livingkingdoms-core` or at least a Gradle project — without premature political simulation.
 
-**D — критерии готовности:** один командный сценарий поднимает тестовый **выделенный** сервер, к которому подключается клиент; сервер выходит в готовность без отсутствующих зависимостей; проверенная конфигурация фиксируется коммитом; после чистой установки воспроизводится тот же набор версий.
+**D — done criteria:** one command script prepares a client instance; the world opens in singleplayer and a second client can join via Open to LAN; no missing dependencies; the verified configuration is committed; a clean install reproduces the same set of versions. A dedicated-server smoke test is optional at this stage.
 
-**Что НЕ делаем:** не пишем собственный менеджер JAR, пока packwiz решает задачу; не создаём глобальные сущности NPC, которых ещё нет; не форкаем чужие моды заранее.
+**What we do NOT do:** no custom JAR manager while packwiz does the job; no global NPC entities that don't exist yet; no pre-emptive forks of other mods.
 
-## 4. M1 — Генерация конечного мира и приключенческая прогрессия
+## 4. M1 — Finite world generation and adventure progression
 
-**Цель:** после завершения M1 игрок уже получает красивый, ограниченный и полностью проходимый приключенческий мир. В дальнейшем мы только расширяем его контент, а не переделываем базовую географию без необходимости.
+**Goal:** after M1 the player already gets a beautiful, bounded and fully completable adventure world. Later stages extend its content instead of redesigning the base geography without need.
 
-### 4.1. Состав модов
+### 4.1. Mods
 
-| Статус | Мод | Роль / комментарий |
+| Status | Mod | Role / comment |
 | --- | --- | --- |
-| Базовый | **Bounded Not Free** | Конечная форма карты, региональное распределение биомов/структур, границы; поддержка NeoForge 1.21.1 подтверждена [S02] |
-| Базовый | **Terralith** | Разнообразие биомов; проверка соответствующего файла и зависимостей |
-| Базовый | **Tectonic** | Крупномасштабный рельеф; модовая версия содержит совместимость с Terralith [S03] |
-| Зависимость по факту | **Lithostitched** | Совместимость/регистрация генерации, необходима для ряда современных worldgen-модов [S04] |
-| Базовый | **YUNG's Better Strongholds** + YUNG's API | Ключевые крепости с порталом в Энд [S05] |
-| Базовый | **When Dungeons Arise** | Крупные приключенческие структуры, кандидаты на 1–2 мегаданжа [S06] |
-| Базовый | **Dungeons and Taverns** | Гостиницы, небольшие данжи, живые точки интереса [S07] |
-| Кандидат | **YUNG's Better Dungeons / Mineshafts / Bridges** | Дополнительные структуры; совместимость и спавн на конечной карте проверять по файлам |
-| Кандидат | **Mowzie's Mobs** | Выразительные противники и боссы; NeoForge 1.21.1 заявлен [S08] |
-| Кандидат | **The Twilight Forest** | Отдельное приключенческое измерение и цепочка боссов [S09] |
-| Кандидат | **CTOV, Towns and Towers, Structory** | Городская архитектура / визуальные ориентиры; предостеречься от конфликтов с будущими деревнями нашего мода (M4) |
-| Инструмент | **Chunky** (автор pop4959) | Предварительная генерация и проверка мира; не путать с одноимённым модом на рудные «чанки» [S10] |
+| Base | **Bounded Not Free** | Finite map shape, regional biome/structure distribution, borders; NeoForge 1.21.1 support confirmed [S02] |
+| Base | **Terralith** | Biome variety; check the matching file and dependencies |
+| Base | **Tectonic** | Large-scale terrain; the mod version includes Terralith compatibility [S03] |
+| De-facto dependency | **Lithostitched** | Worldgen compatibility/registration, required by several modern worldgen mods [S04] |
+| Base | **YUNG's Better Strongholds** + YUNG's API | Key strongholds with the End portal [S05] |
+| Base | **When Dungeons Arise** | Large adventure structures, candidates for 1–2 mega-dungeons [S06] |
+| Base | **Dungeons and Taverns** | Inns, small dungeons, lively points of interest [S07] |
+| Candidate | **YUNG's Better Dungeons / Mineshafts / Bridges** | Extra structures; check compatibility and spawning on a finite map |
+| Candidate | **Mowzie's Mobs** | Expressive enemies and bosses; NeoForge 1.21.1 declared [S08] |
+| Candidate | **The Twilight Forest** | Separate adventure dimension and boss chain [S09] |
+| Candidate | **CTOV, Towns and Towers, Structory** | Town architecture / visual landmarks; watch for conflicts with our future villages (M4) |
+| Tool | **Chunky** (by pop4959) | World pre-generation and checks; not to be confused with the ore-"chunks" mod of the same name [S10] |
 
-### 4.2. A — собрать базовый генератор
+### 4.2. A — build the base generator
 
-Задать seed, квадратный стартовый контур 12 288 × 12 288, естественные ограничения побережьем и горными цепями, распределение климатических зон. На уровне планирования около 96 × 96 ячеек размером 128 × 128 блоков; каждая ячейка позже пригодится симулятору. Учитывать отличия Верхнего мира, Незера, Энда и новых измерений.
+Set the seed, a square starting outline of 12,288 × 12,288, natural limits by coastlines and mountain ranges, climate zone distribution. For planning, about 96 × 96 cells of 128 × 128 blocks; each cell will be useful to the simulator later. Account for differences between the Overworld, Nether, End and new dimensions.
 
-Обязательные признаки разнообразия: горы, большие леса, реки, равнины, побережья, холодные и тёплые области, несколько крупных биомных массивов. Не задавать бессмысленную норму «все биомы обязательно».
+Required variety: mountains, large forests, rivers, plains, coasts, cold and warm areas, several large biome masses. No pointless rule like "every biome must exist".
 
-### 4.3. B — убрать противоречия генерации
+### 4.3. B — resolve worldgen contradictions
 
-Отдельно проверить сочетание Tectonic/Terralith/Bounded Not Free, поверхностные структуры на крутом рельефе, пересечения башен и руин, доступность входов, конфликтующие изменения крепостей, повторяющиеся архитектурные генераторы. Решить, остаются ли ванильные деревни/CTOV в финальном мире или зоны резервируются под деревни нашего мода (M4).
+Check the Tectonic/Terralith/Bounded Not Free combination, surface structures on steep terrain, overlapping towers and ruins, entrance accessibility, conflicting stronghold changes, duplicate architecture generators. Decide whether vanilla villages/CTOV stay in the final world or their areas are reserved for our villages (M4).
 
-**Моды, меняющие генерацию на поздних этапах** (культуры Croptopia, башни Iron's, деревни M4, Dynamic Trees в M7), желательно определить и поставить уже в M1. До M10 мир считается **одноразовым**: тестовые миры пересоздаются, сохранения игроков не мигрируются.
+When a new mod generating plants, ores, temples or mob structures is added, M1 is reopened for a **targeted regression**, but the accepted geography is not redesigned. Regenerating individual test seeds is fine until the final world is locked.
 
-При добавлении нового мода, который генерирует растения, руды, храмы или мобовые структуры, M1 открывается на **точечную регрессию**, но принятая география не перепроектируется. До фиксации окончательного мира допустима регенерация отдельных тестовых seed.
+**Mods that change worldgen in later stages** (Croptopia crops, Iron's towers, M4 villages, Dynamic Trees in M7) should preferably be decided and installed in M1 already. Until M10 the world is **disposable**: test worlds are recreated, player saves are not migrated.
 
-### 4.4. C — единый World Content Manifest
+### 4.4. C — a single World Content Manifest
 
-Сделать собственный **контент-манифест**, затем валидатор генерации. Гарантировать структуру и маршрут для базовой прогрессии, а не конкретный список всех мелких руин. Пример целевых требований (настраиваемые гипотезы, не свойства модов):
+Build our own **content manifest**, then a worldgen validator. Guarantee structures and a route for core progression, not a specific list of every small ruin. Example target requirements (tunable hypotheses, not mod properties):
 
-- Не менее одного доступного Stronghold с корректным порталом.
-- Не менее одной доступной цепочки получения blaze rods и иных ресурсов для перехода в Энд.
-- Хотя бы 2 мегаданжа выбранного формата; не размещать в одной точке и не пересекать поселения.
-- Не менее 3–5 крупных приключенческих областей разной природы и сложности.
-- Все обязательные места и ингредиенты модовых боссов доступны в границах соответствующих измерений.
-- Предусмотреть будущие участки для 30–60 поселений, 6–10 стартовых государств, магических школ и производств. Эти числа — **масштаб проекта**, не требование генерировать все города уже сейчас.
+- At least one reachable Stronghold with a valid portal.
+- At least one reachable chain for blaze rods and other resources needed for the End.
+- At least 2 mega-dungeons of the chosen format; not in one spot and not overlapping settlements.
+- At least 3–5 large adventure areas of different nature and difficulty.
+- All mandatory places and ingredients for modded bosses are reachable within the borders of their dimensions.
+- Reserve future areas for 30–60 settlements, 6–10 starting states, magic schools and workshops. These numbers are the **project scale**, not a requirement to generate all towns now.
 
-Валидатор выполняет поиск структуры, проверку места, физической доступности и, где необходимо, входных ресурсов. Если структура не появилась — подобрать seed, переопределить условия генерации или безопасно разместить подготовленный шаблон. Не считать один `locate` достаточной проверкой проходимости.
+The validator searches for structures, checks location, physical accessibility and, where needed, input resources. If a structure did not generate — pick another seed, override generation conditions or safely place a prepared template. A single `locate` is not a sufficient completability check.
 
-### 4.5. D — приёмка M1
+### 4.5. D — M1 acceptance
 
-**Результат:** заранее выбранный seed даёт воспроизводимую разнообразную карту; основной прогресс Minecraft и ключевые модовые приключения возможны; отчёт валидатора без критических пропусков; генерация и загрузка новых чанков не демонстрирует критических ошибок. С этого момента WorldGen — стабильное основание следующих этапов.
+**Result:** a pre-selected seed produces a reproducible, varied map; core Minecraft progression and key modded adventures are possible; the validator report has no critical gaps; generating and loading new chunks shows no critical errors. From here on WorldGen is the stable foundation for later stages.
 
-## 5. M2 — Лёгкий геймплей, сельское хозяйство, пища, ремёсла, декор
+## 5. M2 — Light gameplay, farming, food, crafts, decor
 
-**Цель:** самодостаточная фэнтезийная сборка уже интересна без NPC-симуляции. Еда, посуда, фермерство, разведение животных, кулинария, хранение и декор — единый игровой язык без несовместимых ингредиентов.
+**Goal:** a self-sufficient fantasy pack that is fun without NPC simulation. Food, cookware, farming, animal husbandry, cooking, storage and decor share one game language without incompatible ingredients.
 
-### 5.1. Моды
+### 5.1. Mods
 
-| Приоритет | Мод | Ниша |
+| Priority | Mod | Niche |
 | --- | --- | --- |
-| Базовый | **Farmer's Delight** | Кулинарная основа, готовка, сельское хозяйство [S11] |
-| Базовый | **Croptopia** | Разнообразие сельхозкультур и фруктовых деревьев [S12] |
-| Базовый | **[Let's Do] Farm & Charm** | Фермерская эстетика, животноводство, сельские блоки; проверить дубли с Farmer's Delight |
-| Базовый | **[Let's Do] Vinery** | Виноградники, переработка ягод, напитки [S13] |
-| Базовый | **[Let's Do] Meadow** | Сыроварение, альпийские продукты, обстановка [S14] |
-| Базовый | **[Let's Do] HerbalBrews** | Чай, кофе, лечебные и бытовые напитки [S15] |
-| Базовый | **Handcrafted** | Мебель и интерьер [S16] |
-| Базовый | **Supplementaries** + Moonlight Library | Функциональный декор и бытовые приспособления [S19] |
-| Кандидат | **Macaw's** (выбранные модули) | Строительные элементы, двери, мосты, крыши; версии проверить |
-| Кандидат | **Waystones / Sophisticated Backpacks / Lootr** | Путешествия, перенос вещей, многопользовательская добыча; проверить конкретные версии/баланс |
-| Интерфейс | **EMI, Jade** | Просмотр рецептов и игровая диагностика |
+| Base | **Farmer's Delight** | Cooking foundation, kitchens, farming [S11] |
+| Base | **Croptopia** | Variety of crops and fruit trees [S12] |
+| Base | **[Let's Do] Farm & Charm** | Farm aesthetics, husbandry, rural blocks; check overlaps with Farmer's Delight |
+| Base | **[Let's Do] Vinery** | Vineyards, berry processing, drinks [S13] |
+| Base | **[Let's Do] Meadow** | Cheese making, alpine produce, furnishings [S14] |
+| Base | **[Let's Do] HerbalBrews** | Tea, coffee, medicinal and household drinks [S15] |
+| Base | **Handcrafted** | Furniture and interiors [S16] |
+| Base | **Supplementaries** + Moonlight Library | Functional decor and household tools [S19] |
+| Candidate | **Macaw's** (selected modules) | Building elements, doors, bridges, roofs; check versions |
+| Candidate | **Waystones / Sophisticated Backpacks / Lootr** | Travel, carrying items, multiplayer loot; check specific versions/balance |
+| UI | **EMI, Jade** | Recipe viewing and in-game diagnostics |
 
-### 5.2. Готовые инструменты совместимости
+### 5.2. Existing compatibility tools
 
-- **Pantrywork** — общий словарь пищевых тегов для Farmer's Delight, Croptopia и Let's Do; *сначала проверить на нашем наборе, затем принимать*. [S20]
-- **Farmer's (Delight) Croptopia** — совместимость кулинарных рецептов и посуды между двумя модами; использовать если Pantrywork не решает конкретные операции. [S21]
-- **Almost Unified** — инструмент унификации одинаковых ресурсов и результатов рецептов; полезен для руд и ингредиентов, но настройки должны задавать канонический вариант, а не произвольно удалять содержимое. [S22]
-- **KubeJS** — точечное редактирование рецептов/тегов/событий без Java-мода; не превращать в неотлаженную вторую кодовую базу. [S23]
+- **Pantrywork** — shared food tag vocabulary for Farmer's Delight, Croptopia and Let's Do; *test on our set first, then adopt*. [S20]
+- **Farmer's (Delight) Croptopia** — cooking recipe and cookware compatibility between the two mods; use if Pantrywork does not cover specific operations. [S21]
+- **Almost Unified** — unifies identical resources and recipe outputs; useful for ores and ingredients, but the config must define the canonical variant instead of deleting content arbitrarily. [S22]
+- **KubeJS** — targeted edits of recipes/tags/events without a Java mod; must not become an untested second codebase. [S23]
 
 ### 5.3. A → B → C → D
 
-**A.** Установить малыми партиями: сначала Farmer's Delight + Croptopia, затем фермерские Let’s Do, затем декор, затем удобство. Фиксировать работу рецептов, полей, деревьев и новых блоков. Внести новые генерируемые культуры/постройки в регрессию WorldGen.
+**A.** Install in small batches: Farmer's Delight + Croptopia first, then the Let's Do farming mods, then decor, then convenience. Record how recipes, fields, trees and new blocks work. Add newly generated crops/structures to the WorldGen regression.
 
-**B.** Составить матрицу дублей (сыр, соль, мука, масло, тесто, ягоды, напитки, овощи, инструменты, кулинарные станции). Проверить, какие предметы взаимозаменяемы благодаря общим тегам, а где рецепты ссылаются на конкретный Item ID. Не отключать красивую механику только ради избавления от второго предмета.
+**B.** Build a duplicate matrix (cheese, salt, flour, oil, dough, berries, drinks, vegetables, tools, cooking stations). Check which items are interchangeable via shared tags and where recipes reference a specific Item ID. Do not disable a nice mechanic just to get rid of a second item.
 
-**C.** Выбрать канонические ингредиенты и маршруты приготовления. Доработать отсутствующие пересечения через Pantrywork/готовые адаптеры, затем datаpack/KubeJS. Обеспечить несколько полноценных цепочек: хлеб/готовка, сыроварение, виноградарство, травничество. Декор и мебель должны иметь единый стиль и не перегружать вкладки рецептов.
+**C.** Choose canonical ingredients and cooking routes. Fill missing overlaps via Pantrywork/existing adapters, then datapacks/KubeJS. Provide several full chains: bread/cooking, cheese making, winemaking, herbalism. Decor and furniture share a consistent style and do not overload recipe tabs.
 
-**D.** Приёмка: игрок может добывать и перерабатывать продукты 3–4 модов без неожиданных несовместимостей, нет критических циклов умножения ресурсов, интерфейс рецептов корректен, новые виды ресурсов реально существуют в конечном мире. Измерены затраты на генерацию и фермы.
+**D.** Acceptance: the player can gather and process products of 3–4 mods without unexpected incompatibilities, no critical resource duplication loops, recipe UI is correct, new resource types actually exist in the finite world. Generation and farm costs are measured.
 
-**Ограничение:** здесь ещё **нет** NPC-экономики. Мы сначала стабилизируем геймплей игрока, а затем предоставим её системе цивилизаций.
+**Limitation:** there is **no** NPC economy yet. We stabilize player gameplay first and hand it to the civilization systems later.
 
-## 6. M3 — Полноценная магическая экосистема
+## 6. M3 — Full magic ecosystem
 
-**Цель:** три традиции с разной ролью работают совместно, а не как три независимых набора магических предметов. В M3 — минимальные исправления и существующие аддоны, без разработки новой крупной системы договоров с духами.
+**Goal:** three traditions with different roles work together instead of being three independent sets of magic items. M3 uses minimal fixes and existing addons, without building a large new spirit-pact system.
 
-### 6.1. Моды
+### 6.1. Mods
 
-| Статус | Мод | Назначение |
+| Status | Mod | Purpose |
 | --- | --- | --- |
-| Базовый | **Ars Nouveau** | Современная универсальная магия: глифы, Source, бытовые заклинания, автоматизация |
-| Базовый | **Iron's Spells 'n Spellbooks** | Древние мощные заклинания, свитки, магические боссы, приключенческий контент |
-| Базовый | **Occultism** | Призывание духов, ритуалы, выгодные производства и пространственные ресурсы |
-| Базовый мост | **Ars 'n Spells** | Общая мана Ars–Iron's, настраиваемые коэффициенты, взаимодействие систем [S24] |
-| Проверить | **Ars Ocultas** | Применение связанных духов через инфраструктуру Ars; проверить обход ограничений времени жизни [S25] |
-| Проверить | **Ars Unification** | Рецепты Cut/Crush других модов доступны подходящим глифам Ars; поддерживает Occultism и Farmer's Delight [S26] |
-| По зависимостям | Patchouli и библиотеки конкретных релизов | Только по metadata JAR и packwiz |
+| Base | **Ars Nouveau** | Modern universal magic: glyphs, Source, utility spells, automation |
+| Base | **Iron's Spells 'n Spellbooks** | Ancient powerful spells, scrolls, magic bosses, adventure content |
+| Base | **Occultism** | Spirit summoning, rituals, profitable production and dimensional resources |
+| Base bridge | **Ars 'n Spells** | Shared Ars–Iron's mana, configurable rates, system interaction [S24] |
+| Check | **Ars Ocultas** | Bound spirits via Ars infrastructure; check whether it bypasses lifetime limits [S25] |
+| Check | **Ars Unification** | Other mods' Cut/Crush recipes available to matching Ars glyphs; supports Occultism and Farmer's Delight [S26] |
+| By dependency | Patchouli and libraries of specific releases | Only by JAR metadata and packwiz |
 
-### 6.2. Согласованная философия магии
+### 6.2. Consistent magic philosophy
 
-- **Ars Nouveau:** современная, обучаемая, гибкая магия; может делать многое, но специализированные мощные эффекты и крупное производство должны обходиться дороже. Не ослаблять её массово без тестов.
-- **Iron's:** редкие знания древних цивилизаций. Большинство заклинаний сильнее аналогичных простых комбинаций Ars или легче использовать на высоком уровне; сохранение оригинальной системы Scroll Forge и многоразового применения через Spellbook. Никакого обязательного бесконечного поиска одноразовых свитков.
-- **Occultism:** редкая ритуальная практика, с сильными эффектами и эффективной автоматизацией. Начальные ограничения самого мода (ритуальные конструкции, реагенты, прогрессия духа, сроки работы) сохраняем. Новые индивидуальные договоры, случайные риски и потусторонние аномалии **не пишем сейчас**.
+- **Ars Nouveau:** modern, learnable, flexible magic; can do a lot, but specialized powerful effects and large production should cost more. No mass nerfs without tests.
+- **Iron's:** rare knowledge of ancient civilizations. Most spells are stronger than similar simple Ars combinations or easier to use at high level; keep the original Scroll Forge and reusable casting via the Spellbook. No mandatory endless hunt for single-use scrolls.
+- **Occultism:** rare ritual practice with strong effects and efficient automation. Keep the mod's own initial limits (ritual structures, reagents, spirit progression, work durations). Individual pacts, random risks and otherworldly anomalies are **not written now**.
 
-### 6.3. Единая мана Ars и Iron's
+### 6.3. Shared Ars and Iron's mana
 
-Решение принято: общий личный ресурс **сразу в M3**. В качестве первой схемы выбрать `ars_primary` или `iss_primary` из Ars 'n Spells. Один мод — авторитетный владелец запаса, другой — потребитель через мост. Коэффициент `k` переводит стоимость заклинания, восстановление и бонусы в выбранную шкалу. Например, при базовой шкале Ars: `cost_unified(IronSpell) = k × cost_iron`.
+Decision made: one shared personal resource **already in M3**. Pick `ars_primary` or `iss_primary` from Ars 'n Spells as the first scheme. One mod is the authoritative owner of the pool, the other consumes it through the bridge. A rate `k` converts spell cost, regeneration and bonuses into the chosen scale. For example, with Ars as the base scale: `cost_unified(IronSpell) = k × cost_iron`.
 
-Ключевые проверки: единая отображаемая полоса, списание одной транзакцией, корректное восстановление, отсутствие двойной регенерации, бонусы предметов и зачарований, смерть/смена измерения, сервер/клиент. У Ars 'n Spells уже есть `mana_unification_mode`, `conversion_rate_iron_to_ars`, `conversion_rate_ars_to_iron`; предпочтителен один авторитетный пул, а не двусторонний гибрид без необходимости. [S24]
+Key checks: one displayed bar, deduction in one transaction, correct regeneration, no double regeneration, item and enchantment bonuses, death/dimension change, server/client. Ars 'n Spells already has `mana_unification_mode`, `conversion_rate_iron_to_ars`, `conversion_rate_ars_to_iron`; prefer one authoritative pool over a two-way hybrid. [S24]
 
-**Source не объединять с личной маной.** Occultism не участвует в этой системе: у его ритуалов другой ресурсный цикл.
+**Do not merge Source with personal mana.** Occultism stays out of this system: its rituals have a different resource cycle.
 
-### 6.4. A — установка
+### 6.4. A — install
 
-Проверить три оригинальных мода отдельно и вместе. Добавлять Ars 'n Spells после фиксации версий исходных модов. Проверить официальные структуры Iron's в конечной карте: древние башни, связанные боссы, ресурсы, торговлю.
+Test the three base mods separately and together. Add Ars 'n Spells after the base mod versions are pinned. Check the official Iron's structures on the finite map: ancient towers, related bosses, resources, trade.
 
-### 6.5. B — минимальный баланс и устранение конфликтов
+### 6.5. B — minimal balance and conflict resolution
 
-- Ограничить получение ритуалов Ars, напрямую меняющих глобальную погоду/время (`Sunrise`, `Moonfall`, `Cloudshaping`), через датапак/рецепты; проверить возможность использования уже существующих табличек. При необходимости позже добавить запрет применения.
-- Начать с оригинальных цен глифов и Spirit-ритуалов. Повышать стоимость только найденных чрезмерных комбинаций.
-- В Ars 'n Spells отключить возможность свободно превращать древние заклинания Iron's в стандартные глифы Ars, **если** она разрушает разделение школ; проверить существующие переключатели и конкретную версию.
-- Не вводить обязательное открытие рецептов свитков Iron's в M3: оригинальный Scroll Forge позволяет их изготовлять, а запись в Spellbook делает применение многоразовым. Сложное исследование формул — будущая опция.
-- Проверить, не ломают ли Ars Ocultas и Ars Unification ограничения жизни духов, переработку ресурсов или приоритет рецептов; отключить отдельные механики конфликтующего аддона вместо форка ядра.
-- Сравнить производство на Source и переработку духов Occultism; ограничивать прежде всего явные эксплойты, не устранить ценовое преимущество Occultism полностью.
+- Restrict access to Ars rituals that directly change global weather/time (`Sunrise`, `Moonfall`, `Cloudshaping`) via datapack/recipes; check whether existing tablets can be used. Add a usage ban later if needed.
+- Start with the original glyph and spirit-ritual prices. Raise costs only for combinations found to be excessive.
+- In Ars 'n Spells, disable freely turning Iron's ancient spells into standard Ars glyphs **if** it breaks the separation of schools; check the existing toggles and the specific version.
+- No mandatory recipe discovery for Iron's scrolls in M3: the original Scroll Forge crafts them, and writing into the Spellbook makes casting reusable. Complex formula research is a future option.
+- Check that Ars Ocultas and Ars Unification do not break spirit lifetime limits, resource processing or recipe priority; disable individual mechanics of the conflicting addon instead of forking the core.
+- Compare Source-based production with Occultism spirit processing; limit obvious exploits first, without removing Occultism's cost advantage completely.
 
-### 6.6. C — единая система и D — приёмка
+### 6.6. C — single system and D — acceptance
 
-Единая система здесь означает **совместимую игровую экосистему**, а не переписывание трёх API в одну абстрактную магию. Общая мана, согласованные рецепты и атрибуты, ясные магические ниши, доступный весь контент на конечной карте. Источники мощной магии и редких ритуалов учитываются в World Content Manifest.
+A single system here means a **compatible game ecosystem**, not rewriting three APIs into one abstract magic. Shared mana, consistent recipes and attributes, clear magic niches, all content reachable on the finite map. Sources of powerful magic and rare rituals are tracked in the World Content Manifest.
 
-Приёмка: 10+ типовых заклинаний с обеих сторон используют один запас, корректно работают бонусы экипировки и перезарядки; 3–5 производств Ars/Occultism сравниваются по реальной стоимости; все необходимые боссы/структуры доступны; нет бесплатного бесконечного размножения ресурсов; все настройки сохраняются в Git.
+Acceptance: 10+ typical spells from both sides use one pool, gear bonuses and cooldowns work; 3–5 Ars/Occultism productions are compared by real cost; all required bosses/structures are reachable; no free infinite resource duplication; all settings are stored in Git.
 
-## 7. M4 — Поселения и жители: собственный мод на базе MCA Reborn
+## 7. M4 — Settlements and residents: our own mod on MCA Reborn
 
-**Цель:** в мире появляются живые деревни. Их жители — персонажи MCA Reborn с профессиями, домами и общим хозяйством, а деревни растут из собственных ресурсов. На этом этапе всё работает **только в загруженных чанках**; абстрактная симуляция выгруженного мира — M5.
+**Goal:** living villages appear in the world. Their residents are MCA Reborn characters with professions, homes and a shared household, and villages grow from their own resources. At this stage everything works **only in loaded chunks**; abstract simulation of the unloaded world is M5.
 
-**Ключевое решение ([ADR-0001](decisions/ADR-0001-own-settlement-mod.md)):** Millénaire не используется ни в сборке, ни как источник кода или ассетов. Нишу автономных поселений заполняет собственный мод `livingkingdoms-settlements`. Millénaire — только источник идей, наблюдаемых в игре и вики.
+**Key decision ([ADR-0001](decisions/ADR-0001-own-settlement-mod.md)):** Millénaire is not used — neither in the pack nor as a source of code or assets. The autonomous settlement niche is filled by our own mod `livingkingdoms-settlements`. Millénaire is only a source of ideas observed in-game and on its wiki.
 
-### 7.1. Состав
+### 7.1. Composition
 
-| Статус | Мод / модуль | Роль |
+| Status | Mod / module | Role |
 | --- | --- | --- |
-| Базовый | **MCA Reborn** (NeoForge 1.21.1) | Единственное представление жителя: тело, личность, семья, отношения, возраст, внешность, диалоги [S29] |
-| Собственный | **livingkingdoms-settlements** | Поселение, принадлежность жителя, профессия, дом, рабочее место, задачи, склад, план развития |
-| Собственный | **livingkingdoms-core** (минимально) | Стабильные ID поселений и жителей, журнал событий, версия формата сохранения |
-| Исследовать | **MineColonies / Structurize** и другие открытые моды | Возможный источник кода строительства по шаблонам и логистики складов — только при совместимой лицензии |
-| Позже (M6) | **MCA Capitals** | Политика, титулы, династии |
-| Референс | Millénaire | Только идеи; код, декомпиляция, планы построек и тексты не используются |
+| Base | **MCA Reborn** (NeoForge 1.21.1) | The only representation of a resident: body, personality, family, relationships, age, appearance, dialogue [S29] |
+| Ours | **livingkingdoms-settlements** | Settlement, resident membership, profession, home, workplace, tasks, storage, development plan |
+| Ours | **livingkingdoms-core** (minimal) | Stable IDs for settlements and residents, event log, save format version |
+| Research | **MineColonies / Structurize** and other open mods | Possible source of template-based construction and storage logistics code — only with a compatible license |
+| Later (M6) | **MCA Capitals** | Politics, titles, dynasties |
+| Reference | Millénaire | Ideas only; code, decompilation, building plans and texts are not used |
 
-### 7.2. Владение данными
+### 7.2. Data ownership
 
-- **MCA Reborn:** личность, семья, отношения, возраст, внешность.
-- **Settlements:** к какому поселению относится житель, профессия, дом, рабочее место, текущая задача, склад, план развития.
-- **Core:** стабильные ID, журнал событий, версия формата.
+- **MCA Reborn:** personality, family, relationships, age, appearance.
+- **Settlements:** which settlement a resident belongs to, profession, home, workplace, current task, storage, development plan.
+- **Core:** stable IDs, event log, format version.
 
-Одна запись о личности жителя. Никаких параллельных «двойников» NPC в разных модах.
+One record per resident identity. No parallel NPC "twins" in different mods.
 
-### 7.3. Вертикальные срезы
+### 7.3. Vertical slices
 
-Каждый срез — отдельная играбельная версия сборки.
+Each slice is a separate playable release of the pack.
 
-| Срез | Содержание | Что получает игрок |
+| Slice | Content | What the player gets |
 | --- | --- | --- |
-| S1 — Деревня-основа | Стартовые деревни из шаблонов, жители MCA приписаны к деревне, дома, общий склад, профессии фермер и лесоруб | Населённый мир, где жители работают |
-| S2 — Строитель | План развития, строительство зданий по шаблонам из ресурсов склада, видимый прогресс | Деревни растут на глазах |
-| S3 — Кухня и ремёсла | Повар, пекарь, пивовар на рецептах Farmer's Delight и Let's Do; торговля с игроком | Связь с бытовым геймплеем M2 |
-| S4 — Рост населения | Семьи MCA дают новых жителей, жильё, распределение по профессиям; несколько деревень на карте | Деревни развиваются годами |
+| S1 — Village base | Starting villages from templates, MCA residents assigned to a village, homes, shared storage, farmer and lumberjack professions | A populated world where residents work |
+| S2 — Builder | Development plan, construction of buildings from templates using storage resources, visible progress | Villages grow before your eyes |
+| S3 — Kitchen and crafts | Cook, baker, brewer using Farmer's Delight and Let's Do recipes; trade with the player | Link to the M2 household gameplay |
+| S4 — Population growth | MCA families produce new residents, housing, profession assignment; several villages on the map | Villages develop over years |
 
-Масштаб намеренно меньше Millénaire: одна культура, сделанная связно. Вторая культура — в M8.
+The scale is deliberately smaller than Millénaire: one culture, done cohesively. The second culture comes in M8.
 
 ### 7.4. A → B → C → D
 
-**A — исследование.** Изучить MCA Reborn:
-- как получать жителей и давать им задачи извне;
-- как хранить свои данные на сущности (attachments NeoForge);
-- какие события есть и что придётся патчить через Mixin.
+**A — research.** Study MCA Reborn:
+- how to get residents and give them tasks from outside;
+- how to store our data on the entity (NeoForge attachments);
+- which events exist and what will need Mixin patches.
 
-Изучить открытые моды строительства и рабочих NPC, их лицензии и пригодность кода. Прототип: житель MCA выполняет одну задачу нашего мода и переживает рестарт сервера.
+Study open construction and worker-NPC mods, their licenses and code suitability. Prototype: an MCA resident performs one task of our mod and survives a world reload.
 
-**B — согласование.** Решить судьбу ванильных деревень и жителей, ванильных профессий, спавна MCA-жителей вне наших деревень, деревенских структур из M1 (CTOV и подобных). Проверить совместимость лесорубов с деревьями мира, особенно если в M7 планируется Dynamic Trees.
+**B — reconcile.** Decide what happens to vanilla villages and villagers, vanilla professions, MCA residents spawning outside our villages, village structures from M1 (CTOV and similar). Check lumberjack compatibility with the world's trees, especially if Dynamic Trees is planned for M7.
 
-**C — объединение.** Последовательно реализовать срезы S1–S4.
+**C — integrate.** Implement slices S1–S4 in order.
 
-**D — приёмка:**
-- несколько деревень функционируют десятки игровых дней в загруженном мире: рост, производство, семьи;
-- рестарт сервера без потери жителей, складов и построек;
-- проверено на выделенном сервере с 1–4 игроками;
-- TPS измерен в оговорённом сценарии.
+**D — acceptance:**
+- several villages work for dozens of in-game days in the loaded world: growth, production, families;
+- world reload without losing residents, storage or buildings;
+- verified in singleplayer and in Open to LAN with 1–4 players;
+- TPS measured in an agreed scenario (on the host PC, which runs both the client and the integrated server).
 
-**Лицензия:** если мод глубоко зависит от кода MCA Reborn (GPLv3), выпускаем его под GPLv3. Проверить в фазе A.
+**License:** if the mod depends deeply on MCA Reborn code (GPLv3), we release it under GPLv3. Check in phase A.
 
-## 8. M5 — Симуляция выгруженного мира
+## 8. M5 — Unloaded-world simulation
 
-**Цель:** деревни продолжают жить, когда рядом нет игроков. При возвращении видны результаты: новые дома, запасы, родившиеся и умершие жители.
+**Goal:** villages keep living while no player is nearby. On return the results are visible: new houses, stock, residents born and dead.
 
-M5 идёт после M4 намеренно: ядро симуляции проектируется на реальной модели данных наших поселений, а не вслепую.
+M5 comes after M4 on purpose: the simulation core is designed on the real data model of our settlements, not blindly.
 
-**A.** Ввести в Core `World`, `GeographicRegion`, `SimulationCell`, `WorldClock`, `WorldEvent`, идентификаторы мест и версию формата сохранения. Описать, какие процессы M4 имеют абстрактный аналог: производство, потребление, строительство, демография.
+**Scope note:** in singleplayer and LAN, in-game time only passes while the host has the world open. "Living without players" means regions nobody is near while the world runs; offline catch-up for real-world time is out of scope unless decided later.
 
-**B.** Одно авторитетное состояние для каждой деревни и региона. Переход «загружено ↔ выгружено» без двойного счёта: в каждый момент деревню ведёт либо физическая симуляция, либо абстрактная, но не обе. Отметка последнего рассчитанного дня. Запрещено изменять блоки и сущности асинхронно вне серверного потока.
+**A.** Introduce `World`, `GeographicRegion`, `SimulationCell`, `WorldClock`, `WorldEvent`, place IDs and a save format version in Core. Describe which M4 processes have an abstract counterpart: production, consumption, construction, demography.
 
-**C.** Абстрактный расчёт деревни по тем же нормам, что и физическая работа: рецепты или нормализованные стоимости. `Materializer` переводит накопленные изменения в блоки и сущности при загрузке, с бюджетом на тик. Рождения в выгруженной деревне создают запись о жителе, а сущность MCA появляется при материализации. Использовать штатные SavedData и attachments NeoForge [S27].
+**B.** One authoritative state per village and region. Loaded ↔ unloaded transitions without double counting: at any moment a village is driven by either the physical or the abstract simulation, never both. A "last computed day" marker. Changing blocks and entities asynchronously off the server thread is forbidden.
 
-**D — приёмка:**
-- 1/10/100 циклов выгрузки и загрузки без дублей жителей, товаров и построек;
-- ускоренная симуляция на N игровых дней даёт правдоподобный результат;
-- рестарт сервера посреди симуляции безопасен;
-- 4 игрока в разных регионах одновременно.
+**C.** Abstract village computation using the same rules as physical work: recipes or normalized costs. A `Materializer` turns accumulated changes into blocks and entities on load, with a per-tick budget. Births in an unloaded village create a resident record; the MCA entity appears on materialization. Use NeoForge's SavedData and attachments [S27].
 
-**Масштаб:** грубая сетка 128 × 128 блоков = 9 216 симуляционных ячеек. Деревни, провинции и климатические регионы — отдельные, более крупные сущности. Сетка не заменяет Minecraft ChunkManager.
+**D — acceptance:**
+- 1/10/100 unload/load cycles without duplicated residents, goods or buildings;
+- accelerated simulation for N in-game days gives a plausible result;
+- quitting and reloading the world mid-simulation is safe;
+- 4 players in different regions at once (LAN).
 
-## 9. M6 — Экономика и государства
+**Scale:** a coarse grid of 128 × 128 blocks = 9,216 simulation cells. Villages, provinces and climate regions are separate, larger entities. The grid does not replace Minecraft's ChunkManager.
 
-**Цель:** деревни связаны торговлей и политикой, а NPC используют весь игровой контент M2–M3 так же последовательно, как игрок.
+## 9. M6 — Economy and states
 
-**Моды:** MCA Capitals (точный файл, лицензия и API — проверить) [S30]; контент Farmer's Delight, Let's Do, Ars Nouveau, Iron's, Occultism.
+**Goal:** villages are connected by trade and politics, and NPCs use all M2–M3 game content as consistently as the player does.
 
-**A.** Изучить MCA Capitals: иерархия, династии, титулы, престолонаследие. Как они соотносятся с нашими поселениями и территорией. Выбрать пилотные отрасли: зерно → мельница/кухня → питание; виноградник → винодельня → экспорт; сыроварня → торговля; магическая мастерская → предметы и Source.
+**Mods:** MCA Capitals (exact file, license and API — to verify) [S30]; content of Farmer's Delight, Let's Do, Ars Nouveau, Iron's, Occultism.
 
-**B.** Владелец данных: Capitals — титулы и династии; Settlements — поселения и территория; Core — государства как сущность симуляции (уточнить в ADR). Единицы учёта: Item ID и теги, товар и физическая стопка, склады, затраты, трудоёмкость, цены. Экономика не должна считать один и тот же сундук дважды — физически и абстрактно.
+**A.** Study MCA Capitals: hierarchy, dynasties, titles, succession. How they map onto our settlements and territory. Pick pilot industries: grain → mill/kitchen → food; vineyard → winery → export; dairy → trade; magic workshop → items and Source.
 
-**C.** Минимальные контракты `Commodity`, `ProductionProcess`, `Profession`, `BuildingFunction`, `TradeRoute`, `MagicCapability`. Торговые маршруты между деревнями, подчинение деревень государствам, налоги. Магические профессии сохраняют Source и духов как реальные ограничения. Абстрактная симуляция M5 использует те же контракты.
+**B.** Data owners: Capitals — titles and dynasties; Settlements — settlements and territory; Core — states as simulation entities (to be confirmed in an ADR). Units of account: Item IDs and tags, commodities vs physical item stacks, storage, costs, labor, prices. The economy must not count the same chest twice — physically and abstractly.
 
-**D — приёмка:** минимум 3 полноценные отрасли, одна межпоселенческая торговая цепочка, 2 государства с несколькими деревнями; нет удвоения товаров и прибыли без затрат; всё переживает выгрузку и рестарт.
+**C.** Minimal contracts `Commodity`, `ProductionProcess`, `Profession`, `BuildingFunction`, `TradeRoute`, `MagicCapability`. Trade routes between villages, villages subordinate to states, taxes. Magic professions keep Source and spirits as real constraints. The M5 abstract simulation uses the same contracts.
 
-## 10. M7 — Атмосфера: сезоны, деревья, погода
+**D — acceptance:** at least 3 full industries, one inter-settlement trade chain, 2 states with several villages each; no duplicated goods and no profit without costs; everything survives unloading and world reloads.
 
-**Цель:** природа меняется сама по себе и воздействует на хозяйство деревень; это видно при возвращении игрока в выгруженный регион.
+## 10. M7 — Atmosphere: seasons, trees, weather
 
-### 10.1. Состав и выбор альтернатив
+**Goal:** nature changes by itself and affects village economies; this is visible when the player returns to an unloaded region.
 
-| Статус | Мод | Особенности |
+### 10.1. Mods and alternatives
+
+| Status | Mod | Notes |
 | --- | --- | --- |
-| Базовый | **Serene Seasons** + GlitchCore | Сезоны, сезонная растительность и климат; 1.21.1 NeoForge заявлен [S33] |
-| Кандидат | **Dynamic Trees** | Рост и распространение леса; **меняет генерацию мира и влияет на лесорубов** — решение принимать не позже M4-B [S34] |
-| Кандидат | **Immersive Weathering: Renewed** | Следы времени, мох, окисление, воздействие погоды [S35] |
-| Альтернатива A | **Weather2** + CoroUtil | Сильные осадки, штормы, торнадо; NeoForge 1.21.1 подтверждён [S36] |
-| Альтернатива B | **ProtoManly's Weather** | Эффектные штормы, разрушающие торнадо; **несовместим с шейдерами**, высокая видеонагрузка [S37] |
-| Кандидат, если B | **Natural Regrowth for ProtoManly's Weather** | Восстановление природы [S38] |
-| Опционально | Enhanced Celestials, метеориты, наводнения | Отдельные нагрузки и риск для сохранений; исследовать позже |
+| Base | **Serene Seasons** + GlitchCore | Seasons, seasonal vegetation and climate; NeoForge 1.21.1 declared [S33] |
+| Candidate | **Dynamic Trees** | Forest growth and spread; **changes worldgen and affects lumberjacks** — decide no later than M4-B [S34] |
+| Candidate | **Immersive Weathering: Renewed** | Signs of age, moss, oxidation, weather effects [S35] |
+| Alternative A | **Weather2** + CoroUtil | Heavy precipitation, storms, tornadoes; NeoForge 1.21.1 confirmed [S36] |
+| Alternative B | **ProtoManly's Weather** | Spectacular storms, destructive tornadoes; **incompatible with shaders**, heavy GPU load [S37] |
+| Candidate if B | **Natural Regrowth for ProtoManly's Weather** | Nature recovery [S38] |
+| Optional | Enhanced Celestials, meteors, floods | Separate load and save risks; research later |
 
-**Weather2 и ProtoManly не ставить вместе «на всякий случай».**
+**Do not install Weather2 and ProtoManly together "just in case".**
 
-**A.** Сначала сезоны, затем рост деревьев, затем один погодный мод. Тестировать на поселениях M4–M6.
+**A.** Seasons first, then tree growth, then one weather mod. Test on M4–M6 settlements.
 
-**B.** Разрешить конфликты источников погоды, регенерации деревьев и роста культур. Избежать неограниченных тик-обновлений и бесплатных разрушений построек. Учитывать несовместимость отдельных аддонов Dynamic Trees и Ars Nouveau [S39].
+**B.** Resolve conflicts between weather sources, tree regeneration and crop growth. Avoid unbounded tick updates and free destruction of buildings. Account for the incompatibility of some Dynamic Trees addons with Ars Nouveau [S39].
 
-**C.** `RegionClimate` и `WorldEventScheduler` в Core: климат, засуха, пожары, разлив реки, восстановление леса существуют абстрактно в выгруженных регионах и влияют на экономику деревень (урожай по сезонам). При загрузке физические следы материализуются в безопасных пределах. Защита построек обязательна.
+**C.** `RegionClimate` and `WorldEventScheduler` in Core: climate, drought, fires, river floods, forest recovery exist abstractly in unloaded regions and affect village economies (seasonal harvests). On load, physical traces are materialized within safe limits. Building protection is mandatory.
 
-**D — приёмка:** после нескольких сезонов в выгруженном регионе меняется состояние леса, полей и хозяйства; при возвращении это видно физически; нет деградации TPS и неконтролируемых разрушений.
+**D — acceptance:** after several seasons in an unloaded region the state of forests, fields and households changes; on return this is physically visible; no TPS degradation and no uncontrolled destruction.
 
-## 11. M8 — Свои народы, архитектура и облик NPC
+## 11. M8 — Our own peoples, architecture and NPC looks
 
-**Цель:** собственные культуры Living Kingdoms с узнаваемой архитектурой, одеждой и укладом.
+**Goal:** Living Kingdoms' own cultures with recognizable architecture, clothing and way of life.
 
-**Источники:** шаблоны построек нашего мода; внешность и одежда через систему MCA; CTOV, Towns and Towers, Structory, Dungeons and Taverns — только как вдохновение. **CTOV под CC BY-NC-ND 4.0** — переработанные структуры распространять нельзя [S32]. Все ассеты культур — оригинальные.
+**Sources:** our mod's building templates; appearance and clothing via the MCA systems; CTOV, Towns and Towers, Structory, Dungeons and Taverns — inspiration only. **CTOV is CC BY-NC-ND 4.0** — modified structures may not be distributed [S32]. All culture assets are original.
 
-**A.** Второй стилистически отличный народ поверх работающего пайплайна M4.
+**A.** A second, stylistically distinct people on top of the working M4 pipeline.
 
-**B.** Разделить `Culture` (язык, архитектура, традиции, товары), `Polity` (власть) и `Settlement` (административно-физическая сущность). Устранить несогласованную одежду, пропорции, невозможную планировку на сложном рельефе.
+**B.** Separate `Culture` (language, architecture, traditions, goods), `Polity` (power) and `Settlement` (administrative-physical entity). Fix inconsistent clothing, proportions, impossible layouts on complex terrain.
 
-**C.** Компактные контент-паки культур: архитектурные шаблоны, рабочие точки, этапы строительства, профессии, одежда по статусу и возрасту, культурные предметы.
+**C.** Compact culture content packs: architecture templates, work spots, construction stages, professions, clothing by status and age, cultural items.
 
-**D.** Обе культуры независимо основывают, расширяют и содержат поселение; здания пригодны для жилья и работы; новые народы не ломают семейную и политическую модель.
+**D.** Both cultures can independently found, expand and maintain a settlement; buildings are usable for living and working; new peoples do not break the family and political model.
 
-## 12. M9 — Долгая автономная жизнь мира
+## 12. M9 — Long autonomous life of the world
 
-**Цель:** мир без игроков порождает собственную непротиворечивую историю. Это расширение работающих систем, а не переписывание.
+**Goal:** a world without players produces its own consistent history. This extends working systems instead of rewriting them.
 
-**A.** Ускоренные прогоны на 1, 5 и 25 игровых лет. Проверить демографию, запасы, отношения государств, строительную динамику.
+**A.** Accelerated runs for 1, 5 and 25 in-game years. Check demography, stock, relations between states, construction dynamics.
 
-**B.** Найти проблемы стабильности и эксплойты: исчезающие ресурсы, бесконечные миграции, лавинообразное основание поселений, бесконечные войны, «призрачные» NPC.
+**B.** Find stability problems and exploits: vanishing resources, endless migrations, avalanche-like founding of settlements, endless wars, "ghost" NPCs.
 
-**C.** По приоритету: миграция, колонизация, наследование, торговые договоры, войны и осады, разрушение и восстановление, государственная политика в магии.
+**C.** By priority: migration, colonization, inheritance, trade treaties, wars and sieges, destruction and recovery, state magic policy.
 
-**D.** Длительный прогон на выбранном seed; ошибки объяснимы из журнала событий; есть пауза, откат тестовых снимков и диагностика; материалы и люди не возникают из ничего.
+**D.** Long run on the chosen seed; errors are explainable from the event log; pause, test snapshot rollback and diagnostics exist; materials and people never appear from nothing.
 
-## 13. M10 — Стабилизация, генерация финального мира и релиз
+## 13. M10 — Stabilization, final world generation and release
 
-**Цель:** готовая к длительному прохождению сборка, а не набор экспериментальных модов.
+**Goal:** a pack ready for long playthroughs, not a set of experimental mods.
 
-**A.** Закрепить версии JAR, конфиги, датапаки, контент культур, алгоритмы генерации, seed. Лицензионная проверка каждого распространяемого файла.
+**A.** Pin JAR versions, configs, datapacks, culture content, generation algorithms, seed. License check of every distributed file.
 
-**B.** Серверные и клиентские тесты, проверка всех ворот приключенческой прогрессии, нескольких культур и всех магических систем, нагрузочное тестирование, откат из резервных копий, миграции форматов данных.
+**B.** Singleplayer and LAN tests, a dedicated-server pass if it is in scope by then, checks of all adventure progression gates, several cultures and all magic systems, load testing, restore from backups, data format migrations.
 
-**C.** Финальная предварительная генерация карты через Chunky после окончательной фиксации worldgen-модов. Отчёт WorldValidator, реестр обязательных структур, проверка маршрутов, экспорт клиентского и серверного пакетов.
+**C.** Final world pre-generation with Chunky after worldgen mods are finally locked. WorldValidator report, mandatory structure registry, route checks, client (and server, if in scope) package export.
 
-**D.** Условия релиза: воспроизводимый install, контрольная сумма манифеста, 100% обязательных структур, отсутствие критических дублирований населения и товаров, сервер стабилен при согласованной конфигурации и нагрузке.
+**D.** Release conditions: reproducible install, manifest checksum, 100% of mandatory structures, no critical duplication of population and goods, stable on the agreed configuration and load.
 
-## 14. Архитектура проекта и структура репозитория
+## 14. Project architecture and repository layout
 
 ```text
 living-kingdoms/
 ├── README.md
 ├── docs/
 │   ├── roadmap.md
-│   ├── decisions/                # ADR: версии, WorldGen, NPC, mana...
+│   ├── decisions/                # ADRs: versions, WorldGen, NPCs, mana...
 │   ├── compatibility-matrix.md
 │   ├── content-manifest.md
 │   ├── licenses.md
 │   └── testing/
 ├── modpack/
-│   ├── pack.toml                 # packwiz — источник истины
+│   ├── pack.toml                 # packwiz — source of truth
 │   ├── index.toml
 │   ├── mods/*.pw.toml
 │   ├── config/
@@ -407,10 +410,10 @@ living-kingdoms/
 │       ├── lk-gameplay/
 │       └── lk-magic/
 ├── mods-src/
-│   ├── livingkingdoms-core/     # регионы, время, сохранение, события
-│   ├── settlements/             # поселения, профессии, строительство (на жителях MCA)
-│   ├── economy-adapter/         # профессии, отрасли, торговля
-│   └── world-materializer/      # блоки и сущности при загрузке
+│   ├── livingkingdoms-core/     # regions, time, saves, events
+│   ├── settlements/             # settlements, professions, construction (on MCA residents)
+│   ├── economy-adapter/         # professions, industries, trade
+│   └── world-materializer/      # blocks and entities on load
 ├── content/
 │   ├── cultures/
 │   ├── buildings/
@@ -428,25 +431,25 @@ living-kingdoms/
 │   ├── magic/
 │   ├── settlements/
 │   └── longevity/
-└── runtime/                      # генерируется, НЕ коммитится
+└── runtime/                      # generated, NOT committed
     ├── client/
     ├── server/
     └── snapshots/
 ```
 
-Это **логическая структура**, не обязательство создавать 4 Java-проекта сразу. В M0 достаточен один `livingkingdoms-core`; функциональные модули выделяются по мере появления реального кода и независимого тестирования.
+This is a **logical layout**, not a commitment to create four Java projects right away. In M0 a single `livingkingdoms-core` is enough; modules are split out as real code and independent tests appear.
 
-### 14.1. Границы ответственности
+### 14.1. Responsibility boundaries
 
-- **Внешние моды:** игровой предмет, моб, заклинание, блок, фактическая работа в загруженном чанке.
-- **Compatibility layer:** теги, рецепты, коэффициенты, конфиги, отключение конфликтов.
-- **Core:** ID, единая история, регионы, события, состояние выгруженного мира, сохранение.
-- **Settlements:** поселения, профессии, строительство, склады; жители — сущности MCA Reborn с нашими данными.
-- **Адаптеры MCA / Capitals:** связь с API MCA Reborn и MCA Capitals, контроль владельца данных.
-- **Materializer:** безопасное применение запланированных изменений через API Minecraft на серверном потоке.
-- **World validator:** независимая проверка, что доступный мир действительно соответствует дизайну.
+- **External mods:** game items, mobs, spells, blocks, actual work in a loaded chunk.
+- **Compatibility layer:** tags, recipes, rates, configs, disabling conflicts.
+- **Core:** IDs, single history, regions, events, unloaded-world state, saves.
+- **Settlements:** settlements, professions, construction, storage; residents are MCA Reborn entities with our data attached.
+- **MCA / Capitals adapters:** link to the MCA Reborn and MCA Capitals APIs, data-ownership control.
+- **Materializer:** safe application of planned changes via the Minecraft API on the server thread.
+- **World validator:** independent check that the reachable world actually matches the design.
 
-### 14.2. Ядро данных и переходы состояний
+### 14.2. Data core and state transitions
 
 ```text
 Finite World → Geographic Region → Simulation Cell → Minecraft Chunk
@@ -460,72 +463,74 @@ Loaded chunk: physical entities & blocks ↔ reconciliation ↔ abstract state
 Unloaded chunk: abstract regional simulation → pending physical changes
 ```
 
-**Правила:** одна запись о личности NPC, один источник истины по товару/складу, версия сохранения, идемпотентные события, запрет физического тика в выгруженных чанках, бюджет изменений при материализации. Исследовать возможные конфликты между одновременной работой физической и абстрактной экономик.
+**Rules:** one record per NPC identity, one source of truth per commodity/storage, save versioning, idempotent events, no physical ticking in unloaded chunks, a change budget for materialization. Investigate conflicts between the physical and abstract economies running at the same time.
 
-## 15. Стратегия ИИ-агента и воспроизводимой установки
+## 15. AI agent strategy and reproducible install
 
-Для агента вводится безопасный процесс `propose → install in sandbox → smoke test → commit manifest`. Он не должен скачивать произвольные «сборки» по непроверенным ссылкам.
+The agent follows a safe process: `propose → install in sandbox → smoke test → commit manifest`. It must not download arbitrary "packs" from unverified links.
 
-**Алгоритм добавления мода:** найти официальную страницу и поддерживаемую пару Minecraft/NeoForge → проверить зависимости и лицензию → добавить в packwiz → сохранить контрольные суммы и версии → подготовить отдельный инстанс → запустить сервер → проверить базовый игровой сценарий → добавить запись в compatibility-matrix → включить в основной профиль.
+**Adding a mod:** find the official page and the supported Minecraft/NeoForge pair → check dependencies and license → add to packwiz → store checksums and versions → prepare a separate instance → launch the game (singleplayer, then LAN) → check a basic gameplay scenario → add an entry to the compatibility matrix → include in the main profile.
 
-**Иерархия изменений:** 0) ничего не менять, если работает; 1) конфиг; 2) теги/датапак; 3) готовый аддон; 4) KubeJS; 5) собственный адаптер; 6) форк исходного мода только при доказанной необходимости и допустимой лицензии.
+**Change hierarchy:** 0) change nothing if it works; 1) config; 2) tags/datapack; 3) existing addon; 4) KubeJS; 5) our own adapter; 6) fork of the original mod only when proven necessary and the license allows it.
 
-**Правило агента:** автоматически применять можно лишь согласованные конфиги и манифест; изменения, способные повредить сохранения, генерацию мира, доступность обязательных структур или лицензирование, выносить в отдельное архитектурное решение.
+**Agent rule:** only agreed configs and the manifest may be applied automatically; changes that can damage saves, world generation, availability of mandatory structures or licensing go into a separate architecture decision.
 
-## 16. Сквозные тесты и числовые ориентиры
+## 16. End-to-end tests and numeric targets
 
-| Область | Набор тестов | Граница приёмки |
+| Area | Test set | Acceptance bar |
 | --- | --- | --- |
-| Установка | Чистый клиент/сервер из Git | Запускается без ручного скачивания JAR |
-| Генерация | Несколько seed и один контрольный мир | Все обязательные структуры/цепочки доступны |
-| Игровые рецепты | Кросс-модовые комбинации ингредиентов | Нет блокирующих дублей/эксплойтов |
-| Мана | Ars + Iron's в одном пуле | Нет двойной регенерации и неверных списаний |
-| NPC | Семьи, возраст, строительство, торговля | ID и состояние переживают рестарт |
-| Выгрузка | 1/10/100 циклов загрузки чанка | Нет удвоения товаров, NPC, строений |
-| Производительность | spark, JVM/heap, среднее и p95 tick | Цель 20 TPS при описанном сценарии; пределы нагрузки зафиксированы |
-| Долгая симуляция | 1, 5, 25 игровых лет | Нет накопления очевидных противоречий |
-| Катастрофы | Пожар/разлив/шторм с защитой объектов | Без неконтролируемого разрушения |
-| Релиз | Лицензии, исходники/пакеты, бэкапы | Нет нелегально включённых переработанных ассетов |
+| Install | Clean client from Git | Launches without manually downloading JARs |
+| Play mode | Singleplayer + Open to LAN with a second client | Join works, no desync of our mechanics |
+| Generation | Several seeds and one reference world | All mandatory structures/chains reachable |
+| Recipes | Cross-mod ingredient combinations | No blocking duplicates/exploits |
+| Mana | Ars + Iron's in one pool | No double regeneration or wrong deductions |
+| NPCs | Families, age, construction, trade | IDs and state survive a world reload |
+| Unloading | 1/10/100 chunk load cycles | No duplicated goods, NPCs, buildings |
+| Performance | spark, JVM/heap, mean and p95 tick | Target 20 TPS on the host PC in the described scenario; load limits recorded |
+| Long simulation | 1, 5, 25 in-game years | No accumulation of obvious contradictions |
+| Disasters | Fire/flood/storm with object protection | No uncontrolled destruction |
+| Release | Licenses, sources/packages, backups | No illegally included modified assets |
 
-Цифры числа поселений и лет тестирования — проектные ориентиры. Фактические бюджеты будут назначены после профилирования, чтобы избежать фиктивных гарантий производительности.
+Settlement counts and test durations are project targets. Actual budgets will be set after profiling, to avoid fictitious performance guarantees.
 
-## 17. Риски и решения до старта соответствующих этапов
+## 17. Risks and decisions before the corresponding stages
 
-| Риск | Последствие | Митигирующее действие |
+| Risk | Consequence | Mitigation |
 | --- | --- | --- |
-| Модификация генерации после M1 | Швы карты, отсутствие структур | Стабилизировать WorldGen; регрессионная проверка при новых биомах/рудах |
-| Смешивание готовых деревень и деревень нашего мода | Дубли поселений, неправильные дороги | Резервация зон, контроль спавна генераторов |
-| Собственный мод поселений слишком велик | Месяцы без играбельного результата | Вертикальные срезы S1–S4, каждый — релиз; поиск открытого кода (MineColonies/Structurize) |
-| API MCA Reborn недостаточно для задач жителей | Mixin-патчи, хрупкость при обновлениях | Исследование в M4-A; патчи минимальны и покрыты тестами |
-| Несовместимые лицензии культур/структур | Невозможно распространять модпак | Проверить разрешения и использовать оригинальные ассеты |
-| Слишком раннее переписывание MCA | Дорогой форк, рассинхронизация | Сначала API, события, attachments, затем Mixin; форк — последнее средство |
-| Общая мана ломает баланс | Бесконечное произнесение, двойные бонусы | Один авторитетный пул, коэффициент, игровые тесты |
-| Неконтролируемые шахты Occultism | География ресурсов перестаёт иметь смысл | Конфиг производительности/редкости, поздние ограничения |
-| Погода уничтожает поселения | Потеря построек и сохранений | Защита/лимит, выбор одного движка, бэкапы |
-| Нет физической симуляции вдали от игрока | Незаметная или несогласованная жизнь мира | Абстрактная симуляция + материализация по бюджету |
-| Профили «всё и сразу» | Невозможность локализовать ошибки | Изолированные профили и поэтапное подключение |
-| Лишняя собственная разработка | Рост поддержки и затрат | Проверять готовые аддоны перед написанием кода |
+| Worldgen changes after M1 | Map seams, missing structures | Stabilize WorldGen; regression checks for new biomes/ores |
+| Mixing existing villages with our villages | Duplicate settlements, broken roads | Reserved zones, control over generator spawning |
+| Incompatible licenses of cultures/structures | The pack cannot be distributed | Check permissions and use original assets |
+| Our settlement mod is too large | Months without a playable result | Vertical slices S1–S4, each a release; look for open code (MineColonies/Structurize) |
+| MCA Reborn API is not enough for resident tasks | Mixin patches, fragility on updates | Research in M4-A; patches minimal and covered by tests |
+| Rewriting MCA too early | Expensive fork, desync | API, events and attachments first, then Mixins; a fork is the last resort |
+| Shared mana breaks balance | Endless casting, double bonuses | One authoritative pool, a rate, gameplay tests |
+| Uncontrolled Occultism mines | Resource geography stops mattering | Performance/rarity config, later limits |
+| Weather destroys settlements | Lost buildings and saves | Protection/limits, one weather engine, backups |
+| No physical simulation away from players | Unnoticeable or inconsistent world life | Abstract simulation + budgeted materialization |
+| Host PC runs client and integrated server | Tighter performance budget than a dedicated server | Profile on the host PC from M1; budget heavy mods early |
+| "Everything at once" profiles | Errors cannot be localized | Isolated profiles and staged enabling |
+| Unnecessary custom development | Growing maintenance and costs | Check existing addons before writing code |
 
-## 18. Приоритетные исследовательские задачи
+## 18. Priority research tasks
 
-1. **M1 / WorldGen:** закрепить конкретные JAR и зависимости Bounded Not Free, Terralith, Tectonic, YUNG, Dungeons and Taverns, When Dungeons Arise; проверить генерацию на 3–5 seed.
-2. **M1 / Manifest:** описать набор обязательных структур, биомных ролей и путей прогрессии включая Незер/Энд/измерения.
-3. **M2 / Food compatibility:** сравнить Pantrywork, Farmer's (Delight) Croptopia и Almost Unified — проверить пересечения на живом сервере.
-4. **M3 / Mana:** выбрать первичный пул в Ars 'n Spells и начальный коэффициент `k`, проверить броню/регенерацию и отображение.
-5. **M3 / Magic roles:** записать конкретные минимальные запреты Ars и набор рецептов Occultism, которые действительно требуют удорожания после теста.
-6. **M4 / MCA Reborn:** архитектура, API, события, хранение данных, лицензия; можно ли давать жителям задачи извне.
-7. **M4 / Открытый код:** MineColonies, Structurize и моды рабочих NPC — лицензии и пригодность кода строительства и логистики.
-8. **M4 / Прототип:** житель MCA выполняет задачу нашего мода и переживает рестарт сервера.
-9. **M6 / MCA Capitals:** реальный API, версия для 1.21.1, лицензия.
-10. **M7 / Weather:** отдельный тест Weather2 и ProtoManly на shaders/Iris/DH/сезонах/производительности; совместимость Dynamic Trees с лесорубами M4.
+1. **M1 / WorldGen:** pin specific JARs and dependencies of Bounded Not Free, Terralith, Tectonic, YUNG's, Dungeons and Taverns, When Dungeons Arise; test generation on 3–5 seeds.
+2. **M1 / Manifest:** describe the set of mandatory structures, biome roles and progression paths including the Nether/End/dimensions.
+3. **M2 / Food compatibility:** compare Pantrywork, Farmer's (Delight) Croptopia and Almost Unified — check overlaps in a live world.
+4. **M3 / Mana:** choose the primary pool in Ars 'n Spells and the starting rate `k`, check armor/regeneration and display.
+5. **M3 / Magic roles:** write down the specific minimal Ars restrictions and the Occultism recipes that really need a price increase after testing.
+6. **M4 / MCA Reborn:** architecture, API, events, data storage, license; can residents be given tasks from outside.
+7. **M4 / Open code:** MineColonies, Structurize and worker-NPC mods — licenses and suitability of construction and logistics code.
+8. **M4 / Prototype:** an MCA resident performs a task of our mod and survives a world reload.
+9. **M6 / MCA Capitals:** real API, 1.21.1 version, license.
+10. **M7 / Weather:** separate test of Weather2 and ProtoManly with shaders/Iris/DH/seasons/performance; Dynamic Trees compatibility with M4 lumberjacks.
 
-## 19. Источники и проверка модов
+## 19. Sources and mod checks
 
-Ниже — официальные страницы или страницы проектов. Это референсы на дату 03.11.2026, а не гарантии, что выбранные релизы совместимы между собой. Для многомодовой сборки окончательная проверка — запуск конкретных JAR и игровое тестирование.
+Official pages or project pages. These are references as of 2026-11-03 (and 2026-11-06 for version checks), not guarantees that the selected releases are compatible with each other. For a multi-mod pack the final check is launching specific JARs and playtesting.
 
-- **[S01]** packwiz — официальный репозиторий: https://github.com/packwiz/packwiz
+- **[S01]** packwiz — official repository: https://github.com/packwiz/packwiz
 - **[S02]** Bounded Not Free: https://www.curseforge.com/minecraft/mc-mods/bounded-not-free
-- **[S03]** Tectonic и совместимость с Terralith: https://modrinth.com/mod/Tectonic
+- **[S03]** Tectonic and Terralith compatibility: https://modrinth.com/mod/Tectonic
 - **[S04]** Lithostitched: https://modrinth.com/mod/lithostitched
 - **[S05]** YUNG's Better Strongholds: https://modrinth.com/mod/yungs-better-strongholds
 - **[S06]** When Dungeons Arise: https://www.curseforge.com/minecraft/mc-mods/when-dungeons-arise
@@ -546,11 +551,11 @@ Unloaded chunk: abstract regional simulation → pending physical changes
 - **[S21]** Farmer's (Delight) Croptopia: https://modrinth.com/project/farmers-croptopia
 - **[S22]** Almost Unified: https://modrinth.com/project/almostunified
 - **[S23]** KubeJS: https://kubejs.com/wiki/other/source-code
-- **[S24]** Ars 'n Spells — общая мана и конфигурация: https://github.com/otectus/ars-n-spells/blob/main/README.md
+- **[S24]** Ars 'n Spells — shared mana and configuration: https://github.com/otectus/ars-n-spells/blob/main/README.md
 - **[S25]** Ars Ocultas: https://modrinth.com/project/ars-ocultas
 - **[S26]** Ars Unification: https://modrinth.com/mod/ars-unification
 - **[S27]** NeoForge SavedData: https://docs.neoforged.net/docs/datastorage/saveddata/
-- **[S28]** Millénaire 9.0.3 (только референс идей, в сборку не входит): https://www.millenaire.org/downloads
+- **[S28]** Millénaire 9.0.3 (idea reference only, not in the pack): https://www.millenaire.org/downloads
 - **[S29]** MCA Reborn: https://www.curseforge.com/minecraft/mc-mods/minecraft-comes-alive-reborn
 - **[S30]** MCA Capitals: https://www.curseforge.com/minecraft/mc-mods/mca-capitals
 - **[S31]** Millénaire license: https://www.curseforge.com/minecraft/mc-mods/millenaire/license
@@ -561,8 +566,9 @@ Unloaded chunk: abstract regional simulation → pending physical changes
 - **[S36]** Weather2: https://www.curseforge.com/minecraft/mc-mods/weather-storms-tornadoes
 - **[S37]** ProtoManly's Weather: https://modrinth.com/mod/protomanlys-weather
 - **[S38]** Natural Regrowth for ProtoManly: https://modrinth.com/mod/natural-regrowth
-- **[S39]** Каталог Ars Nouveau 1.21.1 с предупреждениями о дополнениях: https://github.com/Ars-Nouveau/Ars-Auxilia/blob/main/apps/ars.guide/src/content/docs/1.21.1/ars-addons/guide.mdx
+- **[S39]** Ars Nouveau 1.21.1 addon catalog with warnings: https://github.com/Ars-Nouveau/Ars-Auxilia/blob/main/apps/ars.guide/src/content/docs/1.21.1/ars-addons/guide.mdx
+- **[S40]** Modrinth API version data (platform check, 2026-11-06): https://api.modrinth.com/v2/project/{slug}/version
 
 ---
 
-**Короткая формула проекта:** закончили WorldGen → получили цельный приключенческий мир; закончили лёгкий геймплей → получили цельную бытовую игру; закончили магию → получили цельную магическую экосистему; закончили поселения → получили живые деревни; затем мир живёт без игроков, деревни объединяются в экономику и государства, природа оживает, появляются свои народы и автономная история. Каждый следующий шаг расширяет завершённую систему, а не заново собирает предыдущую.
+**The project in one line:** finish WorldGen → get a cohesive adventure world; finish light gameplay → get a cohesive household game; finish magic → get a cohesive magic ecosystem; finish settlements → get living villages; then the world lives without players, villages join into an economy and states, nature comes alive, our own peoples and an autonomous history appear. Each next step extends a finished system instead of rebuilding the previous one.

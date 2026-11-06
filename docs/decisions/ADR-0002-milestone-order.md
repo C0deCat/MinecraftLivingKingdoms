@@ -1,34 +1,34 @@
-# ADR-0002: Порядок этапов после магии
+# ADR-0002: Milestone order after magic
 
-**Статус:** Принято · **Дата:** 2026-11-06
+**Status:** Accepted · **Date:** 2026-11-06
 
-## Контекст
+## Context
 
-В v0.2 после магии (M3) шли: ядро симуляции → Millénaire/MCA/Capitals → культуры → экономика → погода → автономность. Проблемы:
+In v0.2 magic (M3) was followed by: simulation core → Millénaire/MCA/Capitals → cultures → economy → weather → autonomy. Problems:
 
-- ядро симуляции проектировалось бы до того, как известна модель данных поселений;
-- этап ядра симуляции почти ничего не добавляет в игру, а главный принцип проекта — играбельная версия на каждом этапе;
-- опрос игроков: обновлённые жители и их симуляция интереснее погоды.
+- the simulation core would have been designed before the settlement data model was known;
+- the simulation core stage adds almost nothing to the game, while the core principle of the project is a playable release at every stage;
+- a poll of players: reworked residents and their simulation are more interesting than weather.
 
-## Решение
+## Decision
 
-| # | Этап |
+| # | Milestone |
 | --- | --- |
-| M0–M3 | Без изменений: инфраструктура, мир и приключения, быт, магия |
-| M4 | Поселения и жители (свой мод на базе MCA Reborn), только загруженные чанки |
-| M5 | Симуляция выгруженного мира для поселений M4 |
-| M6 | Экономика и государства (MCA Capitals, NPC используют ремёсла и магию) |
-| M7 | Атмосфера: сезоны, деревья, погода |
-| M8 | Свои народы, архитектура, облик NPC |
-| M9 | Глубокая автономность |
-| M10 | Релиз |
+| M0–M3 | Unchanged: infrastructure, world and adventure, household life, magic |
+| M4 | Settlements and residents (our mod on MCA Reborn), loaded chunks only |
+| M5 | Unloaded-world simulation for M4 settlements |
+| M6 | Economy and states (MCA Capitals, NPCs use crafts and magic) |
+| M7 | Atmosphere: seasons, trees, weather |
+| M8 | Our own peoples, architecture, NPC looks |
+| M9 | Deep autonomy |
+| M10 | Release |
 
-## Рассмотренные варианты
+## Options considered
 
-- Атмосфера раньше поселений (дёшево и красиво) — отклонено по результатам опроса игроков.
-- Экономика сразу после поселений, до симуляции — частично принято: профессии на рецептах Farmer's Delight входят уже в срез M4-S3; полная экономика и государства — после симуляции.
+- Atmosphere before settlements (cheap and pretty) — rejected based on the player poll.
+- Economy right after settlements, before simulation — partially accepted: professions based on Farmer's Delight recipes are already part of slice M4-S3; the full economy and states come after the simulation.
 
-## Последствия
+## Consequences
 
-- Моды, меняющие генерацию мира на поздних этапах (особенно Dynamic Trees), нужно оценить заранее — не позже M4-B, так как они влияют на лесорубов и деревни.
-- До M10 тестовые миры считаются одноразовыми.
+- Mods that change world generation in later stages (especially Dynamic Trees) must be evaluated early — no later than M4-B, because they affect lumberjacks and villages.
+- Until M10 test worlds are disposable.
