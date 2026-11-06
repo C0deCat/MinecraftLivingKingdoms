@@ -9,16 +9,17 @@ import net.minecraft.world.level.levelgen.DensityFunction;
 
 /**
  * Density function {@code livingkingdoms_world:edge_falloff}: an upper cap for continentalness that
- * forces an ocean ring along the world border (ADR-0004, main path).
+ * guarantees open ocean along the world border (ADR-0004).
  *
  * <p>It is {@code land} further than {@code ring} blocks (at most a sixth of the side) from the border and eases down to
  * {@code ocean} at the border. {@code jitter} (a 2D noise, roughly -1..1) times {@code jitter_blocks}
- * moves the coastline so it is not a straight square. A Lithostitched modifier applies it as
- * {@code min(continents, edge_falloff)}, so the inside of the map is untouched.
+ * moves the line so it is not a straight square. A Lithostitched modifier applies it as
+ * {@code min(continents, edge_falloff)}. The coast itself comes from {@link EdgeBias} and
+ * {@link EdgeErosion}; this cap only acts on the outer band, where the bias has already sunk the land.
  *
  * <p>The border half-side comes from the save's world size, set before levels load
  * ({@link WorldSizeState}). With {@code -Dlivingkingdoms.edge=off} it returns {@code land}
- * everywhere (used to compare against Bounded Not Free in the M1-A spike).
+ * everywhere, like the other edge functions (natural-coast baseline for {@code /lkworld coast}).
  */
 public record EdgeFalloff(DensityFunction jitter, int ring, double jitterBlocks, double land, double ocean) implements DensityFunction {
     public static final MapCodec<EdgeFalloff> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -39,11 +40,7 @@ public record EdgeFalloff(DensityFunction jitter, int ring, double jitterBlocks,
         double half = side / 2.0;
         // The ring never takes more than a sixth of the side, so the Test size keeps an inland core.
         double effectiveRing = Math.min(ring, side / 6.0);
-        // Superellipse distance (p = 8): square overall, rounded corners.
-        double nx = Math.abs(context.blockX()) / half;
-        double nz = Math.abs(context.blockZ()) / half;
-        double distance = half * Math.pow(Math.pow(nx, 8) + Math.pow(nz, 8), 1.0 / 8.0);
-        double toEdge = half - distance;
+        double toEdge = distanceToEdge(context.blockX(), context.blockZ(), half);
         // Outer half of the ring: open ocean. Inner half: the cap eases up to land, and the jitter
         // moves the coastline back and forth inside it, so coasts do not follow the square.
         double openOcean = effectiveRing * 0.5;
@@ -54,6 +51,17 @@ public record EdgeFalloff(DensityFunction jitter, int ring, double jitterBlocks,
         if (toEdge < openOcean) t = 0.0;
         double smooth = t * t * (3.0 - 2.0 * t);
         return ocean + (land - ocean) * smooth;
+    }
+
+    /**
+     * Distance from a point to the border along a superellipse (p = 8): square overall, rounded
+     * corners. 0 on the border, {@code half} at the center.
+     */
+    static double distanceToEdge(int x, int z, double half) {
+        double nx = Math.abs(x) / half;
+        double nz = Math.abs(z) / half;
+        double distance = half * Math.pow(Math.pow(nx, 8) + Math.pow(nz, 8), 1.0 / 8.0);
+        return half - distance;
     }
 
     @Override

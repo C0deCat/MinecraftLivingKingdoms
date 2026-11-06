@@ -5,7 +5,7 @@ last_reviewed: 2026-11-06
 
 # ADR-0004: Fixed world sizes, dimension scales and the finite-world edge
 
-**Status:** Accepted; amended 2026-11-06 with the world-edge spike result and a factual correction (see the end) · **Date:** 2026-11-06
+**Status:** Accepted; amended 2026-11-06 with the world-edge spike result, a factual correction and a gentler world edge (see the end) · **Date:** 2026-11-06
 
 ## Context
 
@@ -109,3 +109,27 @@ The context above says the Twilight Forest is "1:8 like the Nether". That is wro
 - So the Overworld (1.0) → Twilight Forest (0.125) step multiplies coordinates by 8: the native forest is 8× **larger** than the Overworld, not smaller.
 - The decision (TF 1:1) is unchanged and better justified: at the native scale almost every Overworld portal would land at the forest's border.
 
+
+## Amendment 2026-11-06: gentler world edge (variant D1)
+
+Gameplay feedback from the user on a Test world: the land often ended in a sheer wall where the ocean ring starts, with too little variety.
+- **Cause.** Tectonic's offset spline lifts land from sea level to mountain height between raw continentalness -0.155 and 0.0 when erosion is low. Natural noise crosses that window over a few hundred blocks. Our cap (`min(continents, edge_falloff)`) crossed it much faster, and the coast followed our contour, cutting mountains.
+- **Measurement.** `/lkworld coast` casts 720 rays from the border towards the center and records the highest ground within 8 blocks inland of the first land. A cliff is 10+ blocks. Seed `livingkingdoms`:
+
+  | Variant | Test cliffs | Large cliffs | Large land, whole map |
+  | --- | --- | --- | --- |
+  | Natural Tectonic coasts (edge off) | — | ~38% | — |
+  | Old cap, ring 1,024 | 80% | 41% | 41.6% |
+  | Bias only, 2,048 band | 68% | 50% | 35.3% |
+  | Bias 3,072 + erosion lift | 51% | 38% | 31.0% (34.7% with `ocean_offset` -0.38) |
+  | **D1: bias 2,048 + erosion lift, `ocean_offset` -0.38** | **40%** | **37%** | **41.0%** |
+
+- **Decision (D1, with the user).** The edge has three parts, all in `livingkingdoms-world`:
+  - `edge_bias` is **added** to Tectonic's `noise/raw_continents`. It eases from 0 at 2,048 blocks from the border (at most half the half-side) down to -1.0 at 384 blocks (at most a twelfth of the side), shifted in and out by noise. The coast appears where the generator's own noise crosses the waterline, so bays, capes, islands and slopes are Tectonic's. On Large the coast lies 640–2,300 blocks from the border (p10–p90).
+  - `edge_erosion` lifts Tectonic's `noise/continent/erosion` towards 0.45 (lowland) in the same band, only on the stretches a slow mask noise selects. Other stretches keep natural erosion, so some coasts stay mountainous or cliffy.
+  - `edge_falloff` remains as a cap on the outer 512 blocks (256 of open ocean), only to guarantee the open-ocean band.
+  - Tectonic `ocean_offset` goes from -0.45 to -0.38 to win back the land the longer band takes. Consequence: inner seas are shallower; deep ocean, and with it ocean monuments, is mostly in the outer ring.
+- **Open:**
+  - the Test island stays close to square, because 2,048 blocks leave no room for a long band; accepted for a development size;
+  - on Test about 2% of rays find land right at the border, probably Terralith's extra terrain (arches, spikes, dunes) that Tectonic merges with `max`, past our cap;
+  - in-game feedback on Large is pending.

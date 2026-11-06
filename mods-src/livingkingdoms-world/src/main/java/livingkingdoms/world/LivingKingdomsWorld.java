@@ -24,6 +24,8 @@ public final class LivingKingdomsWorld {
 
     static {
         DENSITY_FUNCTION_TYPES.register("edge_falloff", () -> EdgeFalloff.MAP_CODEC);
+        DENSITY_FUNCTION_TYPES.register("edge_bias", () -> EdgeBias.MAP_CODEC);
+        DENSITY_FUNCTION_TYPES.register("edge_erosion", () -> EdgeErosion.MAP_CODEC);
     }
 
     public LivingKingdomsWorld(IEventBus modEventBus) {

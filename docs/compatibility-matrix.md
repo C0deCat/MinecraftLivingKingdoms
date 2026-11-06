@@ -19,8 +19,8 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | ModernFix | 5.27.27 | M0 | Load time and memory fixes | both | — | runtime-ok | LGPL-3.0 |
 | FerriteCore | 7.0.3 | M0 | Memory use of block states and models | both | — | runtime-ok | MIT; mixin "refmap could not be read" warnings at startup are expected for this build |
 | Lithium | 0.15.4 | M0 | Server tick optimizations (AI, physics, chunks) | both | — | runtime-ok | LGPL-3.0; official NeoForge build |
-| Lithostitched | 1.8.1 | M1 | Worldgen compatibility layer; carries our edge-falloff modifier | both | — (bundles apollib) | installed | MIT |
-| Tectonic | 3.0.28 | M1 | Large-scale terrain, continents and islands | both | Lithostitched | installed | MIT; ships its Terralith-compatible terrain variant; Modrinth marks it server-only, client optional. Tuned in `modpack/config/tectonic.json`: `ocean_offset` -0.45, `continents_scale` 0.16 (ADR-0004 amendment) |
+| Lithostitched | 1.8.1 | M1 | Worldgen compatibility layer; carries our world-edge modifiers (edge bias, erosion lift, cap) | both | — (bundles apollib) | installed | MIT |
+| Tectonic | 3.0.28 | M1 | Large-scale terrain, continents and islands | both | Lithostitched | installed | MIT; ships its Terralith-compatible terrain variant; Modrinth marks it server-only, client optional. Tuned in `modpack/config/tectonic.json`: `ocean_offset` -0.38, `continents_scale` 0.16 (ADR-0004 amendments) |
 | Terralith | 2.6.2 | M1 | Biome variety | both | Lithostitched | installed | Stardust Labs License (see licenses.md); pinned by version URL because `packwiz modrinth add` picked the older 2.5.8 |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | installed | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 

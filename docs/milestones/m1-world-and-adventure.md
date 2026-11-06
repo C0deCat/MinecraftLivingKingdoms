@@ -20,7 +20,7 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 | Rejected | [Bounded Not Free](https://www.curseforge.com/minecraft/mc-mods/bounded-not-free) | Cannot shape terrain with Tectonic; replaced by our `edge_falloff` (ADR-0004 amendment) |
 | Base | [Terralith](https://modrinth.com/mod/terralith) | Biome variety |
 | Base | [Tectonic](https://modrinth.com/mod/tectonic) | Large-scale terrain; includes Terralith compatibility |
-| Base | [Lithostitched](https://modrinth.com/mod/lithostitched) | Worldgen compatibility layer (Tectonic dependency); carries our edge-falloff modifier |
+| Base | [Lithostitched](https://modrinth.com/mod/lithostitched) | Worldgen compatibility layer (Tectonic dependency); carries our world-edge modifiers |
 | Base | [YUNG's Better Strongholds](https://modrinth.com/mod/yungs-better-strongholds) + YUNG's API | Strongholds with the End portal |
 | Base | [When Dungeons Arise](https://www.curseforge.com/minecraft/mc-mods/when-dungeons-arise) | Large structures, candidates for 1–2 mega-dungeons |
 | Base | [Dungeons and Taverns](https://modrinth.com/mod/dungeons-and-taverns) | Inns, small dungeons, points of interest |

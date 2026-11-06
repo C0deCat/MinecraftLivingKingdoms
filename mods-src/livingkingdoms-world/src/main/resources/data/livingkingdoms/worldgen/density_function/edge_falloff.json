@@ -2,7 +2,7 @@
   "type": "minecraft:cache_2d",
   "argument": {
     "type": "livingkingdoms_world:edge_falloff",
-    "ring": 1024,
+    "ring": 512,
     "jitter_blocks": 512,
     "land": 1.0,
     "ocean": -1.0,

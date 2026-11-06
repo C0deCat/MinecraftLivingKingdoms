@@ -1,0 +1,22 @@
+{
+  "type": "lithostitched:wrap_density_function",
+  "target_function": "tectonic:noise/continent/erosion",
+  "wrapper_function": {
+    "type": "livingkingdoms_world:edge_erosion",
+    "input": {
+      "type": "lithostitched:wrapped_marker"
+    },
+    "mask": {
+      "type": "minecraft:noise",
+      "noise": "livingkingdoms:edge_coast_mask",
+      "xz_scale": 1.0,
+      "y_scale": 0.0
+    },
+    "start": 2048,
+    "max_share": 0.5,
+    "open_ocean": 384,
+    "target": 0.45,
+    "mask_low": -0.3,
+    "mask_high": 0.1
+  }
+}

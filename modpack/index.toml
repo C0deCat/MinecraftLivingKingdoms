@@ -2,11 +2,11 @@ hash-format = "sha256"
 
 [[files]]
 file = "CHANGELOG.md"
-hash = "5a3457900ccc67aba9735bf10baa97347c4cf0f02fd8f49f0c8ac9c97269d0e1"
+hash = "6d783688c1fe7064a617e39b0c2bd1da9da9ae7605dd8d6d16fc759513cb829d"
 
 [[files]]
 file = "config/tectonic.json"
-hash = "3bb9181966240067d094e16222cd15d84a008d973341f742998ee3051ee2b371"
+hash = "5682c9093c6169c7383ebaa9248082a446753bc7a73913a2f2430c5465a90b8c"
 
 [[files]]
 file = "mods/ferrite-core.pw.toml"

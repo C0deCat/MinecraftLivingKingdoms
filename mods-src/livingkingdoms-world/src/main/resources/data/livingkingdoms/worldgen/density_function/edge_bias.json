@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:cache_2d",
+  "argument": {
+    "type": "livingkingdoms_world:edge_bias",
+    "start": 2048,
+    "max_share": 0.5,
+    "open_ocean": 384,
+    "jitter_blocks": 512,
+    "depth": 1.0,
+    "jitter": {
+      "type": "minecraft:noise",
+      "noise": "livingkingdoms:edge_jitter",
+      "xz_scale": 1.0,
+      "y_scale": 0.0
+    }
+  }
+}
