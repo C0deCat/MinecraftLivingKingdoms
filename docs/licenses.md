@@ -46,7 +46,6 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | Tectonic | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | Terralith | Stardust Labs License (custom) | Modrinth | Yes (link, unmodified, credit + link required) | No (modified versions may not ship; add-on datapacks that override data are allowed) | No | 2026-11-06, `license.txt` in the GitHub repo |
 | The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
-| Bounded Not Free | CC BY-NC-SA 4.0 + additional modpack/server permission (CurseForge shows MIT, the repo LICENSE wins) | CurseForge | Yes (link) | Allowed, ShareAlike | No | 2026-11-06, GitHub LICENSE |
 
 Templates and tools whose files are in the repository:
 
@@ -70,3 +69,7 @@ License findings for mods we decided not to use. The full list with reasons is i
 ### Millénaire
 
 Checked 2026-11-06: All Rights Reserved (modpack inclusion allowed, forking and modification not), Java sources closed, not hosted on Modrinth. Not used; see [ADR-0001](decisions/ADR-0001-own-settlement-mod.md). Source: [CurseForge license page](https://www.curseforge.com/minecraft/mc-mods/millenaire/license).
+
+### Bounded Not Free
+
+Checked 2026-11-06: CC BY-NC-SA 4.0 with an additional permission for modpacks and servers (the CurseForge page shows MIT; the repository LICENSE is authoritative). Rejected for technical reasons in the M1-A spike, see the [compatibility matrix](compatibility-matrix.md#rejected-mods).

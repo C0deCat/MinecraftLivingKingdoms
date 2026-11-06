@@ -17,7 +17,7 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 
 | Status | Mod | Role |
 | --- | --- | --- |
-| Spike | [Bounded Not Free](https://www.curseforge.com/minecraft/mc-mods/bounded-not-free) | Finite map shape and rim; compared in M1-A with our Lithostitched-based edge falloff (ADR-0004) |
+| Rejected | [Bounded Not Free](https://www.curseforge.com/minecraft/mc-mods/bounded-not-free) | Cannot shape terrain with Tectonic; replaced by our `edge_falloff` (ADR-0004 amendment) |
 | Base | [Terralith](https://modrinth.com/mod/terralith) | Biome variety |
 | Base | [Tectonic](https://modrinth.com/mod/tectonic) | Large-scale terrain; includes Terralith compatibility |
 | Base | [Lithostitched](https://modrinth.com/mod/lithostitched) | Worldgen compatibility layer (Tectonic dependency); carries our edge-falloff modifier |
@@ -62,7 +62,6 @@ The validator checks structure presence, location, physical access and input res
 
 ## Open questions
 
-- World-edge tool: Lithostitched-based edge falloff vs Bounded Not Free, decided in the M1-A spike ([exec plan](../exec-plans/active/2026-11-06-m1-world.md)).
 - Pin JARs and dependencies of Terralith, Tectonic, YUNG's, Dungeons and Taverns, When Dungeons Arise; test generation on 3–5 seeds per size.
 - Write the list of mandatory structures, biome roles and progression paths including Nether, End and Twilight Forest, with per-size counts (TD-10).
 - Does the Twilight Forest boss chain generate correctly at 1:1 on the Test size?

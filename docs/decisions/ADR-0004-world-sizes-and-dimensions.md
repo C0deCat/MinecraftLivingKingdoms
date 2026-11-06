@@ -5,7 +5,7 @@ last_reviewed: 2026-11-06
 
 # ADR-0004: Fixed world sizes, dimension scales and the finite-world edge
 
-**Status:** Accepted (the world-edge tool is chosen in the M1-A spike, see below) · **Date:** 2026-11-06
+**Status:** Accepted; amended 2026-11-06 with the world-edge spike result and a factual correction (see the end) · **Date:** 2026-11-06
 
 ## Context
 
@@ -82,3 +82,30 @@ Facts checked on 2026-11-06:
 - Our Nether dimension types may surprise mods that check the vanilla Nether type. This is checked in M1-A and again with every later mod that touches the Nether.
 - Pre-generating a Large world is about 1M chunks: hours of work and 5–10 GB. It is only needed for the M11 final map.
 - The dedicated server picks a size with `level-type=livingkingdoms:<size>` (M10).
+
+## Amendment 2026-11-06: world-edge spike result
+
+Run on the headless test server (`npm run test-server`), seed `livingkingdoms`, maps rendered from the generator noise by `/lkworld map`:
+- **Our edge falloff wins.** The density function `livingkingdoms_world:edge_falloff`, applied as `min(continents, edge_falloff)` to Tectonic's `noise/full_continents`, `noise/raw_continents` and `noise/raw_islands` through Lithostitched modifiers:
+  - gives an open-ocean band in the outer half of the ring and a coast that meanders in the inner half;
+  - the ring is 1,024 blocks, at most a sixth of the side; the outline is a rounded square.
+- **Bounded Not Free** with Tectonic logged "Active noise router did not expose all climate fields; missing [CONTINENTALNESS, EROSION, WEIRDNESS]". Land reached the border and only biomes changed. It is removed from the pack and listed as rejected.
+- **Tectonic tuning** in `modpack/config/tectonic.json`: `ocean_offset` -0.8 → -0.45 and `continents_scale` 0.13 → 0.16. Land share of the whole map on the same seed:
+
+  | Size | Land, whole map |
+  | --- | --- |
+  | Test | 54.7% |
+  | Small | 45.2% |
+  | Medium | 42.2% |
+  | Large | 41.6% |
+
+  For Large that is about 54% of the area inside the ring. The Tectonic config is global, so all sizes share it; the 60% target stays a tunable hypothesis.
+- Open: the Test island is still visibly square, because its ring is small. The look of coasts in-game needs gameplay feedback.
+
+## Correction 2026-11-06: Twilight Forest scale direction
+
+The context above says the Twilight Forest is "1:8 like the Nether". That is wrong in direction.
+- The portal scale is `from.coordinate_scale / to.coordinate_scale` (`DimensionType.getTeleportationScale`).
+- So the Overworld (1.0) → Twilight Forest (0.125) step multiplies coordinates by 8: the native forest is 8× **larger** than the Overworld, not smaller.
+- The decision (TF 1:1) is unchanged and better justified: at the native scale almost every Overworld portal would land at the forest's border.
+

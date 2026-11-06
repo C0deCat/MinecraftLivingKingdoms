@@ -33,3 +33,10 @@ export const PRISM_WINDOWS: PinnedDownload = {
 };
 
 export const INSTANCE_NAME = "living-kingdoms";
+
+/** NeoForge installer, used only for the local headless worldgen test server (npm run test-server). */
+export const NEOFORGE_INSTALLER: PinnedDownload = {
+  url: `https://maven.neoforged.net/releases/net/neoforged/neoforge/${NEOFORGE_VERSION}/neoforge-${NEOFORGE_VERSION}-installer.jar`,
+  sha256: "a547ccc30a80a675d1c61d04b55d10c45c39a86971e09731482c50a24399d1a2",
+  file: `neoforge-${NEOFORGE_VERSION}-installer.jar`,
+};

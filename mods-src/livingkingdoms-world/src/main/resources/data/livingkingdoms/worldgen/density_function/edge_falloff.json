@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:cache_2d",
+  "argument": {
+    "type": "livingkingdoms_world:edge_falloff",
+    "ring": 1024,
+    "jitter_blocks": 512,
+    "land": 1.0,
+    "ocean": -1.0,
+    "jitter": {
+      "type": "minecraft:noise",
+      "noise": "livingkingdoms:edge_jitter",
+      "xz_scale": 1.0,
+      "y_scale": 0.0
+    }
+  }
+}

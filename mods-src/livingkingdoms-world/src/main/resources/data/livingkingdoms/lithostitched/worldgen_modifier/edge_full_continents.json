@@ -1,0 +1,11 @@
+{
+  "type": "lithostitched:wrap_density_function",
+  "target_function": "tectonic:noise/full_continents",
+  "wrapper_function": {
+    "type": "minecraft:min",
+    "argument1": {
+      "type": "lithostitched:wrapped_marker"
+    },
+    "argument2": "livingkingdoms:edge_falloff"
+  }
+}

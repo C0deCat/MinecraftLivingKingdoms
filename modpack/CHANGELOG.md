@@ -6,7 +6,10 @@ One entry per pack change: what changed, how it was launched, the result. The co
 
 - Added Lithostitched 1.8.1, Tectonic 3.0.28, Terralith 2.6.2 (Modrinth), The Twilight Forest 4.8.3345 and Bounded Not Free 1.3.5 (CurseForge), one at a time.
 - Our mods `livingkingdoms_core` and `livingkingdoms_world` 0.0.1 are built from `mods-src/` into the instance.
-- Launch report: `npm run smoke` after each addition: title screen reached, 0 ERROR/FATAL lines. World generation is checked with the size presets (next step), not yet.
+- Launch report: `npm run smoke` after each addition: title screen reached, 0 ERROR/FATAL lines.
+- Removed Bounded Not Free after the world-edge spike (cannot shape terrain with Tectonic, ADR-0004 amendment).
+- Added `config/tectonic.json`: `ocean_offset` -0.45, `continents_scale` 0.16.
+- Worldgen report: headless test server, seed `livingkingdoms`, all four sizes generate with an ocean ring; land 54.7% / 45.2% / 42.2% / 41.6% (Test/Small/Medium/Large); 0 ERROR lines.
 
 ## 0.0.1 — 2026-11-06
 

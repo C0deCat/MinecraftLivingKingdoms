@@ -5,9 +5,8 @@ file = "CHANGELOG.md"
 hash = "5a3457900ccc67aba9735bf10baa97347c4cf0f02fd8f49f0c8ac9c97269d0e1"
 
 [[files]]
-file = "mods/bounded-not-free.pw.toml"
-hash = "8b7082aca5ff150c3b1903cf4961642590e0fb1c0e5a5cb5bf3e3c494c8a4fb7"
-metafile = true
+file = "config/tectonic.json"
+hash = "3bb9181966240067d094e16222cd15d84a008d973341f742998ee3051ee2b371"
 
 [[files]]
 file = "mods/ferrite-core.pw.toml"
