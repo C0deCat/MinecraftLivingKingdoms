@@ -3,6 +3,7 @@ package livingkingdoms.world;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 /**
@@ -15,6 +16,6 @@ public final class LivingKingdomsWorld {
     static final Logger LOGGER = LogUtils.getLogger();
 
     public LivingKingdomsWorld(IEventBus modEventBus) {
-        LOGGER.info("Living Kingdoms World loaded");
+        NeoForge.EVENT_BUS.addListener(WorldBorders::onServerStarted);
     }
 }
