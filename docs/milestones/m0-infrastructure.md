@@ -32,6 +32,8 @@ None by itself — M0 is the foundation every later release is built on.
 
 **D — accept.** See below.
 
+**Deviations (2026-11-06, [exec plan](../exec-plans/active/2026-11-06-m0-infrastructure.md)):** profiles are deferred — `modpack/` is the single pack and acts as `full` until a real subset is needed; the LAN join check is deferred until a second account or PC is available ([TD-09](../exec-plans/tech-debt-tracker.md)).
+
 ## Acceptance
 
 - One command prepares a client instance from the repository.

@@ -61,6 +61,7 @@ last_reviewed: YYYY-MM-DD
 | --- | --- | --- |
 | [exec-plans/README.md](exec-plans/README.md) | Exec plan format and list | active |
 | [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md) | Open items and unverified facts | active |
+| [exec-plans/active/2026-11-06-m0-infrastructure.md](exec-plans/active/2026-11-06-m0-infrastructure.md) | M0 infrastructure work | active |
 | [exec-plans/completed/2026-11-06-harness-docs.md](exec-plans/completed/2026-11-06-harness-docs.md) | This knowledge-base restructure | stable |
 
 ## Mods and references

@@ -1,6 +1,9 @@
 # Generated game instances (client, server, worlds, snapshots)
 runtime/
 
+# Tool binaries built or downloaded by `npm run tools:setup`
+tools/bin/
+
 # Gradle / Java
 .gradle/
 build/
