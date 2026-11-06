@@ -7,16 +7,18 @@ last_reviewed: 2026-11-06
 
 Registry of the pack's mods: what is installed, why, which version and how well it is verified. Updated on every mod addition, update or removal (see the workflow in [AGENTS.md](../AGENTS.md#workflow)).
 
-**Platform:** Minecraft 1.21.1 · NeoForge 21.1.? (pin in M0) · Java 21
+**Platform:** Minecraft 1.21.1 · NeoForge 21.1.265 (pinned 2026-11-06 in `tools/pack/src/pins.ts` and `modpack/pack.toml`) · Java 21
 
 ## Mods
 
+`npm run verify-mods` checks this table against `modpack/`: every pack mod needs a row whose Mod cell equals the packwiz `name`, whose Version is part of the JAR file name and whose Side matches the `.pw.toml`.
+
 | Mod | Version | Stage | Purpose | Side | Dependencies | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — | — | Empty for now: filled from M0 |
+| spark | 1.10.124 | M0 | Profiler: TPS, tick times, heap | both | — | installed | GPL-3.0; also useful on a dedicated server |
 
 **Side:** `both` / `client` / `server`.
-**Status:** `candidate` → `installed` → `runtime-ok` (singleplayer and LAN launch) → `integrated` (conflicts resolved, subsystem is cohesive) → `accepted` (milestone accepted) · `rejected` (with a reason).
+**Status:** `candidate` → `installed` → `runtime-ok (SP)` (singleplayer launch, LAN pending) → `runtime-ok` (singleplayer and LAN launch) → `integrated` (conflicts resolved, subsystem is cohesive) → `accepted` (milestone accepted) · `rejected` (with a reason).
 
 ## Rejected mods
 

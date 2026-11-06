@@ -38,6 +38,7 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | MCA Reborn | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
 | MCA Capitals | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
 | CTOV | CC BY-NC-ND 4.0 (unverified, early research) | Modrinth | ? | No | No (ND) | Not checked |
+| spark | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 
 Other mods are added as they are audited. "Unverified" means the value still needs to be confirmed on the mod's own page.
 
