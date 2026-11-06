@@ -15,7 +15,7 @@
     "start": 2048,
     "max_share": 0.5,
     "open_ocean": 384,
-    "target": 0.45,
+    "amount": 0.25,
     "mask_low": -0.3,
     "mask_high": 0.1
   }

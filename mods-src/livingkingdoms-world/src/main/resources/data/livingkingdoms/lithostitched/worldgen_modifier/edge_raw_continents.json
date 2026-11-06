@@ -2,14 +2,53 @@
   "type": "lithostitched:wrap_density_function",
   "target_function": "tectonic:noise/raw_continents",
   "wrapper_function": {
-    "type": "minecraft:min",
-    "argument1": {
-      "type": "minecraft:add",
-      "argument1": {
-        "type": "lithostitched:wrapped_marker"
+    "type": "minecraft:flat_cache",
+    "argument": {
+      "type": "minecraft:clamp",
+      "input": {
+        "type": "minecraft:min",
+        "argument1": {
+          "type": "livingkingdoms_world:edge_bias",
+          "input": {
+            "type": "lithostitched:wrapped_marker"
+          },
+          "start": 2048,
+          "max_share": 0.5,
+          "open_ocean": 384,
+          "jitter_blocks": 512,
+          "depth": 1.3,
+          "coast": -0.155,
+          "window_below": 0.3,
+          "window_above": 0.2,
+          "natural_gradient": 0.0015,
+          "min_compression": 0.25,
+          "jitter": {
+            "type": "minecraft:noise",
+            "noise": "livingkingdoms:edge_jitter",
+            "xz_scale": 1.0,
+            "y_scale": 0.0
+          },
+          "shore": {
+            "above": {
+              "type": "minecraft:noise",
+              "noise": "livingkingdoms:edge_shore_above",
+              "xz_scale": 1.0,
+              "y_scale": 0.0
+            },
+            "below": {
+              "type": "minecraft:noise",
+              "noise": "livingkingdoms:edge_shore_below",
+              "xz_scale": 1.0,
+              "y_scale": 0.0
+            },
+            "above_min": 0.3,
+            "below_min": 0.25
+          }
+        },
+        "argument2": "livingkingdoms:edge_falloff"
       },
-      "argument2": "livingkingdoms:edge_bias"
-    },
-    "argument2": "livingkingdoms:edge_falloff"
+      "min": -1.0,
+      "max": 2.0
+    }
   }
 }

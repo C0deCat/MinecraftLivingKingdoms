@@ -5,7 +5,7 @@ last_reviewed: 2026-11-06
 
 # ADR-0004: Fixed world sizes, dimension scales and the finite-world edge
 
-**Status:** Accepted; amended 2026-11-06 with the world-edge spike result, a factual correction and a gentler world edge (see the end) · **Date:** 2026-11-06
+**Status:** Accepted; amended 2026-11-06 with the world-edge spike result, a factual correction, a gentler world edge and a natural coast profile (see the end) · **Date:** 2026-11-06
 
 ## Context
 
@@ -133,3 +133,43 @@ Gameplay feedback from the user on a Test world: the land often ended in a sheer
   - the Test island stays close to square, because 2,048 blocks leave no room for a long band; accepted for a development size;
   - on Test about 2% of rays find land right at the border, probably Terralith's extra terrain (arches, spikes, dunes) that Tectonic merges with `max`, past our cap;
   - in-game feedback on Large is pending.
+
+## Amendment 2026-11-06: natural coast profile (variant F3)
+
+Gameplay feedback on D1 from the user (Large, in game): every coast had the same profile, land one block above the sea, one block at sea level, then deep water at once.
+- **Measurement.** `/lkworld coast` also reports, as p10/p50/p90: the shore width (blocks until the ground is 3 above sea level), the sea floor 4 and 16 blocks out, the continentalness change per block across the waterline, and the share of the most common block-by-block shape. Natural Tectonic coasts (edge off, Large) vs D1:
+
+  | | Natural | D1 | **F3** |
+  | --- | --- | --- | --- |
+  | Cliffs | 31% | 36% | **30%** |
+  | Shore width, p50 | 12 | 3 | **12** |
+  | Sea floor 4 blocks out, p10 / p50 | -14 / -3 | -42 / -5 | **-11 / -3** |
+  | Sea floor 16 blocks out, p50 | -13 | -15 | **-11** |
+  | Continentalness per block, p90 (×10⁻⁵) | 405 | 1,317 | **335** |
+
+- **Causes:**
+  - the main one: in the outer band `min(bias, cap)` went down to about -2, below the -1 of the old cap. Tectonic's splines extrapolate below their domain, so deep values gave steep walls, sudden deep water and, with the island fade below, even land at the border;
+  - the coast forms where the bias falls fastest, so the fall added to the noise's own and steepened shores;
+  - the erosion lift replaced erosion with one value, so every lifted coast looked alike;
+  - Tectonic islands filled the deep outer band and were cut by the cap.
+- **Decision (F3):**
+  - the edge outputs for raw continents and raw islands are clamped to at least -1.0;
+  - **slope compensation** in `edge_bias`: inside a window around the coast value (-0.155, from -0.3 below to +0.2 above) the result is compressed by `k = natural / (natural + bias fall per block)` (natural 0.0015, at least 0.25), so shores keep about the natural width;
+  - **shore styles:** two slow noises compress the window further on some stretches, above the waterline down to 0.3 (wide beaches and lowlands) and below it down to 0.25 (shallows); elsewhere the generator's profile stays;
+  - the jitter moves only where the fall starts; it always ends at the open ocean, so land does not reach the cap;
+  - bias depth 1.3; the erosion lift adds up to 0.25 to the natural magnitude instead of replacing it;
+  - Tectonic islands fade out between 1,024 and 384 blocks from the border (the same `edge_bias` on `noise/raw_islands`, without compression).
+- **Result, seed `livingkingdoms`, 720 rays:**
+
+  | Size | Cliffs | Shore width p50 | Coast from border p10 / p50 / p90 | Land, whole map |
+  | --- | --- | --- | --- | --- |
+  | Test | 36% | 4 | 327 / 358 / 425 | 40.7% |
+  | Small | 32% | 8 | 797 / 1,275 / 2,071 | 36.2% |
+  | Medium | 29% | 25 | 857 / 1,651 / 2,827 | 37.7% |
+  | Large | 30% | 12 | 889 / 1,554 / 2,448 | 40.0% |
+
+  No ray found land at the border on any size, so the Terralith suspicion in the D1 amendment was wrong; the cause was the extrapolation.
+- **Still open:**
+  - the Test island stays close to square;
+  - the flat "+1 above sea" shore remains the most common shape (45%), exactly as in natural Tectonic coasts (44%); more coast variety would need surface or feature work, not the edge;
+  - in-game feedback pending.

@@ -25,4 +25,5 @@ last_reviewed: 2026-11-06
 - A `PreLaunchCommand` with quoted arguments (`"$INST_JAVA" -jar "..."`) fails in Prism 11.1.1 with "Process failed to start". We do not use pre-launch commands.
 - Close Prism before `npm run instance`: Prism writes its in-memory instance settings back on exit, over the script's changes (seen 2026-11-06). The script refuses to run while `prismlauncher.exe` is running.
 - `--launch` sent to an already running Prism may only open the instance window; close Prism first, or press Launch.
+- packwiz-installer does not restore a pack file that was edited inside the instance (for example `config/tectonic.json`) while the pack index is unchanged: it trusts its own manifest. After a manual edit, copy the file back from `modpack/` (seen 2026-11-06).
 - Extract the zip with Windows `System32\tar.exe`; the GNU tar from Git Bash cannot read zips or drive-letter paths.

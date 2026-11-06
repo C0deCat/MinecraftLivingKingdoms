@@ -11,6 +11,7 @@ One entry per pack change: what changed, how it was launched, the result. The co
 - Added `config/tectonic.json`: `ocean_offset` -0.45, `continents_scale` 0.16.
 - Worldgen report: headless test server, seed `livingkingdoms`, all four sizes generate with an ocean ring; land 54.7% / 45.2% / 42.2% / 41.6% (Test/Small/Medium/Large); 0 ERROR lines.
 - Gentler world edge (ADR-0004, variant D1): added edge bias and erosion lift; `config/tectonic.json` `ocean_offset` -0.45 → -0.38. Coast cliffs 80% → 40% (Test), 41% → 37% (Large); Large land 41.0%. Smoke: title screen, 0 ERROR.
+- Natural coast profile (ADR-0004, variant F3): edge values clamped at -1, slope compensation, shore styles, island fade. Large: cliffs 30%, shore width 12, sea floor 4 blocks out -3, as natural Tectonic coasts; no land at the border on any size; land 40.7/36.2/37.7/40.0% (Test/Small/Medium/Large).
 
 ## 0.0.1 — 2026-11-06
 
