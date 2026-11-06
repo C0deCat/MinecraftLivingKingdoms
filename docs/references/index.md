@@ -18,4 +18,5 @@ Condensed, version-pinned notes on external tools and APIs, written for agents: 
 
 | Note | Covers | Version |
 | --- | --- | --- |
-| — | Filled from M0 (NeoForge, packwiz, Prism Launcher), M4 (MCA Reborn) | — |
+| [packwiz.md](packwiz.md) | packwiz, packwiz-installer, bootstrap | commit `170b22d`, v0.5.14, v0.0.3 |
+| [prism-launcher.md](prism-launcher.md) | Portable Prism instance | 11.1.1 |

@@ -71,5 +71,7 @@ last_reviewed: YYYY-MM-DD
 | [compatibility-matrix.md](compatibility-matrix.md) | Installed mods, versions, platform check | active |
 | [licenses.md](licenses.md) | License rules, registry, audits | active |
 | [references/index.md](references/index.md) | Version-pinned notes on external APIs and tools | active |
+| [references/packwiz.md](references/packwiz.md) | packwiz and packwiz-installer: usage and pitfalls | active |
+| [references/prism-launcher.md](references/prism-launcher.md) | Portable Prism instance setup and pitfalls | active |
 
 Outside `docs/`: [AGENTS.md](../AGENTS.md), [ARCHITECTURE.md](../ARCHITECTURE.md), [README.md](../README.md).

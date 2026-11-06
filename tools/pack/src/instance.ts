@@ -78,10 +78,8 @@ function writeInstance(): void {
   };
   writeFileSync(join(INSTANCE_DIR, "mmc-pack.json"), JSON.stringify(mmcPack, null, 2) + "\n");
 
-  // The pre-launch command re-syncs mods with modpack/ on every launch from Prism.
-  const preLaunch =
-    `"$INST_JAVA" -jar "$INST_MC_DIR/${PACKWIZ_INSTALLER_BOOTSTRAP.file}" --bootstrap-no-update ` +
-    `--bootstrap-main-jar "$INST_MC_DIR/${PACKWIZ_INSTALLER.file}" -g -s client "${PACK_TOML.replaceAll("\\", "/")}"`;
+  // No Prism pre-launch command: Prism 11 mangles quoted arguments in it ("Process failed to start").
+  // Mods are synced by `npm run instance` and `npm run launch` instead.
   writeIni(join(INSTANCE_DIR, "instance.cfg"), "General", {
     ConfigVersion: "1.2",
     InstanceType: "OneSix",
@@ -89,8 +87,8 @@ function writeInstance(): void {
     OverrideMemory: "true",
     MaxMemAlloc: String(MAX_MEM_MIB),
     MinMemAlloc: String(MIN_MEM_MIB),
-    OverrideCommands: "true",
-    PreLaunchCommand: preLaunch,
+    OverrideCommands: "false",
+    PreLaunchCommand: "",
   });
 
   for (const pin of [PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP]) {
@@ -98,7 +96,7 @@ function writeInstance(): void {
   }
 }
 
-function syncMods(): void {
+export function syncMods(): void {
   const java = findExecutable("java") ?? fail("Java 21 is required on PATH to run packwiz-installer.");
   run(
     java,
