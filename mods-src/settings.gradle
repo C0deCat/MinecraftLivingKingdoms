@@ -1,0 +1,15 @@
+// Living Kingdoms mods: one Gradle build, one project per mod.
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+rootProject.name = 'living-kingdoms-mods'
+
+include 'livingkingdoms-core'
+include 'livingkingdoms-world'

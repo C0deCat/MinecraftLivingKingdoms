@@ -1,0 +1,14 @@
+// livingkingdoms-world: world sizes, dimension borders, world edge, later the content manifest (ADR-0004).
+apply from: rootProject.file('gradle/neoforge-mod.gradle')
+
+dependencies {
+    implementation project(':livingkingdoms-core')
+}
+
+neoForge {
+    mods {
+        livingkingdoms_core {
+            sourceSet(project(':livingkingdoms-core').sourceSets.main)
+        }
+    }
+}

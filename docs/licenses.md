@@ -47,9 +47,9 @@ Templates and tools whose files are in the repository:
 
 | Item | License | Where used | Checked |
 | --- | --- | --- | --- |
-| NeoForge MDK 1.21.1 ModDevGradle (commit `e93d7f0`) | MIT (template files, `TEMPLATE_LICENSE.txt` kept) | Scaffold of `mods-src/livingkingdoms-core` | 2026-11-06, repo license file |
+| NeoForge MDK 1.21.1 ModDevGradle (commit `e93d7f0`) | MIT (template files, `TEMPLATE_LICENSE.txt` kept) | Build logic of `mods-src/` (`gradle/neoforge-mod.gradle`) | 2026-11-06, repo license file |
 
-The license of our own mods is not chosen yet; `livingkingdoms-core` carries a placeholder until then (see the project rules above on GPLv3).
+The license of our own mods is not chosen yet; our mods carry a placeholder in `mods-src/gradle.properties` until then (see the project rules above on GPLv3).
 
 Other mods are added as they are audited. "Unverified" means the value still needs to be confirmed on the mod's own page.
 

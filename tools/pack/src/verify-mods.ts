@@ -5,7 +5,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, relative, sep } from "node:path";
 import { MINECRAFT_VERSION, NEOFORGE_VERSION } from "./pins.ts";
-import { MODPACK_DIR, REPO_ROOT } from "./lib.ts";
+import { MODPACK_DIR, OWN_JAR_PREFIX, REPO_ROOT } from "./lib.ts";
 
 const GAME_MODS_DIR = join(REPO_ROOT, "runtime", "prism", "instances", "living-kingdoms", "minecraft", "mods");
 const MATRIX = "docs/compatibility-matrix.md";
@@ -243,6 +243,7 @@ function checkInstance(mods: PackMod[]): void {
   const expected = new Set(mods.filter((m) => m.side !== "server").map((m) => m.filename));
   const present = readdirSync(GAME_MODS_DIR).filter((f) => f.endsWith(".jar"));
   for (const jar of present) {
+    if (jar.startsWith(OWN_JAR_PREFIX)) continue; // built from mods-src/ by `npm run instance`
     if (!expected.has(jar)) {
       error(`Instance has ${jar}, which is not in the pack. Delete it from ${relative(REPO_ROOT, GAME_MODS_DIR)} or add the mod via packwiz.`);
     }

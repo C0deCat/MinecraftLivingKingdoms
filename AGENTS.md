@@ -52,8 +52,9 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 - `npm run docs:check` — doc linter: links, index coverage, frontmatter, English-only, file size budgets, ADR index, exec-plan sections, skill sync. Run it after editing docs; its messages say how to fix each problem.
 - `npm run instance` — the one setup command: builds pinned packwiz into `tools/bin/` (needs Go), installs portable Prism into `runtime/prism/`, creates the instance and installs the pack's mods. Close Prism first. Safe to rerun.
 - `npm run launch` — syncs mods and starts the game (first time: the user signs in to Prism; never enter credentials). Log: `runtime/prism/instances/living-kingdoms/minecraft/logs/latest.log`.
+- `npm run smoke` — rebuilds our mods, launches the game to the title screen, prints loaded mods and ERROR/FATAL log lines, closes the game (`-- --keep` leaves it open for a manual world test). Use after every mod or code change.
 - `npm run verify-mods` — pack vs pins, Modrinth metadata, the mod registry docs and the instance `mods/` folder. Run after every mod change.
-- `mods-src/livingkingdoms-core`: `./gradlew build`.
+- `mods-src/`: `./gradlew build` builds all our mods ([mods-src/AGENTS.md](mods-src/AGENTS.md)); `npm run instance` also runs it.
 - Mod commands: run `../tools/bin/packwiz` from `modpack/` ([packwiz notes](docs/references/packwiz.md)).
 
 ## Skills

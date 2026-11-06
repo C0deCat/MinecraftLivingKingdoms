@@ -7,7 +7,7 @@ How the system is layered and where things go. Rationale for individual choices 
 ```text
 1. Pack manifest      packwiz: which mods, versions, sides          → modpack/
 2. Compatibility      configs, tags, datapacks, KubeJS scripts       → modpack/config, datapacks, kubejs
-3. Our mods           livingkingdoms-core ← settlements ← economy…  → mods-src/
+3. Our mods           livingkingdoms-core ← world, settlements ← economy…  → mods-src/
 4. Content            cultures, building templates, NPC visuals      → content/
 5. Runtime            generated game instances, worlds, snapshots    → runtime/ (never committed)
 ```
@@ -38,7 +38,7 @@ Directories are created when they get real content.
 
 ```text
 modpack/            pack.toml, index.toml, mods/*.pw.toml, config/, kubejs/, resourcepacks/, datapacks/
-mods-src/           livingkingdoms-core/, settlements/, economy-adapter/, world-materializer/
+mods-src/           one Gradle build: livingkingdoms-core/, livingkingdoms-world/ (exist), settlements/, economy-adapter/, world-materializer/
 content/            cultures/, buildings/, npc-visuals/, manifest/
 tools/              doc-lint/, pack/ (exist: setup, instance, launch, verify-mods), bin/ (generated, ignored), world-validator/, sim-inspector/
 tests/              smoke/, worldgen/, gameplay/, magic/, settlements/, longevity/

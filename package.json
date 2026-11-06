@@ -12,6 +12,7 @@
     "tools:setup": "node tools/pack/src/setup-tools.ts",
     "instance": "node tools/pack/src/instance.ts",
     "launch": "node tools/pack/src/launch.ts",
-    "verify-mods": "node tools/pack/src/verify-mods.ts"
+    "verify-mods": "node tools/pack/src/verify-mods.ts",
+    "smoke": "node tools/pack/src/smoke.ts"
   }
 }

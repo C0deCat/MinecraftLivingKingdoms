@@ -5,7 +5,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { INSTANCE_NAME, MINECRAFT_VERSION, NEOFORGE_VERSION, PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP, PRISM_WINDOWS } from "./pins.ts";
-import { MODPACK_DIR, RUNTIME_DIR, TOOLS_BIN, capture, fail, fetchPinned, findExecutable, run } from "./lib.ts";
+import { MODPACK_DIR, MODS_SRC_DIR, OWN_JAR_PREFIX, RUNTIME_DIR, TOOLS_BIN, capture, fail, fetchPinned, findExecutable, run } from "./lib.ts";
 import { setupTools } from "./setup-tools.ts";
 
 export const PRISM_DIR = join(RUNTIME_DIR, "prism");
@@ -109,6 +109,29 @@ export function syncMods(): void {
   );
 }
 
+/**
+ * Builds our mods from mods-src/ and replaces their JARs in the instance. They are not packwiz-managed
+ * before M11 (exec plan 2026-11-06-m1-world), so packwiz-installer leaves them alone.
+ */
+export function buildOwnMods(): void {
+  const windows = process.platform === "win32";
+  console.log("Building our mods (mods-src)...");
+  // Full path: cmd.exe may not search the current directory (NoDefaultCurrentDirectoryInExePath).
+  const wrapper = join(MODS_SRC_DIR, windows ? "gradlew.bat" : "gradlew");
+  run(windows ? "cmd.exe" : wrapper, windows ? ["/c", wrapper, "build", "--quiet"] : ["build", "--quiet"], { cwd: MODS_SRC_DIR });
+  const modsDir = join(GAME_DIR, "mods");
+  mkdirSync(modsDir, { recursive: true });
+  for (const old of readdirSync(modsDir).filter((f) => f.startsWith(OWN_JAR_PREFIX))) rmSync(join(modsDir, old));
+  for (const project of readdirSync(MODS_SRC_DIR, { withFileTypes: true }).filter((e) => e.isDirectory())) {
+    const libs = join(MODS_SRC_DIR, project.name, "build", "libs");
+    if (!existsSync(libs)) continue;
+    for (const jar of readdirSync(libs).filter((f) => f.startsWith(OWN_JAR_PREFIX) && f.endsWith(".jar") && !f.endsWith("-sources.jar"))) {
+      copyFileSync(join(libs, jar), join(modsDir, jar));
+      console.log(`  installed ${jar}`);
+    }
+  }
+}
+
 /** Prism keeps instance settings in memory and writes them back on exit, overwriting our instance.cfg. */
 function refuseIfPrismRunning(): void {
   if (process.platform !== "win32") return;
@@ -125,6 +148,7 @@ export async function prepareInstance(): Promise<void> {
   await ensurePrism();
   writeInstance();
   syncMods();
+  buildOwnMods();
   console.log(
     `\nInstance ready: ${INSTANCE_DIR}\n` +
       `Minecraft ${MINECRAFT_VERSION}, NeoForge ${NEOFORGE_VERSION}.\n` +

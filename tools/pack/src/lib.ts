@@ -9,6 +9,9 @@ export const REPO_ROOT = join(import.meta.dirname, "..", "..", "..");
 export const TOOLS_BIN = join(REPO_ROOT, "tools", "bin");
 export const MODPACK_DIR = join(REPO_ROOT, "modpack");
 export const RUNTIME_DIR = join(REPO_ROOT, "runtime");
+export const MODS_SRC_DIR = join(REPO_ROOT, "mods-src");
+/** File-name prefix of the JARs built from mods-src/ (mod ids start with livingkingdoms_). */
+export const OWN_JAR_PREFIX = "livingkingdoms_";
 
 const EXE = process.platform === "win32" ? ".exe" : "";
 export const PACKWIZ_BIN = join(TOOLS_BIN, `packwiz${EXE}`);
