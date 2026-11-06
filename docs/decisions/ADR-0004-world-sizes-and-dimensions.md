@@ -172,4 +172,4 @@ Gameplay feedback on D1 from the user (Large, in game): every coast had the same
 - **Still open:**
   - the Test island stays close to square;
   - the flat "+1 above sea" shore remains the most common shape (45%), exactly as in natural Tectonic coasts (44%); more coast variety would need surface or feature work, not the edge;
-  - in-game feedback pending.
+  - in-game: the user checked a new Large world on 2026-11-07, coasts look right.
