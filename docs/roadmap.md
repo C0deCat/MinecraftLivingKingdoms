@@ -5,9 +5,9 @@ last_reviewed: 2026-11-06
 
 # Living Kingdoms — Roadmap
 
-**Revision:** 0.4 · **Platform:** Minecraft Java 1.21.1 · NeoForge 21.1.x · Java 21
+**Platform:** Minecraft Java 1.21.1 · NeoForge 21.1.x · Java 21
 
-Each milestone has its own spec in [milestones/](milestones/). Decisions are in [decisions/](decisions/README.md), cross-cutting design in [design-docs/](design-docs/index.md). The previous single-file revision (Russian) is [archive/roadmap-v0.2.md](archive/roadmap-v0.2.md).
+Each milestone has its own spec in [milestones/](milestones/). Decisions are in [decisions/](decisions/README.md), cross-cutting design in [design-docs/](design-docs/index.md).
 
 ## Vision
 

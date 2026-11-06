@@ -45,7 +45,3 @@ export function exists(relPath: string): boolean {
 export function isDirectory(relPath: string): boolean {
   return exists(relPath) && statSync(abs(relPath)).isDirectory();
 }
-
-export function isArchived(relPath: string): boolean {
-  return relPath.startsWith("docs/archive/");
-}

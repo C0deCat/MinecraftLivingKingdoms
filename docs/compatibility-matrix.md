@@ -18,6 +18,14 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 **Side:** `both` / `client` / `server`.
 **Status:** `candidate` → `installed` → `runtime-ok` (singleplayer and LAN launch) → `integrated` (conflicts resolved, subsystem is cohesive) → `accepted` (milestone accepted) · `rejected` (with a reason).
 
+## Rejected mods
+
+Mods we decided not to use. Check this list before proposing a mod; do not propose a rejected one again unless new facts change the reason.
+
+| Mod | Rejected | Reason | Record |
+| --- | --- | --- | --- |
+| Millénaire | 2026-11-06 | Closed source and All Rights Reserved: no fork or modification, not on Modrinth. Its villagers would compete with MCA Reborn as a second NPC model, and its economy cannot be simulated off-screen without its code. Replaced by our own settlement mod. Ideas may still be studied in-game, never its code or assets | [ADR-0001](decisions/ADR-0001-own-settlement-mod.md) |
+
 ## Platform check (2026-11-06)
 
 Highest Minecraft version with NeoForge builds on Modrinth. The pack can only move up when every base mod has moved.

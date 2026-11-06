@@ -5,7 +5,7 @@ description: Audit the Living Kingdoms knowledge base for stale, wrong or incons
 
 # Doc gardening
 
-The repository is the system of record, so wrong docs are bugs. This skill finds them and fixes the safe ones.
+The repository is the system of record, so wrong docs are bugs. This skill finds them and fixes the safe ones. The rules for which doc owns which fact are in `docs/documentation.md`.
 
 ## 1. Mechanical pass
 
@@ -16,7 +16,7 @@ Run `npm run docs:check`. Fix every error. Treat warnings about stale `last_revi
 Compare docs with the actual state of the repository:
 
 - **Status:** AGENTS.md "Status" line and `docs/quality.md` grades match what exists (pack manifest, mods-src, tests).
-- **Mods:** `docs/compatibility-matrix.md` matches the packwiz manifest in `modpack/` once it exists; every mod there has a row in `docs/licenses.md`.
+- **Mods:** `docs/compatibility-matrix.md` matches the packwiz manifest in `modpack/` once it exists; every mod there has a row in `docs/licenses.md`; no doc recommends a mod from the Rejected mods list.
 - **Decisions:** nothing in milestone specs or design docs contradicts `docs/decisions/` (D-xx and ADRs). If a newer decision exists, the older text is updated or marked superseded.
 - **Plans:** active exec plans have a recent progress-log entry; finished ones are closed with the `exec-plan` skill; finished tech-debt items are removed with the outcome recorded where it belongs.
 - **Duplication:** the same fact stated in two places is replaced by one statement and a link.

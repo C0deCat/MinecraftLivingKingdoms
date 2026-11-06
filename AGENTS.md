@@ -10,7 +10,7 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 
 - **Platform:** Minecraft 1.21.1, NeoForge 21.1.x, Java 21 ([D-02](docs/decisions/README.md#lightweight-decisions)). Check every API against NeoForge 1.21.1 docs and the installed mod's sources; examples for other versions are a common trap.
 - **English** for all docs, code comments, commit messages and identifiers (D-17). Chat with the user in their language.
-- **Licenses:** never copy or decompile code of closed (ARR) mods; never redistribute modified third-party assets unless the license allows it ([licenses.md](docs/licenses.md)). Millénaire is not used at all ([ADR-0001](docs/decisions/ADR-0001-own-settlement-mod.md)).
+- **Licenses:** never copy or decompile code of closed (ARR) mods; never redistribute modified third-party assets unless the license allows it ([licenses.md](docs/licenses.md)).
 - **Existing mods first:** config → datapack → addon → KubeJS → our code → fork, as described in [core-beliefs](docs/core-beliefs.md#2-existing-mods-before-our-own-code).
 - **Honest status:** report code complete / build passed / runtime passed / gameplay verified, and what was not checked ([core-beliefs](docs/core-beliefs.md#4-honest-status)).
 
@@ -27,6 +27,7 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 | You need | Read |
 | --- | --- |
 | Why we do things this way | [docs/core-beliefs.md](docs/core-beliefs.md) |
+| Which docs to update during a task, how to add one | [docs/documentation.md](docs/documentation.md) |
 | What we are building and in which order | [docs/roadmap.md](docs/roadmap.md) → [docs/milestones/](docs/milestones/) |
 | How the system is layered, where code goes | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Decisions and their reasons | [docs/decisions/README.md](docs/decisions/README.md) |
@@ -42,10 +43,9 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 
 1. Read the milestone spec and the design docs your task touches.
 2. Small change: just do it and describe it in the commit. Multi-step or multi-session work: create an exec plan with the `exec-plan` skill and keep its progress log current.
-3. Adding or updating a mod: official source only (Modrinth, CurseForge, author's GitHub); check 1.21.1 + NeoForge support, dependencies, side and license; add it via packwiz; launch singleplayer, then Open to LAN with a second client; record the result in the compatibility matrix and licenses. One mod or a small batch at a time.
+3. Adding or updating a mod: first check the [Rejected mods](docs/compatibility-matrix.md#rejected-mods) list and do not propose a rejected mod again without new facts. Official source only (Modrinth, CurseForge, author's GitHub); check 1.21.1 + NeoForge support, dependencies, side and license; add it via packwiz; launch singleplayer, then Open to LAN with a second client; record the result in the compatibility matrix and licenses. One mod or a small batch at a time.
 4. Testing: singleplayer and LAN are the primary environment; keep code server-safe (no client-only classes in common code) because a dedicated server is a long-term target. Test worlds are disposable until M10. Measure performance with spark on the host PC.
-5. A decision made in conversation goes into [docs/decisions/](docs/decisions/README.md) before the work that depends on it.
-6. A doc that turns out to be wrong is fixed in the same change.
+5. Keep docs current in the same change as the work: decisions, open questions, mods, plans, status — see the table in [docs/documentation.md](docs/documentation.md). A decision made in conversation is written down before the work that depends on it; a doc that turns out to be wrong is fixed right away.
 
 ## Verification
 

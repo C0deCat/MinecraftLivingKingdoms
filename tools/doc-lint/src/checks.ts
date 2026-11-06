@@ -1,7 +1,7 @@
 // Doc checks. Every problem carries a concrete fix instruction, because agents act on these messages.
 import { dirname, posix } from "node:path";
 import { createHash } from "node:crypto";
-import { exists, isArchived, isDirectory, listFiles, read } from "./files.ts";
+import { exists, isDirectory, listFiles, read } from "./files.ts";
 import { extractLinks, headingAnchors, headings, parseFrontmatter } from "./markdown.ts";
 
 export interface Problem {
@@ -21,11 +21,11 @@ const CYRILLIC = new RegExp(`[${String.fromCodePoint(0x0400)}-${String.fromCodeP
 const EXEC_PLAN_SECTIONS = ["Goal", "Context", "Steps", "Progress log", "Decision log"];
 
 const markdownFiles = (): string[] =>
-  listFiles().filter((f) => f.endsWith(".md") && !isArchived(f));
+  listFiles().filter((f) => f.endsWith(".md"));
 
 /** Docs under docs/ that must be indexed and carry frontmatter. */
 const knowledgeDocs = (): string[] =>
-  listFiles("docs").filter((f) => f.endsWith(".md") && !isArchived(f));
+  listFiles("docs").filter((f) => f.endsWith(".md"));
 
 function resolveLink(fromFile: string, target: string): { path: string; anchor?: string } {
   const [rawPath, anchor] = target.split("#", 2);
@@ -131,7 +131,7 @@ export function checkFrontmatter(today = new Date()): Problem[] {
 export function checkEnglishOnly(): Problem[] {
   const problems: Problem[] = [];
   for (const file of listFiles()) {
-    if (isArchived(file) || !TEXT_EXTENSIONS.test(file)) continue;
+    if (!TEXT_EXTENSIONS.test(file)) continue;
     read(file)
       .split(/\r?\n/)
       .forEach((line, index) => {
@@ -141,7 +141,7 @@ export function checkEnglishOnly(): Problem[] {
             file,
             line: index + 1,
             message: "Non-English (Cyrillic) text found.",
-            fix: "All repository text is English (D-17). Translate this line; only docs/archive/ may keep the original language.",
+            fix: "All repository text is English (D-17). Translate this line.",
           });
         }
       });

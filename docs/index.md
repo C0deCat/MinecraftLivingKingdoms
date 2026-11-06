@@ -5,7 +5,7 @@ last_reviewed: 2026-11-06
 
 # Docs index
 
-Every document in `docs/` (except `archive/`) is listed here. The doc linter fails if a file is missing from this table.
+Every document in `docs/` is listed here. The doc linter fails if a file is missing from this table.
 
 Every doc starts with frontmatter:
 
@@ -23,6 +23,7 @@ last_reviewed: YYYY-MM-DD
 | Doc | Purpose | Status |
 | --- | --- | --- |
 | [core-beliefs.md](core-beliefs.md) | Principles behind every decision | active |
+| [documentation.md](documentation.md) | What to update when, how to create docs, style | active |
 | [roadmap.md](roadmap.md) | Vision, requirements, milestone table, risks | active |
 | [quality.md](quality.md) | Subsystem grades and end-to-end test bars | active |
 

@@ -33,7 +33,6 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 | Ours | `livingkingdoms-core` (minimal) | Stable IDs, event log, save format version |
 | Research | MineColonies / Structurize and other open mods | Possible source of construction and logistics code if the license allows |
 | Later | [MCA Capitals](https://www.curseforge.com/minecraft/mc-mods/mca-capitals) | Politics — [M6](m6-economy-and-states.md) |
-| Reference | Millénaire | Ideas only; no code, decompilation, building plans or texts |
 
 ## Phases
 
