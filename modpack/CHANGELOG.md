@@ -1,6 +1,6 @@
 # Pack changelog
 
-One entry per pack change: what changed, how it was launched, the result. The commit that makes the change is the backup of the previous state. Test worlds are disposable until M10.
+One entry per pack change: what changed, how it was launched, the result. The commit that makes the change is the backup of the previous state. Test worlds are disposable until M11 (release).
 
 ## 0.0.1 — 2026-11-06
 

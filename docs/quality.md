@@ -14,15 +14,7 @@ Grades: `—` not started · `D` exists, unverified · `C` runtime passed · `B`
 | Subsystem | Grade | Known gaps |
 | --- | --- | --- |
 | Docs and agent harness | C | Doc linter and Stop hook exist; no CI yet (no GitHub remote) |
-| Infrastructure (M0) | C | Runtime passed in singleplayer, clean clone reproduces identical JARs. LAN join not checked (TD-09); no dedicated-server smoke test; no CI |
-
-## Performance baselines
-
-| Date | Pack | Scenario | TPS | Tick median / p95 (ms) | Heap |
-| --- | --- | --- | --- | --- | --- |
-| 2026-11-06 | 0.0.1 (4 mods) | New default world, singleplayer, ~30 s after join, host PC (Core Ultra 9 275HX, 32 GB, RTX 5070 Ti Laptop) | 20.0 | 4.8 / 10.4 (10 s window) | 1.0 / 6.0 GB |
-
-The 2026-11-06 row is preliminary: the window included spawn generation and was shorter than the planned 2–3 minutes.
+| Infrastructure (M0) | C | Accepted in singleplayer; clean clone reproduces identical JARs. No CI. LAN/server are M10 |
 | World and adventure (M1) | — | — |
 | Household (M2) | — | — |
 | Magic (M3) | — | — |
@@ -31,13 +23,22 @@ The 2026-11-06 row is preliminary: the window included spawn generation and was 
 | Economy and states (M6) | — | — |
 | Atmosphere (M7) | — | — |
 | Cultures (M8) | — | — |
+| Multiplayer (M10) | — | Not started: no LAN or dedicated-server runs yet |
+
+## Performance baselines
+
+| Date | Pack | Scenario | TPS | Tick median / p95 (ms) | Heap |
+| --- | --- | --- | --- | --- | --- |
+| 2026-11-06 | 0.0.1 (4 mods) | New default world, singleplayer, ~30 s after join, host PC (Core Ultra 9 275HX, 32 GB, RTX 5070 Ti Laptop) | 20.0 | 4.8 / 10.4 (10 s window) | 1.0 / 6.0 GB |
+
+The 2026-11-06 row is preliminary: the window included spawn generation and was shorter than the planned 2–3 minutes.
 
 ## End-to-end test bars
 
 | Area | Test set | Acceptance bar |
 | --- | --- | --- |
 | Install | Clean client from Git | Launches without manually downloading JARs |
-| Play mode | Singleplayer + Open to LAN with a second client | Join works, no desync of our mechanics |
+| Play mode | Singleplayer (M0–M9); Open to LAN with 2–4 clients and a dedicated server (M10) | World opens and plays; from M10 joins work without desync of our mechanics |
 | Generation | Several seeds and one reference world | All mandatory structures and chains reachable |
 | Recipes | Cross-mod ingredient combinations | No blocking duplicates or exploits |
 | Mana | Ars + Iron's in one pool | No double regeneration or wrong deductions |

@@ -45,7 +45,7 @@ Prefer stable, well-documented tools (packwiz, Gradle, NeoForge APIs) whose beha
 
 ## 8. Disposable worlds until release
 
-Until M10, test worlds are recreated whenever worldgen changes; player saves are not migrated. This keeps worldgen decisions cheap to revisit early.
+Until M11 (release), test worlds are recreated whenever worldgen changes; player saves are not migrated. This keeps worldgen decisions cheap to revisit early.
 
 ## 9. English everywhere in the repo
 

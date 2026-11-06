@@ -1,6 +1,6 @@
 # Living Kingdoms
 
-A Minecraft 1.21.1 (NeoForge) fantasy pack that step by step turns into a game with a living world: a finite map, adventure, household life, magic, living villages built on MCA Reborn, states and a world that develops without players. Made for 1–4 players in singleplayer or Open to LAN.
+A Minecraft 1.21.1 (NeoForge) fantasy pack that step by step turns into a game with a living world: a finite map, adventure, household life, magic, living villages built on MCA Reborn, states and a world that develops without players. Developed for singleplayer first; multiplayer (Open to LAN for 1–4 players, dedicated server) arrives in milestone M10, before release.
 
 **Status:** planning. Next stage — M0 (infrastructure).
 

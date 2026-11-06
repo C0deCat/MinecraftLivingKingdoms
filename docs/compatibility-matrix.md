@@ -15,13 +15,13 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 
 | Mod | Version | Stage | Purpose | Side | Dependencies | Status | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| spark | 1.10.124 | M0 | Profiler: TPS, tick times, heap | both | — | runtime-ok (SP) | GPL-3.0; also useful on a dedicated server |
-| ModernFix | 5.27.27 | M0 | Load time and memory fixes | both | — | runtime-ok (SP) | LGPL-3.0 |
-| FerriteCore | 7.0.3 | M0 | Memory use of block states and models | both | — | runtime-ok (SP) | MIT; mixin "refmap could not be read" warnings at startup are expected for this build |
-| Lithium | 0.15.4 | M0 | Server tick optimizations (AI, physics, chunks) | both | — | runtime-ok (SP) | LGPL-3.0; official NeoForge build |
+| spark | 1.10.124 | M0 | Profiler: TPS, tick times, heap | both | — | runtime-ok | GPL-3.0; also useful on a dedicated server |
+| ModernFix | 5.27.27 | M0 | Load time and memory fixes | both | — | runtime-ok | LGPL-3.0 |
+| FerriteCore | 7.0.3 | M0 | Memory use of block states and models | both | — | runtime-ok | MIT; mixin "refmap could not be read" warnings at startup are expected for this build |
+| Lithium | 0.15.4 | M0 | Server tick optimizations (AI, physics, chunks) | both | — | runtime-ok | LGPL-3.0; official NeoForge build |
 
 **Side:** `both` / `client` / `server`.
-**Status:** `candidate` → `installed` → `runtime-ok (SP)` (singleplayer launch, LAN pending) → `runtime-ok` (singleplayer and LAN launch) → `integrated` (conflicts resolved, subsystem is cohesive) → `accepted` (milestone accepted) · `rejected` (with a reason).
+**Status:** `candidate` → `installed` → `runtime-ok` (singleplayer launch) → `integrated` (conflicts resolved, subsystem is cohesive) → `accepted` (milestone accepted) → `mp-ok` (LAN and dedicated server verified in M10) · `rejected` (with a reason).
 
 ## Rejected mods
 

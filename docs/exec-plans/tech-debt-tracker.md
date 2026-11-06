@@ -16,4 +16,3 @@ Known gaps, unverified facts and deferred decisions. Each item names where it is
 | TD-06 | Decide on Dynamic Trees: affects worldgen and lumberjacks | M4-B at the latest | 2026-11-06 |
 | TD-07 | Choose the publishing platform (Modrinth vs CurseForge) | Before the first public release | 2026-11-06 |
 | TD-08 | Add CI running `npm run docs:check` once a GitHub remote exists; consider a scheduled doc-gardening run | When the remote exists | 2026-11-06 |
-| TD-09 | M0 LAN check: a second client (own account or second PC) joins via Open to LAN | M0, when a second account is available | 2026-11-06 |

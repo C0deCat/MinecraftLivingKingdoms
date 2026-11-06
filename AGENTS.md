@@ -1,10 +1,10 @@
 # AGENTS.md — Living Kingdoms
 
-A Minecraft 1.21.1 NeoForge fantasy pack that grows, milestone by milestone, into a game with a living world: finite map, adventure, household life, magic, villages of MCA Reborn residents, states, and a world that changes while nobody is watching. Played by 1–4 people in singleplayer or Open to LAN.
+A Minecraft 1.21.1 NeoForge fantasy pack that grows, milestone by milestone, into a game with a living world: finite map, adventure, household life, magic, villages of MCA Reborn residents, states, and a world that changes while nobody is watching. Developed and tested in singleplayer; multiplayer (Open to LAN for 1–4 players, dedicated server) is milestone M10.
 
 This file is a map. Details live in the linked docs; read the ones your task needs.
 
-**Status:** M0 runtime-verified in singleplayer (pack with 4 performance mods, one-command instance, empty core mod); LAN check pending ([exec plan](docs/exec-plans/active/2026-11-06-m0-infrastructure.md)). Next: [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md).
+**Status:** M0 accepted in singleplayer (pack with 4 performance mods, one-command instance, empty core mod). Next: [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md).
 
 ## Non-negotiables
 
@@ -43,8 +43,8 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 
 1. Read the milestone spec and the design docs your task touches.
 2. Small change: just do it and describe it in the commit. Multi-step or multi-session work: create an exec plan with the `exec-plan` skill and keep its progress log current.
-3. Adding or updating a mod: first check the [Rejected mods](docs/compatibility-matrix.md#rejected-mods) list and do not propose a rejected mod again without new facts. Official source only (Modrinth, CurseForge, author's GitHub); check 1.21.1 + NeoForge support, dependencies, side and license; add it via packwiz; launch singleplayer, then Open to LAN with a second client; record the result in the compatibility matrix and licenses. One mod or a small batch at a time.
-4. Testing: singleplayer and LAN are the primary environment; keep code server-safe (no client-only classes in common code) because a dedicated server is a long-term target. Test worlds are disposable until M10. Measure performance with spark on the host PC.
+3. Adding or updating a mod: first check the [Rejected mods](docs/compatibility-matrix.md#rejected-mods) list and do not propose a rejected mod again without new facts. Official source only (Modrinth, CurseForge, author's GitHub); check 1.21.1 + NeoForge support, dependencies, side and license; add it via packwiz; launch singleplayer; record the result in the compatibility matrix and licenses. One mod or a small batch at a time.
+4. Testing: singleplayer is the only test environment until M10 (multiplayer milestone, D-15). Keep code server-safe anyway (logical client/server split, no client-only classes in common code, state changes on the server thread) so M10 stays a verification pass. Test worlds are disposable until M11. Measure performance with spark on the host PC.
 5. Keep docs current in the same change as the work: decisions, open questions, mods, plans, status — see the table in [docs/documentation.md](docs/documentation.md). A decision made in conversation is written down before the work that depends on it; a doc that turns out to be wrong is fixed right away.
 
 ## Verification

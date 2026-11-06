@@ -15,7 +15,7 @@ M5 comes after M4 on purpose: the simulation is designed on the real settlement 
 
 "Living World": leave a region, come back later, see what changed.
 
-Scope note: in singleplayer and LAN, in-game time passes only while the host has the world open. "Living without players" means regions nobody is near while the world runs; offline catch-up for real-world time is out of scope unless decided later.
+Scope note: in singleplayer (and in LAN from [M10](m10-multiplayer.md)), in-game time passes only while the host has the world open. "Living without players" means regions nobody is near while the world runs; offline catch-up for real-world time is out of scope unless decided later.
 
 ## Mods and modules
 
@@ -34,7 +34,6 @@ Scope note: in singleplayer and LAN, in-game time passes only while the host has
 - 1/10/100 unload/load cycles without duplicated residents, goods or buildings.
 - Accelerated simulation for N in-game days gives plausible results.
 - Quitting and reloading mid-simulation is safe.
-- 4 players in different regions at once (LAN).
 
 ## Out of scope
 

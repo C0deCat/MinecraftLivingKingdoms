@@ -32,7 +32,7 @@ Unloaded chunk: abstract regional simulation → pending physical changes
 - Events are idempotent; saves are versioned; a "last computed day" marker per entity.
 - No physical ticking in unloaded chunks; no block or entity changes off the server thread.
 - Materialization on load has a per-tick change budget and is logged.
-- In singleplayer/LAN, in-game time passes only while the host runs the world; no offline real-time catch-up.
+- In singleplayer (and LAN from M10), in-game time passes only while the host runs the world; no offline real-time catch-up.
 
 ## Open design questions
 

@@ -47,5 +47,5 @@ Why now, constraints, links to milestones, ADRs and design docs.
 
 | Plan | Status |
 | --- | --- |
-| [2026-11-06-m0-infrastructure](active/2026-11-06-m0-infrastructure.md) | Blocked (LAN test) |
+| [2026-11-06-m0-infrastructure](completed/2026-11-06-m0-infrastructure.md) | Completed |
 | [2026-11-06-harness-docs](completed/2026-11-06-harness-docs.md) | Completed |

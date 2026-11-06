@@ -16,7 +16,8 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | ADR | Decision | Status | Date |
 | --- | --- | --- | --- |
 | [ADR-0001](ADR-0001-own-settlement-mod.md) | Our own settlement mod on MCA Reborn instead of Millénaire | Accepted | 2026-11-06 |
-| [ADR-0002](ADR-0002-milestone-order.md) | Milestone order: settlements → simulation → economy and states → atmosphere → cultures | Accepted | 2026-11-06 |
+| [ADR-0002](ADR-0002-milestone-order.md) | Milestone order: settlements → simulation → economy and states → atmosphere → cultures | Accepted, amended by ADR-0003 | 2026-11-06 |
+| [ADR-0003](ADR-0003-multiplayer-milestone.md) | Singleplayer first; multiplayer (LAN, dedicated server) is M10, release M11 | Accepted | 2026-11-06 |
 
 ## Lightweight decisions
 
@@ -35,8 +36,8 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | D-11 | Culture ≠ political entity ≠ settlement | Locked |
 | D-12 | Modified third-party structures/code are distributed only within licenses and permissions | Hard constraint |
 | D-13 | Millénaire is not used; settlements are our own mod on MCA Reborn ([ADR-0001](ADR-0001-own-settlement-mod.md)) | Locked |
-| D-14 | Milestone order after magic ([ADR-0002](ADR-0002-milestone-order.md)) | Locked |
-| D-15 | Primary play and test mode: singleplayer and Open to LAN, 1–4 players; dedicated server long-term; code stays server-safe | Locked |
+| D-14 | Milestone order after magic ([ADR-0002](ADR-0002-milestone-order.md)); multiplayer M10 and release M11 ([ADR-0003](ADR-0003-multiplayer-milestone.md)) | Locked |
+| D-15 | Singleplayer is the only play and test mode until M10; Open to LAN (1–4 players) and the dedicated server are M10 ([ADR-0003](ADR-0003-multiplayer-milestone.md)); code stays server-safe throughout | Locked (changed 2026-11-06) |
 | D-16 | Code and assets of closed (ARR) mods are never copied or decompiled into the repo; behavior changes via configs, datapacks, KubeJS, Mixins in our mod | Hard constraint |
 | D-17 | All documentation, code comments, commit messages and identifiers are in English | Locked |
 

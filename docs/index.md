@@ -31,7 +31,7 @@ last_reviewed: YYYY-MM-DD
 
 | Doc | Purpose | Status |
 | --- | --- | --- |
-| [milestones/m0-infrastructure.md](milestones/m0-infrastructure.md) | Reproducible pack from Git | active |
+| [milestones/m0-infrastructure.md](milestones/m0-infrastructure.md) | Reproducible pack from Git | stable |
 | [milestones/m1-world-and-adventure.md](milestones/m1-world-and-adventure.md) | Finite world, adventure progression | active |
 | [milestones/m2-household.md](milestones/m2-household.md) | Farming, food, crafts, decor | active |
 | [milestones/m3-magic.md](milestones/m3-magic.md) | Magic ecosystem | active |
@@ -41,7 +41,8 @@ last_reviewed: YYYY-MM-DD
 | [milestones/m7-atmosphere.md](milestones/m7-atmosphere.md) | Seasons, trees, weather | active |
 | [milestones/m8-cultures.md](milestones/m8-cultures.md) | Own peoples and architecture | active |
 | [milestones/m9-autonomy.md](milestones/m9-autonomy.md) | Long autonomous world life | active |
-| [milestones/m10-release.md](milestones/m10-release.md) | Stabilization and release | active |
+| [milestones/m10-multiplayer.md](milestones/m10-multiplayer.md) | LAN and dedicated server | active |
+| [milestones/m11-release.md](milestones/m11-release.md) | Stabilization and release | active |
 
 ## Design and decisions
 
@@ -54,6 +55,7 @@ last_reviewed: YYYY-MM-DD
 | [decisions/README.md](decisions/README.md) | ADR index and lightweight decisions D-xx | active |
 | [decisions/ADR-0001-own-settlement-mod.md](decisions/ADR-0001-own-settlement-mod.md) | Own settlement mod instead of Millénaire | stable |
 | [decisions/ADR-0002-milestone-order.md](decisions/ADR-0002-milestone-order.md) | Milestone order after magic | stable |
+| [decisions/ADR-0003-multiplayer-milestone.md](decisions/ADR-0003-multiplayer-milestone.md) | Singleplayer first, multiplayer milestone M10 | stable |
 
 ## Plans
 
@@ -61,7 +63,7 @@ last_reviewed: YYYY-MM-DD
 | --- | --- | --- |
 | [exec-plans/README.md](exec-plans/README.md) | Exec plan format and list | active |
 | [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md) | Open items and unverified facts | active |
-| [exec-plans/active/2026-11-06-m0-infrastructure.md](exec-plans/active/2026-11-06-m0-infrastructure.md) | M0 infrastructure work | active |
+| [exec-plans/completed/2026-11-06-m0-infrastructure.md](exec-plans/completed/2026-11-06-m0-infrastructure.md) | M0 infrastructure work | stable |
 | [exec-plans/completed/2026-11-06-harness-docs.md](exec-plans/completed/2026-11-06-harness-docs.md) | This knowledge-base restructure | stable |
 
 ## Mods and references

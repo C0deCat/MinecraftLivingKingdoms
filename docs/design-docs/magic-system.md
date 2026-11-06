@@ -26,5 +26,5 @@ How the three magic mods fit together. Implementation stages are in [M3](../mile
 
 - One displayed bar; deduction in one transaction; no double regeneration.
 - Item and enchantment bonuses apply once.
-- Correct behavior on death, dimension change, and for a remote LAN client.
+- Correct behavior on death and dimension change; for a remote LAN client in [M10](../milestones/m10-multiplayer.md).
 - Global weather/time rituals (`Sunrise`, `Moonfall`, `Cloudshaping`) are restricted, because they conflict with the world simulation.

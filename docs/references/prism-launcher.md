@@ -21,7 +21,7 @@ last_reviewed: 2026-11-06
 ## Pitfalls
 
 - The first start shows Prism's setup wizard and needs a Microsoft account (Settings → Accounts). The user signs in; agents never enter credentials. Accounts are stored in `runtime/prism/accounts.json`, which Git ignores along with all of `runtime/`.
-- Two clients with the same account cannot join each other's LAN world; the LAN test needs a second account (TD-09).
+- Two clients with the same account cannot join each other's LAN world; the LAN test in [M10](../milestones/m10-multiplayer.md) needs a second account.
 - A `PreLaunchCommand` with quoted arguments (`"$INST_JAVA" -jar "..."`) fails in Prism 11.1.1 with "Process failed to start". We do not use pre-launch commands.
 - Close Prism before `npm run instance`: Prism writes its in-memory instance settings back on exit, over the script's changes (seen 2026-11-06). The script refuses to run while `prismlauncher.exe` is running.
 - `--launch` sent to an already running Prism may only open the instance window; close Prism first, or press Launch.

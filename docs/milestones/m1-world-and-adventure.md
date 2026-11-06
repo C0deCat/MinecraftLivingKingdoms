@@ -36,7 +36,7 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 
 **B — resolve contradictions.** Tectonic + Terralith + Bounded Not Free together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and CTOV stay or their areas are reserved for our villages.
 
-Mods that change worldgen in later stages (Croptopia crops, Iron's towers, M4 villages, Dynamic Trees in M7) should be decided and installed here already. Until M10 the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
+Mods that change worldgen in later stages (Croptopia crops, Iron's towers, M4 villages, Dynamic Trees in M7) should be decided and installed here already. Until M11 (release) the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
 
 **C — World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
 - at least one reachable Stronghold with a valid portal;

@@ -49,7 +49,7 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 
 - Several villages work for dozens of in-game days in the loaded world: growth, production, families.
 - World reload without losing residents, storage or buildings.
-- Verified in singleplayer and Open to LAN with 1–4 players.
+- Verified in singleplayer (multiplayer checks in [M10](m10-multiplayer.md)).
 - TPS measured on the host PC in an agreed scenario.
 
 ## Out of scope

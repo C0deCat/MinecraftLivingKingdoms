@@ -1,5 +1,5 @@
 ---
-status: active
+status: stable
 last_reviewed: 2026-11-06
 ---
 
@@ -32,15 +32,15 @@ None by itself — M0 is the foundation every later release is built on.
 
 **D — accept.** See below.
 
-**Deviations (2026-11-06, [exec plan](../exec-plans/active/2026-11-06-m0-infrastructure.md)):** profiles are deferred — `modpack/` is the single pack and acts as `full` until a real subset is needed; the LAN join check is deferred until a second account or PC is available ([TD-09](../exec-plans/tech-debt-tracker.md)).
+**Deviations (2026-11-06, [exec plan](../exec-plans/completed/2026-11-06-m0-infrastructure.md)):** profiles are deferred — `modpack/` is the single pack and acts as `full` until a real subset is needed; the LAN join check moved to M10 when multiplayer became its own milestone ([ADR-0003](../decisions/ADR-0003-multiplayer-milestone.md)).
 
 ## Acceptance
 
 - One command prepares a client instance from the repository.
-- The world opens in singleplayer, and a second client can join via Open to LAN.
+- The world opens in singleplayer. (The LAN join check moved to [M10](m10-multiplayer.md), [ADR-0003](../decisions/ADR-0003-multiplayer-milestone.md).)
 - No missing dependencies; the verified configuration is committed.
 - A clean install reproduces the same set of versions.
-- A dedicated-server smoke test is optional at this stage.
+- A dedicated-server smoke test is part of [M10](m10-multiplayer.md).
 
 ## Out of scope
 

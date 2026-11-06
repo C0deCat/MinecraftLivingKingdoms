@@ -5,7 +5,7 @@ last_reviewed: 2026-11-06
 
 # ADR-0002: Milestone order after magic
 
-**Status:** Accepted · **Date:** 2026-11-06
+**Status:** Accepted; amended by [ADR-0003](ADR-0003-multiplayer-milestone.md) (multiplayer milestone M10, release M11) · **Date:** 2026-11-06
 
 ## Context
 

@@ -16,7 +16,7 @@ Each milestone has its own spec in [milestones/](milestones/). Decisions are in 
 ## Requirements
 
 - **Every milestone is a playable release:** beautiful, cohesive and fun. Mod cohesion and custom logic grow gradually.
-- **Play mode:** 1–4 players in singleplayer or Open to LAN, world hosted by one player. A dedicated server is a long-term goal (D-15).
+- **Play mode:** singleplayer through M9. Multiplayer (Open to LAN for 1–4 players and a dedicated server) is its own milestone M10, before release; code stays server-safe meanwhile (D-15, [ADR-0003](decisions/ADR-0003-multiplayer-milestone.md)).
 - **Publishing:** planned; platform not chosen. A cohesive experience matters more than not touching mod code, within license limits ([licenses.md](licenses.md)).
 - **Finite world:** an Overworld of about 12,288 × 12,288 blocks with natural borders (D-03).
 - **Guaranteed completion:** End portal, required resources, mandatory structures, access to bosses and modded dimensions. Not every biome has to exist.
@@ -41,7 +41,8 @@ Every milestone runs four phases: **A** install → **B** reconcile conflicts �
 | [M7 — Atmosphere](milestones/m7-atmosphere.md) | Seasons, weather, forests affect the world | Serene Seasons, Dynamic Trees (?), one weather mod | Regional nature layer |
 | [M8 — Cultures](milestones/m8-cultures.md) | Own peoples, architecture, NPC looks | Our templates, MCA systems | Culture content packs |
 | [M9 — Autonomy](milestones/m9-autonomy.md) | Migration, wars, recovery, history | Accepted set | Simulator extensions |
-| [M10 — Release](milestones/m10-release.md) | Stable final map and pack | Pinned mods | Optimization, migrations |
+| [M10 — Multiplayer](milestones/m10-multiplayer.md) | 1–4 players via LAN and dedicated server | Accepted set, server package | Sync fixes, server tooling |
+| [M11 — Release](milestones/m11-release.md) | Stable final map and pack | Pinned mods | Optimization, migrations |
 
 **Parallel work** (never postponed to the last milestone): licenses and asset provenance, profiling, backups, install automation, save testing, the progression checklist, culture design. Open items are tracked in [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md).
 
@@ -60,5 +61,6 @@ Every milestone runs four phases: **A** install → **B** reconcile conflicts �
 | Weather destroys settlements | Lost buildings and saves | Protection, one weather engine, backups |
 | No physical simulation far away | Inconsistent world life | Abstract simulation + budgeted materialization |
 | Host PC runs client + integrated server | Tight performance budget | Profile on the host PC from M1 |
+| Multiplayer added late (M10) | Desync found late, rework of our mods | Server-safe code and server-authoritative state from the start; M10 test list |
 | "Everything at once" profiles | Errors cannot be localized | Isolated profiles, staged enabling |
 | Unnecessary custom development | Maintenance cost | Check existing addons first |
