@@ -5,7 +5,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { INSTANCE_NAME, MINECRAFT_VERSION, NEOFORGE_VERSION, PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP, PRISM_WINDOWS } from "./pins.ts";
-import { MODPACK_DIR, RUNTIME_DIR, TOOLS_BIN, fail, fetchPinned, findExecutable, run } from "./lib.ts";
+import { MODPACK_DIR, RUNTIME_DIR, TOOLS_BIN, capture, fail, fetchPinned, findExecutable, run } from "./lib.ts";
 import { setupTools } from "./setup-tools.ts";
 
 export const PRISM_DIR = join(RUNTIME_DIR, "prism");
@@ -109,7 +109,17 @@ export function syncMods(): void {
   );
 }
 
+/** Prism keeps instance settings in memory and writes them back on exit, overwriting our instance.cfg. */
+function refuseIfPrismRunning(): void {
+  if (process.platform !== "win32") return;
+  const tasks = capture("tasklist", ["/FI", "IMAGENAME eq prismlauncher.exe", "/NH"]);
+  if (tasks.toLowerCase().includes("prismlauncher.exe")) {
+    fail("Prism Launcher is running. Close it completely (it rewrites instance settings on exit), then rerun `npm run instance`.");
+  }
+}
+
 export async function prepareInstance(): Promise<void> {
+  refuseIfPrismRunning();
   checkPackVersions();
   await setupTools();
   await ensurePrism();

@@ -39,6 +39,9 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | MCA Capitals | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
 | CTOV | CC BY-NC-ND 4.0 (unverified, early research) | Modrinth | ? | No | No (ND) | Not checked |
 | spark | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
+| ModernFix | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
+| FerriteCore | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
+| Lithium | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 
 Templates and tools whose files are in the repository:
 
