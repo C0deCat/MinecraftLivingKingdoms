@@ -4,11 +4,11 @@ A Minecraft 1.21.1 NeoForge fantasy pack that grows, milestone by milestone, int
 
 This file is a map. Details live in the linked docs; read the ones your task needs.
 
-**Status:** planning done, no pack or code yet. Next: [M0 — Infrastructure](docs/milestones/m0-infrastructure.md).
+**Status:** M0 runtime-verified in singleplayer (pack with 4 performance mods, one-command instance, empty core mod); LAN check pending ([exec plan](docs/exec-plans/active/2026-11-06-m0-infrastructure.md)). Next: [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md).
 
 ## Non-negotiables
 
-- **Platform:** Minecraft 1.21.1, NeoForge 21.1.x, Java 21 ([D-02](docs/decisions/README.md#lightweight-decisions)). Check every API against NeoForge 1.21.1 docs and the installed mod's sources; examples for other versions are a common trap.
+- **Platform:** Minecraft 1.21.1, NeoForge 21.1.265, Java 21 ([D-02](docs/decisions/README.md#lightweight-decisions)). Check every API against NeoForge 1.21.1 docs and the installed mod's sources; examples for other versions are a common trap.
 - **English** for all docs, code comments, commit messages and identifiers (D-17). Chat with the user in their language.
 - **Licenses:** never copy or decompile code of closed (ARR) mods; never redistribute modified third-party assets unless the license allows it ([licenses.md](docs/licenses.md)).
 - **Existing mods first:** config → datapack → addon → KubeJS → our code → fork, as described in [core-beliefs](docs/core-beliefs.md#2-existing-mods-before-our-own-code).
@@ -50,7 +50,11 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 ## Verification
 
 - `npm run docs:check` — doc linter: links, index coverage, frontmatter, English-only, file size budgets, ADR index, exec-plan sections, skill sync. Run it after editing docs; its messages say how to fix each problem.
-- Game build and launch commands will be added in M0.
+- `npm run instance` — the one setup command: builds pinned packwiz into `tools/bin/` (needs Go), installs portable Prism into `runtime/prism/`, creates the instance and installs the pack's mods. Close Prism first. Safe to rerun.
+- `npm run launch` — syncs mods and starts the game (first time: the user signs in to Prism; never enter credentials). Log: `runtime/prism/instances/living-kingdoms/minecraft/logs/latest.log`.
+- `npm run verify-mods` — pack vs pins, Modrinth metadata, the mod registry docs and the instance `mods/` folder. Run after every mod change.
+- `mods-src/livingkingdoms-core`: `./gradlew build`.
+- Mod commands: run `../tools/bin/packwiz` from `modpack/` ([packwiz notes](docs/references/packwiz.md)).
 
 ## Skills
 

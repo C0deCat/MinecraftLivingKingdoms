@@ -14,7 +14,15 @@ Grades: `—` not started · `D` exists, unverified · `C` runtime passed · `B`
 | Subsystem | Grade | Known gaps |
 | --- | --- | --- |
 | Docs and agent harness | C | Doc linter and Stop hook exist; no CI yet (no GitHub remote) |
-| Infrastructure (M0) | — | No pack manifest, no launch scripts |
+| Infrastructure (M0) | C | Runtime passed in singleplayer, clean clone reproduces identical JARs. LAN join not checked (TD-09); no dedicated-server smoke test; no CI |
+
+## Performance baselines
+
+| Date | Pack | Scenario | TPS | Tick median / p95 (ms) | Heap |
+| --- | --- | --- | --- | --- | --- |
+| 2026-11-06 | 0.0.1 (4 mods) | New default world, singleplayer, ~30 s after join, host PC (Core Ultra 9 275HX, 32 GB, RTX 5070 Ti Laptop) | 20.0 | 4.8 / 10.4 (10 s window) | 1.0 / 6.0 GB |
+
+The 2026-11-06 row is preliminary: the window included spawn generation and was shorter than the planned 2–3 minutes.
 | World and adventure (M1) | — | — |
 | Household (M2) | — | — |
 | Magic (M3) | — | — |

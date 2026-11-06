@@ -15,7 +15,7 @@ None by itself — M0 is the foundation every later release is built on.
 
 ## Mods and tools
 
-- NeoForge for 1.21.1 (pin the exact 21.1.x version here — D-02).
+- NeoForge 21.1.265 for 1.21.1 (pinned 2026-11-06, D-02).
 - [packwiz](https://github.com/packwiz/packwiz) — pack manifest, source of truth for the mod list.
 - [spark](https://modrinth.com/mod/spark) — profiling.
 - Prism Launcher for local instances; Git; Gradle; GitHub Actions later.
@@ -50,5 +50,4 @@ None by itself — M0 is the foundation every later release is built on.
 
 ## Open questions
 
-- Exact NeoForge 21.1.x version (see [tech-debt-tracker](../exec-plans/tech-debt-tracker.md)).
-- Prism Launcher vs another instance manager for scripted setup.
+None. Resolved 2026-11-06: NeoForge 21.1.265; portable Prism Launcher 11.1.1 created by `npm run instance` ([prism-launcher](../references/prism-launcher.md)).

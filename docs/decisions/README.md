@@ -23,7 +23,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | Code | Decision | Status |
 | --- | --- | --- |
 | D-01 | Minecraft 1.21.1 + NeoForge + Java; do not port the game to another engine or language | Locked |
-| D-02 | Stay on 1.21.1: as of 2026-11-06 Ars Nouveau, Iron's Spells, Ars 'n Spells, Farmer's Delight, the Let's Do mods and MCA Capitals have no NeoForge builds above 1.21.1 ([check](../compatibility-matrix.md#platform-check-2026-11-06)). The exact NeoForge 21.1.x version is pinned in M0 | Locked; revisit when core mods move to 26.x |
+| D-02 | Stay on 1.21.1: as of 2026-11-06 Ars Nouveau, Iron's Spells, Ars 'n Spells, Farmer's Delight, the Let's Do mods and MCA Capitals have no NeoForge builds above 1.21.1 ([check](../compatibility-matrix.md#platform-check-2026-11-06)). NeoForge pinned to 21.1.265 on 2026-11-06 (`tools/pack/src/pins.ts`, `modpack/pack.toml`) | Locked; revisit when core mods move to 26.x |
 | D-03 | First map about 12,288 × 12,288; geography is finite, political borders are dynamic | Working hypothesis |
 | D-04 | Light-gameplay and magic mods come before settlements and NPCs | Locked |
 | D-05 | Each stage is brought to a cohesive playable subsystem before moving on | Locked |

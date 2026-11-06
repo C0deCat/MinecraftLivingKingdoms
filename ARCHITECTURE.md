@@ -40,7 +40,7 @@ Directories are created when they get real content.
 modpack/            pack.toml, index.toml, mods/*.pw.toml, config/, kubejs/, resourcepacks/, datapacks/
 mods-src/           livingkingdoms-core/, settlements/, economy-adapter/, world-materializer/
 content/            cultures/, buildings/, npc-visuals/, manifest/
-tools/              doc-lint/ (exists), world-validator/, mod-audit/, sim-inspector/, build-scripts/
+tools/              doc-lint/, pack/ (exist: setup, instance, launch, verify-mods), bin/ (generated, ignored), world-validator/, sim-inspector/
 tests/              smoke/, worldgen/, gameplay/, magic/, settlements/, longevity/
 docs/               knowledge base — see docs/index.md
 runtime/            generated, ignored by Git
