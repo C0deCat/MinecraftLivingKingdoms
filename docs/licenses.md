@@ -1,3 +1,8 @@
+---
+status: active
+last_reviewed: 2026-11-06
+---
+
 # Mod licenses and usage rules
 
 A reference for "can we include, modify, distribute this" decisions. This is not legal advice: when in doubt, ask the mod author in writing (Discord, issues) and record the answer here.

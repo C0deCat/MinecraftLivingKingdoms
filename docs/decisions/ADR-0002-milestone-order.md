@@ -1,3 +1,8 @@
+---
+status: stable
+last_reviewed: 2026-11-06
+---
+
 # ADR-0002: Milestone order after magic
 
 **Status:** Accepted · **Date:** 2026-11-06

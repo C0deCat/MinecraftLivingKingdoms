@@ -1,6 +1,11 @@
+---
+status: active
+last_reviewed: 2026-11-06
+---
+
 # Compatibility matrix
 
-Registry of the pack's mods: what is installed, why, which version and how well it is verified. Updated on every mod addition, update or removal (see [AGENTS.md](../AGENTS.md#7-adding-or-updating-a-mod)).
+Registry of the pack's mods: what is installed, why, which version and how well it is verified. Updated on every mod addition, update or removal (see the workflow in [AGENTS.md](../AGENTS.md#workflow)).
 
 **Platform:** Minecraft 1.21.1 · NeoForge 21.1.? (pin in M0) · Java 21
 

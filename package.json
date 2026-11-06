@@ -1,0 +1,13 @@
+{
+  "name": "living-kingdoms",
+  "private": true,
+  "type": "module",
+  "description": "Living Kingdoms modpack: repository tooling",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "docs:check": "node tools/doc-lint/src/main.ts",
+    "skills:sync": "node tools/doc-lint/src/sync-skills.ts"
+  }
+}

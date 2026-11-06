@@ -1,3 +1,8 @@
+---
+status: stable
+last_reviewed: 2026-11-06
+---
+
 # ADR-0001: Our own settlement mod on MCA Reborn instead of Millénaire
 
 **Status:** Accepted · **Date:** 2026-11-06

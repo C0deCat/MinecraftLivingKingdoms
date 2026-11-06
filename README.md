@@ -4,7 +4,9 @@ A Minecraft 1.21.1 (NeoForge) fantasy pack that step by step turns into a game w
 
 **Status:** planning. Next stage — M0 (infrastructure).
 
+- [Docs index](docs/index.md)
 - [Roadmap](docs/roadmap.md)
+- [Architecture](ARCHITECTURE.md)
 - [Architecture decisions](docs/decisions/README.md)
 - [Licenses](docs/licenses.md)
 - [Compatibility matrix](docs/compatibility-matrix.md)

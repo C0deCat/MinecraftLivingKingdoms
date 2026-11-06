@@ -1,123 +1,68 @@
 # AGENTS.md — Living Kingdoms
 
-Instructions for AI agents (Codex, Claude Code and others) working in this repository. This is the primary rules file: skills and other documents extend it but never override it.
+A Minecraft 1.21.1 NeoForge fantasy pack that grows, milestone by milestone, into a game with a living world: finite map, adventure, household life, magic, villages of MCA Reborn residents, states, and a world that changes while nobody is watching. Played by 1–4 people in singleplayer or Open to LAN.
 
-## 1. The project
+This file is a map. Details live in the linked docs; read the ones your task needs.
 
-**Living Kingdoms** is a Minecraft fantasy pack that gradually turns into a game with a living world: a finite map, adventure, household life, magic, living villages, states and a world that develops without players.
+**Status:** planning done, no pack or code yet. Next: [M0 — Infrastructure](docs/milestones/m0-infrastructure.md).
 
-- **Core principle:** every milestone is a beautiful, cohesive, fun-to-play release of the pack. Mod cohesion and the amount of custom logic grow gradually.
-- **Play mode:** 1–4 players in singleplayer or Open to LAN; the world is hosted by one player. A dedicated server is a long-term goal.
-- **Publishing:** planned; platform not chosen.
+## Non-negotiables
 
-**Current status:** planning is done; there is no code or pack manifest yet. Next stage — **M0 (infrastructure)**.
+- **Platform:** Minecraft 1.21.1, NeoForge 21.1.x, Java 21 ([D-02](docs/decisions/README.md#lightweight-decisions)). Check every API against NeoForge 1.21.1 docs and the installed mod's sources; examples for other versions are a common trap.
+- **English** for all docs, code comments, commit messages and identifiers (D-17). Chat with the user in their language.
+- **Licenses:** never copy or decompile code of closed (ARR) mods; never redistribute modified third-party assets unless the license allows it ([licenses.md](docs/licenses.md)). Millénaire is not used at all ([ADR-0001](docs/decisions/ADR-0001-own-settlement-mod.md)).
+- **Existing mods first:** config → datapack → addon → KubeJS → our code → fork, as described in [core-beliefs](docs/core-beliefs.md#2-existing-mods-before-our-own-code).
+- **Honest status:** report code complete / build passed / runtime passed / gameplay verified, and what was not checked ([core-beliefs](docs/core-beliefs.md#4-honest-status)).
 
-## 2. Read before working
+## Ask the user first
 
-| Document | When |
+- Changing milestone order, the platform, or any D-xx decision.
+- Adding or removing a mod in the main profile.
+- Changing world generation, save format or mandatory structures.
+- Using third-party code or assets, or forking any mod.
+- Publishing anything outside the repo (releases, uploads, messages to mod authors).
+
+## Where to look
+
+| You need | Read |
 | --- | --- |
-| [docs/roadmap.md](docs/roadmap.md) | Always: milestones, decisions D-01…D-17, acceptance criteria |
-| [docs/decisions/](docs/decisions/README.md) | Before changing the architecture or milestone order |
-| [docs/licenses.md](docs/licenses.md) | Before adding a mod or using third-party code or assets |
-| [docs/compatibility-matrix.md](docs/compatibility-matrix.md) | Before adding or updating a mod |
+| Why we do things this way | [docs/core-beliefs.md](docs/core-beliefs.md) |
+| What we are building and in which order | [docs/roadmap.md](docs/roadmap.md) → [docs/milestones/](docs/milestones/) |
+| How the system is layered, where code goes | [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Decisions and their reasons | [docs/decisions/README.md](docs/decisions/README.md) |
+| Magic, settlement or simulation design | [docs/design-docs/index.md](docs/design-docs/index.md) |
+| Current work and open items | [docs/exec-plans/](docs/exec-plans/README.md), [tech-debt-tracker](docs/exec-plans/tech-debt-tracker.md) |
+| Mods, versions, conflicts | [docs/compatibility-matrix.md](docs/compatibility-matrix.md) |
+| Can we use / ship this mod | [docs/licenses.md](docs/licenses.md) |
+| Notes on external APIs and tools | [docs/references/index.md](docs/references/index.md) |
+| Quality state and test bars | [docs/quality.md](docs/quality.md) |
+| Every doc | [docs/index.md](docs/index.md) |
 
-## 3. Language
+## Workflow
 
-- **All documentation, code comments, commit messages and identifiers are in English.** No exceptions for new or edited files.
-- The only non-English file is the historical [docs/archive/roadmap-v0.2.md](docs/archive/roadmap-v0.2.md); leave it as is.
-- Chat with the user may be in any language the user writes in (usually Russian).
+1. Read the milestone spec and the design docs your task touches.
+2. Small change: just do it and describe it in the commit. Multi-step or multi-session work: create an exec plan with the `exec-plan` skill and keep its progress log current.
+3. Adding or updating a mod: official source only (Modrinth, CurseForge, author's GitHub); check 1.21.1 + NeoForge support, dependencies, side and license; add it via packwiz; launch singleplayer, then Open to LAN with a second client; record the result in the compatibility matrix and licenses. One mod or a small batch at a time.
+4. Testing: singleplayer and LAN are the primary environment; keep code server-safe (no client-only classes in common code) because a dedicated server is a long-term target. Test worlds are disposable until M10. Measure performance with spark on the host PC.
+5. A decision made in conversation goes into [docs/decisions/](docs/decisions/README.md) before the work that depends on it.
+6. A doc that turns out to be wrong is fixed in the same change.
 
-## 4. Platform — do not change without an ADR
+## Verification
 
-- Minecraft Java **1.21.1**, **NeoForge 21.1.x** (exact version pinned in M0), **Java 21**. Why 1.21.1: see D-02 in the roadmap.
-- Check every API against the NeoForge 1.21.1 documentation and the sources/JAR of the **installed** mod version. Examples from skills, forums and model memory often target other Minecraft versions — do not trust them without checking.
-- Developer environment: Windows 11, PowerShell (Git Bash is also available). Installed: Java 21, Node 24, Python 3.13, Git.
+- `npm run docs:check` — doc linter: links, index coverage, frontmatter, English-only, file size budgets, ADR index, exec-plan sections, skill sync. Run it after editing docs; its messages say how to fix each problem.
+- Game build and launch commands will be added in M0.
 
-## 5. Change hierarchy
+## Skills
 
-Pick the lowest level that solves the task:
+Canonical skills live in `.agents/skills/` (Codex reads them there). Claude Code reads copies in `.claude/skills/`; after editing a skill run `npm run skills:sync`.
 
-0. Change nothing if it already works.
-1. Mod config.
-2. Tags, datapack.
-3. Existing addon or bridge between mods.
-4. KubeJS.
-5. Our own Java code or adapter (including Mixins in **our** mod).
-6. Fork of another mod — only when proven necessary and the license allows it. Requires an ADR.
+- `exec-plan` — create, update and close an exec plan.
+- `doc-gardening` — find stale or wrong docs and fix or report them.
 
-## 6. Licenses — hard rules
+## Commits
 
-- **Never copy code of closed (All Rights Reserved) mods**, including decompiled code, and never put it into the repository or into context for code generation. Such mods may be studied in-game and through their documentation.
-- Do not modify or redistribute third-party assets (structures, textures, models, texts) as our own unless the license explicitly allows it. Example: CTOV is CC BY-NC-ND 4.0.
-- Before adding a mod, check its license and record it in [docs/licenses.md](docs/licenses.md).
-- **Millénaire is not used** — neither as a mod nor as a source of code or assets; ideas only ([ADR-0001](docs/decisions/ADR-0001-own-settlement-mod.md)).
-- Code from open mods (MIT, LGPL, GPL) may be used under the license terms; for GPL this affects our mod's license — record it in an ADR.
+Small commits with one purpose, format `type(scope): summary` (`feat`, `fix`, `docs`, `chore`, `test`, `refactor`).
 
-## 7. Adding or updating a mod
+## Environment
 
-1. Find the official page (Modrinth, CurseForge, the author's GitHub). Never download JARs from re-uploads.
-2. Check Minecraft 1.21.1 + NeoForge support, dependencies, side (client/server), license.
-3. Add via packwiz (after M0) — never commit JARs manually.
-4. Launch the game: singleplayer first, then Open to LAN with a second client; check a basic scenario.
-5. Record the result in [docs/compatibility-matrix.md](docs/compatibility-matrix.md) and [docs/licenses.md](docs/licenses.md).
-6. Update mods one at a time or in small batches, never all at once.
-
-## 8. Task status — report honestly
-
-| Status | What is confirmed |
-| --- | --- |
-| Code complete | Code or config is written |
-| Build passed | Build and manifest checks pass |
-| Runtime passed | The game launches (singleplayer/LAN) and the target action works |
-| Gameplay verified | The mechanic is correct from a gameplay point of view (often needs a human) |
-
-Never declare a task done because it compiled. Report the status reached and what was **not** verified. Zero discovered GameTests is a failed check, not a success.
-
-## 9. Testing
-
-- **Primary environment:** singleplayer and Open to LAN (integrated server on the host, 1–4 clients). Many bugs only show up with a remote client, so test LAN joins for anything with networking or synced state.
-- **Keep code server-safe:** no client-only classes in common code, correct client/server separation. A dedicated server is a long-term target and must not require a rewrite.
-- Game instances in `runtime/` are generated and never committed.
-- Until M10 test worlds are **disposable**: when worldgen changes, the world is recreated.
-- Changes that touch saves are tested with unload/load cycles and world reloads.
-- Measure performance with spark, not by eye. The host PC runs both the client and the integrated server — budget for that.
-
-## 10. Needs user confirmation
-
-Propose and ask instead of doing it yourself:
-
-- changes to milestone order, platform, or decisions D-xx;
-- adding or removing a mod from the main profile;
-- changes to world generation, save format, mandatory structures;
-- using third-party code or assets, forking any mod;
-- publishing anything externally (releases, uploads, messages to mod authors).
-
-Architecturally significant decisions are recorded as ADRs in [docs/decisions/](docs/decisions/README.md).
-
-## 11. Working style
-
-- Small commits with one purpose; format `type(scope): summary` (`feat`, `fix`, `docs`, `chore`, `test`, `refactor`).
-- First research what existing mods and addons already do, then write code.
-- Do not build custom tools while an existing one (packwiz, Gradle, Prism Launcher) does the job.
-
-## 12. Repository layout
-
-Now:
-
-```text
-AGENTS.md            — this file
-CLAUDE.md            — imports AGENTS.md for Claude Code
-README.md
-docs/
-  roadmap.md         — roadmap (source of truth for milestones)
-  decisions/         — ADRs
-  licenses.md        — mod licenses and rules
-  compatibility-matrix.md
-  archive/           — previous revisions of documents
-```
-
-Planned layout — section 14 of the roadmap. Directories are created when they get real content.
-
-## 13. Commands
-
-Will be added in M0 (packwiz, Gradle, launching the client). There is no build yet.
+Windows 11, PowerShell (Git Bash also available). Installed: Java 21, Node 24, Python 3.13, Git.
