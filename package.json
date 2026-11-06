@@ -9,6 +9,8 @@
   "scripts": {
     "docs:check": "node tools/doc-lint/src/main.ts",
     "skills:sync": "node tools/doc-lint/src/sync-skills.ts",
-    "tools:setup": "node tools/pack/src/setup-tools.ts"
+    "tools:setup": "node tools/pack/src/setup-tools.ts",
+    "instance": "node tools/pack/src/instance.ts",
+    "launch": "node tools/pack/src/launch.ts"
   }
 }
