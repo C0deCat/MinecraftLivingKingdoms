@@ -42,6 +42,11 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | ModernFix | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | FerriteCore | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | Lithium | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
+| Lithostitched | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
+| Tectonic | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
+| Terralith | Stardust Labs License (custom) | Modrinth | Yes (link, unmodified, credit + link required) | No (modified versions may not ship; add-on datapacks that override data are allowed) | No | 2026-11-06, `license.txt` in the GitHub repo |
+| The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
+| Bounded Not Free | CC BY-NC-SA 4.0 + additional modpack/server permission (CurseForge shows MIT, the repo LICENSE wins) | CurseForge | Yes (link) | Allowed, ShareAlike | No | 2026-11-06, GitHub LICENSE |
 
 Templates and tools whose files are in the repository:
 
@@ -52,6 +57,11 @@ Templates and tools whose files are in the repository:
 The license of our own mods is not chosen yet; our mods carry a placeholder in `mods-src/gradle.properties` until then (see the project rules above on GPLv3).
 
 Other mods are added as they are audited. "Unverified" means the value still needs to be confirmed on the mod's own page.
+
+### Notes on specific licenses
+
+- **Terralith (Stardust Labs License).** Its "Prohibited uses" bans using Stardust Labs works "to configure, test, debug, or augment any artificial intelligence, neural network, or other generative system" and in "any AI project". AI agents configure and test this pack. On 2026-11-06 the user decided to use Terralith anyway, reading the clause as being about building or training AI systems, not about making a game with AI-assisted tooling. Revisit if Stardust Labs clarifies or changes the license, and before the public release. Other obligations: unmodified only, credit Stardust Labs with a link, overrides only as add-on datapacks.
+- **The Twilight Forest.** We override one data file (the dimension type's `coordinate_scale`, ADR-0004) from our own mod; no TF code, sounds or structures are copied.
 
 ## 3. Rejected mods
 

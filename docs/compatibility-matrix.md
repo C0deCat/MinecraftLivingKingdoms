@@ -19,6 +19,11 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | ModernFix | 5.27.27 | M0 | Load time and memory fixes | both | — | runtime-ok | LGPL-3.0 |
 | FerriteCore | 7.0.3 | M0 | Memory use of block states and models | both | — | runtime-ok | MIT; mixin "refmap could not be read" warnings at startup are expected for this build |
 | Lithium | 0.15.4 | M0 | Server tick optimizations (AI, physics, chunks) | both | — | runtime-ok | LGPL-3.0; official NeoForge build |
+| Lithostitched | 1.8.1 | M1 | Worldgen compatibility layer; carries our edge-falloff modifier | both | — (bundles apollib) | installed | MIT |
+| Tectonic | 3.0.28 | M1 | Large-scale terrain, continents and islands | both | Lithostitched | installed | MIT; ships its Terralith-compatible terrain variant; Modrinth marks it server-only, client optional |
+| Terralith | 2.6.2 | M1 | Biome variety | both | Lithostitched | installed | Stardust Labs License (see licenses.md); pinned by version URL because `packwiz modrinth add` picked the older 2.5.8 |
+| The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | installed | CurseForge; code LGPL-2.1+, structures and sounds ARR |
+| Bounded Not Free | 1.3.5 | M1 | World-edge comparison spike only (ADR-0004); removed if the Lithostitched path wins | both | — | installed | CurseForge; CC BY-NC-SA 4.0 + modpack permission; disabled by default until configured |
 
 **Side:** `both` / `client` / `server`.
 **Status:** `candidate` → `installed` → `runtime-ok` (singleplayer launch) → `integrated` (conflicts resolved, subsystem is cohesive) → `accepted` (milestone accepted) → `mp-ok` (LAN and dedicated server verified in M10) · `rejected` (with a reason).

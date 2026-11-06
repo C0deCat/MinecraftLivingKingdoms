@@ -1,12 +1,12 @@
 name = "Living Kingdoms"
 author = "Living Kingdoms"
-version = "0.0.1"
+version = "0.1.0"
 pack-format = "packwiz:1.1.0"
 
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "ff7810060e872e1dd043b1f88b59fcdc9465ba6a1401eab9bece91093d5d1c44"
+hash = "de5c34114809abd5ab5dc1acc74f366935492284e201f322b910c7e9fe72542e"
 
 [versions]
 minecraft = "1.21.1"

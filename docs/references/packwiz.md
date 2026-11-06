@@ -18,6 +18,8 @@ last_reviewed: 2026-11-06
 
 ## Pitfalls
 
+- `packwiz modrinth add <slug>` may pick an older file when Modrinth dates and version numbers disagree (Terralith: 2.5.8 instead of 2.6.2). Check the chosen file; pin with `packwiz modrinth add https://modrinth.com/mod/<slug>/version/<id>`.
+- CurseForge mods: `packwiz curseforge add <slug>` works with packwiz's built-in API key; their `.pw.toml` has `mode = "metadata:curseforge"`, and `verify-mods` skips the Modrinth checks for them.
 - `packwiz modrinth add` sets `side = "both"` and warns when Modrinth marks one side optional. Keep `both` unless a mod truly must not load on one side; the matrix Side column has to match.
 - The bootstrap updates packwiz-installer from GitHub by default. We always pass `--bootstrap-no-update --bootstrap-main-jar packwiz-installer.jar` so the pinned jar is used.
 - Index hashes cover exact bytes. `.gitattributes` forces LF, so checkouts on Windows keep the hashes valid; do not edit pack files with tools that convert line endings.
