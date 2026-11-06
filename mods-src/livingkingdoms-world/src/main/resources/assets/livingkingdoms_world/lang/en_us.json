@@ -2,5 +2,13 @@
   "generator.livingkingdoms.test": "Test (2,048)",
   "generator.livingkingdoms.small": "Small (8,192)",
   "generator.livingkingdoms.medium": "Medium (12,288)",
-  "generator.livingkingdoms.large": "Large (16,384)"
+  "generator.livingkingdoms.large": "Large (16,384)",
+  "livingkingdoms_world.size.test": "Test",
+  "livingkingdoms_world.size.small": "Small",
+  "livingkingdoms_world.size.medium": "Medium",
+  "livingkingdoms_world.size.large": "Large",
+  "livingkingdoms_world.size_button": "World Size: %s",
+  "livingkingdoms_world.size_screen.title": "World Size",
+  "livingkingdoms_world.size_screen.selected": "> %s <",
+  "livingkingdoms_world.size_screen.details": "%s blocks across, Nether %s (1:%s), about %s min to cross"
 }

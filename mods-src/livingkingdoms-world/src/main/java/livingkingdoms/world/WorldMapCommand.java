@@ -23,7 +23,8 @@ import net.minecraft.world.level.storage.LevelResource;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 /**
- * Debug command {@code /lkworld map [step]}: renders the whole Overworld inside the border to a PNG
+ * Debug commands. {@code /lkworld info} reports the size and the current dimension border.
+ * {@code /lkworld map [step]} renders the whole Overworld inside the border to a PNG
  * straight from the generator noise (no chunks are generated). Used to judge the world edge, the
  * ocean ring and the land share. Output: {@code <world>/livingkingdoms/map-<size>.png}.
  */
@@ -36,10 +37,23 @@ final class WorldMapCommand {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         dispatcher.register(Commands.literal("lkworld")
                 .requires(source -> source.hasPermission(2))
+                .then(Commands.literal("info").executes(WorldMapCommand::info))
                 .then(Commands.literal("map")
                         .executes(context -> render(context, 0))
                         .then(Commands.argument("step", IntegerArgumentType.integer(4, 256))
                                 .executes(context -> render(context, IntegerArgumentType.getInteger(context, "step"))))));
+    }
+
+    /** {@code /lkworld info}: world size, and border and coordinate scale of the caller's dimension. */
+    private static int info(CommandContext<CommandSourceStack> context) {
+        CommandSourceStack source = context.getSource();
+        ServerLevel level = source.getLevel();
+        WorldSize size = WorldSizeState.current();
+        String message = String.format(java.util.Locale.ROOT, "World size %s (%,d). %s: border %,d wide, coordinate_scale %s",
+                size.id(), size.side(), level.dimension().location(), (int) level.getWorldBorder().getSize(),
+                level.dimensionType().coordinateScale());
+        source.sendSuccess(() -> Component.literal(message), false);
+        return 1;
     }
 
     /** Starts rendering on a background thread: sampling the noise takes ~0.25 ms per point. */
@@ -96,7 +110,7 @@ final class WorldMapCommand {
             return;
         }
         double landShare = 100.0 * land / ((long) pixels * pixels);
-        String message = String.format("Map %s: %dx%d px, %d blocks/px, land %.1f%%, %d ms -> %s",
+        String message = String.format(java.util.Locale.ROOT, "Map %s: %dx%d px, %d blocks/px, land %.1f%%, %d ms -> %s",
                 size.id(), pixels, pixels, step, landShare, System.currentTimeMillis() - started, file.toAbsolutePath());
         LivingKingdomsWorld.LOGGER.info(message);
         source.getServer().execute(() -> source.sendSuccess(() -> Component.literal(message), false));
