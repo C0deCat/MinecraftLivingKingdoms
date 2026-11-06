@@ -40,6 +40,14 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | CTOV | CC BY-NC-ND 4.0 (unverified, early research) | Modrinth | ? | No | No (ND) | Not checked |
 | spark | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 
+Templates and tools whose files are in the repository:
+
+| Item | License | Where used | Checked |
+| --- | --- | --- | --- |
+| NeoForge MDK 1.21.1 ModDevGradle (commit `e93d7f0`) | MIT (template files, `TEMPLATE_LICENSE.txt` kept) | Scaffold of `mods-src/livingkingdoms-core` | 2026-11-06, repo license file |
+
+The license of our own mods is not chosen yet; `livingkingdoms-core` carries a placeholder until then (see the project rules above on GPLv3).
+
 Other mods are added as they are audited. "Unverified" means the value still needs to be confirmed on the mod's own page.
 
 ## 3. Rejected mods
