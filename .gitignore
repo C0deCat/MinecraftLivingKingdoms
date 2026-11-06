@@ -1,0 +1,23 @@
+# Generated game instances (client, server, worlds, snapshots)
+runtime/
+
+# Gradle / Java
+.gradle/
+build/
+out/
+*.class
+
+# Node (gameplay scripts)
+node_modules/
+
+# Minecraft runtime output
+logs/
+crash-reports/
+*.log
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+Thumbs.db
+.DS_Store
