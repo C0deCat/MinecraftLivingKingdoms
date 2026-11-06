@@ -21,7 +21,7 @@ Loaded chunk: physical entities & blocks ↔ reconciliation ↔ abstract state
 Unloaded chunk: abstract regional simulation → pending physical changes
 ```
 
-- Coarse grid: 128 × 128-block cells, 9,216 cells on the 12,288² map. Villages, provinces and climate regions are separate, larger entities.
+- Coarse grid: 128 × 128-block cells; the count follows the world size (Test 16², Small 64², Medium 96², Large 128² = 16,384 cells, ADR-0004). Villages, provinces and climate regions are separate, larger entities.
 - The grid does not replace Minecraft's ChunkManager (D-10).
 
 ## Rules

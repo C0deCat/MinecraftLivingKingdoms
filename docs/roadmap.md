@@ -18,7 +18,7 @@ Each milestone has its own spec in [milestones/](milestones/). Decisions are in 
 - **Every milestone is a playable release:** beautiful, cohesive and fun. Mod cohesion and custom logic grow gradually.
 - **Play mode:** singleplayer through M9. Multiplayer (Open to LAN for 1–4 players and a dedicated server) is its own milestone M10, before release; code stays server-safe meanwhile (D-15, [ADR-0003](decisions/ADR-0003-multiplayer-milestone.md)).
 - **Publishing:** planned; platform not chosen. A cohesive experience matters more than not touching mod code, within license limits ([licenses.md](licenses.md)).
-- **Finite world:** an Overworld of about 12,288 × 12,288 blocks with natural borders (D-03).
+- **Finite world:** fixed sizes picked at creation, Test 2,048 / Small 8,192 / Medium 12,288 / Large 16,384 (default), continents and islands inside an outer ocean; Nether, Twilight Forest and End bounded to match (D-03, [ADR-0004](decisions/ADR-0004-world-sizes-and-dimensions.md)).
 - **Guaranteed completion:** End portal, required resources, mandatory structures, access to bosses and modded dimensions. Not every biome has to exist.
 - **Fantasy aesthetics:** many places, cultures, crafts and kinds of magic; minimal industrial technology.
 - **One resident model:** MCA Reborn for personality and family, our mod for settlements and work, MCA Capitals for politics (D-13).

@@ -18,6 +18,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | [ADR-0001](ADR-0001-own-settlement-mod.md) | Our own settlement mod on MCA Reborn instead of Millénaire | Accepted | 2026-11-06 |
 | [ADR-0002](ADR-0002-milestone-order.md) | Milestone order: settlements → simulation → economy and states → atmosphere → cultures | Accepted, amended by ADR-0003 | 2026-11-06 |
 | [ADR-0003](ADR-0003-multiplayer-milestone.md) | Singleplayer first; multiplayer (LAN, dedicated server) is M10, release M11 | Accepted | 2026-11-06 |
+| [ADR-0004](ADR-0004-world-sizes-and-dimensions.md) | Fixed world sizes 2k/8k/12k/16k, per-size Nether ratio, 1:1 Twilight Forest, finite-world edge | Accepted | 2026-11-06 |
 
 ## Lightweight decisions
 
@@ -25,7 +26,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | --- | --- | --- |
 | D-01 | Minecraft 1.21.1 + NeoForge + Java; do not port the game to another engine or language | Locked |
 | D-02 | Stay on 1.21.1: as of 2026-11-06 Ars Nouveau, Iron's Spells, Ars 'n Spells, Farmer's Delight, the Let's Do mods and MCA Capitals have no NeoForge builds above 1.21.1 ([check](../compatibility-matrix.md#platform-check-2026-11-06)). NeoForge pinned to 21.1.265 on 2026-11-06 (`tools/pack/src/pins.ts`, `modpack/pack.toml`) | Locked; revisit when core mods move to 26.x |
-| D-03 | First map about 12,288 × 12,288; geography is finite, political borders are dynamic | Working hypothesis |
+| D-03 | Four fixed square world sizes including the outer ocean ring: Test 2,048, Small 8,192, Medium 12,288, Large 16,384 (default); geography is finite, political borders are dynamic ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked (changed 2026-11-06) |
 | D-04 | Light-gameplay and magic mods come before settlements and NPCs | Locked |
 | D-05 | Each stage is brought to a cohesive playable subsystem before moving on | Locked |
 | D-06 | Ars Nouveau — universal modern magic; Iron's — powerful ancient magic; Occultism — ritual/secret magic ([magic-system](../design-docs/magic-system.md)) | Locked as design |
@@ -40,6 +41,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | D-15 | Singleplayer is the only play and test mode until M10; Open to LAN (1–4 players) and the dedicated server are M10 ([ADR-0003](ADR-0003-multiplayer-milestone.md)); code stays server-safe throughout | Locked (changed 2026-11-06) |
 | D-16 | Code and assets of closed (ARR) mods are never copied or decompiled into the repo; behavior changes via configs, datapacks, KubeJS, Mixins in our mod | Hard constraint |
 | D-17 | All documentation, code comments, commit messages and identifiers are in English | Locked |
+| D-18 | No vanilla world types: worlds are created only from our size presets through our selector screen; the pack is never tuned or tested for vanilla types ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked |
 
 ## ADR template
 

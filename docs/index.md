@@ -56,6 +56,7 @@ last_reviewed: YYYY-MM-DD
 | [decisions/ADR-0001-own-settlement-mod.md](decisions/ADR-0001-own-settlement-mod.md) | Own settlement mod instead of Millénaire | stable |
 | [decisions/ADR-0002-milestone-order.md](decisions/ADR-0002-milestone-order.md) | Milestone order after magic | stable |
 | [decisions/ADR-0003-multiplayer-milestone.md](decisions/ADR-0003-multiplayer-milestone.md) | Singleplayer first, multiplayer milestone M10 | stable |
+| [decisions/ADR-0004-world-sizes-and-dimensions.md](decisions/ADR-0004-world-sizes-and-dimensions.md) | World sizes, dimension scales, world edge | stable |
 
 ## Plans
 
@@ -63,6 +64,7 @@ last_reviewed: YYYY-MM-DD
 | --- | --- | --- |
 | [exec-plans/README.md](exec-plans/README.md) | Exec plan format and list | active |
 | [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md) | Open items and unverified facts | active |
+| [exec-plans/active/2026-11-06-m1-world.md](exec-plans/active/2026-11-06-m1-world.md) | M1-A world sizes and dimensions | active |
 | [exec-plans/completed/2026-11-06-m0-infrastructure.md](exec-plans/completed/2026-11-06-m0-infrastructure.md) | M0 infrastructure work | stable |
 | [exec-plans/completed/2026-11-06-harness-docs.md](exec-plans/completed/2026-11-06-harness-docs.md) | This knowledge-base restructure | stable |
 

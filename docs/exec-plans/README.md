@@ -47,5 +47,6 @@ Why now, constraints, links to milestones, ADRs and design docs.
 
 | Plan | Status |
 | --- | --- |
+| [2026-11-06-m1-world](active/2026-11-06-m1-world.md) | Active |
 | [2026-11-06-m0-infrastructure](completed/2026-11-06-m0-infrastructure.md) | Completed |
 | [2026-11-06-harness-docs](completed/2026-11-06-harness-docs.md) | Completed |
