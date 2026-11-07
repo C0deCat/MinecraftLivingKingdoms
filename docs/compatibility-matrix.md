@@ -53,7 +53,7 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | Bosses of Mass Destruction Forge | 1.3.3 | M1 | Four bosses with arenas: Night Lich tower and Void Blossom (Overworld), Gauntlet (Nether), Obsidilith (End) | both | Geckolib, Cloth Config API, CERBON's API | installed | LGPL-3.0 |
 | VillagersTradingPlus | 1.1.1 | M1 | Datapack-driven villager trades (The Graveyard dependency) | both | — | installed | GPL-3.0; touches villager trades: check against MCA and our trade in M4-B and M6 |
 | The Graveyard (Fabric/Neoforge) | 4.0.1 | M1 | Graveyards, crypts, haunted houses, undead, Lich boss (`graveyard:*`) | both | Geckolib, VillagersTradingPlus | installed | GPL-3.0; adds "overrun" villages (5 biomes) — M1-B village decision |
-| Mowzie's Mobs | 1.8.2 | M1 | Enemies and bosses: Ferrous Wroughtnaut, Frostmaw, Umvuthi, Sculptor (`mowziesmobs:*`) | both | Geckolib | installed | Custom license: credit with a link to its CurseForge page ([licenses](licenses.md#notes-on-specific-licenses)) |
+| Mowzie's Mobs | 1.8.2 | M1 | Enemies and bosses: Ferrous Wroughtnaut, Frostmaw, Umvuthi, Sculptor (`mowziesmobs:*`) | both | Geckolib | installed | Custom license: credit with a link to its CurseForge page ([licenses](licenses.md#notes-on-specific-licenses)); its own assets log two GeckoLib errors on resource load (`supernova`, `attack_single`: a `nan` in the animation expression), those two animations do not play |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | runtime-ok | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 
 **Side:** `both` / `client` / `server`.

@@ -66,7 +66,7 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | Dungeons and Taverns | All Rights Reserved | Modrinth | Yes (link) | No | No (config and placement only) | 2026-11-07, Modrinth page |
 | Structory | Stardust Labs License (custom) | Modrinth | Yes (link, unmodified, credit + link required) | No | No | 2026-11-07, same license as Terralith |
 | Structory: Towers | Stardust Labs License (custom) | Modrinth | Yes (link, unmodified, credit + link required) | No | No | 2026-11-07, same license as Terralith |
-| Moog's Structure Lib | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Moog's Structure Lib (moogs_structures) | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | MVS - Moog's Voyager Structures | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | MES - Moog's End Structures | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | Architectury API | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
