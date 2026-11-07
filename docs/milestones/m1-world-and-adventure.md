@@ -75,6 +75,7 @@ The validator checks structure presence, location, physical access and input res
 
 ## Open questions
 
-- Pin JARs and dependencies of the M1-A2 batches; test generation on 3–5 seeds per size (only the seed `livingkingdoms` so far).
+- Generation on more seeds: Test and Large checked on 4 seeds (`livingkingdoms`, `alpha`, `20261107`, `kingdoms`) for stronghold, fortress, WDA monastery and BoMD arenas; Small and Medium not yet. Test lacks a reachable stronghold and fortress (TD-14).
+- For M1-B (found in M1-A2): Dungeons and Taverns adds villages (birch, jungle, swamp, hamlet, remnant) and overrides `minecraft:village_taiga`; The Graveyard adds "overrun" villages; D&T `mangrove_witch_hut` next to YUNG's witch huts; `/locate` of large WDA structures can block the server for minutes; `/locate` reports structures beyond the border.
 - Write the list of mandatory structures, biome roles and progression paths including Nether, End and Twilight Forest, with per-size counts (TD-10).
 - Does the Twilight Forest boss chain generate correctly at 1:1 on the Test and Small sizes?
