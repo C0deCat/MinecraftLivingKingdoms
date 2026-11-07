@@ -64,7 +64,7 @@ last_reviewed: YYYY-MM-DD
 | --- | --- | --- |
 | [exec-plans/README.md](exec-plans/README.md) | Exec plan format and list | active |
 | [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md) | Open items and unverified facts | active |
-| [exec-plans/active/2026-11-06-m1-world.md](exec-plans/active/2026-11-06-m1-world.md) | M1-A world sizes and dimensions | active |
+| [exec-plans/completed/2026-11-06-m1-world.md](exec-plans/completed/2026-11-06-m1-world.md) | M1-A world sizes, dimensions and world edge | stable |
 | [exec-plans/completed/2026-11-06-m0-infrastructure.md](exec-plans/completed/2026-11-06-m0-infrastructure.md) | M0 infrastructure work | stable |
 | [exec-plans/completed/2026-11-06-harness-docs.md](exec-plans/completed/2026-11-06-harness-docs.md) | This knowledge-base restructure | stable |
 
@@ -77,5 +77,8 @@ last_reviewed: YYYY-MM-DD
 | [references/index.md](references/index.md) | Version-pinned notes on external APIs and tools | active |
 | [references/packwiz.md](references/packwiz.md) | packwiz and packwiz-installer: usage and pitfalls | active |
 | [references/prism-launcher.md](references/prism-launcher.md) | Portable Prism instance setup and pitfalls | active |
+| [references/lithostitched-1.8.md](references/lithostitched-1.8.md) | Lithostitched modifiers and our world-edge modifiers | active |
+| [references/tectonic-3.0.md](references/tectonic-3.0.md) | Tectonic terrain functions, coast facts and pitfalls | active |
+| [references/twilight-forest-4.8.md](references/twilight-forest-4.8.md) | Twilight Forest scale, border and our override | active |
 
 Outside `docs/`: [AGENTS.md](../AGENTS.md), [ARCHITECTURE.md](../ARCHITECTURE.md), [README.md](../README.md).

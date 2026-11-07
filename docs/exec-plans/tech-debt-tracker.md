@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # Tech debt and open items
@@ -16,3 +16,6 @@ Known gaps, unverified facts and deferred decisions. Each item names where it is
 | TD-07 | Choose the publishing platform (Modrinth vs CurseForge) | Before the first public release | 2026-11-06 |
 | TD-08 | Add CI running `npm run docs:check` once a GitHub remote exists; consider a scheduled doc-gardening run | When the remote exists | 2026-11-06 |
 | TD-10 | Per-size content targets: mandatory structures (M1-C), settlement and state counts (M4, M6) for Test/Small/Medium/Large | M1-C, M4-A | 2026-11-06 |
+| TD-11 | Coast variety beyond the world edge: the flat "+1 above sea" shore is still the most common shape (45%, as in natural Tectonic); needs surface or feature work (dunes, rocks, marsh), not the edge (ADR-0004) | M7 (atmosphere) or earlier on feedback | 2026-11-07 |
+| TD-12 | The Test-size island stays close to square: 2,048 blocks leave no room for a long edge band; accepted for a development size | Only if Test is used for gameplay | 2026-11-07 |
+| TD-13 | Check the End outer islands and gateways after the dragon on a bounded End, on Test (border 2,048) and Large | M1-C validator | 2026-11-07 |

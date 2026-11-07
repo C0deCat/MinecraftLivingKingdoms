@@ -4,7 +4,7 @@ A Minecraft 1.21.1 NeoForge fantasy pack that grows, milestone by milestone, int
 
 This file is a map. Details live in the linked docs; read the ones your task needs.
 
-**Status:** M0 accepted in singleplayer (pack with 4 performance mods, one-command instance, empty core mod). Next: [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md).
+**Status:** M0 accepted in singleplayer. [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md): phase A done (four fixed world sizes, own size selector, per-dimension borders, natural world edge, Twilight Forest 1:1; [ADR-0004](docs/decisions/ADR-0004-world-sizes-and-dimensions.md)). Next: M1-B structure mods.
 
 ## Non-negotiables
 
@@ -54,6 +54,7 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 - `npm run launch` — syncs mods and starts the game (first time: the user signs in to Prism; never enter credentials). Log: `runtime/prism/instances/living-kingdoms/minecraft/logs/latest.log`.
 - `npm run smoke` — rebuilds our mods, launches the game to the title screen, prints loaded mods and ERROR/FATAL log lines, closes the game (`-- --keep` leaves it open for a manual world test). Use after every mod or code change.
 - `npm run verify-mods` — pack vs pins, Modrinth metadata, the mod registry docs and the instance `mods/` folder. Run after every mod change.
+- `npm run test-server -- --size <test|small|medium|large> [--fresh] [--cmd "<command>"] [--until "<regex>"]` — headless local server for worldgen checks (usage in `tools/pack/src/test-server.ts`). Debug commands from our world mod: `/lkworld info` (size, border, scale), `/lkworld map` (PNG of the Overworld from noise), `/lkworld coast` (coast steepness and variety along the border).
 - `mods-src/`: `./gradlew build` builds all our mods ([mods-src/AGENTS.md](mods-src/AGENTS.md)); `npm run instance` also runs it.
 - Mod commands: run `../tools/bin/packwiz` from `modpack/` ([packwiz notes](docs/references/packwiz.md)).
 

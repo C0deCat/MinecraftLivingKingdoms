@@ -32,7 +32,7 @@ Every milestone runs four phases: **A** install → **B** reconcile conflicts �
 | Milestone | Cohesive result | Base content | Custom code |
 | --- | --- | --- | --- |
 | [M0 — Infrastructure](milestones/m0-infrastructure.md) | Pack reproducible from Git | packwiz, NeoForge, spark | Minimal |
-| [M1 — World and adventure](milestones/m1-world-and-adventure.md) | Finite map, reachable progression | Bounded Not Free, Terralith, Tectonic, structures, bosses | World validator |
+| [M1 — World and adventure](milestones/m1-world-and-adventure.md) | Finite map, reachable progression | Lithostitched, Tectonic, Terralith, Twilight Forest, structures, bosses | World sizes and edge (`livingkingdoms-world`), world validator |
 | [M2 — Household](milestones/m2-household.md) | Farming, food, crafts, decor | Farmer's Delight, Croptopia, Let's Do | Datapacks/KubeJS |
 | [M3 — Magic](milestones/m3-magic.md) | Three traditions, shared Ars–Iron's mana | Ars, Iron's, Occultism, Ars 'n Spells | Balance tweaks |
 | [M4 — Settlements](milestones/m4-settlements.md) | Living villages of MCA residents | MCA Reborn, M2 content | `livingkingdoms-settlements` (S1–S4) |

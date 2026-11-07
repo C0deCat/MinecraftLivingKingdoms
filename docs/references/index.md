@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # References
@@ -20,3 +20,6 @@ Condensed, version-pinned notes on external tools and APIs, written for agents: 
 | --- | --- | --- |
 | [packwiz.md](packwiz.md) | packwiz, packwiz-installer, bootstrap | commit `170b22d`, v0.5.14, v0.0.3 |
 | [prism-launcher.md](prism-launcher.md) | Portable Prism instance | 11.1.1 |
+| [lithostitched-1.8.md](lithostitched-1.8.md) | Worldgen modifiers; our world-edge modifiers | 1.8.1 |
+| [tectonic-3.0.md](tectonic-3.0.md) | Tectonic terrain functions, coast facts, pitfalls | 3.0.28 |
+| [twilight-forest-4.8.md](twilight-forest-4.8.md) | Twilight Forest scale, border and override | 4.8.3345 |
