@@ -9,6 +9,11 @@ file = "config/tectonic.json"
 hash = "5682c9093c6169c7383ebaa9248082a446753bc7a73913a2f2430c5465a90b8c"
 
 [[files]]
+file = "mods/chunky.pw.toml"
+hash = "1d5cc2b6dcfd1fc3adba4566b1c29b57ff1175316678c1f22e63cbc3e28a5ba0"
+metafile = true
+
+[[files]]
 file = "mods/ferrite-core.pw.toml"
 hash = "73360e397134d238ee8fd21d33fd7f9275e9441f74f8f1b6ed92278877c0b9f1"
 metafile = true
@@ -29,8 +34,23 @@ hash = "ef65836e005bd42a0f40df30a94eba1ad7ee5ed3194b11eafbeadc64edb44252"
 metafile = true
 
 [[files]]
+file = "mods/resourceful-config.pw.toml"
+hash = "27721caca5a03b743bf25888e1d984142948069dace31453f103f94f7f24d2ce"
+metafile = true
+
+[[files]]
 file = "mods/spark.pw.toml"
 hash = "593fa7b30ab016aa45be07bd6bef3a9f160ed0f24689850d60bf84995d69b843"
+metafile = true
+
+[[files]]
+file = "mods/sparsestructures.pw.toml"
+hash = "993b4e4970e1a5ef2fe7c6712212f57a84dcf8b31d4b6863540b6395c4f9ce09"
+metafile = true
+
+[[files]]
+file = "mods/structure-layout-optimizer.pw.toml"
+hash = "20d767f7f803fd43e7b539046878bf97a27458595a1beff0b28002aca1b671de"
 metafile = true
 
 [[files]]

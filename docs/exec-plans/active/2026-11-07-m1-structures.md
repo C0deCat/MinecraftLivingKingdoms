@@ -24,7 +24,7 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 ## Steps
 
 - [x] Record decisions: license rules, rejected mods, deferred worldgen, Dynamic Trees to M7, M1 mods table.
-- [ ] 1. Tools: Structure Layout Optimizer (+ Resourceful Config), Sparse Structures (default config), Chunky; Chunky pre-generation baseline on Large.
+- [x] 1. Tools: Structure Layout Optimizer (+ Resourceful Config), Sparse Structures (default config), Chunky; Chunky pre-generation baseline on Large.
 - [ ] 2. YUNG's API + YUNG's Better Strongholds: stronghold with a portal on Test and Large.
 - [ ] 3. YUNG's Better Dungeons, Better Mineshafts, Bridges.
 - [ ] 4. YUNG's Better Desert Temples, Jungle Temples, Witch Huts.
@@ -43,6 +43,7 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 ## Progress log
 
 - 2026-11-07 — Plan created from the approved Claude Code plan. Candidates checked on Modrinth for 1.21.1 NeoForge (versions, licenses, dependencies); Mowzie's Mobs license read on CurseForge. Decisions recorded in licenses.md, the compatibility matrix, the M1/M3/M4/M7 specs and the tech-debt tracker. Status: docs only.
+- 2026-11-07 — Batch 1: Structure Layout Optimizer 1.0.12 (+ Resourceful Config 3.0.11), Sparse Structures 3.0, Chunky 1.4.23. Test server, Test size, fresh world, seed `livingkingdoms`: Chunky radius 512 = 4,225 chunks in 2:32 (baseline before structure mods), no ERROR. Status: runtime passed on the server; client smoke pending (Prism was open).
 
 ## Decision log
 

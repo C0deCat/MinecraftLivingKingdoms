@@ -46,6 +46,10 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | Lithostitched | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | Tectonic | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | Terralith | Stardust Labs License (custom) | Modrinth | Yes (link, unmodified, credit + link required) | No (modified versions may not ship; add-on datapacks that override data are allowed) | No | 2026-11-06, `license.txt` in the GitHub repo |
+| Structure Layout Optimizer | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Resourceful Config | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Sparse Structures | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Chunky | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
 
 Templates and tools whose files are in the repository:
