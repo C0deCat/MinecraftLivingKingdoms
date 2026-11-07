@@ -20,6 +20,7 @@ Compare docs with the actual state of the repository:
 - **Decisions:** nothing in milestone specs or design docs contradicts `docs/decisions/` (D-xx and ADRs). If a newer decision exists, the older text is updated or marked superseded.
 - **Plans:** active exec plans have a recent progress-log entry; finished ones are closed with the `exec-plan` skill; finished tech-debt items are removed with the outcome recorded where it belongs.
 - **Duplication:** the same fact stated in two places is replaced by one statement and a link.
+- **Terminology:** one term or label used in two meanings, two words used for one concept, a label scheme reused for a different split (for example phase letters A–D used for parts of a phase), or a term used in several docs but missing from `docs/glossary.md`. Rules: `docs/documentation.md#terms-and-labels`.
 - **Size:** AGENTS.md stays a short map; details move to `docs/`.
 
 For each doc you checked and found correct, update `last_reviewed` to today.

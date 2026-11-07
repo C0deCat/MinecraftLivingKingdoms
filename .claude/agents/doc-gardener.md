@@ -14,7 +14,7 @@ Follow the procedure in `.claude/skills/doc-gardening/SKILL.md` (steps 1 and 2),
 Report, grouped by severity:
 
 1. **Wrong** — a doc states something the repo contradicts. Quote the line, give the evidence (file and line), propose the exact fix.
-2. **Inconsistent** — two docs disagree, or a doc contradicts a D-xx decision or ADR.
+2. **Inconsistent** — two docs disagree, a doc contradicts a D-xx decision or ADR, or a term or label is used in two meanings (see the Terminology item of the skill).
 3. **Stale** — `last_reviewed` older than 60 days, or a status line that no longer matches reality.
 4. **Duplicated** — the same fact maintained in two places; say which one should stay.
 
