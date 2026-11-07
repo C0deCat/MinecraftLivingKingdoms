@@ -64,6 +64,13 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | YUNG's Extras | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | When Dungeons Arise | All Rights Reserved | Modrinth, CurseForge | Yes (link) | No | No (config and placement only) | 2026-11-07, Modrinth page |
 | Dungeons and Taverns | All Rights Reserved | Modrinth | Yes (link) | No | No (config and placement only) | 2026-11-07, Modrinth page |
+| Structory | Stardust Labs License (custom) | Modrinth | Yes (link, unmodified, credit + link required) | No | No | 2026-11-07, same license as Terralith |
+| Structory: Towers | Stardust Labs License (custom) | Modrinth | Yes (link, unmodified, credit + link required) | No | No | 2026-11-07, same license as Terralith |
+| Moog's Structure Lib | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| MVS - Moog's Voyager Structures | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| MES - Moog's End Structures | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Architectury API | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Better Archeology | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
 
 Templates and tools whose files are in the repository:
@@ -78,7 +85,7 @@ Other mods are added as they are audited. "Unverified" means the value still nee
 
 ### Notes on specific licenses
 
-- **Terralith (Stardust Labs License).** Its "Prohibited uses" bans using Stardust Labs works "to configure, test, debug, or augment any artificial intelligence, neural network, or other generative system" and in "any AI project". AI agents configure and test this pack. On 2026-11-06 the user decided to use Terralith anyway, reading the clause as being about building or training AI systems, not about making a game with AI-assisted tooling. Revisit if Stardust Labs clarifies or changes the license, and before the public release. Other obligations: unmodified only, credit Stardust Labs with a link, overrides only as add-on datapacks.
+- **Terralith (Stardust Labs License).** Its "Prohibited uses" bans using Stardust Labs works "to configure, test, debug, or augment any artificial intelligence, neural network, or other generative system" and in "any AI project". AI agents configure and test this pack. On 2026-11-06 the user decided to use Terralith anyway, reading the clause as being about building or training AI systems, not about making a game with AI-assisted tooling. Revisit if Stardust Labs clarifies or changes the license, and before the public release. Other obligations: unmodified only, credit Stardust Labs with a link, overrides only as add-on datapacks. The same license and decision cover Structory and Structory: Towers (2026-11-07).
 - **Mowzie's Mobs (custom license, checked 2026-11-07 on the [CurseForge license page](https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs/license)).** "All Rights Reserved unless otherwise explicitly stated". Private play and modpacks are outside its scope; public distribution requires crediting "Mowzie's Mobs" with a link to its CurseForge page, forbids selling its content and forbids competing projects. Alterations are allowed if they stay faithful to the source material; modpack integration and story changes are named as allowed, drastic changes need the author's agreement. Compatible with the pack; candidate for M1-A2 (step 14 of the [structures plan](exec-plans/active/2026-11-07-m1-structures.md)).
 - **The Twilight Forest.** We override one data file (the dimension type's `coordinate_scale`, ADR-0004) from our own mod; no TF code, sounds or structures are copied.
 

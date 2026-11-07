@@ -40,6 +40,13 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | YUNG's Extras | 5.1.1 | M1 | Small vanilla+ structures and features | both | YUNG's API | installed | LGPL-3.0 |
 | When Dungeons Arise | 2.1.68 | M1 | Large dungeons and landmarks (`dungeons_arise:*`, 40 structures), mega-dungeon candidates | both | — | installed | ARR: config and placement only ([licenses](licenses.md#project-rules)); logs "Couldn't load advancements" for two of its advancements |
 | Dungeons and Taverns | 4.4.4 | M1 | Taverns, small dungeons, points of interest in all three dimensions (`nova_structures:*`) | both | — | installed | ARR: config and placement only; adds its own villages (birch, jungle, swamp, hamlet) and overrides `minecraft:village_taiga` — to be disabled or reserved in M1-B; structures with item frames log "Block-attached entity at invalid position" |
+| Structory | 1.3.14 | M1 | Ruins, chapels, manors, small points of interest (`structory:*`) | both | — | installed | Stardust Labs License; pinned to the `1.21.x` file: the newer "26.x" universal files list 1.21.1 but Towers 1.0.17 fails to load ("Missing ModLoader") |
+| Structory: Towers | 1.0.15 | M1 | Biome-themed towers and outposts (`structory_towers:*`) | both | — | installed | Stardust Labs License; pinned to the `1.21.x` file, see Structory |
+| Moog's Structure Lib (moogs_structures) | 3.4.2 | M1 | Library for Moog's structure mods | both | — | installed | LGPL-3.0 |
+| MVS - Moog's Voyager Structures | 5.1.3 | M1 | 130+ vanilla-style structures (`mvs:*`) | both | Moog's Structure Lib | installed | MIT; universal multi-version file |
+| MES - Moog's End Structures | 2.1.1 | M1 | Structures on the outer End islands (`mes:*`) | both | Moog's Structure Lib | installed | LGPL-3.0; universal multi-version file |
+| Architectury API | 13.0.11 | M1 | Library (Better Archeology) | both | — | installed | LGPL-3.0 |
+| Better Archeology | 1.3.9 | M1 | Excavation sites, catacombs, fossils, artifacts, Archeologist villager | both | Architectury API, Resourceful Config | installed | MIT; Archeologist villager and camps reconciled in M4-B |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | runtime-ok | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 
 **Side:** `both` / `client` / `server`.

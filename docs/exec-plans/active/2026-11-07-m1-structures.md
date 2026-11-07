@@ -32,9 +32,9 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - [x] 6. YUNG's Extras.
 - [x] 7. When Dungeons Arise: sizes vs border, mega-dungeon candidates.
 - [x] 8. Dungeons and Taverns: overrides of vanilla structures that clash with YUNG's.
-- [ ] 9. Structory + Structory: Towers.
-- [ ] 10. Moog's Structure Lib + Moog's Voyager Structures + Moog's End Structures (outer End islands, TD-13).
-- [ ] 11. Better Archeology + Architectury.
+- [x] 9. Structory + Structory: Towers.
+- [x] 10. Moog's Structure Lib + Moog's Voyager Structures + Moog's End Structures (outer End islands, TD-13).
+- [x] 11. Better Archeology + Architectury.
 - [ ] 12. GeckoLib, Cerbon's API, Cloth Config + Bosses of Mass Destruction: each arena reachable.
 - [ ] 13. The Graveyard (check its second dependency).
 - [ ] 14. Mowzie's Mobs (credit line for the release notes).
@@ -48,6 +48,7 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - 2026-11-07 — Batches 3–6 added in one go (10 YUNG's mods, not in groups of 3; no error to bisect). Fresh Large world, seed `livingkingdoms`: nearest Better Dungeons (small 1,153, spider 2,065, zombie 2,243, skeleton 2,752 blocks), lush mineshaft 1,508, desert temple 3,444, jungle temple 2,865, witch hut 6,827, ocean monument (−5,472, 6,736) inside the border, `betterfortresses:fortress` 151 blocks from the Nether origin (vanilla fortress replaced), End city 1,642. Chunky radius 512 on Large 2:39, no ERROR. Status: runtime passed on the server; End island fight and bridges not seen in game.
 - 2026-11-07 — Batches 7–8: When Dungeons Arise 2.1.68, Dungeons and Taverns 4.4.4. Large, seed `livingkingdoms`: Chunky radius 512 in 2:32, no FATAL. New ERROR lines (non-fatal): WDA advancements fail to load, "Block-attached entity at invalid position" and one sculk shrieker parse error from underground structures. `/locate`: WDA monastery 3,313 and coliseum 5,751 blocks; Keep Kayra, Shiraz Palace, Plague Asylum and Mining System not found within the locate radius (validator question, M1-C). D&T: tavern 1,657, `village_birch` 1,207, Nether Keep 629, End Castle 1,777. A locate of Keep Kayra blocked one tick for over 60 s and the watchdog stopped the server; the test server now runs with `max-tick-time=-1`. Status: runtime passed on the server.
 - 2026-11-07 — For M1-B: D&T adds villages (birch, jungle, swamp, hamlet, remnant village) and overrides `minecraft:village_taiga`, against the "one village source" decision; D&T `mangrove_witch_hut` next to YUNG's witch huts; slow `/locate` for large WDA structures also affects players.
+- 2026-11-07 — Batches 9–11: Structory 1.3.14, Structory: Towers 1.0.15, Moog's Structure Lib 3.4.2, Moog's Voyager Structures 5.1.3, Moog's End Structures 2.1.1, Architectury API 13.0.11, Better Archeology 1.3.9. `packwiz modrinth add` chose the "26.2" universal Structory files; Towers 1.0.17 failed to load ("Missing ModLoader"), so both are pinned to the `1.21.x` files. Large, seed `livingkingdoms`: Chunky radius 512 in 2:39, only the known ERROR lines. `/locate`: chapel 1,728, manor 2,920, ancient temple 592, castle ruins 7,096, windmill 643, catacombs 5,107, archeologist camp 2,141, End spire 5,674; wizard tower not found. `/locate` also reports structures beyond the border (End mega ship at x −11,712, border ±8,192), so the M1-C validator must check positions against the border. Status: runtime passed on the server.
 
 ## Decision log
 
