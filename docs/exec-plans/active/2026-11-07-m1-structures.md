@@ -26,10 +26,10 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - [x] Record decisions: license rules, rejected mods, deferred worldgen, Dynamic Trees to M7, M1 mods table.
 - [x] 1. Tools: Structure Layout Optimizer (+ Resourceful Config), Sparse Structures (default config), Chunky; Chunky pre-generation baseline on Large.
 - [x] 2. YUNG's API + YUNG's Better Strongholds: stronghold with a portal on Test and Large.
-- [ ] 3. YUNG's Better Dungeons, Better Mineshafts, Bridges.
-- [ ] 4. YUNG's Better Desert Temples, Jungle Temples, Witch Huts.
-- [ ] 5. YUNG's Better Ocean Monuments, Better Nether Fortresses (inside the Nether border), Better End Island (dragon fight on the bounded End).
-- [ ] 6. YUNG's Extras.
+- [x] 3. YUNG's Better Dungeons, Better Mineshafts, Bridges.
+- [x] 4. YUNG's Better Desert Temples, Jungle Temples, Witch Huts.
+- [x] 5. YUNG's Better Ocean Monuments, Better Nether Fortresses (inside the Nether border), Better End Island (dragon fight on the bounded End).
+- [x] 6. YUNG's Extras.
 - [ ] 7. When Dungeons Arise: sizes vs border, mega-dungeon candidates.
 - [ ] 8. Dungeons and Taverns: overrides of vanilla structures that clash with YUNG's.
 - [ ] 9. Structory + Structory: Towers.
@@ -46,6 +46,8 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - 2026-11-07 — Batch 1: Structure Layout Optimizer 1.0.12 (+ Resourceful Config 3.0.11), Sparse Structures 3.0, Chunky 1.4.23. Test server, Test size, fresh world, seed `livingkingdoms`: Chunky radius 512 = 4,225 chunks in 2:32 (baseline before structure mods), no ERROR. Status: runtime passed on the server; client smoke pending (Prism was open).
 
 - 2026-11-07 — Batch 2: YUNG's API 5.1.9, YUNG's Better Strongholds 5.1.3. Test server, seed `livingkingdoms`: vanilla stronghold replaced; nearest `betterstrongholds:stronghold` at (−1,696, 128) on both Test and Large. On Test that is outside the ±1,024 border (TD-14). Status: runtime passed on the server; portal room not inspected in game.
+- 2026-11-07 — Batches 3–6 added in one go (10 YUNG's mods, not in groups of 3; no error to bisect). Fresh Large world, seed `livingkingdoms`: nearest Better Dungeons (small 1,153, spider 2,065, zombie 2,243, skeleton 2,752 blocks), lush mineshaft 1,508, desert temple 3,444, jungle temple 2,865, witch hut 6,827, ocean monument (−5,472, 6,736) inside the border, `betterfortresses:fortress` 151 blocks from the Nether origin (vanilla fortress replaced), End city 1,642. Chunky radius 512 on Large 2:39, no ERROR. Status: runtime passed on the server; End island fight and bridges not seen in game.
+
 ## Decision log
 
 - 2026-11-07 — Mod list for M1-A2 agreed with the user: YUNG's set, When Dungeons Arise, Dungeons and Taverns, Structory + Towers, Moog's Voyager + End, Better Archeology, Bosses of Mass Destruction, The Graveyard, Mowzie's Mobs, tools Structure Layout Optimizer, Sparse Structures, Chunky.
