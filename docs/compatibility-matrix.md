@@ -26,6 +26,8 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | Resourceful Config | 3.0.11 | M1 | Config library (Structure Layout Optimizer, later Better Archeology) | both | — | installed | MIT |
 | Sparse Structures | 3.0 | M1 | One config for the spread of all structures on the finite map | both | — | installed | MIT; default config until M1-B |
 | Chunky | 1.4.23 | M1 | Pre-generation for timing and worldgen checks | both | — | installed | GPL-3.0; the pop4959 world pre-generator |
+| YUNG's API | 5.1.9 | M1 | Library for YUNG's structure mods | both | — | installed | LGPL-3.0 |
+| YUNG's Better Strongholds | 5.1.3 | M1 | Stronghold with the End portal, replaces the vanilla one (`betterstrongholds:stronghold`, in `#minecraft:eye_of_ender_located`) | both | YUNG's API | installed | LGPL-3.0; keeps the vanilla concentric rings, so the Test size has no stronghold inside its border (TD-14) |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | runtime-ok | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 
 **Side:** `both` / `client` / `server`.

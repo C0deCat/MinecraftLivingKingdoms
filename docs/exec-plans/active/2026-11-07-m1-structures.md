@@ -25,7 +25,7 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 
 - [x] Record decisions: license rules, rejected mods, deferred worldgen, Dynamic Trees to M7, M1 mods table.
 - [x] 1. Tools: Structure Layout Optimizer (+ Resourceful Config), Sparse Structures (default config), Chunky; Chunky pre-generation baseline on Large.
-- [ ] 2. YUNG's API + YUNG's Better Strongholds: stronghold with a portal on Test and Large.
+- [x] 2. YUNG's API + YUNG's Better Strongholds: stronghold with a portal on Test and Large.
 - [ ] 3. YUNG's Better Dungeons, Better Mineshafts, Bridges.
 - [ ] 4. YUNG's Better Desert Temples, Jungle Temples, Witch Huts.
 - [ ] 5. YUNG's Better Ocean Monuments, Better Nether Fortresses (inside the Nether border), Better End Island (dragon fight on the bounded End).
@@ -45,6 +45,7 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - 2026-11-07 — Plan created from the approved Claude Code plan. Candidates checked on Modrinth for 1.21.1 NeoForge (versions, licenses, dependencies); Mowzie's Mobs license read on CurseForge. Decisions recorded in licenses.md, the compatibility matrix, the M1/M3/M4/M7 specs and the tech-debt tracker. Status: docs only.
 - 2026-11-07 — Batch 1: Structure Layout Optimizer 1.0.12 (+ Resourceful Config 3.0.11), Sparse Structures 3.0, Chunky 1.4.23. Test server, Test size, fresh world, seed `livingkingdoms`: Chunky radius 512 = 4,225 chunks in 2:32 (baseline before structure mods), no ERROR. Status: runtime passed on the server; client smoke pending (Prism was open).
 
+- 2026-11-07 — Batch 2: YUNG's API 5.1.9, YUNG's Better Strongholds 5.1.3. Test server, seed `livingkingdoms`: vanilla stronghold replaced; nearest `betterstrongholds:stronghold` at (−1,696, 128) on both Test and Large. On Test that is outside the ±1,024 border (TD-14). Status: runtime passed on the server; portal room not inspected in game.
 ## Decision log
 
 - 2026-11-07 — Mod list for M1-A2 agreed with the user: YUNG's set, When Dungeons Arise, Dungeons and Taverns, Structory + Towers, Moog's Voyager + End, Better Archeology, Bosses of Mass Destruction, The Graveyard, Mowzie's Mobs, tools Structure Layout Optimizer, Sparse Structures, Chunky.
