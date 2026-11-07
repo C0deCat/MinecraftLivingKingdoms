@@ -28,6 +28,16 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | Chunky | 1.4.23 | M1 | Pre-generation for timing and worldgen checks | both | — | installed | GPL-3.0; the pop4959 world pre-generator |
 | YUNG's API | 5.1.9 | M1 | Library for YUNG's structure mods | both | — | installed | LGPL-3.0 |
 | YUNG's Better Strongholds | 5.1.3 | M1 | Stronghold with the End portal, replaces the vanilla one (`betterstrongholds:stronghold`, in `#minecraft:eye_of_ender_located`) | both | YUNG's API | installed | LGPL-3.0; keeps the vanilla concentric rings, so the Test size has no stronghold inside its border (TD-14) |
+| YUNG's Better Dungeons | 5.1.4 | M1 | Skeleton, zombie, spider and small dungeons | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Better Mineshafts | 5.1.1 | M1 | Biome-themed mineshafts | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Bridges | 5.1.1 | M1 | Bridges over rivers | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Better Desert Temples | 4.1.5 | M1 | Reworked desert temple | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Better Jungle Temples | 3.1.2 | M1 | Reworked jungle temple | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Better Witch Huts | 4.1.1 | M1 | Reworked witch huts | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Better Ocean Monuments | 4.1.2 | M1 | Reworked ocean monument | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Better Nether Fortresses | 3.1.5 | M1 | Reworked Nether fortress (blaze spawners, progression) | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Better End Island | 3.1.2 | M1 | Reworked main End island and dragon fight | both | YUNG's API | installed | LGPL-3.0 |
+| YUNG's Extras | 5.1.1 | M1 | Small vanilla+ structures and features | both | YUNG's API | installed | LGPL-3.0 |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | runtime-ok | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 
 **Side:** `both` / `client` / `server`.
