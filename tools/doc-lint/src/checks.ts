@@ -227,6 +227,74 @@ export function checkExecPlans(): Problem[] {
   return problems;
 }
 
+const PHASE_NAMES: Record<string, string> = { A: "foundation", B: "reconcile", C: "integrate", D: "accept" };
+const EM_DASH = "—";
+const PHASE_FIX =
+  `Phases are A foundation, B reconcile, C integrate, D accept, once each and in this order: ` +
+  `"**A ${EM_DASH} foundation.**" or "**A ${EM_DASH} foundation: <content>.**". ` +
+  `Parts of a phase are steps: "**A1 ${EM_DASH} <title>.**" (D-19, docs/glossary.md).`;
+
+/**
+ * Milestone specs follow one phase model (D-19): inside "## Phases", every paragraph that starts
+ * with a bold letter label must be a phase "**X — <name>" with the roadmap name, or a step
+ * "**XN — <title>" of the phase above it. Other bold leads (e.g. "**Deviations") are free text.
+ */
+export function checkMilestonePhases(): Problem[] {
+  const problems: Problem[] = [];
+  const specs = listFiles("docs/milestones").filter((f) => /\/m\d+-[^/]+\.md$/.test(f));
+  for (const spec of specs) {
+    const lines = read(spec).split(/\r?\n/);
+    const start = lines.findIndex((l) => l.trim() === "## Phases");
+    if (start < 0) {
+      problems.push({ severity: "error", file: spec, message: 'Milestone spec has no "## Phases" section.', fix: PHASE_FIX });
+      continue;
+    }
+    const seen: string[] = [];
+    for (let i = start + 1; i < lines.length && !lines[i].startsWith("## "); i++) {
+      const line = lines[i];
+      if (!/^\*\*[A-Z]\d*[\s.*:]/.test(line)) continue;
+      const match = new RegExp(`^\\*\\*([A-D])(\\d*) ${EM_DASH} ([^.:*]+)`).exec(line);
+      const at = { severity: "error" as const, file: spec, line: i + 1 };
+      if (!match) {
+        problems.push({ ...at, message: `Phase label "${line.slice(0, 24)}..." is not "**<A-D> ${EM_DASH} <name>".`, fix: PHASE_FIX });
+        // Count a malformed phase anyway, so one bad label does not also report every later phase as out of order.
+        if (!/^\*\*[A-Z]\d/.test(line)) seen.push(line.charAt(2));
+        continue;
+      }
+      const [, letter, step, name] = match;
+      if (step) {
+        if (seen[seen.length - 1] !== letter) {
+          problems.push({ ...at, message: `Step ${letter}${step} is not inside phase ${letter}.`, fix: `Move it under "**${letter} ${EM_DASH} ${PHASE_NAMES[letter]}...**". ${PHASE_FIX}` });
+        }
+        continue;
+      }
+      if (name.trim() !== PHASE_NAMES[letter]) {
+        problems.push({
+          ...at,
+          message: `Phase ${letter} is named "${name.trim()}", but phase ${letter} is always "${PHASE_NAMES[letter]}".`,
+          fix: `Write "**${letter} ${EM_DASH} ${PHASE_NAMES[letter]}: ${name.trim()}.**" if "${name.trim()}" describes its content. ${PHASE_FIX}`,
+        });
+      }
+      const expected = "ABCD"[seen.length];
+      if (seen.includes(letter) || letter !== expected) {
+        problems.push({ ...at, message: `Phase ${letter} is out of order or repeated (expected ${expected ?? "no further phase"}).`, fix: PHASE_FIX });
+      }
+      seen.push(letter);
+    }
+    const missing = Object.keys(PHASE_NAMES).filter((l) => !seen.includes(l));
+    if (missing.length > 0) {
+      problems.push({
+        severity: "error",
+        file: spec,
+        line: start + 1,
+        message: `Phases section lacks phase ${missing.join(", ")}.`,
+        fix: `Add the missing paragraphs; "**D ${EM_DASH} accept.** See [Acceptance](#acceptance) below." is enough for D. ${PHASE_FIX}`,
+      });
+    }
+  }
+  return problems;
+}
+
 const hashTree = (dir: string): Map<string, string> =>
   new Map(
     listFiles(dir).map((f) => [f.slice(dir.length + 1), createHash("sha256").update(read(f)).digest("hex")]),
@@ -255,6 +323,7 @@ export function runAllChecks(): Problem[] {
     ...checkLineBudgets(),
     ...checkAdrIndex(),
     ...checkExecPlans(),
+    ...checkMilestonePhases(),
     ...checkSkillSync(),
   ];
 }
