@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M8 — Our own peoples, architecture and NPC looks
@@ -20,11 +20,13 @@ Living Kingdoms' own cultures with recognizable architecture, clothing and way o
 
 ## Phases
 
-**A.** A second, stylistically distinct people on top of the working M4 pipeline.
+**A — foundation: a second people.** A second, stylistically distinct people on top of the working M4 pipeline.
 
-**B.** Separate `Culture` (language, architecture, traditions, goods), `Polity` (power) and `Settlement` (D-11). Fix inconsistent clothing, proportions and impossible layouts on complex terrain.
+**B — reconcile: culture, polity, settlement.** Separate `Culture` (language, architecture, traditions, goods), `Polity` (power) and `Settlement` (D-11). Fix inconsistent clothing, proportions and impossible layouts on complex terrain.
 
-**C.** Compact culture content packs: architecture templates, work spots, construction stages, professions, clothing by status and age, cultural items.
+**C — integrate: culture content packs.** Compact culture content packs: architecture templates, work spots, construction stages, professions, clothing by status and age, cultural items.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

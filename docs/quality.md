@@ -15,7 +15,7 @@ Grades: `—` not started · `D` exists, unverified · `C` runtime passed · `B`
 | --- | --- | --- |
 | Docs and agent harness | C | Doc linter and Stop hook exist; no CI yet (no GitHub remote) |
 | Infrastructure (M0) | C | Accepted in singleplayer; clean clone reproduces identical JARs. No CI. LAN/server are M10 |
-| World and adventure (M1) | C | M1-A done: sizes, selector, borders, dimension scales and the world edge are gameplay-verified by the user on Large; Test/Small/Medium generation checked on the test server only. No structure mods (M1-B), no content manifest or validator (M1-C), one short client spark reading (see Performance baselines) |
+| World and adventure (M1) | C | M1-A1 (base generator) done: sizes, selector, borders, dimension scales and the world edge are gameplay-verified by the user on Large; Test/Small/Medium generation checked on the test server only. No structure mods (M1-A2), no reconcile pass (M1-B), no content manifest or validator (M1-C), one short client spark reading (see Performance baselines) |
 | Household (M2) | — | — |
 | Magic (M3) | — | — |
 | Settlements (M4) | — | — |

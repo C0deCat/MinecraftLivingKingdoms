@@ -1,6 +1,6 @@
 ---
 status: stable
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M0 — Infrastructure and contracts
@@ -24,11 +24,11 @@ None by itself — M0 is the foundation every later release is built on.
 
 ## Phases
 
-**A — install.** Create profiles `worldgen`, `gameplay`, `magic`, `civilizations`, `full` and a shared catalog of pinned versions. Download JARs only via packwiz, Modrinth, CurseForge or official releases. Respect required dependencies and client/server sides.
+**A — foundation: install.** Create profiles `worldgen`, `gameplay`, `magic`, `civilizations`, `full` and a shared catalog of pinned versions. Download JARs only via packwiz, Modrinth, CurseForge or official releases. Respect required dependencies and client/server sides.
 
 **B — reconcile.** Remove duplicate JARs, wrong loader versions and conflicting client optimizers. Every update adds a changelog entry, a backup and a launch report.
 
-**C — single system.** A pack check command (`verify-mods`) and the mod registry ([compatibility-matrix.md](../compatibility-matrix.md), [licenses.md](../licenses.md)) with purpose, version, license, side and test status. An empty `livingkingdoms-core` Gradle project — no premature simulation code.
+**C — integrate: single system.** A pack check command (`verify-mods`) and the mod registry ([compatibility-matrix.md](../compatibility-matrix.md), [licenses.md](../licenses.md)) with purpose, version, license, side and test status. An empty `livingkingdoms-core` Gradle project — no premature simulation code.
 
 **D — accept.** See below.
 

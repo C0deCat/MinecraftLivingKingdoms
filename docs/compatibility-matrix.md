@@ -33,7 +33,7 @@ Mods we decided not to use. Check this list before proposing a mod; do not propo
 
 | Mod | Rejected | Reason | Record |
 | --- | --- | --- | --- |
-| Bounded Not Free | 2026-11-06 | M1-A spike: with Tectonic it cannot shape terrain ("Active noise router did not expose all climate fields; missing [CONTINENTALNESS, EROSION, WEIRDNESS]"), so land reached the border and only biomes changed. Our Lithostitched-based edge falloff produced the ocean ring on the same seed. Also a very small project (~450 downloads). License CC BY-NC-SA 4.0 + modpack permission | [ADR-0004](decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-06-world-edge-spike-result) |
+| Bounded Not Free | 2026-11-06 | M1-A spike: with Tectonic it cannot shape terrain ("Active noise router did not expose all climate fields; missing [CONTINENTALNESS, EROSION, WEIRDNESS]"), so land reached the border and only biomes changed. Our Lithostitched-based edge falloff produced the outer ocean on the same seed. Also a very small project (~450 downloads). License CC BY-NC-SA 4.0 + modpack permission | [ADR-0004](decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-06-world-edge-spike-result) |
 | Millénaire | 2026-11-06 | Closed source and All Rights Reserved: no fork or modification, not on Modrinth. Its villagers would compete with MCA Reborn as a second NPC model, and its economy cannot be simulated off-screen without its code. Replaced by our own settlement mod. Ideas may still be studied in-game, never its code or assets | [ADR-0001](decisions/ADR-0001-own-settlement-mod.md) |
 
 ## Platform check (2026-11-06)
@@ -62,4 +62,4 @@ Highest Minecraft version with NeoForge builds on Modrinth. The pack can only mo
 
 | Mods | Problem | Solution | Recorded in |
 | --- | --- | --- | --- |
-| Tectonic + Bounded Not Free | BNF cannot read climate fields from the Tectonic noise router, so its rim does not shape terrain | Bounded Not Free rejected; ocean ring from our `edge_falloff` | [ADR-0004](decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-06-world-edge-spike-result) |
+| Tectonic + Bounded Not Free | BNF cannot read climate fields from the Tectonic noise router, so its rim does not shape terrain | Bounded Not Free rejected; outer ocean from our `edge_falloff` | [ADR-0004](decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-06-world-edge-spike-result) |

@@ -2,7 +2,7 @@
 
 One entry per pack change: what changed, how it was launched, the result. The commit that makes the change is the backup of the previous state. Test worlds are disposable until M11 (release).
 
-## 0.1.0 — 2026-11-06 (M1-A, in progress)
+## 0.1.0 — 2026-11-06 (M1-A1, base generator)
 
 - Added Lithostitched 1.8.1, Tectonic 3.0.28, Terralith 2.6.2 (Modrinth), The Twilight Forest 4.8.3345 and Bounded Not Free 1.3.5 (CurseForge), one at a time.
 - Our mods `livingkingdoms_core` and `livingkingdoms_world` 0.0.1 are built from `mods-src/` into the instance.

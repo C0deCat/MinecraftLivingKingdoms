@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M4 — Settlements and residents (our mod on MCA Reborn)
@@ -36,7 +36,7 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 
 ## Phases
 
-**A — research.**
+**A — foundation: research and prototype.**
 - MCA Reborn: how to get residents and give them tasks from outside; how to store our data on the entity (NeoForge attachments); which events exist and what needs Mixins.
 - Open construction and worker-NPC mods: licenses and code suitability.
 - Prototype: an MCA resident performs one task of our mod and survives a world reload.
@@ -44,6 +44,8 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 **B — reconcile.** Vanilla villages and villagers, vanilla professions, MCA residents spawning outside our villages, village structures from M1. Lumberjack compatibility with the world's trees — decide on Dynamic Trees here at the latest.
 
 **C — integrate.** Slices S1–S4 in order, each released.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

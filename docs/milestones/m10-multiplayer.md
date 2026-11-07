@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M10 — Multiplayer: LAN and dedicated server
@@ -21,7 +21,7 @@ Living Kingdoms with friends: one player hosts a LAN world, or a group joins a d
 
 ## Phases
 
-**A — install.** Audit the side of every mod (`client`, `server`, `both`) against its page and its behavior; fix `side` in `modpack/mods/*.pw.toml` and the matrix. Add a server instance command next to `npm run instance` (server package, EULA left to the user, launch script). Smoke test: the dedicated server starts with the full pack.
+**A — foundation: install.** Audit the side of every mod (`client`, `server`, `both`) against its page and its behavior; fix `side` in `modpack/mods/*.pw.toml` and the matrix. Add a server instance command next to `npm run instance` (server package, EULA left to the user, launch script). Smoke test: the dedicated server starts with the full pack.
 
 **B — reconcile.** LAN and dedicated-server runs with 2–4 clients. Fix desync and server crashes caused by client-only code or client-side state. Mods whose client-only parts break servers are configured or replaced.
 

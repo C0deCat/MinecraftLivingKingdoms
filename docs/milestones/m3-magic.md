@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M3 — Unified magic ecosystem
@@ -31,9 +31,9 @@ Ars addon catalog with known incompatibilities: [Ars Nouveau 1.21.1 addons guide
 
 ## Phases
 
-**A — install.** Test the three base mods separately and together. Add Ars 'n Spells after base versions are pinned. Check Iron's structures on the finite map: towers, bosses, resources, trade.
+**A — foundation: install.** Test the three base mods separately and together. Add Ars 'n Spells after base versions are pinned. Check Iron's structures on the finite map: towers, bosses, resources, trade.
 
-**B — minimal balance.**
+**B — reconcile: minimal balance.**
 - Restrict Ars rituals that change global weather/time (`Sunrise`, `Moonfall`, `Cloudshaping`) via datapack/recipes.
 - Start from original glyph and ritual prices; raise only combinations found excessive.
 - In Ars 'n Spells, disable converting Iron's spells into Ars glyphs if it breaks the separation of schools.
@@ -42,6 +42,8 @@ Ars addon catalog with known incompatibilities: [Ars Nouveau 1.21.1 addons guide
 - Compare Source production with Occultism processing; remove obvious exploits, keep Occultism's cost advantage.
 
 **C — integrate.** A compatible ecosystem, not one rewritten API: shared mana, consistent recipes and attributes, clear niches, all content reachable on the finite map and tracked in the World Content Manifest.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

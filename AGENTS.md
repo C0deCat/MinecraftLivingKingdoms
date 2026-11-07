@@ -4,7 +4,7 @@ A Minecraft 1.21.1 NeoForge fantasy pack that grows, milestone by milestone, int
 
 This file is a map. Details live in the linked docs; read the ones your task needs.
 
-**Status:** M0 accepted in singleplayer. [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md): phase A done (four fixed world sizes, own size selector, per-dimension borders, natural world edge, Twilight Forest 1:1; [ADR-0004](docs/decisions/ADR-0004-world-sizes-and-dimensions.md)). Next: M1-B structure mods.
+**Status:** M0 accepted in singleplayer. [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md): step M1-A1 (base generator) done: four fixed world sizes, own size selector, per-dimension borders, natural world edge, Twilight Forest 1:1 ([ADR-0004](docs/decisions/ADR-0004-world-sizes-and-dimensions.md)). Next: M1-A2, structure and adventure mods.
 
 ## Non-negotiables
 
@@ -28,6 +28,7 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 | --- | --- |
 | Why we do things this way | [docs/core-beliefs.md](docs/core-beliefs.md) |
 | Which docs to update during a task, how to add one | [docs/documentation.md](docs/documentation.md) |
+| What a project term or label means | [docs/glossary.md](docs/glossary.md) |
 | What we are building and in which order | [docs/roadmap.md](docs/roadmap.md) → [docs/milestones/](docs/milestones/) |
 | How the system is layered, where code goes | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Decisions and their reasons | [docs/decisions/README.md](docs/decisions/README.md) |
@@ -49,7 +50,7 @@ This file is a map. Details live in the linked docs; read the ones your task nee
 
 ## Verification
 
-- `npm run docs:check` — doc linter: links, index coverage, frontmatter, English-only, file size budgets, ADR index, exec-plan sections, skill sync. Run it after editing docs; its messages say how to fix each problem.
+- `npm run docs:check` — doc linter: links, index coverage, frontmatter, English-only, file size budgets, ADR index, exec-plan sections, milestone phase headings, skill sync. Run it after editing docs; its messages say how to fix each problem.
 - `npm run instance` — the one setup command: builds pinned packwiz into `tools/bin/` (needs Go), installs portable Prism into `runtime/prism/`, creates the instance and installs the pack's mods. Close Prism first. Safe to rerun.
 - `npm run launch` — syncs mods and starts the game (first time: the user signs in to Prism; never enter credentials). Log: `runtime/prism/instances/living-kingdoms/minecraft/logs/latest.log`.
 - `npm run smoke` — rebuilds our mods, launches the game to the title screen, prints loaded mods and ERROR/FATAL log lines, closes the game (`-- --keep` leaves it open for a manual world test). Use after every mod or code change.

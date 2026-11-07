@@ -26,7 +26,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | --- | --- | --- |
 | D-01 | Minecraft 1.21.1 + NeoForge + Java; do not port the game to another engine or language | Locked |
 | D-02 | Stay on 1.21.1: as of 2026-11-06 Ars Nouveau, Iron's Spells, Ars 'n Spells, Farmer's Delight, the Let's Do mods and MCA Capitals have no NeoForge builds above 1.21.1 ([check](../compatibility-matrix.md#platform-check-2026-11-06)). NeoForge pinned to 21.1.265 on 2026-11-06 (`tools/pack/src/pins.ts`, `modpack/pack.toml`) | Locked; revisit when core mods move to 26.x |
-| D-03 | Four fixed square world sizes including the outer ocean ring: Test 2,048, Small 8,192, Medium 12,288, Large 16,384 (default); geography is finite, political borders are dynamic ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked (changed 2026-11-06) |
+| D-03 | Four fixed square world sizes including the outer ocean: Test 2,048, Small 8,192, Medium 12,288, Large 16,384 (default); geography is finite, political borders are dynamic ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked (changed 2026-11-06) |
 | D-04 | Light-gameplay and magic mods come before settlements and NPCs | Locked |
 | D-05 | Each stage is brought to a cohesive playable subsystem before moving on | Locked |
 | D-06 | Ars Nouveau — universal modern magic; Iron's — powerful ancient magic; Occultism — ritual/secret magic ([magic-system](../design-docs/magic-system.md)) | Locked as design |
@@ -42,6 +42,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | D-16 | Code and assets of closed (ARR) mods are never copied or decompiled into the repo; behavior changes via configs, datapacks, KubeJS, Mixins in our mod | Hard constraint |
 | D-17 | All documentation, code comments, commit messages and identifiers are in English | Locked |
 | D-18 | No vanilla world types: worlds are created only from our size presets through our selector screen; the pack is never tuned or tested for vanilla types ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked |
+| D-19 | One term, one meaning ([terms and labels](../documentation.md#terms-and-labels), [glossary](../glossary.md)). Every milestone runs phases A foundation → B reconcile → C integrate → D accept; parts of a phase are steps labelled M1-A1, M1-A2 | Locked (2026-11-07) |
 
 ## ADR template
 

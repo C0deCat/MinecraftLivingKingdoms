@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M6 — Economy and states
@@ -20,11 +20,13 @@ Villages are connected by trade and politics, and NPCs use all M2–M3 content a
 
 ## Phases
 
-**A — research.** MCA Capitals and how it maps onto our settlements and territory. Pilot industries: grain → mill/kitchen → food; vineyard → winery → export; dairy → trade; magic workshop → items and Source.
+**A — foundation: research.** MCA Capitals and how it maps onto our settlements and territory. Pilot industries: grain → mill/kitchen → food; vineyard → winery → export; dairy → trade; magic workshop → items and Source.
 
-**B — data owners and units.** Capitals — titles and dynasties; Settlements — settlements and territory; Core — states as simulation entities (confirm in an ADR). Units: Item IDs and tags, commodities vs physical stacks, storage, costs, labor, prices. Never count the same chest twice (physically and abstractly).
+**B — reconcile: data owners and units.** Capitals — titles and dynasties; Settlements — settlements and territory; Core — states as simulation entities (confirm in an ADR). Units: Item IDs and tags, commodities vs physical stacks, storage, costs, labor, prices. Never count the same chest twice (physically and abstractly).
 
-**C — contracts.** `Commodity`, `ProductionProcess`, `Profession`, `BuildingFunction`, `TradeRoute`, `MagicCapability`. Trade routes, subordination to states, taxes. Magic professions keep Source and spirits as real constraints. The M5 simulation uses the same contracts.
+**C — integrate: contracts.** `Commodity`, `ProductionProcess`, `Profession`, `BuildingFunction`, `TradeRoute`, `MagicCapability`. Trade routes, subordination to states, taxes. Magic professions keep Source and spirits as real constraints. The M5 simulation uses the same contracts.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

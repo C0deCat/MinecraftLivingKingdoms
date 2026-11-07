@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M7 — Atmosphere: seasons, trees, weather
@@ -29,11 +29,13 @@ Weather2 and ProtoManly are never installed together.
 
 ## Phases
 
-**A — install.** Seasons first, then tree growth, then one weather mod. Test on M4–M6 settlements.
+**A — foundation: install.** Seasons first, then tree growth, then one weather mod. Test on M4–M6 settlements.
 
 **B — reconcile.** Conflicts between weather sources, tree regeneration and crop growth. No unbounded tick updates, no free destruction of buildings. Some Dynamic Trees addons are incompatible with Ars Nouveau (see the Ars addon catalog).
 
 **C — integrate.** `RegionClimate` and `WorldEventScheduler` in Core: climate, drought, fires, floods and forest recovery exist abstractly in unloaded regions and affect harvests. Physical traces materialize on load within safe limits. Building protection is mandatory.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

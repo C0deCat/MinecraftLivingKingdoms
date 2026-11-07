@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M11 — Stabilization, final world and release
@@ -11,11 +11,13 @@ A pack ready for long playthroughs, not a set of experimental mods.
 
 ## Phases
 
-**A.** Pin JAR versions, configs, datapacks, culture content, generation algorithms and seed. License check of every distributed file ([licenses.md](../licenses.md)).
+**A — foundation: lock and license.** Pin JAR versions, configs, datapacks, culture content, generation algorithms and seed. License check of every distributed file ([licenses.md](../licenses.md)).
 
-**B.** Singleplayer regression, a re-run of the [M10](m10-multiplayer.md) LAN and dedicated-server tests, all adventure progression gates, several cultures, all magic systems, load testing, restore from backups, data format migrations.
+**B — reconcile: regression.** Singleplayer regression, a re-run of the [M10](m10-multiplayer.md) LAN and dedicated-server tests, all adventure progression gates, several cultures, all magic systems, load testing, restore from backups, data format migrations.
 
-**C.** Final pre-generation with Chunky after worldgen mods are locked. WorldValidator report, mandatory structure registry, route checks, client and server package export.
+**C — integrate: final map and packages.** Final pre-generation with Chunky after worldgen mods are locked. WorldValidator report, mandatory structure registry, route checks, client and server package export.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

@@ -27,7 +27,7 @@ Each milestone has its own spec in [milestones/](milestones/). Decisions are in 
 
 ## Milestones
 
-Every milestone runs four phases: **A** install → **B** reconcile conflicts → **C** integrate into a cohesive subsystem → **D** accept and lock in. A finished milestone is a stable foundation; changing it later is a controlled change with regression tests.
+Every milestone runs four phases (D-19): **A** foundation — install the base mods, or in code milestones research and the first model or prototype → **B** reconcile conflicts → **C** integrate into a cohesive subsystem → **D** accept and lock in. Parts of a phase are steps, labelled M1-A1, M1-A2 ([glossary](glossary.md)). A finished milestone is a stable foundation; changing it later is a controlled change with regression tests.
 
 | Milestone | Cohesive result | Base content | Custom code |
 | --- | --- | --- | --- |

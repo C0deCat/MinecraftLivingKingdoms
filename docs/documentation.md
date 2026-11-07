@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # Documentation rules
@@ -52,11 +52,23 @@ Update `last_reviewed` whenever you check a doc against reality, even if nothing
 - English only (D-17).
 - Plain, direct wording. Give the reason for a rule instead of emphasis; no ALL CAPS or "IMPORTANT".
 - One fact, one place. Link to the source instead of repeating it.
+- One term, one meaning; see [Terms and labels](#terms-and-labels).
 - Short and specific: what is true, what to do, where to look next.
 - AGENTS.md and CLAUDE.md stay small because they load into every session; details go into `docs/`.
 - Never paste code or text from closed (ARR) mods; describe behavior instead.
 
+## Terms and labels
+
+A word or label that means two things makes two agents build two different things. So:
+
+1. **One term, one meaning.** Every project term and label scheme is defined once, in [glossary.md](glossary.md) or in the doc it links to, and every doc uses it only in that meaning. Do not use two words for one concept in new text.
+2. **Derived labels for parts.** A part of a labelled unit gets a label derived from its parent: the steps of phase A of M1 are M1-A1, M1-A2. Never reuse the parent's scheme (A, B, C) for a different split.
+3. **A new concept gets a new term.** Do not stretch an existing term to cover it. Changing what a term means is a decision (a D-xx entry); fix every use in the same change.
+4. **Deviations are explicit.** If a doc cannot follow a shared scheme, it says so next to it, like the "Deviations" paragraph in the M0 spec.
+
+Add a term to the glossary when it is first used in more than one doc.
+
 ## Checks
 
-- `npm run docs:check` checks form: links and anchors, index coverage, frontmatter, English-only, size budgets, ADR index, exec-plan sections, skill sync. In Claude Code a Stop hook runs it automatically.
-- Content correctness is checked by people and by the `doc-gardening` skill (or the read-only `doc-gardener` subagent).
+- `npm run docs:check` checks form: links and anchors, index coverage, frontmatter, English-only, size budgets, ADR index, exec-plan sections, milestone phase headings, skill sync. In Claude Code a Stop hook runs it automatically.
+- Content correctness, including terms used in two meanings, is checked by people and by the `doc-gardening` skill (or the read-only `doc-gardener` subagent).

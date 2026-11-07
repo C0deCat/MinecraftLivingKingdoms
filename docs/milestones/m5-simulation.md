@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M5 — Unloaded-world simulation
@@ -23,11 +23,13 @@ Scope note: in singleplayer (and in LAN from [M10](m10-multiplayer.md)), in-game
 
 ## Phases
 
-**A — model.** `World`, `GeographicRegion`, `SimulationCell`, `WorldClock`, `WorldEvent`, place IDs, save format version. List which M4 processes have an abstract counterpart: production, consumption, construction, demography.
+**A — foundation: model.** `World`, `GeographicRegion`, `SimulationCell`, `WorldClock`, `WorldEvent`, place IDs, save format version. List which M4 processes have an abstract counterpart: production, consumption, construction, demography.
 
-**B — single authority.** One authoritative state per village and region. At any moment a village is driven by either the physical or the abstract simulation, never both. A "last computed day" marker. No async block or entity changes off the server thread.
+**B — reconcile: single authority.** One authoritative state per village and region. At any moment a village is driven by either the physical or the abstract simulation, never both. A "last computed day" marker. No async block or entity changes off the server thread.
 
-**C — compute and materialize.** Abstract computation uses the same rules as physical work (recipes or normalized costs). A `Materializer` applies accumulated changes on load with a per-tick budget. Births in an unloaded village create a resident record; the MCA entity appears on materialization.
+**C — integrate: compute and materialize.** Abstract computation uses the same rules as physical work (recipes or normalized costs). A `Materializer` applies accumulated changes on load with a per-tick budget. Births in an unloaded village create a resident record; the MCA entity appears on materialization.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

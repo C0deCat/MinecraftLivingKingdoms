@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M2 — Light gameplay: farming, food, crafts, decor
@@ -37,11 +37,13 @@ Compatibility tools:
 
 ## Phases
 
-**A — install in small batches.** Farmer's Delight + Croptopia, then the Let's Do farming mods, then decor, then convenience. Add newly generated crops and structures to the M1 worldgen regression.
+**A — foundation: install in small batches.** Farmer's Delight + Croptopia, then the Let's Do farming mods, then decor, then convenience. Add newly generated crops and structures to the M1 worldgen regression.
 
 **B — reconcile.** A duplicate matrix (cheese, salt, flour, oil, dough, berries, drinks, vegetables, tools, cooking stations): which items are interchangeable via tags and where recipes use a specific Item ID. Do not disable a nice mechanic just to remove a second item.
 
 **C — integrate.** Canonical ingredients and cooking routes; fill gaps via Pantrywork/adapters, then datapacks/KubeJS. Several full chains: bread/cooking, cheese making, winemaking, herbalism. Consistent decor style without overloaded recipe tabs.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

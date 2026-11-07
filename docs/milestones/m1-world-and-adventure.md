@@ -32,13 +32,17 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 
 ## Phases
 
-**A — base generator.** Fixed world sizes chosen on our own creation screen: Test 2,048, Small 8,192, Medium 12,288, Large 16,384 (default), each a square including an outer ocean: open ocean on the outer ~400 blocks, coasts formed by the generator 300–2,500 blocks in, depending on the size. Per-size Nether ratio (1:4 / 1:4 / 1:6 / 1:8), Twilight Forest 1:1, End bounded like the Overworld; vanilla world types removed ([ADR-0004](../decisions/ADR-0004-world-sizes-and-dimensions.md), D-18). Continents and islands inside the ring, natural limits by coasts and mountain ranges, climate zones. The simulation grid of 128 × 128-block cells scales with the size (16² to 128² cells). Required variety: mountains, large forests, rivers, plains, coasts, cold and warm areas, several large biome masses. No rule that every biome must exist.
+**A — foundation.** The base generator and the structure and adventure mods, in two steps.
 
-**B — resolve contradictions.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and CTOV stay or their areas are reserved for our villages.
+**A1 — base generator.** Fixed world sizes chosen on our own creation screen: Test 2,048, Small 8,192, Medium 12,288, Large 16,384 (default), each a square including an outer ocean: open ocean on the outer ~400 blocks, coasts formed by the generator 300–2,500 blocks in, depending on the size. Per-size Nether ratio (1:4 / 1:4 / 1:6 / 1:8), Twilight Forest 1:1, End bounded like the Overworld; vanilla world types removed ([ADR-0004](../decisions/ADR-0004-world-sizes-and-dimensions.md), D-18). Continents and islands inside the outer ocean, natural limits by coasts and mountain ranges, climate zones. The simulation grid of 128 × 128-block cells scales with the size (16² to 128² cells). Required variety: mountains, large forests, rivers, plains, coasts, cold and warm areas, several large biome masses. No rule that every biome must exist.
 
-Mods that change worldgen in later stages (Croptopia crops, Iron's towers, M4 villages, Dynamic Trees in M7) should be decided and installed here already. Until M11 (release) the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
+Done 2026-11-07: gameplay verified on Large, the other sizes on the test server ([exec plan](../exec-plans/completed/2026-11-06-m1-world.md)).
 
-**C — World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
+**A2 — structure and adventure mods.** The Base mods of the table above that are not installed yet (YUNG's Better Strongholds with YUNG's API, When Dungeons Arise, Dungeons and Taverns), then the candidates, one at a time and each with the user's approval; each launched on a finite world. Mods that change worldgen in later stages (Croptopia crops, Iron's towers, M4 villages, Dynamic Trees in M7) should be decided and installed here already. Until M11 (release) the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
+
+**B — reconcile.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and CTOV stay or their areas are reserved for our villages.
+
+**C — integrate: World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
 - at least one reachable Stronghold with a valid portal;
 - at least one reachable chain for blaze rods and the other End resources;
 - at least 2 mega-dungeons, apart from each other and from settlements;
@@ -47,6 +51,8 @@ Mods that change worldgen in later stages (Croptopia crops, Iron's towers, M4 vi
 - reserved areas for 30–60 settlements, 6–10 starting states, magic schools and workshops (project scale, not generated now).
 
 The validator checks structure presence, location, physical access and input resources. A single `locate` is not a completability check. If a structure is missing: another seed, overridden generation conditions, or a safely placed template.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 
@@ -62,6 +68,6 @@ The validator checks structure presence, location, physical access and input res
 
 ## Open questions
 
-- Pin JARs and dependencies of Terralith, Tectonic, YUNG's, Dungeons and Taverns, When Dungeons Arise; test generation on 3–5 seeds per size.
+- Pin JARs and dependencies of YUNG's, Dungeons and Taverns and When Dungeons Arise (M1-A2); test generation on 3–5 seeds per size (only the seed `livingkingdoms` so far).
 - Write the list of mandatory structures, biome roles and progression paths including Nether, End and Twilight Forest, with per-size counts (TD-10).
-- Does the Twilight Forest boss chain generate correctly at 1:1 on the Test size?
+- Does the Twilight Forest boss chain generate correctly at 1:1 on the Test and Small sizes?

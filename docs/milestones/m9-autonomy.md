@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # M9 — Long autonomous life of the world
@@ -15,11 +15,13 @@ A world without players produces its own consistent history, by extending workin
 
 ## Phases
 
-**A.** Accelerated runs for 1, 5 and 25 in-game years: demography, stock, relations between states, construction dynamics.
+**A — foundation: accelerated runs.** Accelerated runs for 1, 5 and 25 in-game years: demography, stock, relations between states, construction dynamics.
 
-**B.** Stability problems and exploits: vanishing resources, endless migrations, avalanche-like founding of settlements, endless wars, "ghost" NPCs.
+**B — reconcile: stability.** Stability problems and exploits: vanishing resources, endless migrations, avalanche-like founding of settlements, endless wars, "ghost" NPCs.
 
-**C.** By priority: migration, colonization, inheritance, trade treaties, wars and sieges, destruction and recovery, state magic policy.
+**C — integrate: autonomous processes.** By priority: migration, colonization, inheritance, trade treaties, wars and sieges, destruction and recovery, state magic policy.
+
+**D — accept.** See [Acceptance](#acceptance) below.
 
 ## Acceptance
 

@@ -25,7 +25,7 @@ Every line of our own code has to be maintained across updates. Pick the lowest 
 
 ## 3. One source of truth per fact
 
-Each piece of state (a resident's identity, a chest's contents, a mod's version) has exactly one owner. Duplicated state between mods or between physical and abstract simulation is the main source of duplication bugs. The same applies to docs: link instead of copying.
+Each piece of state (a resident's identity, a chest's contents, a mod's version) has exactly one owner. Duplicated state between mods or between physical and abstract simulation is the main source of duplication bugs. The same applies to docs: link instead of copying, and give each term one meaning ([terms and labels](documentation.md#terms-and-labels)).
 
 ## 4. Honest status
 
