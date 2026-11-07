@@ -30,8 +30,8 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - [x] 4. YUNG's Better Desert Temples, Jungle Temples, Witch Huts.
 - [x] 5. YUNG's Better Ocean Monuments, Better Nether Fortresses (inside the Nether border), Better End Island (dragon fight on the bounded End).
 - [x] 6. YUNG's Extras.
-- [ ] 7. When Dungeons Arise: sizes vs border, mega-dungeon candidates.
-- [ ] 8. Dungeons and Taverns: overrides of vanilla structures that clash with YUNG's.
+- [x] 7. When Dungeons Arise: sizes vs border, mega-dungeon candidates.
+- [x] 8. Dungeons and Taverns: overrides of vanilla structures that clash with YUNG's.
 - [ ] 9. Structory + Structory: Towers.
 - [ ] 10. Moog's Structure Lib + Moog's Voyager Structures + Moog's End Structures (outer End islands, TD-13).
 - [ ] 11. Better Archeology + Architectury.
@@ -44,9 +44,10 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 
 - 2026-11-07 — Plan created from the approved Claude Code plan. Candidates checked on Modrinth for 1.21.1 NeoForge (versions, licenses, dependencies); Mowzie's Mobs license read on CurseForge. Decisions recorded in licenses.md, the compatibility matrix, the M1/M3/M4/M7 specs and the tech-debt tracker. Status: docs only.
 - 2026-11-07 — Batch 1: Structure Layout Optimizer 1.0.12 (+ Resourceful Config 3.0.11), Sparse Structures 3.0, Chunky 1.4.23. Test server, Test size, fresh world, seed `livingkingdoms`: Chunky radius 512 = 4,225 chunks in 2:32 (baseline before structure mods), no ERROR. Status: runtime passed on the server; client smoke pending (Prism was open).
-
 - 2026-11-07 — Batch 2: YUNG's API 5.1.9, YUNG's Better Strongholds 5.1.3. Test server, seed `livingkingdoms`: vanilla stronghold replaced; nearest `betterstrongholds:stronghold` at (−1,696, 128) on both Test and Large. On Test that is outside the ±1,024 border (TD-14). Status: runtime passed on the server; portal room not inspected in game.
 - 2026-11-07 — Batches 3–6 added in one go (10 YUNG's mods, not in groups of 3; no error to bisect). Fresh Large world, seed `livingkingdoms`: nearest Better Dungeons (small 1,153, spider 2,065, zombie 2,243, skeleton 2,752 blocks), lush mineshaft 1,508, desert temple 3,444, jungle temple 2,865, witch hut 6,827, ocean monument (−5,472, 6,736) inside the border, `betterfortresses:fortress` 151 blocks from the Nether origin (vanilla fortress replaced), End city 1,642. Chunky radius 512 on Large 2:39, no ERROR. Status: runtime passed on the server; End island fight and bridges not seen in game.
+- 2026-11-07 — Batches 7–8: When Dungeons Arise 2.1.68, Dungeons and Taverns 4.4.4. Large, seed `livingkingdoms`: Chunky radius 512 in 2:32, no FATAL. New ERROR lines (non-fatal): WDA advancements fail to load, "Block-attached entity at invalid position" and one sculk shrieker parse error from underground structures. `/locate`: WDA monastery 3,313 and coliseum 5,751 blocks; Keep Kayra, Shiraz Palace, Plague Asylum and Mining System not found within the locate radius (validator question, M1-C). D&T: tavern 1,657, `village_birch` 1,207, Nether Keep 629, End Castle 1,777. A locate of Keep Kayra blocked one tick for over 60 s and the watchdog stopped the server; the test server now runs with `max-tick-time=-1`. Status: runtime passed on the server.
+- 2026-11-07 — For M1-B: D&T adds villages (birch, jungle, swamp, hamlet, remnant village) and overrides `minecraft:village_taiga`, against the "one village source" decision; D&T `mangrove_witch_hut` next to YUNG's witch huts; slow `/locate` for large WDA structures also affects players.
 
 ## Decision log
 

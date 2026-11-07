@@ -38,6 +38,8 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | YUNG's Better Nether Fortresses | 3.1.5 | M1 | Reworked Nether fortress (blaze spawners, progression) | both | YUNG's API | installed | LGPL-3.0 |
 | YUNG's Better End Island | 3.1.2 | M1 | Reworked main End island and dragon fight | both | YUNG's API | installed | LGPL-3.0 |
 | YUNG's Extras | 5.1.1 | M1 | Small vanilla+ structures and features | both | YUNG's API | installed | LGPL-3.0 |
+| When Dungeons Arise | 2.1.68 | M1 | Large dungeons and landmarks (`dungeons_arise:*`, 40 structures), mega-dungeon candidates | both | — | installed | ARR: config and placement only ([licenses](licenses.md#project-rules)); logs "Couldn't load advancements" for two of its advancements |
+| Dungeons and Taverns | 4.4.4 | M1 | Taverns, small dungeons, points of interest in all three dimensions (`nova_structures:*`) | both | — | installed | ARR: config and placement only; adds its own villages (birch, jungle, swamp, hamlet) and overrides `minecraft:village_taiga` — to be disabled or reserved in M1-B; structures with item frames log "Block-attached entity at invalid position" |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | runtime-ok | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 
 **Side:** `both` / `client` / `server`.

@@ -62,6 +62,8 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | YUNG's Better Nether Fortresses | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | YUNG's Better End Island | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | YUNG's Extras | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| When Dungeons Arise | All Rights Reserved | Modrinth, CurseForge | Yes (link) | No | No (config and placement only) | 2026-11-07, Modrinth page |
+| Dungeons and Taverns | All Rights Reserved | Modrinth | Yes (link) | No | No (config and placement only) | 2026-11-07, Modrinth page |
 | The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
 
 Templates and tools whose files are in the repository:

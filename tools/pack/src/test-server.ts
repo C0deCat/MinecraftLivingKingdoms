@@ -89,6 +89,8 @@ function writeServerConfig(size: string, jvm: string[], seed: string): void {
       "view-distance=6",
       "simulation-distance=6",
       "spawn-protection=0",
+      // No watchdog: a /locate of a rare structure can block one tick for minutes (M1-A2).
+      "max-tick-time=-1",
       "motd=Living Kingdoms worldgen test server",
       "",
     ].join("\n"),
