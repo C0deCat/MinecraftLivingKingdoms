@@ -35,9 +35,9 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - [x] 9. Structory + Structory: Towers.
 - [x] 10. Moog's Structure Lib + Moog's Voyager Structures + Moog's End Structures (outer End islands, TD-13).
 - [x] 11. Better Archeology + Architectury.
-- [ ] 12. GeckoLib, Cerbon's API, Cloth Config + Bosses of Mass Destruction: each arena reachable.
-- [ ] 13. The Graveyard (check its second dependency).
-- [ ] 14. Mowzie's Mobs (credit line for the release notes).
+- [x] 12. GeckoLib, Cerbon's API, Cloth Config + Bosses of Mass Destruction: each arena reachable.
+- [x] 13. The Graveyard (check its second dependency).
+- [x] 14. Mowzie's Mobs (credit line for the release notes).
 - [ ] Close: 3 seeds × Test and Large on the test server; Chunky time and spark on Large vs the batch 1 baseline (quality.md); user check in the client; overlaps into the M1-B list; matrix statuses `runtime-ok`.
 
 ## Progress log
@@ -49,6 +49,8 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - 2026-11-07 — Batches 7–8: When Dungeons Arise 2.1.68, Dungeons and Taverns 4.4.4. Large, seed `livingkingdoms`: Chunky radius 512 in 2:32, no FATAL. New ERROR lines (non-fatal): WDA advancements fail to load, "Block-attached entity at invalid position" and one sculk shrieker parse error from underground structures. `/locate`: WDA monastery 3,313 and coliseum 5,751 blocks; Keep Kayra, Shiraz Palace, Plague Asylum and Mining System not found within the locate radius (validator question, M1-C). D&T: tavern 1,657, `village_birch` 1,207, Nether Keep 629, End Castle 1,777. A locate of Keep Kayra blocked one tick for over 60 s and the watchdog stopped the server; the test server now runs with `max-tick-time=-1`. Status: runtime passed on the server.
 - 2026-11-07 — For M1-B: D&T adds villages (birch, jungle, swamp, hamlet, remnant village) and overrides `minecraft:village_taiga`, against the "one village source" decision; D&T `mangrove_witch_hut` next to YUNG's witch huts; slow `/locate` for large WDA structures also affects players.
 - 2026-11-07 — Batches 9–11: Structory 1.3.14, Structory: Towers 1.0.15, Moog's Structure Lib 3.4.2, Moog's Voyager Structures 5.1.3, Moog's End Structures 2.1.1, Architectury API 13.0.11, Better Archeology 1.3.9. `packwiz modrinth add` chose the "26.2" universal Structory files; Towers 1.0.17 failed to load ("Missing ModLoader"), so both are pinned to the `1.21.x` files. Large, seed `livingkingdoms`: Chunky radius 512 in 2:39, only the known ERROR lines. `/locate`: chapel 1,728, manor 2,920, ancient temple 592, castle ruins 7,096, windmill 643, catacombs 5,107, archeologist camp 2,141, End spire 5,674; wizard tower not found. `/locate` also reports structures beyond the border (End mega ship at x −11,712, border ±8,192), so the M1-C validator must check positions against the border. Status: runtime passed on the server.
+- 2026-11-07 — Batches 12–14: Geckolib 4.9.3, Cloth Config API 15.0.140, CERBON's API 1.3.0, Bosses of Mass Destruction 1.3.3, The Graveyard 4.0.1 (+ VillagersTradingPlus 1.1.1, its required dependency), Mowzie's Mobs 1.8.2. Large, seed `livingkingdoms`: Chunky radius 512 in 2:46, only the known ERROR lines. `/locate`: BoMD lich tower 5,744, void blossom 1,495, Gauntlet arena 121 from the Nether origin, Obsidilith arena 1,641 in the End; Graveyard Lich Prison at (−7,632, −7,680) near the Large edge (validator: may be in the outer ocean ring); large graveyard not found (search ran over 3 minutes); Mowzie's wrought chamber 329, Frostmaw 1,905, Umvuthana grove 3,860, Sculptor monastery 1,529. Status: runtime passed on the server; client smoke and in-game look pending.
+- 2026-11-07 — For M1-B and M4-B: The Graveyard adds "overrun" villages in five biomes; VillagersTradingPlus changes villager trades.
 
 ## Decision log
 

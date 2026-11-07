@@ -47,6 +47,13 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | MES - Moog's End Structures | 2.1.1 | M1 | Structures on the outer End islands (`mes:*`) | both | Moog's Structure Lib | installed | LGPL-3.0; universal multi-version file |
 | Architectury API | 13.0.11 | M1 | Library (Better Archeology) | both | — | installed | LGPL-3.0 |
 | Better Archeology | 1.3.9 | M1 | Excavation sites, catacombs, fossils, artifacts, Archeologist villager | both | Architectury API, Resourceful Config | installed | MIT; Archeologist villager and camps reconciled in M4-B |
+| Geckolib | 4.9.3 | M1 | Animation library (BoMD, Mowzie's Mobs, The Graveyard) | both | — | installed | MIT |
+| Cloth Config API | 15.0.140 | M1 | Config library (BoMD) | both | — | installed | LGPL-3.0 |
+| CERBON's API | 1.3.0 | M1 | Library for Bosses of Mass Destruction | both | — | installed | LGPL-3.0 |
+| Bosses of Mass Destruction Forge | 1.3.3 | M1 | Four bosses with arenas: Night Lich tower and Void Blossom (Overworld), Gauntlet (Nether), Obsidilith (End) | both | Geckolib, Cloth Config API, CERBON's API | installed | LGPL-3.0 |
+| VillagersTradingPlus | 1.1.1 | M1 | Datapack-driven villager trades (The Graveyard dependency) | both | — | installed | GPL-3.0; touches villager trades: check against MCA and our trade in M4-B and M6 |
+| The Graveyard (Fabric/Neoforge) | 4.0.1 | M1 | Graveyards, crypts, haunted houses, undead, Lich boss (`graveyard:*`) | both | Geckolib, VillagersTradingPlus | installed | GPL-3.0; adds "overrun" villages (5 biomes) — M1-B village decision |
+| Mowzie's Mobs | 1.8.2 | M1 | Enemies and bosses: Ferrous Wroughtnaut, Frostmaw, Umvuthi, Sculptor (`mowziesmobs:*`) | both | Geckolib | installed | Custom license: credit with a link to its CurseForge page ([licenses](licenses.md#notes-on-specific-licenses)) |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | runtime-ok | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 
 **Side:** `both` / `client` / `server`.

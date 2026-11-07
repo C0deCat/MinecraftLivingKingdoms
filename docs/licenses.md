@@ -71,6 +71,13 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | MES - Moog's End Structures | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | Architectury API | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | Better Archeology | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Geckolib | MIT | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Cloth Config API | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| CERBON's API | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Bosses of Mass Destruction Forge | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| VillagersTradingPlus | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| The Graveyard (Fabric/Neoforge) | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
+| Mowzie's Mobs | Custom (ARR unless stated; see notes) | Modrinth, CurseForge | Yes (link, credit + CurseForge link required) | No | Faithful changes only | 2026-11-07, CurseForge license page |
 | The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
 
 Templates and tools whose files are in the repository:
