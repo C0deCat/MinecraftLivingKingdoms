@@ -41,7 +41,7 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 - Open construction and worker-NPC mods: licenses and code suitability.
 - Prototype: an MCA resident performs one task of our mod and survives a world reload.
 
-**B — reconcile.** Vanilla villages and villagers, vanilla professions, MCA residents spawning outside our villages, village structures from M1. Lumberjack compatibility with the world's trees — decide on Dynamic Trees here at the latest.
+**B — reconcile.** Vanilla villages and villagers, vanilla professions, MCA residents spawning outside our villages, village structures from M1, the Better Archeology Archeologist villager and its tents. Lumberjacks are built for vanilla and Terralith trees; Dynamic Trees is decided in M7 (TD-06).
 
 **C — integrate.** Slices S1–S4 in order, each released.
 

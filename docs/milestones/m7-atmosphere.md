@@ -18,7 +18,7 @@ Nature changes by itself and affects village economies; this is visible when the
 | Status | Mod | Notes |
 | --- | --- | --- |
 | Base | [Serene Seasons](https://modrinth.com/mod/serene-seasons) + GlitchCore | Seasons, seasonal vegetation and climate |
-| Candidate | [Dynamic Trees](https://www.curseforge.com/minecraft/mc-mods/dynamictrees) | Forest growth; changes worldgen and affects lumberjacks — decide no later than M4-B |
+| Candidate | [Dynamic Trees](https://www.curseforge.com/minecraft/mc-mods/dynamictrees) | Forest growth; changes worldgen and affects lumberjacks — spike in M7-A, adopting it reopens M1 and M4 lumberjacks (TD-06) |
 | Candidate | [Immersive Weathering: Renewed](https://modrinth.com/mod/immersive-weather-renewed) | Signs of age, moss, oxidation |
 | Alternative A | [Weather2](https://www.curseforge.com/minecraft/mc-mods/weather-storms-tornadoes) + CoroUtil | Storms and tornadoes |
 | Alternative B | [ProtoManly's Weather](https://modrinth.com/mod/protomanlys-weather) | Spectacular storms; incompatible with shaders, heavy GPU load |

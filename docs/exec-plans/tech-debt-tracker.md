@@ -11,8 +11,7 @@ Known gaps, unverified facts and deferred decisions. Each item names where it is
 | --- | --- | --- | --- |
 | TD-02 | Verify MCA Reborn license, platform hosting and API on its pages ([licenses.md](../licenses.md)) | M4-A | 2026-11-06 |
 | TD-03 | Verify MCA Capitals license, 1.21.1 file and API | M6-A | 2026-11-06 |
-| TD-04 | Verify CTOV license (CC BY-NC-ND 4.0, unverified early research) | M1-B | 2026-11-06 |
-| TD-06 | Decide on Dynamic Trees: affects worldgen and lumberjacks | M4-B at the latest | 2026-11-06 |
+| TD-06 | Decide on Dynamic Trees: affects worldgen and lumberjacks. Moved to M7 as a spike next to the weather mods (2026-11-07, with the user); M4 lumberjacks are built for vanilla and Terralith trees, and a Dynamic Trees adoption in M7 reopens them and M1 for a regression | M7-A (spike) | 2026-11-06 |
 | TD-07 | Choose the publishing platform (Modrinth vs CurseForge) | Before the first public release | 2026-11-06 |
 | TD-08 | Add CI running `npm run docs:check` once a GitHub remote exists; consider a scheduled doc-gardening run | When the remote exists | 2026-11-06 |
 | TD-10 | Per-size content targets: mandatory structures (M1-C), settlement and state counts (M4, M6) for Test/Small/Medium/Large | M1-C, M4-A | 2026-11-06 |

@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-07
 ---
 
 # Mod licenses and usage rules
@@ -30,6 +30,8 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 - Code of closed mods is never copied or decompiled into the repository (D-16).
 - No paid access to the pack or parts of it is planned: some mod licenses explicitly forbid it.
 - Our mod's license will most likely be GPLv3 if it depends deeply on MCA Reborn code (GPLv3).
+- **ARR mods** (All Rights Reserved) that allow modpack inclusion may be in the pack as platform links. We change them only through configs, tags, biome lists and structure placement datapacks (`structure_set`, spacing, biome filters). We never ship modified copies of their code, templates or assets. Deeper changes (template edits, Mixin-level behaviour changes beyond compatibility fixes, add-ons that reuse their assets) are made only in openly licensed mods (2026-11-07, with the user).
+- **ND licenses** (CC BY-NC-ND and similar) are not used for mods we expect to extend or integrate deeply: add-ons and edited data could count as derivative works (2026-11-07, reason for rejecting L_Ender's Cataclysm).
 
 ## 2. Registry
 
@@ -37,7 +39,6 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | --- | --- | --- | --- | --- | --- | --- |
 | MCA Reborn | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
 | MCA Capitals | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
-| CTOV | CC BY-NC-ND 4.0 (unverified, early research) | Modrinth | ? | No | No (ND) | Not checked |
 | spark | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | ModernFix | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | FerriteCore | MIT | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
@@ -60,6 +61,7 @@ Other mods are added as they are audited. "Unverified" means the value still nee
 ### Notes on specific licenses
 
 - **Terralith (Stardust Labs License).** Its "Prohibited uses" bans using Stardust Labs works "to configure, test, debug, or augment any artificial intelligence, neural network, or other generative system" and in "any AI project". AI agents configure and test this pack. On 2026-11-06 the user decided to use Terralith anyway, reading the clause as being about building or training AI systems, not about making a game with AI-assisted tooling. Revisit if Stardust Labs clarifies or changes the license, and before the public release. Other obligations: unmodified only, credit Stardust Labs with a link, overrides only as add-on datapacks.
+- **Mowzie's Mobs (custom license, checked 2026-11-07 on the [CurseForge license page](https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs/license)).** "All Rights Reserved unless otherwise explicitly stated". Private play and modpacks are outside its scope; public distribution requires crediting "Mowzie's Mobs" with a link to its CurseForge page, forbids selling its content and forbids competing projects. Alterations are allowed if they stay faithful to the source material; modpack integration and story changes are named as allowed, drastic changes need the author's agreement. Compatible with the pack; candidate for M1-A2 (step 14 of the [structures plan](exec-plans/active/2026-11-07-m1-structures.md)).
 - **The Twilight Forest.** We override one data file (the dimension type's `coordinate_scale`, ADR-0004) from our own mod; no TF code, sounds or structures are copied.
 
 ## 3. Rejected mods
@@ -69,6 +71,14 @@ License findings for mods we decided not to use. The full list with reasons is i
 ### Millénaire
 
 Checked 2026-11-06: All Rights Reserved (modpack inclusion allowed, forking and modification not), Java sources closed, not hosted on Modrinth. Not used; see [ADR-0001](decisions/ADR-0001-own-settlement-mod.md). Source: [CurseForge license page](https://www.curseforge.com/minecraft/mc-mods/millenaire/license).
+
+### CTOV and Towns and Towers
+
+CTOV: CC BY-NC-ND 4.0 (Modrinth, 2026-11-07). Towns and Towers: CC BY-NC-SA 4.0, needs Cristel Lib (CC BY-NC-ND 4.0). Rejected on 2026-11-07 for design reasons: a second village source next to our own villages (M4); see the [compatibility matrix](compatibility-matrix.md#rejected-mods).
+
+### L_Ender's Cataclysm
+
+Checked 2026-11-07: CC BY-NC-ND 4.0 (Modrinth). Rejected: we expect to integrate and extend mods, and ND forbids derivative works.
 
 ### Bounded Not Free
 

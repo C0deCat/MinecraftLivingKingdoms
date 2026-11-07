@@ -60,4 +60,5 @@ Ars addon catalog with known incompatibilities: [Ars Nouveau 1.21.1 addons guide
 ## Open questions
 
 - Primary pool (`ars_primary` vs `iss_primary`) and the starting rate `k`; armor, regeneration and display checks.
+- Optional: Better Archeology artifacts, shards or fossils as ritual or glyph ingredients (datapack or KubeJS); the mod works without magic integration.
 - Specific minimal Ars restrictions and the Occultism recipes that really need a price increase after testing.

@@ -22,13 +22,20 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 | Base | [Tectonic](https://modrinth.com/mod/tectonic) | Large-scale terrain; includes Terralith compatibility |
 | Base | [Lithostitched](https://modrinth.com/mod/lithostitched) | Worldgen compatibility layer (Tectonic dependency); carries our world-edge modifiers |
 | Base | [YUNG's Better Strongholds](https://modrinth.com/mod/yungs-better-strongholds) + YUNG's API | Strongholds with the End portal |
-| Base | [When Dungeons Arise](https://www.curseforge.com/minecraft/mc-mods/when-dungeons-arise) | Large structures, candidates for 1–2 mega-dungeons |
-| Base | [Dungeons and Taverns](https://modrinth.com/mod/dungeons-and-taverns) | Inns, small dungeons, points of interest |
-| Candidate | YUNG's Better Dungeons / Mineshafts / Bridges | Extra structures; check spawning on a finite map |
-| Candidate | [Mowzie's Mobs](https://modrinth.com/mod/mowzies-mobs) | Expressive enemies and bosses |
+| Base | YUNG's Better Dungeons, Mineshafts, Bridges, Desert Temples, Jungle Temples, Witch Huts, Ocean Monuments, Nether Fortresses, End Island, Extras | Reworked vanilla structures; LGPL-3.0 |
+| Base | [When Dungeons Arise](https://modrinth.com/mod/when-dungeons-arise) | Large structures, candidates for 1–2 mega-dungeons; ARR, config and placement changes only |
+| Base | [Dungeons and Taverns](https://modrinth.com/mod/dungeons-and-taverns) | Inns, small dungeons, points of interest; ARR, config and placement changes only |
+| Base | [Structory](https://modrinth.com/mod/structory) + [Structory: Towers](https://modrinth.com/mod/structory-towers) | Ruins, small points of interest, biome-themed towers |
+| Base | [Moog's Voyager Structures](https://modrinth.com/mod/moogs-voyager-structures) + [Moog's End Structures](https://modrinth.com/mod/mes-moogs-end-structures) | Vanilla-style structures between the large ones; content for the outer End islands |
+| Base | [Better Archeology](https://modrinth.com/mod/better-archeology) | Excavation sites, artifacts, fossils; its Archeologist villager is reconciled in M4-B |
+| Base | [Bosses of Mass Destruction](https://modrinth.com/mod/bosses-of-mass-destruction-forge) | Four bosses with their own arenas in the Overworld, Nether and End; LGPL-3.0 |
+| Base | [The Graveyard](https://modrinth.com/mod/the-graveyard-fabric) | Graveyards, crypts, undead, a Lich boss; GPL-3.0 |
+| Base | [Mowzie's Mobs](https://modrinth.com/mod/mowzies-mobs) | Expressive enemies and bosses; custom license, credit required ([licenses](../licenses.md#notes-on-specific-licenses)) |
 | Base | [The Twilight Forest](https://www.curseforge.com/minecraft/mc-mods/the-twilight-forest) | Adventure dimension with a boss chain, 1:1 with the Overworld |
-| Candidate | [CTOV](https://modrinth.com/mod/ct-overhaul-village), Towns and Towers, Structory | Town architecture; may conflict with our villages (M4); CTOV is CC BY-NC-ND |
 | Tool | [Chunky](https://github.com/pop4959/Chunky) (pop4959) | Pre-generation and checks; not the ore-"chunks" mod with the same name |
+| Tool | [Structure Layout Optimizer](https://modrinth.com/mod/structure-layout-optimizer), [Sparse Structures](https://modrinth.com/mod/sparsestructures) | Faster jigsaw generation; one config for structure density on the finite map |
+
+Rejected for M1 (2026-11-07): CTOV and Towns and Towers (a second village source next to ours), L_Ender's Cataclysm (ND license) — see [Rejected mods](../compatibility-matrix.md#rejected-mods). Considered and not taken now: The Aether, Deeper and Darker (each new dimension needs border code and validator coverage), Illager Invasion, Mutant Monsters, Artifacts.
 
 ## Phases
 
@@ -38,7 +45,7 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 
 Done 2026-11-07: gameplay verified on Large, the other sizes on the test server ([exec plan](../exec-plans/completed/2026-11-06-m1-world.md)).
 
-**A2 — structure and adventure mods.** The Base mods of the table above that are not installed yet (YUNG's Better Strongholds with YUNG's API, When Dungeons Arise, Dungeons and Taverns), then the candidates, one at a time and each with the user's approval; each launched on a finite world. Mods that change worldgen in later stages (Croptopia crops, Iron's towers, M4 villages, Dynamic Trees in M7) should be decided and installed here already. Until M11 (release) the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
+**A2 — structure and adventure mods.** The Base and Tool mods of the table above that are not installed yet, in small batches agreed with the user (2026-11-07), each launched on a finite world ([exec plan](../exec-plans/active/2026-11-07-m1-structures.md)). Worldgen of later milestones (wild crops of Farmer's Delight, Croptopia and Let's Do; Iron's, Ars and Occultism structures and ores) is installed with those milestones, not here (2026-11-07, with the user); Dynamic Trees is a spike in M7 (TD-06). Until M11 (release) the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
 
 **B — reconcile.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and CTOV stay or their areas are reserved for our villages.
 
@@ -68,6 +75,6 @@ The validator checks structure presence, location, physical access and input res
 
 ## Open questions
 
-- Pin JARs and dependencies of YUNG's, Dungeons and Taverns and When Dungeons Arise (M1-A2); test generation on 3–5 seeds per size (only the seed `livingkingdoms` so far).
+- Pin JARs and dependencies of the M1-A2 batches; test generation on 3–5 seeds per size (only the seed `livingkingdoms` so far).
 - Write the list of mandatory structures, biome roles and progression paths including Nether, End and Twilight Forest, with per-size counts (TD-10).
 - Does the Twilight Forest boss chain generate correctly at 1:1 on the Test and Small sizes?

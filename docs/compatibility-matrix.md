@@ -34,6 +34,9 @@ Mods we decided not to use. Check this list before proposing a mod; do not propo
 | Mod | Rejected | Reason | Record |
 | --- | --- | --- | --- |
 | Bounded Not Free | 2026-11-06 | M1-A spike: with Tectonic it cannot shape terrain ("Active noise router did not expose all climate fields; missing [CONTINENTALNESS, EROSION, WEIRDNESS]"), so land reached the border and only biomes changed. Our Lithostitched-based edge falloff produced the outer ocean on the same seed. Also a very small project (~450 downloads). License CC BY-NC-SA 4.0 + modpack permission | [ADR-0004](decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-06-world-edge-spike-result) |
+| L_Ender's Cataclysm | 2026-11-07 | CC BY-NC-ND 4.0: we expect add-ons and deep integration, ND forbids derivative works ([licenses](licenses.md#project-rules)) | [licenses.md](licenses.md#lenders-cataclysm) |
+| CTOV (ChoiceTheorem's Overhauled Village) | 2026-11-07 | A second village source next to our own villages from M4; also CC BY-NC-ND 4.0 | [licenses.md](licenses.md#ctov-and-towns-and-towers) |
+| Towns and Towers | 2026-11-07 | A second village source next to our own villages from M4; needs Cristel Lib (CC BY-NC-ND 4.0) | [licenses.md](licenses.md#ctov-and-towns-and-towers) |
 | Millénaire | 2026-11-06 | Closed source and All Rights Reserved: no fork or modification, not on Modrinth. Its villagers would compete with MCA Reborn as a second NPC model, and its economy cannot be simulated off-screen without its code. Replaced by our own settlement mod. Ideas may still be studied in-game, never its code or assets | [ADR-0001](decisions/ADR-0001-own-settlement-mod.md) |
 
 ## Platform check (2026-11-06)

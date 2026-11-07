@@ -4,7 +4,7 @@ A Minecraft 1.21.1 NeoForge fantasy pack that grows, milestone by milestone, int
 
 This file is a map. Details live in the linked docs; read the ones your task needs.
 
-**Status:** M0 accepted in singleplayer. [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md): step M1-A1 (base generator) done: four fixed world sizes, own size selector, per-dimension borders, natural world edge, Twilight Forest 1:1 ([ADR-0004](docs/decisions/ADR-0004-world-sizes-and-dimensions.md)). Next: M1-A2, structure and adventure mods.
+**Status:** M0 accepted in singleplayer. [M1 — World and adventure](docs/milestones/m1-world-and-adventure.md): step M1-A1 (base generator) done: four fixed world sizes, own size selector, per-dimension borders, natural world edge, Twilight Forest 1:1 ([ADR-0004](docs/decisions/ADR-0004-world-sizes-and-dimensions.md)). M1-A2 (structure and adventure mods): mod list agreed, installing in batches ([exec plan](docs/exec-plans/active/2026-11-07-m1-structures.md)).
 
 ## Non-negotiables
 
