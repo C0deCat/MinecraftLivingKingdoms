@@ -27,6 +27,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
  * {@code /lkworld map [step]} renders the whole Overworld inside the border to a PNG
  * straight from the generator noise (no chunks are generated). Used to judge the world edge, the
  * ocean ring and the land share. Output: {@code <world>/livingkingdoms/map-<size>.png}.
+ * {@code /lkworld coast} and {@code /lkworld structures} are in {@link CoastProfile} and {@link StructureCensus}.
  */
 final class WorldMapCommand {
     private static final int SEA_LEVEL = 63;
@@ -42,6 +43,10 @@ final class WorldMapCommand {
                         .executes(context -> CoastProfile.start(context.getSource(), 720))
                         .then(Commands.argument("rays", IntegerArgumentType.integer(16, 8192))
                                 .executes(context -> CoastProfile.start(context.getSource(), IntegerArgumentType.getInteger(context, "rays")))))
+                .then(Commands.literal("structures")
+                        .executes(context -> StructureCensus.start(context.getSource(), 1536))
+                        .then(Commands.argument("radius", IntegerArgumentType.integer(64, 16384))
+                                .executes(context -> StructureCensus.start(context.getSource(), IntegerArgumentType.getInteger(context, "radius")))))
                 .then(Commands.literal("map")
                         .executes(context -> render(context, 0))
                         .then(Commands.argument("step", IntegerArgumentType.integer(4, 256))

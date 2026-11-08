@@ -21,7 +21,7 @@ The world mods of M1-A work as one world: one village source until M4, no struct
 ## Steps
 
 - [x] 1. Decisions: villages until M4, Test development-only (ADR-0004 amendment, TD-14 closed), this plan, Lithostitched structure modifier notes.
-- [ ] 2. `/lkworld structures [radius]` census in `livingkingdoms-world`: structure starts in the radius, bounding boxes, border check, footprint relief and water share for surface structures, overlapping pairs; CSV in the world folder and a summary.
+- [x] 2. `/lkworld structures [radius]` census in `livingkingdoms-world`: structure starts in the radius, bounding boxes, border check, footprint relief and water share for surface structures, overlapping pairs; CSV in the world folder and a summary.
 - [ ] 3. Baseline census: Large, seeds `livingkingdoms` and `alpha`, Chunky radius 1,536 in the Overworld, Nether and End.
 - [ ] 4. Fixes as Lithostitched modifiers in our world mod: remove the D&T village sets; then placement fixes picked from the census, one at a time with a census run after each.
 - [ ] 5. Renderer: Sodium + Iris as client-side mods; verify-mods, smoke, test server without them; user check of GeckoLib mobs, structures, FPS and spark.
@@ -30,6 +30,7 @@ The world mods of M1-A work as one world: one village source until M4, no struct
 ## Progress log
 
 - 2026-11-08 — Plan created from the approved Claude Code plan. Checked for it: Lithostitched 1.8.1 has `remove_structure_set_entries` and `set_structure_spawn_condition` (fields read in its MIT sources, branch `21.1`); D&T villages are three structure sets; D&T adds its End Castle to `#minecraft:eye_of_ender_located` and ships unused jigsaw pools under `minecraft:nether_fortress/*`. Decisions recorded. Status: docs only.
+- 2026-11-08 — `/lkworld structures [radius]` added (`StructureCensus`). First try used whole bounding boxes: jigsaw boxes include empty space (an illager campsite of 173 × 122 "overlapped" five structures) and relief over a whole box exaggerates slope in mountains. Now overlaps need intersecting pieces and the slope is the worst piece (relief under a piece / its longer side, flagged above 0.5); water share over all piece samples (flagged above 50%). Large, seed `livingkingdoms`, radius 512: 30 starts, 1 overlapping pair (WDA bathhouse × illager campsite), 12 of 26 surface starts steep (spawn is in Tectonic mountains). Status: build passed, runtime passed on the server.
 
 ## Decision log
 
