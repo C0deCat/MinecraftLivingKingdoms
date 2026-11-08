@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-07
+last_reviewed: 2026-11-08
 ---
 
 # M7 — Atmosphere: seasons, trees, weather
@@ -44,5 +44,5 @@ Weather2 and ProtoManly are never installed together.
 
 ## Open questions
 
-- Separate test of Weather2 and ProtoManly with shaders/Iris/Distant Horizons/seasons/performance.
+- Separate test of Weather2 and ProtoManly with the shader pack chosen in M1-C2, Iris, Distant Horizons, seasons and performance. The renderer (Sodium + Iris) comes in M1-B and the base shader pack in M1-C2; M7 re-checks them and may adjust shader settings, it does not choose them.
 - Dynamic Trees vs M4 lumberjacks.

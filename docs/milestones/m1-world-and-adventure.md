@@ -34,6 +34,8 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 | Base | [The Twilight Forest](https://www.curseforge.com/minecraft/mc-mods/the-twilight-forest) | Adventure dimension with a boss chain, 1:1 with the Overworld |
 | Tool | [Chunky](https://github.com/pop4959/Chunky) (pop4959) | Pre-generation and checks; not the ore-"chunks" mod with the same name |
 | Tool | [Structure Layout Optimizer](https://modrinth.com/mod/structure-layout-optimizer), [Sparse Structures](https://modrinth.com/mod/sparsestructures) | Faster jigsaw generation; one config for structure density on the finite map |
+| Candidate (client) | [Sodium](https://modrinth.com/mod/sodium) + [Iris](https://modrinth.com/mod/iris) | Renderer and shader loader, installed in M1-B. NeoForge 1.21.1 builds exist (Sodium 0.8.13, Iris 1.8.14 beta, checked 2026-11-08). Sodium is PolyForm Shield 1.0.0 (non-compete, modpacks allowed), Iris LGPL-3.0. Embeddium is the fallback renderer (LGPL, last 1.21.1 file 2025-01); Oculus has no 1.21.1 build |
+| Candidate (client, optional) | Shader pack, e.g. [Complementary Reimagined](https://modrinth.com/shader/complementary-reimagined) or [BSL](https://modrinth.com/shader/bsl-shaders) | Chosen in M1-C2; an optional packwiz file, so the pack runs without it. Both have custom or ARR licenses: link only, never shipped as a file |
 
 Rejected for M1 (2026-11-07): CTOV and Towns and Towers (a second village source next to ours), L_Ender's Cataclysm (ND license) — see [Rejected mods](../compatibility-matrix.md#rejected-mods). Considered and not taken now: The Aether, Deeper and Darker (each new dimension needs border code and validator coverage), Illager Invasion, Mutant Monsters, Artifacts.
 
@@ -49,9 +51,11 @@ Done 2026-11-07: gameplay verified on Large, the other sizes on the test server 
 
 Done 2026-11-08: all Base and Tool mods installed, gameplay verified on Large for the visited structures, Test and Large checked on 4 seeds on the test server ([exec plan](../exec-plans/completed/2026-11-07-m1-structures.md)).
 
-**B — reconcile.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and CTOV stay or their areas are reserved for our villages.
+**B — reconcile.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and the villages added by Dungeons and Taverns and The Graveyard stay or their areas are reserved for our villages (CTOV and Towns and Towers are rejected). Install the renderer (Sodium + Iris) as client-side mods and check it against the GeckoLib mods (bosses, Mowzie's Mobs) and the structures; take a new client FPS and spark reading, since earlier readings are without it (2026-11-08, with the user).
 
-**C — integrate: World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
+**C — integrate.** The content manifest with its validator, then the visual profile, in two steps.
+
+**C1 — World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
 - at least one reachable Stronghold with a valid portal;
 - at least one reachable chain for blaze rods and the other End resources;
 - at least 2 mega-dungeons, apart from each other and from settlements;
@@ -61,14 +65,16 @@ Done 2026-11-08: all Base and Tool mods installed, gameplay verified on Large fo
 
 The validator checks structure presence, location, physical access and input resources. A single `locate` is not a completability check. If a structure is missing: another seed, overridden generation conditions, or a safely placed template.
 
-**D — accept.** See [Acceptance](#acceptance) below.
+**C2 — visual profile.** Choose the pack's shader pack before M1 is accepted, so the world is judged in its final look (2026-11-08, with the user): 1–2 candidates from Modrinth, licenses recorded, settings, FPS on the host PC. The shader pack is an optional packwiz file; the pack must look and run acceptably without it. Weather, seasons, fog and Distant Horizons are re-checked with it in [M7](m7-atmosphere.md).
+
+**D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled.
 
 ## Acceptance
 
 - A chosen seed produces a reproducible, varied map.
 - Core Minecraft progression and key modded adventures are possible.
 - The validator report has no critical gaps.
-- Generating and loading new chunks shows no critical errors; performance measured on the host PC.
+- Generating and loading new chunks shows no critical errors; performance measured on the host PC, with and without the shader pack.
 
 ## Out of scope
 
