@@ -78,6 +78,8 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | VillagersTradingPlus | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | The Graveyard (Fabric/Neoforge) | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-07, Modrinth page |
 | Mowzie's Mobs | Custom (ARR unless stated; see notes) | Modrinth, CurseForge | Yes (link, credit + CurseForge link required) | No | Faithful changes only | 2026-11-07, CurseForge license page |
+| Sodium | PolyForm Shield 1.0.0 (non-compete; use and modpacks allowed) | Modrinth | Yes (link) | No | No | 2026-11-08, Modrinth page |
+| Iris Shaders | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-08, Modrinth page |
 | The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
 
 Templates and tools whose files are in the repository:

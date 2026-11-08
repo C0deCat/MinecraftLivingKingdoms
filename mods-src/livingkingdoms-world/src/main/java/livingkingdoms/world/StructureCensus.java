@@ -53,11 +53,13 @@ final class StructureCensus {
     static final double WET_SHARE = 0.5;
     private static final int SAMPLE_STEP = 4;
     private static final int MIN_PIECE = 8;
+    private static final int FLOAT_GAP = 3;
     private static final int TOP = 12;
 
     private StructureCensus() {}
 
-    record Start(String id, String step, BoundingBox box, List<BoundingBox> pieces, boolean inside, double slope, int relief, double water) {
+    record Start(String id, String step, BoundingBox box, List<BoundingBox> pieces, boolean inside, double slope, int relief, double water,
+                 BoundingBox entranceBox, String entrance) {
         String namespace() {
             return id.substring(0, id.indexOf(':'));
         }
@@ -119,6 +121,8 @@ final class StructureCensus {
                     double slope = -1;
                     int relief = -1;
                     double water = -1;
+                    BoundingBox entranceBox = pieces.isEmpty() ? box : pieces.get(0);
+                    String entrance = "-";
                     if (terrain && step.equals(GenerationStep.Decoration.SURFACE_STRUCTURES.getName())) {
                         int wet = 0;
                         int total = 0;
@@ -136,8 +140,9 @@ final class StructureCensus {
                             total += ground[2];
                         }
                         water = total > 0 ? wet / (double) total : 0;
+                        entrance = entranceState(generator, level, random, entranceBox, seaLevel);
                     }
-                    starts.add(new Start(id, step, box, pieces, inside, slope, relief, water));
+                    starts.add(new Start(id, step, box, pieces, inside, slope, relief, water, entranceBox, entrance));
                 }
             }
         }
@@ -158,6 +163,20 @@ final class StructureCensus {
         for (String line : message.split("\n")) LivingKingdomsWorld.LOGGER.info(line);
         String first = message.substring(0, message.indexOf('\n') < 0 ? message.length() : message.indexOf('\n'));
         source.getServer().execute(() -> source.sendSuccess(() -> Component.literal(first), false));
+    }
+
+    /**
+     * Where the start piece (the entrance of a jigsaw structure) sits against the ground under it:
+     * {@code buried} if its top is below the lowest ground, {@code floating} if its bottom is more
+     * than {@value #FLOAT_GAP} blocks above the highest ground, otherwise {@code ok}.
+     */
+    private static String entranceState(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox entrance, int seaLevel) {
+        int[] ground = footprint(generator, level, random, entrance, seaLevel);
+        int lowest = ground[3];
+        int highest = lowest + ground[0];
+        if (entrance.maxY() < lowest) return "buried";
+        if (entrance.minY() > highest + FLOAT_GAP) return "floating";
+        return "ok";
     }
 
     /** Relief, wet samples, total samples and lowest ground under a box, from the generator noise. */
@@ -213,15 +232,19 @@ final class StructureCensus {
         StringBuilder out = new StringBuilder();
         long surface = starts.stream().filter(Start::surface).count();
         long outside = starts.stream().filter(s -> !s.inside()).count();
-        List<Start> measured = starts.stream().filter(s -> s.slope() >= 0).toList();
+        List<Start> measured = starts.stream().filter(s -> !s.entrance().equals("-")).toList();
         long steep = measured.stream().filter(s -> s.slope() > STEEP_SLOPE).count();
+        long buried = measured.stream().filter(s -> s.entrance().equals("buried")).count();
+        long floating = measured.stream().filter(s -> s.entrance().equals("floating")).count();
         long wet = measured.stream().filter(s -> s.water() > WET_SHARE).count();
         List<Overlap> surfacePairs = overlaps.stream().filter(o -> o.a().surface() && o.b().surface()).toList();
         out.append(String.format(Locale.ROOT,
                 "Structures %s %s: radius %d, %d starts (%d surface, %d outside the border), %d overlapping pairs (%d surface-surface), "
-                        + "%d of %d measured surface starts with a piece slope > %.1f, %d with > %.0f%% water, %d ms -> %s",
+                        + "%d of %d measured surface starts with a piece slope > %.1f, %d with > %.0f%% water, "
+                        + "entrances %d buried / %d floating, %d ms -> %s",
                 level.dimension().location(), size.id(), radius, starts.size(), surface, outside, overlaps.size(),
-                surfacePairs.size(), steep, measured.size(), STEEP_SLOPE, wet, WET_SHARE * 100, millis, file.toAbsolutePath()));
+                surfacePairs.size(), steep, measured.size(), STEEP_SLOPE, wet, WET_SHARE * 100, buried, floating, millis,
+                file.toAbsolutePath()));
         Map<String, Long> perNamespace = new TreeMap<>(starts.stream().collect(Collectors.groupingBy(Start::namespace, Collectors.counting())));
         out.append("\n  per mod: ").append(perNamespace);
         out.append("\n  overlapping pairs (surface-surface first):");
@@ -237,6 +260,17 @@ final class StructureCensus {
                         .thenComparing(Map.Entry.<String, Long>comparingByValue().reversed()))
                 .limit(TOP)
                 .forEach(e -> out.append("\n    ").append(e.getValue()).append(" ").append(e.getKey()));
+        out.append("\n  buried or floating entrances (buried/floating/measured):");
+        measured.stream()
+                .collect(Collectors.groupingBy(Start::id))
+                .entrySet().stream()
+                .filter(e -> e.getValue().stream().anyMatch(s -> !s.entrance().equals("ok")))
+                .sorted(Comparator.comparingLong(e -> -e.getValue().stream().filter(s -> !s.entrance().equals("ok")).count()))
+                .limit(TOP)
+                .forEach(e -> out.append(String.format(Locale.ROOT, "\n    %d/%d/%d %s",
+                        e.getValue().stream().filter(s -> s.entrance().equals("buried")).count(),
+                        e.getValue().stream().filter(s -> s.entrance().equals("floating")).count(),
+                        e.getValue().size(), e.getKey())));
         out.append("\n  steep or wet surface structures (flagged/all, mean worst-piece slope, mean water):");
         measured.stream()
                 .collect(Collectors.groupingBy(Start::id))
@@ -248,7 +282,7 @@ final class StructureCensus {
                 .forEach(e -> {
                     List<Start> list = e.getValue();
                     long bad = list.stream().filter(Start::flagged).count();
-                    double slope = list.stream().mapToDouble(Start::slope).average().orElse(0);
+                    double slope = list.stream().mapToDouble(Start::slope).filter(v -> v >= 0).average().orElse(0);
                     double water = list.stream().mapToDouble(Start::water).average().orElse(0);
                     out.append(String.format(Locale.ROOT, "\n    %d/%d %s (slope %.2f, water %.0f%%)", bad, list.size(), e.getKey(), slope, water * 100));
                 });
@@ -257,11 +291,14 @@ final class StructureCensus {
 
     private static void writeStarts(Path file, List<Start> starts) throws IOException {
         try (Writer w = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
-            w.write("id,namespace,step,min_x,min_y,min_z,max_x,max_y,max_z,pieces,inside_border,piece_slope,piece_relief,water_share\n");
+            w.write("id,namespace,step,min_x,min_y,min_z,max_x,max_y,max_z,pieces,inside_border,piece_slope,piece_relief,water_share,"
+                    + "entrance,entrance_x,entrance_y,entrance_z\n");
             for (Start s : starts) {
                 BoundingBox b = s.box();
-                w.write(String.format(Locale.ROOT, "%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%b,%.3f,%d,%.3f%n", s.id(), s.namespace(), s.step(),
-                        b.minX(), b.minY(), b.minZ(), b.maxX(), b.maxY(), b.maxZ(), s.pieces().size(), s.inside(), s.slope(), s.relief(), s.water()));
+                BoundingBox e = s.entranceBox();
+                w.write(String.format(Locale.ROOT, "%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%b,%.3f,%d,%.3f,%s,%d,%d,%d%n", s.id(), s.namespace(), s.step(),
+                        b.minX(), b.minY(), b.minZ(), b.maxX(), b.maxY(), b.maxZ(), s.pieces().size(), s.inside(), s.slope(), s.relief(), s.water(),
+                        s.entrance(), e.getCenter().getX(), e.maxY(), e.getCenter().getZ()));
             }
         }
     }
