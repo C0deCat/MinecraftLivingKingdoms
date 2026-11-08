@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-07
+last_reviewed: 2026-11-08
 ---
 
 # M1 — Finite world generation and adventure progression
@@ -45,7 +45,9 @@ Rejected for M1 (2026-11-07): CTOV and Towns and Towers (a second village source
 
 Done 2026-11-07: gameplay verified on Large, the other sizes on the test server ([exec plan](../exec-plans/completed/2026-11-06-m1-world.md)).
 
-**A2 — structure and adventure mods.** The Base and Tool mods of the table above that are not installed yet, in small batches agreed with the user (2026-11-07), each launched on a finite world ([exec plan](../exec-plans/active/2026-11-07-m1-structures.md)). Worldgen of later milestones (wild crops of Farmer's Delight, Croptopia and Let's Do; Iron's, Ars and Occultism structures and ores) is installed with those milestones, not here (2026-11-07, with the user); Dynamic Trees is a spike in M7 (TD-06). Until M11 (release) the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
+**A2 — structure and adventure mods.** The Base and Tool mods of the table above that are not installed yet, in small batches agreed with the user (2026-11-07), each launched on a finite world ([exec plan](../exec-plans/completed/2026-11-07-m1-structures.md)). Worldgen of later milestones (wild crops of Farmer's Delight, Croptopia and Let's Do; Iron's, Ars and Occultism structures and ores) is installed with those milestones, not here (2026-11-07, with the user); Dynamic Trees is a spike in M7 (TD-06). Until M11 (release) the world is disposable: test worlds are recreated, saves are not migrated. A mod added later that generates plants, ores, temples or mob structures reopens M1 for a targeted regression, not a redesign.
+
+Done 2026-11-08: all Base and Tool mods installed, gameplay verified on Large for the visited structures, Test and Large checked on 4 seeds on the test server ([exec plan](../exec-plans/completed/2026-11-07-m1-structures.md)).
 
 **B — reconcile.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and CTOV stay or their areas are reserved for our villages.
 

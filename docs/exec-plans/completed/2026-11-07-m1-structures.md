@@ -1,11 +1,11 @@
 ---
-status: active
-last_reviewed: 2026-11-07
+status: stable
+last_reviewed: 2026-11-08
 ---
 
 # M1-A2 — structure and adventure mods
 
-**Status:** Active
+**Status:** Completed
 
 ## Goal
 
@@ -38,7 +38,7 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - [x] 12. GeckoLib, Cerbon's API, Cloth Config + Bosses of Mass Destruction: each arena reachable.
 - [x] 13. The Graveyard (check its second dependency).
 - [x] 14. Mowzie's Mobs (credit line for the release notes).
-- [ ] Close: 3 seeds × Test and Large on the test server; Chunky time and spark on Large vs the batch 1 baseline (quality.md); user check in the client; overlaps into the M1-B list; matrix statuses `runtime-ok`.
+- [x] Close: 3 seeds × Test and Large on the test server; Chunky time and spark on Large vs the batch 1 baseline (quality.md); user check in the client; overlaps into the M1-B list; matrix statuses `runtime-ok`.
 
 ## Progress log
 
@@ -53,6 +53,7 @@ Per batch: `packwiz modrinth add` with a pinned 1.21.1 NeoForge version → `npm
 - 2026-11-07 — For M1-B and M4-B: The Graveyard adds "overrun" villages in five biomes; VillagersTradingPlus changes villager trades.
 - 2026-11-08 — After a PC restart (Prism closed): `npm run instance`, `npm run verify-mods` OK (40 pack mods), `npm run smoke` reached the title screen in 27 s with 45 mods loaded. ERROR lines: 2, both GeckoLib failing to parse Mowzie's Mobs animations `supernova` (Umvuthi) and `attack_single` (Elokosa) because of a `nan` in the mod's own animation file. Status: runtime passed in the client (title screen); no world opened in the client yet.
 - 2026-11-08 — Seeds `alpha`, `20261107`, `kingdoms` on Test and Large (test server, fresh worlds). Large: stronghold 1,872 / 4,761 / 5,032 blocks, WDA monastery 3,563 / 3,084 / 1,665, BoMD lich tower 6,234 / 2,556 / 6,686, fortress and Gauntlet arena 350–970 from the Nether origin (border ±1,024), Obsidilith arena 1,345–2,327 in the End — all inside the borders. Test: stronghold 8,217–8,645 blocks out (border ±1,024), fortresses 352–835 from the Nether origin (border ±256), no monastery or lich tower within the locate radius. TD-14 widened. Status: runtime passed on the server; reachability on foot not checked.
+- 2026-11-08 — User played a new Large world in the client (seed not recorded): borders 16,384 / Nether 2,048 as expected; teleported to and visited the stronghold (4,029 blocks out), the WDA monastery (2,270) and the BoMD Void Blossom arena (819; the boss killed the player in survival); feedback "everything looks fine". Client log: only the known ERROR lines (16 × block-attached entity, 2 × Mowzie's GeckoLib animations, WDA advancements); "Can't keep up" 2.4–6.1 s right after each teleport into ungenerated chunks; WARN "unknown attribute forge:entity_gravity" from structure-spawned mobs (harmless). `/spark health` ~1 min after the last teleport: TPS 20.0 (10 s, 1 m; 5 m 16.85 incl. the teleports), tick median/p95 3.5/4.6 ms (10 s), 4.4/6.9, max 41.4 ms (1 m), heap 1.5/6.0 GB. Matrix statuses set to `runtime-ok`. Status: gameplay verified on Large for the visited structures; Small/Medium, the End island fight, bridges and the Graveyard/Mowzie's structures not seen in game. Plan completed; leftovers in the M1 open questions (M1-B list) and TD-14.
 
 ## Decision log
 

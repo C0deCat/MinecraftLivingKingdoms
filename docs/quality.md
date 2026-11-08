@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-07
+last_reviewed: 2026-11-08
 ---
 
 # Quality
@@ -15,7 +15,7 @@ Grades: `—` not started · `D` exists, unverified · `C` runtime passed · `B`
 | --- | --- | --- |
 | Docs and agent harness | C | Doc linter and Stop hook exist; no CI yet (no GitHub remote) |
 | Infrastructure (M0) | C | Accepted in singleplayer; clean clone reproduces identical JARs. No CI. LAN/server are M10 |
-| World and adventure (M1) | C | M1-A1 (base generator) done: sizes, selector, borders, dimension scales and the world edge are gameplay-verified by the user on Large; Test/Small/Medium generation checked on the test server only. M1-A2 structure and boss mods installed (40 pack mods): runtime passed on the test server and to the client title screen, not yet seen in a client world. No reconcile pass (M1-B), no content manifest or validator (M1-C), one short client spark reading (see Performance baselines) |
+| World and adventure (M1) | C | M1-A1 (base generator) done: sizes, selector, borders, dimension scales and the world edge are gameplay-verified by the user on Large; Test/Small/Medium generation checked on the test server only. M1-A2 structure and boss mods installed (40 pack mods): gameplay verified by the user on Large for a stronghold, a WDA dungeon and a BoMD arena; other structures checked by `/locate` on the test server only. No reconcile pass (M1-B), no content manifest or validator (M1-C), one short client spark reading (see Performance baselines) |
 | Household (M2) | — | — |
 | Magic (M3) | — | — |
 | Settlements (M4) | — | — |
@@ -30,6 +30,7 @@ Grades: `—` not started · `D` exists, unverified · `C` runtime passed · `B`
 | Date | Pack | Scenario | TPS | Tick median / p95 (ms) | Heap |
 | --- | --- | --- | --- | --- | --- |
 | 2026-11-06 | 0.0.1 (4 mods) | New default world, singleplayer, ~30 s after join, host PC (Core Ultra 9 275HX, 32 GB, RTX 5070 Ti Laptop) | 20.0 | 4.8 / 10.4 (10 s window) | 1.0 / 6.0 GB |
+| 2026-11-08 | 40 mods + our 2 (M1-A2) | Large world, singleplayer, `/spark health` ~1 min after the last of three teleports, host PC | 20.0 (5 m: 16.85, incl. teleports) | 3.5 / 4.6 (10 s); 4.4 / 6.9, max 41.4 (1 m) | 1.5 / 6.0 GB |
 | 2026-11-07 | 0.1.0 (8 mods + our 2) | Large world with the F3 edge, singleplayer, `/spark health` ~80 s after load, host PC | 20.0 (5 m: 19.94) | 5.5 / 10.7 (10 s); 5.4 / 14.3, max 259.6 (1 m, includes load) | 1.4 / 6.0 GB |
 
 Worldgen speed on the test server (Chunky, radius 512 = 4,225 chunks, fresh world, seed `livingkingdoms`, host PC):
@@ -42,7 +43,7 @@ Worldgen speed on the test server (Chunky, radius 512 = 4,225 chunks, fresh worl
 | 2026-11-07 | + Structory, Moog's, Better Archeology | Large | 2:39 |
 | 2026-11-07 | + BoMD, The Graveyard, Mowzie's Mobs (40 mods) | Large | 2:46 |
 
-Structure mods cost little in generation time (about 10% over the run-to-run spread). A client spark reading with the M1-A2 set is still missing.
+Structure mods cost little in generation time (about 10% over the run-to-run spread). In the client, teleports into ungenerated chunks cause one 2–6 s "Can't keep up" stall each; normal flight was not measured separately.
 
 The 2026-11-06 row is preliminary: the window included spawn generation and was shorter than the planned 2–3 minutes.
 
