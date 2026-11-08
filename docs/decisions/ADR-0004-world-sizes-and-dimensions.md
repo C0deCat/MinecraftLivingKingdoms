@@ -1,6 +1,6 @@
 ---
 status: stable
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-08
 ---
 
 # ADR-0004: Fixed world sizes, dimension scales and the finite-world edge
@@ -173,3 +173,7 @@ Gameplay feedback on D1 from the user (Large, in game): every coast had the same
   - the Test island stays close to square;
   - the flat "+1 above sea" shore remains the most common shape (45%), exactly as in natural Tectonic coasts (44%); more coast variety would need surface or feature work, not the edge;
   - in-game: the user checked a new Large world on 2026-11-07, coasts look right.
+
+## Amendment 2026-11-08: Test is a development size
+
+Decided with the user in M1-B. On four seeds the Test size (2,048) had no stronghold inside its ±1,024 border (strongholds keep the vanilla concentric rings from ~1,280 blocks) and no Nether fortress inside the ±256 Nether border. Test is therefore a development size: it is for quick checks of generation, commands and mods, not for play. Completability targets, the World Content Manifest and the validator (M1-C1) cover Small, Medium and Large only. The selector labels it "Test (2,048, development)". Making Test completable would need per-size structure placement or placed structures; that is not planned.

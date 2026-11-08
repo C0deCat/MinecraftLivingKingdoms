@@ -27,7 +27,7 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | Sparse Structures | 3.0 | M1 | One config for the spread of all structures on the finite map | both | — | runtime-ok | MIT; default config until M1-B |
 | Chunky | 1.4.23 | M1 | Pre-generation for timing and worldgen checks | both | — | runtime-ok | GPL-3.0; the pop4959 world pre-generator |
 | YUNG's API | 5.1.9 | M1 | Library for YUNG's structure mods | both | — | runtime-ok | LGPL-3.0 |
-| YUNG's Better Strongholds | 5.1.3 | M1 | Stronghold with the End portal, replaces the vanilla one (`betterstrongholds:stronghold`, in `#minecraft:eye_of_ender_located`) | both | YUNG's API | runtime-ok | LGPL-3.0; keeps the vanilla concentric rings, so the Test size has no stronghold inside its border (TD-14) |
+| YUNG's Better Strongholds | 5.1.3 | M1 | Stronghold with the End portal, replaces the vanilla one (`betterstrongholds:stronghold`, in `#minecraft:eye_of_ender_located`) | both | YUNG's API | runtime-ok | LGPL-3.0; keeps the vanilla concentric rings, so the Test size has no stronghold inside its border (Test is a development size, ADR-0004 amendment 2026-11-08) |
 | YUNG's Better Dungeons | 5.1.4 | M1 | Skeleton, zombie, spider and small dungeons | both | YUNG's API | runtime-ok | LGPL-3.0 |
 | YUNG's Better Mineshafts | 5.1.1 | M1 | Biome-themed mineshafts | both | YUNG's API | runtime-ok | LGPL-3.0 |
 | YUNG's Bridges | 5.1.1 | M1 | Bridges over rivers | both | YUNG's API | runtime-ok | LGPL-3.0 |

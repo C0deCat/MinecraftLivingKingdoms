@@ -51,7 +51,7 @@ Done 2026-11-07: gameplay verified on Large, the other sizes on the test server 
 
 Done 2026-11-08: all Base and Tool mods installed, gameplay verified on Large for the visited structures, Test and Large checked on 4 seeds on the test server ([exec plan](../exec-plans/completed/2026-11-07-m1-structures.md)).
 
-**B — reconcile.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Decide whether vanilla villages and the villages added by Dungeons and Taverns and The Graveyard stay or their areas are reserved for our villages (CTOV and Towns and Towers are rejected). Install the renderer (Sodium + Iris) as client-side mods and check it against the GeckoLib mods (bosses, Mowzie's Mobs) and the structures; take a new client FPS and spark reading, since earlier readings are without it (2026-11-08, with the user).
+**B — reconcile.** Tectonic + Terralith + our world edge together; surface structures on steep terrain; overlapping towers and ruins; reachable entrances; conflicting stronghold changes; duplicate architecture generators. Villages until M4 (decided 2026-11-08): vanilla villages are the single placeholder source, including the Dungeons and Taverns taiga variant; the D&T birch, jungle and swamp villages are removed; The Graveyard's overrun villages stay as hostile ruins (CTOV and Towns and Towers are rejected). Overlaps and placement are measured with `/lkworld structures` and fixed with Lithostitched modifiers in our world mod. Test is a development size, not part of the completability targets ([ADR-0004](../decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-08-test-is-a-development-size)). Plan: [exec plan](../exec-plans/active/2026-11-08-m1-reconcile.md). Install the renderer (Sodium + Iris) as client-side mods and check it against the GeckoLib mods (bosses, Mowzie's Mobs) and the structures; take a new client FPS and spark reading, since earlier readings are without it (2026-11-08, with the user).
 
 **C — integrate.** The content manifest with its validator, then the visual profile, in two steps.
 
@@ -83,7 +83,7 @@ The validator checks structure presence, location, physical access and input res
 
 ## Open questions
 
-- Generation on more seeds: Test and Large checked on 4 seeds (`livingkingdoms`, `alpha`, `20261107`, `kingdoms`) for stronghold, fortress, WDA monastery and BoMD arenas; Small and Medium not yet. Test lacks a reachable stronghold and fortress (TD-14).
+- Generation on more seeds: Test and Large checked on 4 seeds (`livingkingdoms`, `alpha`, `20261107`, `kingdoms`) for stronghold, fortress, WDA monastery and BoMD arenas; Small and Medium not yet. Test lacks a reachable stronghold and fortress and is a development size (ADR-0004 amendment 2026-11-08).
 - For M1-B (found in M1-A2): Dungeons and Taverns adds villages (birch, jungle, swamp, hamlet, remnant) and overrides `minecraft:village_taiga`; The Graveyard adds "overrun" villages; D&T `mangrove_witch_hut` next to YUNG's witch huts; `/locate` of large WDA structures can block the server for minutes; `/locate` reports structures beyond the border.
 - Write the list of mandatory structures, biome roles and progression paths including Nether, End and Twilight Forest, with per-size counts (TD-10).
 - Does the Twilight Forest boss chain generate correctly at 1:1 on the Test and Small sizes?

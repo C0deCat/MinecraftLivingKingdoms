@@ -1,5 +1,5 @@
 {
-  "generator.livingkingdoms.test": "Test (2,048)",
+  "generator.livingkingdoms.test": "Test (2,048, development)",
   "generator.livingkingdoms.small": "Small (8,192)",
   "generator.livingkingdoms.medium": "Medium (12,288)",
   "generator.livingkingdoms.large": "Large (16,384)",
