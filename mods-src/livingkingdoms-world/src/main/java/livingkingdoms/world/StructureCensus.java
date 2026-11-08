@@ -38,7 +38,9 @@ import net.minecraft.world.level.storage.LevelResource;
  * structures in dimensions without a ceiling also get the terrain under their pieces, sampled
  * from the generator noise (so the structure's own blocks do not count): the worst piece slope
  * (relief under one piece divided by its longer side), that piece's relief, and the share of the
- * sampled ground below sea level. Pairs of different starts whose pieces intersect are listed as
+ * sampled ground below sea level. Only pieces at least {@value #MIN_PIECE} blocks long whose top
+ * reaches the lowest ground under them count, so buried rooms, shafts and path tiles do not; a
+ * start without such pieces is not measured. Pairs of different starts whose pieces intersect are listed as
  * overlaps; the overall boxes of jigsaw structures include empty space and only find candidates.
  *
  * <p>Chunks are read at {@code structure_starts} status, so the area does not need to be fully
@@ -50,6 +52,7 @@ final class StructureCensus {
     static final double STEEP_SLOPE = 0.5;
     static final double WET_SHARE = 0.5;
     private static final int SAMPLE_STEP = 4;
+    private static final int MIN_PIECE = 8;
     private static final int TOP = 12;
 
     private StructureCensus() {}
@@ -93,7 +96,8 @@ final class StructureCensus {
         ChunkGenerator generator = level.getChunkSource().getGenerator();
         RandomState random = level.getChunkSource().randomState();
         WorldBorder border = level.getWorldBorder();
-        boolean terrain = !level.dimensionType().hasCeiling();
+        // Terrain is only meaningful in natural dimensions without a ceiling (not the Nether, not the End void).
+        boolean terrain = level.dimensionType().natural() && !level.dimensionType().hasCeiling();
         int seaLevel = generator.getSeaLevel();
 
         int chunkRadius = Math.floorDiv(radius, 16);
@@ -119,7 +123,10 @@ final class StructureCensus {
                         int wet = 0;
                         int total = 0;
                         for (BoundingBox piece : pieces) {
+                            // Small pieces (paths, shafts) exaggerate slope; buried pieces do not show the terrain.
+                            if (Math.max(piece.getXSpan(), piece.getZSpan()) < MIN_PIECE) continue;
                             int[] ground = footprint(generator, level, random, piece, seaLevel);
+                            if (piece.maxY() < ground[3]) continue;
                             double pieceSlope = ground[0] / (double) Math.max(1, Math.max(piece.getXSpan(), piece.getZSpan()));
                             if (pieceSlope > slope) {
                                 slope = pieceSlope;
@@ -153,7 +160,7 @@ final class StructureCensus {
         source.getServer().execute(() -> source.sendSuccess(() -> Component.literal(first), false));
     }
 
-    /** Relief, wet samples and total samples of the ground under a box, from the generator noise. */
+    /** Relief, wet samples, total samples and lowest ground under a box, from the generator noise. */
     private static int[] footprint(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox box, int seaLevel) {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
@@ -168,7 +175,7 @@ final class StructureCensus {
                 total++;
             }
         }
-        return new int[] {max - min, wet, total};
+        return new int[] {max - min, wet, total, min};
     }
 
     /** Intersecting pairs of starts, found with a sweep over minX. */
