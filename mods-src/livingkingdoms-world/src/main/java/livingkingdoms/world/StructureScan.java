@@ -3,6 +3,11 @@ package livingkingdoms.world;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicLong;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +26,9 @@ import net.minecraft.server.level.FullChunkStatus;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.chunk.ProtoChunk;
+import net.minecraft.world.level.chunk.UpgradeData;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -43,11 +51,17 @@ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
  * Collects the structure starts of one dimension in an area and measures them. Shared by the
  * census ({@link StructureCensus}) and the validator.
  *
- * <p>By default only candidate chunks are loaded: chunks where at least one structure set's
- * placement allows a start ({@link StructurePlacement#isStructureChunk}), the same test vanilla
- * {@code ChunkGenerator.createStructures} applies, so no start can be missed. They are read at
- * {@code structure_starts} status. {@code -Dlivingkingdoms.scan=chunks} loads every chunk of the
- * area instead, as the M1-B census did; it is kept to check the candidate method against.
+ * <p>Three ways to find the starts, chosen with {@code -Dlivingkingdoms.scan}:
+ * <ul>
+ *   <li>{@code direct} (default): starts are computed in parallel without loading chunks, by the same
+ *       placement test ({@link StructurePlacement#isStructureChunk}), selection and generation as
+ *       vanilla {@code ChunkGenerator.createStructures};</li>
+ *   <li>{@code candidates}: the chunks that pass the placement test are loaded at
+ *       {@code structure_starts} status and their starts read; vanilla generates starts one chunk at
+ *       a time, so this costs about 46 ms per chunk;</li>
+ *   <li>{@code chunks}: every chunk of the area is loaded, as the M1-B census did.</li>
+ * </ul>
+ * The two loading methods are kept to check {@code direct} against.
  *
  * <p>Surface structures in dimensions without a ceiling also get the terrain under their pieces,
  * sampled from the generator noise (so the structure's own blocks do not count): the worst piece
@@ -130,14 +144,66 @@ final class StructureScan {
         boolean terrain = level.dimensionType().natural() && !level.dimensionType().hasCeiling();
         int seaLevel = generator.getSeaLevel();
 
-        boolean everyChunk = "chunks".equals(System.getProperty("livingkingdoms.scan"));
-        List<long[]> chunks = everyChunk ? allChunks(area) : candidateChunks(level, area);
+        String mode = System.getProperty("livingkingdoms.scan", "direct");
+        List<Map.Entry<Structure, StructureStart>> found;
+        long loadedChunks;
+        String label;
+        if (mode.equals("direct")) {
+            AtomicLong attempts = new AtomicLong();
+            found = direct(level, area, attempts);
+            loadedChunks = 0;
+            label = "direct, " + attempts.get() + " candidate chunks";
+        } else {
+            boolean everyChunk = mode.equals("chunks");
+            List<long[]> chunks = everyChunk ? allChunks(area) : candidateChunks(level, area);
+            found = loadStarts(level, chunks);
+            loadedChunks = chunks.size();
+            label = everyChunk ? "every chunk" : "candidate chunks";
+        }
+        long loaded = System.currentTimeMillis();
+        // Noise sampling is thread-safe (vanilla samples it from worker threads).
+        List<Start> starts = found.parallelStream().map(entry -> {
+            ResourceLocation key = registry.getKey(entry.getKey());
+            String id = key != null ? key.toString() : "unknown:unregistered";
+            return measure(level, generator, random, border, terrain, seaLevel, id, entry.getKey(), entry.getValue());
+        }).toList();
+        long now = System.currentTimeMillis();
+        String method = String.format(java.util.Locale.ROOT, "%s, %d ms finding starts, %d ms measuring", label, loaded - started, now - loaded);
+        return new Result(starts, loadedChunks, area.chunks(), method, now - started);
+    }
 
-        // Chunks are requested in batches, so the server's worker threads generate them in parallel. Each
-        // chunk of a batch holds our ticket at structure_starts level until the batch is read: the ticket
-        // of a plain asynchronous request lives one tick, which cancels the generation.
+    /**
+     * Starts computed without loading chunks, in parallel: every candidate chunk gets a throwaway
+     * {@link ProtoChunk} and vanilla {@link ChunkGenerator#createStructures} runs on it, so the
+     * selection, generation and other mods' hooks into it (YUNG's and Moog's disable vanilla
+     * structures there) are exactly those of real worldgen. The world keeps no trace of the run.
+     */
+    private static List<Map.Entry<Structure, StructureStart>> direct(ServerLevel level, Area area, AtomicLong attempts) {
+        ChunkGeneratorStructureState state = level.getChunkSource().getGeneratorState();
+        ChunkGenerator generator = level.getChunkSource().getGenerator();
+        StructureTemplateManager templates = level.getStructureManager();
+        StructureManager structures = level.structureManager();
+        RegistryAccess registries = level.registryAccess();
+        Registry<Biome> biomes = registries.registryOrThrow(Registries.BIOME);
+        List<long[]> chunks = candidateChunks(level, area);
+        attempts.set(chunks.size());
+        Queue<Map.Entry<Structure, StructureStart>> found = new ConcurrentLinkedQueue<>();
+        chunks.parallelStream().forEach(pos -> {
+            ProtoChunk chunk = new ProtoChunk(new ChunkPos((int) pos[0], (int) pos[1]), UpgradeData.EMPTY, level, biomes, null);
+            generator.createStructures(registries, state, structures, chunk, templates);
+            for (Map.Entry<Structure, StructureStart> entry : chunk.getAllStarts().entrySet()) {
+                if (entry.getValue().isValid()) found.add(Map.entry(entry.getKey(), entry.getValue()));
+            }
+        });
+        return new ArrayList<>(found);
+    }
+
+    /** Starts read from the chunks, loaded at {@code structure_starts} status. */
+    private static List<Map.Entry<Structure, StructureStart>> loadStarts(ServerLevel level, List<long[]> chunks) {
+        // Chunks are requested in batches. Each chunk of a batch holds our ticket at structure_starts level
+        // until the batch is read: the ticket of a plain asynchronous request lives one tick, which cancels
+        // the generation. Vanilla generates structure starts one chunk at a time, so this is still slow.
         List<Map.Entry<Structure, StructureStart>> found = new ArrayList<>();
-        long retried = 0;
         for (int i = 0; i < chunks.size(); i += BATCH) {
             List<ChunkPos> slice = chunks.subList(i, Math.min(chunks.size(), i + BATCH)).stream()
                     .map(pos -> new ChunkPos((int) pos[0], (int) pos[1])).toList();
@@ -148,7 +214,6 @@ final class StructureScan {
                 for (int j = 0; j < slice.size(); j++) {
                     ChunkAccess chunk = batch.get(j).join().orElse(null);
                     if (chunk == null) {
-                        retried++;
                         // Off the server thread this call hands the load to the server thread and waits for it.
                         chunk = level.getChunkSource().getChunk(slice.get(j).x, slice.get(j).z, ChunkStatus.STRUCTURE_STARTS, true);
                     }
@@ -161,17 +226,7 @@ final class StructureScan {
                 level.getServer().execute(() -> slice.forEach(pos -> level.getChunkSource().removeRegionTicket(SCAN_TICKET, pos, TICKET_DISTANCE, pos)));
             }
         }
-        long loaded = System.currentTimeMillis();
-        // Noise sampling is thread-safe (vanilla samples it from worker threads).
-        List<Start> starts = found.parallelStream().map(entry -> {
-            ResourceLocation key = registry.getKey(entry.getKey());
-            String id = key != null ? key.toString() : "unknown:unregistered";
-            return measure(level, generator, random, border, terrain, seaLevel, id, entry.getKey(), entry.getValue());
-        }).toList();
-        long now = System.currentTimeMillis();
-        String method = String.format(java.util.Locale.ROOT, "%s, %d reloaded, %d ms loading, %d ms measuring",
-                everyChunk ? "every chunk" : "candidate chunks", retried, loaded - started, now - loaded);
-        return new Result(starts, chunks.size(), area.chunks(), method, now - started);
+        return found;
     }
 
     private static List<long[]> allChunks(Area area) {

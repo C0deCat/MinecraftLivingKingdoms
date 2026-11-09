@@ -2,13 +2,14 @@
 // It installs the pack's server-side mods plus our mods, creates/opens a world of one size preset,
 // runs console commands, prints their output and stops.
 //
-// Usage: npm run test-server -- [--size test|small|medium|large] [--fresh] [--cmd "<command>"]... [--until "<regex>"] [--jvm "<arg>"]...
+// Usage: npm run test-server -- [--size test|small|medium|large] [--fresh] [--cmd "<command>"]... [--until "<regex>"] [--wait <minutes>] [--seed <seed>] [--jvm "<arg>"]...
 //   --fresh   delete that size's test world first (worlds are disposable until M11)
 //   --cmd     console command without the slash; repeatable. Borders per dimension are logged by our mod on start.
 //   --until   after the commands, wait (up to 15 min) for a log line matching this regex before stopping,
 //             e.g. --until "Map (test|small|medium|large):" for the asynchronous /lkworld map
 //   --seed    level seed for new worlds (default "livingkingdoms", so runs are comparable)
 //   --jvm     extra JVM argument, repeatable (e.g. --jvm -Dlivingkingdoms.edge=off)
+//   --wait    minutes to wait for --until (default 15), for long scans
 // The Minecraft EULA for this local server was accepted with the user's permission on 2026-11-06.
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync, createWriteStream } from "node:fs";
 import { join } from "node:path";
@@ -20,7 +21,7 @@ import { setupTools } from "./setup-tools.ts";
 const SERVER_DIR = join(RUNTIME_DIR, "test-server");
 const SIZES = ["test", "small", "medium", "large"];
 const START_TIMEOUT_MS = 15 * 60 * 1000;
-const UNTIL_TIMEOUT_MS = 15 * 60 * 1000;
+const DEFAULT_WAIT_MINUTES = 15;
 
 interface Options {
   size: string;
@@ -29,11 +30,12 @@ interface Options {
   until?: RegExp;
   jvm: string[];
   seed: string;
+  waitMinutes: number;
 }
 
 function parseArgs(): Options {
   const args = process.argv.slice(2);
-  const options: Options = { size: "test", fresh: false, commands: [], jvm: [], seed: "livingkingdoms" };
+  const options: Options = { size: "test", fresh: false, commands: [], jvm: [], seed: "livingkingdoms", waitMinutes: DEFAULT_WAIT_MINUTES };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--size") options.size = args[++i];
     else if (args[i] === "--fresh") options.fresh = true;
@@ -41,6 +43,7 @@ function parseArgs(): Options {
     else if (args[i] === "--until") options.until = new RegExp(args[++i]);
     else if (args[i] === "--jvm") options.jvm.push(args[++i]);
     else if (args[i] === "--seed") options.seed = args[++i];
+    else if (args[i] === "--wait") options.waitMinutes = Number(args[++i]);
     else fail(`Unknown argument ${args[i]}. See the usage comment in tools/pack/src/test-server.ts.`);
   }
   if (!SIZES.includes(options.size)) fail(`--size must be one of ${SIZES.join(", ")}`);
@@ -97,7 +100,7 @@ function writeServerConfig(size: string, jvm: string[], seed: string): void {
   );
 }
 
-async function runServer(java: string, commands: string[], until?: RegExp): Promise<void> {
+async function runServer(java: string, commands: string[], until: RegExp | undefined, waitMinutes: number): Promise<void> {
   const logPath = join(SERVER_DIR, "test-run.log");
   const logFile = createWriteStream(logPath);
   const argsFile = `@libraries/net/neoforged/neoforge/${NEOFORGE_VERSION}/${process.platform === "win32" ? "win" : "unix"}_args.txt`;
@@ -130,10 +133,10 @@ async function runServer(java: string, commands: string[], until?: RegExp): Prom
   }
   if (until) {
     const waitStart = Date.now();
-    while (!until.test(afterReady) && child.exitCode === null && Date.now() - waitStart < UNTIL_TIMEOUT_MS) {
+    while (!until.test(afterReady) && child.exitCode === null && Date.now() - waitStart < waitMinutes * 60 * 1000) {
       await new Promise((r) => setTimeout(r, 1000));
     }
-    if (!until.test(afterReady)) console.log(`WARNING: --until pattern not seen within ${UNTIL_TIMEOUT_MS / 60000} min`);
+    if (!until.test(afterReady)) console.log(`WARNING: --until pattern not seen within ${waitMinutes} min`);
   }
   child.stdin.write("stop\n");
   await exited;
@@ -147,7 +150,7 @@ async function runServer(java: string, commands: string[], until?: RegExp): Prom
   console.log(`Full log: ${logPath}`);
 }
 
-const { size, fresh, commands, until, jvm, seed } = parseArgs();
+const { size, fresh, commands, until, jvm, seed, waitMinutes } = parseArgs();
 const java = findExecutable("java") ?? fail("Java 21 is required on PATH.");
 await setupTools();
 await installServer(java);
@@ -158,4 +161,4 @@ run(windows ? "cmd.exe" : wrapper, windows ? ["/c", wrapper, "build", "--quiet"]
 syncServerMods(java);
 if (fresh) rmSync(join(SERVER_DIR, `world-${size}`), { recursive: true, force: true });
 writeServerConfig(size, jvm, seed);
-await runServer(java, commands, until);
+await runServer(java, commands, until, waitMinutes);
