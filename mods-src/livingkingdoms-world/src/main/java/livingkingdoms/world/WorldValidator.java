@@ -132,12 +132,16 @@ final class WorldValidator {
                     if (!access.entrance().equals("any") || access.maxHanging() >= 0 || !access.allowWater()) measured.add(id);
                 }
             }
-            List<Start> found = StructureScan.scan(level, Area.border(level), measured::contains).starts();
+            StructureScan.Result scan = StructureScan.scan(level, Area.border(level), measured::contains);
+            List<Start> found = scan.starts();
             starts.put(dimension, found);
+            long overlapsStarted = System.currentTimeMillis();
             overlaps.put(dimension, StructureScan.overlaps(found));
-            LivingKingdomsWorld.LOGGER.info("Validation: scanned {}, {} starts", dimension, found.size());
+            LivingKingdomsWorld.LOGGER.info("Validation: scanned {}, {} starts ({}; {} ms overlaps)", dimension, found.size(), scan.method(),
+                    System.currentTimeMillis() - overlapsStarted);
         }
 
+        long entriesStarted = System.currentTimeMillis();
         // Manifest entries.
         List<EntryResult> results = new ArrayList<>();
         Set<String> mandatory = new HashSet<>();
@@ -196,12 +200,17 @@ final class WorldValidator {
             }
         });
 
+        long step = timing("manifest entries and overlap issues", entriesStarted);
         checkEyesOfEnder(server, overworld, size, starts.getOrDefault(Level.OVERWORLD.location(), List.of()), issues, info);
+        step = timing("eyes of ender", step);
         checkFortresses(starts.getOrDefault(Level.NETHER.location(), List.of()), issues, info);
         checkWitchHuts(starts.getOrDefault(Level.OVERWORLD.location(), List.of()), info);
         checkLand(overworld, issues, info);
+        step = timing("fortresses, witch huts, land", step);
         checkSettlementLand(overworld, size, starts.getOrDefault(Level.OVERWORLD.location(), List.of()), info);
+        step = timing("settlement land", step);
         surfaceBiomes(overworld, size, info);
+        timing("surface biomes", step);
 
         long critical = issues.stream().filter(i -> i.severity() == Severity.CRITICAL).count();
         long warnings = issues.size() - critical;
@@ -226,6 +235,13 @@ final class WorldValidator {
     }
 
     /** Why a start is not reachable under the access rule, or null. Unmeasured starts pass. */
+    /** Logs how long a step of the validation took; returns the current time for the next step. */
+    private static long timing(String step, long since) {
+        long now = System.currentTimeMillis();
+        LivingKingdomsWorld.LOGGER.info("Validation timing: {} {} ms", step, now - since);
+        return now;
+    }
+
     private static String accessFailure(Start s, Access access) {
         if (!s.measured()) return null;
         if (access.entrance().equals("ok") && !s.entrance().equals("ok")) return "entrance " + s.entrance();
