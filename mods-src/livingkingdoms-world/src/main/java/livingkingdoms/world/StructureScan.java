@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.minecraft.core.Holder;
@@ -14,7 +15,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ChunkLevel;
+import net.minecraft.server.level.ChunkResult;
+import net.minecraft.server.level.FullChunkStatus;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.TicketType;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -55,6 +61,10 @@ final class StructureScan {
     static final int SAMPLE_STEP = 4;
     static final int MIN_PIECE = 8;
     static final int FLOAT_GAP = 3;
+    private static final int BATCH = 64;
+    private static final TicketType<ChunkPos> SCAN_TICKET = TicketType.create("livingkingdoms_scan", Comparator.comparingLong(ChunkPos::toLong));
+    /** Region ticket distance for structure_starts: a level above FULL, so the distance is negative. */
+    private static final int TICKET_DISTANCE = ChunkLevel.byStatus(FullChunkStatus.FULL) - ChunkLevel.byStatus(ChunkStatus.STRUCTURE_STARTS);
     private static final Pattern RESOURCE_ID = Pattern.compile("[a-z0-9_.-]+:[a-z0-9_/.-]+");
 
     private StructureScan() {}
@@ -123,23 +133,45 @@ final class StructureScan {
         boolean everyChunk = "chunks".equals(System.getProperty("livingkingdoms.scan"));
         List<long[]> chunks = everyChunk ? allChunks(area) : candidateChunks(level, area);
 
-        List<Start> starts = new ArrayList<>();
-        for (long[] pos : chunks) {
-            int cx = (int) pos[0];
-            int cz = (int) pos[1];
-            // Off the server thread this call hands the load to the server thread and waits for it.
-            ChunkAccess chunk = level.getChunkSource().getChunk(cx, cz, ChunkStatus.STRUCTURE_STARTS, true);
-            if (chunk == null) continue;
-            for (Map.Entry<Structure, StructureStart> entry : chunk.getAllStarts().entrySet()) {
-                StructureStart start = entry.getValue();
-                if (!start.isValid()) continue;
-                ResourceLocation key = registry.getKey(entry.getKey());
-                String id = key != null ? key.toString() : "unknown:unregistered";
-                starts.add(measure(level, generator, random, border, terrain, seaLevel, id, entry.getKey(), start));
+        // Chunks are requested in batches, so the server's worker threads generate them in parallel. Each
+        // chunk of a batch holds our ticket at structure_starts level until the batch is read: the ticket
+        // of a plain asynchronous request lives one tick, which cancels the generation.
+        List<Map.Entry<Structure, StructureStart>> found = new ArrayList<>();
+        long retried = 0;
+        for (int i = 0; i < chunks.size(); i += BATCH) {
+            List<ChunkPos> slice = chunks.subList(i, Math.min(chunks.size(), i + BATCH)).stream()
+                    .map(pos -> new ChunkPos((int) pos[0], (int) pos[1])).toList();
+            level.getServer().submit(() -> slice.forEach(pos -> level.getChunkSource().addRegionTicket(SCAN_TICKET, pos, TICKET_DISTANCE, pos))).join();
+            try {
+                List<CompletableFuture<ChunkResult<ChunkAccess>>> batch = new ArrayList<>();
+                for (ChunkPos pos : slice) batch.add(level.getChunkSource().getChunkFuture(pos.x, pos.z, ChunkStatus.STRUCTURE_STARTS, true));
+                for (int j = 0; j < slice.size(); j++) {
+                    ChunkAccess chunk = batch.get(j).join().orElse(null);
+                    if (chunk == null) {
+                        retried++;
+                        // Off the server thread this call hands the load to the server thread and waits for it.
+                        chunk = level.getChunkSource().getChunk(slice.get(j).x, slice.get(j).z, ChunkStatus.STRUCTURE_STARTS, true);
+                    }
+                    if (chunk == null) continue;
+                    for (Map.Entry<Structure, StructureStart> entry : chunk.getAllStarts().entrySet()) {
+                        if (entry.getValue().isValid()) found.add(Map.entry(entry.getKey(), entry.getValue()));
+                    }
+                }
+            } finally {
+                level.getServer().execute(() -> slice.forEach(pos -> level.getChunkSource().removeRegionTicket(SCAN_TICKET, pos, TICKET_DISTANCE, pos)));
             }
         }
-        return new Result(starts, chunks.size(), area.chunks(), everyChunk ? "every chunk" : "candidate chunks",
-                System.currentTimeMillis() - started);
+        long loaded = System.currentTimeMillis();
+        // Noise sampling is thread-safe (vanilla samples it from worker threads).
+        List<Start> starts = found.parallelStream().map(entry -> {
+            ResourceLocation key = registry.getKey(entry.getKey());
+            String id = key != null ? key.toString() : "unknown:unregistered";
+            return measure(level, generator, random, border, terrain, seaLevel, id, entry.getKey(), entry.getValue());
+        }).toList();
+        long now = System.currentTimeMillis();
+        String method = String.format(java.util.Locale.ROOT, "%s, %d reloaded, %d ms loading, %d ms measuring",
+                everyChunk ? "every chunk" : "candidate chunks", retried, loaded - started, now - loaded);
+        return new Result(starts, chunks.size(), area.chunks(), method, now - started);
     }
 
     private static List<long[]> allChunks(Area area) {
