@@ -1,14 +1,29 @@
 {
   "replace": false,
   "values": [
-    { "id": "#dungeons_arise:has_structure/monastery_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/mechanical_nest_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/scorched_mines_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/thornborn_towers_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/keep_kayra_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/shiraz_palace_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/plague_asylum_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/foundry_biomes", "required": false },
-    { "id": "#dungeons_arise:has_structure/mining_complex_biomes", "required": false }
+    {
+      "id": "#dungeons_arise:has_structure/monastery_biomes",
+      "required": false
+    },
+    {
+      "id": "#dungeons_arise:has_structure/mechanical_nest_biomes",
+      "required": false
+    },
+    {
+      "id": "#dungeons_arise:has_structure/scorched_mines_biomes",
+      "required": false
+    },
+    {
+      "id": "#dungeons_arise:has_structure/thornborn_towers_biomes",
+      "required": false
+    },
+    {
+      "id": "#dungeons_arise:has_structure/keep_kayra_biomes",
+      "required": false
+    },
+    {
+      "id": "#dungeons_arise:has_structure/shiraz_palace_biomes",
+      "required": false
+    }
   ]
 }

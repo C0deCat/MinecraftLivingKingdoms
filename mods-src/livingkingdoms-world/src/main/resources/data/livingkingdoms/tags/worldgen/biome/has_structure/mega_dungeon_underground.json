@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#dungeons_arise:has_structure/plague_asylum_biomes",
+      "required": false
+    },
+    {
+      "id": "#dungeons_arise:has_structure/foundry_biomes",
+      "required": false
+    },
+    {
+      "id": "#dungeons_arise:has_structure/mining_complex_biomes",
+      "required": false
+    }
+  ]
+}

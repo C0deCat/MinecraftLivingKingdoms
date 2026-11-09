@@ -1,22 +1,44 @@
 {
   "neoforge:conditions": [
-    { "type": "neoforge:mod_loaded", "modid": "dungeons_arise" }
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "dungeons_arise"
+    }
   ],
   "structures": [
-    { "structure": "dungeons_arise:monastery", "weight": 1 },
-    { "structure": "dungeons_arise:mechanical_nest", "weight": 1 },
-    { "structure": "dungeons_arise:scorched_mines", "weight": 1 },
-    { "structure": "dungeons_arise:thornborn_towers", "weight": 1 },
-    { "structure": "dungeons_arise:keep_kayra", "weight": 1 },
-    { "structure": "dungeons_arise:shiraz_palace", "weight": 1 },
-    { "structure": "dungeons_arise:plague_asylum", "weight": 1 },
-    { "structure": "dungeons_arise:foundry", "weight": 1 },
-    { "structure": "dungeons_arise:mining_complex", "weight": 1 }
+    {
+      "structure": "dungeons_arise:monastery",
+      "weight": 1
+    },
+    {
+      "structure": "dungeons_arise:mechanical_nest",
+      "weight": 1
+    },
+    {
+      "structure": "dungeons_arise:scorched_mines",
+      "weight": 1
+    },
+    {
+      "structure": "dungeons_arise:thornborn_towers",
+      "weight": 1
+    },
+    {
+      "structure": "dungeons_arise:keep_kayra",
+      "weight": 1
+    },
+    {
+      "structure": "dungeons_arise:shiraz_palace",
+      "weight": 1
+    }
   ],
   "placement": {
     "type": "livingkingdoms_world:fixed_count",
     "salt": 1709112601,
-    "counts": { "small": 3, "medium": 5, "large": 8 },
+    "counts": {
+      "small": 2,
+      "medium": 3,
+      "large": 5
+    },
     "preferred_biomes": "#livingkingdoms:has_structure/mega_dungeon",
     "edge_margin": 768
   }

@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "dungeons_arise"
+    }
+  ],
+  "structures": [
+    {
+      "structure": "dungeons_arise:plague_asylum",
+      "weight": 1
+    },
+    {
+      "structure": "dungeons_arise:foundry",
+      "weight": 1
+    },
+    {
+      "structure": "dungeons_arise:mining_complex",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "livingkingdoms_world:fixed_count",
+    "salt": 1709112603,
+    "counts": {
+      "small": 1,
+      "medium": 1,
+      "large": 2
+    },
+    "preferred_biomes": "#livingkingdoms:has_structure/mega_dungeon_underground",
+    "edge_margin": 768
+  }
+}

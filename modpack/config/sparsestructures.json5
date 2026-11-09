@@ -11,8 +11,7 @@
   "customSpreadFactors": [
     // The mod's default.
     { "structure": "minecraft:mansion", "factor": 2 },
-    // YUNG's strongholds: undo the doubling, so Small and Medium have room for several (0-1 on Small at 2).
-    { "structure": "betterstrongholds:stronghold", "factor": 1 },
+    // Strongholds, mega-dungeons and the Night Lich tower are placed by our fixed_count sets instead.
     // Bosses as rarities: Ferrous Wroughtnaut 251-342 and Void Blossom 46-57 per Large world at 2;
     // target about 5-15 per Large world, in proportion on smaller sizes.
     { "structure": "mowziesmobs:wrought_chambers", "factor": 11 },

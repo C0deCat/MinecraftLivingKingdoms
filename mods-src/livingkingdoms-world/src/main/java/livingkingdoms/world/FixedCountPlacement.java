@@ -130,6 +130,7 @@ final class FixedCountPlacement extends StructurePlacement {
 
         BiomeSource biomes = level.getChunkSource().getGenerator().getBiomeSource();
         Set<Long> result = new HashSet<>();
+        List<String> found = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             int index = cells.get(i);
             BlockPos pos = null;
@@ -137,15 +138,17 @@ final class FixedCountPlacement extends StructurePlacement {
             for (int attempt = 0; attempt < ATTEMPTS && pos == null; attempt++) {
                 int x = (int) (-inner + (index % grid + 0.2 + 0.6 * random.nextDouble()) * cell);
                 int z = (int) (-inner + (index / grid + 0.2 + 0.6 * random.nextDouble()) * cell);
-                Pair<BlockPos, net.minecraft.core.Holder<Biome>> found = biomes.findBiomeHorizontal(x, settings.biomeY(), z,
+                Pair<BlockPos, net.minecraft.core.Holder<Biome>> hit = biomes.findBiomeHorizontal(x, settings.biomeY(), z,
                         settings.searchRadius(), settings.preferredBiomes()::contains, random, state.randomState().sampler());
-                if (found != null) pos = found.getFirst();
+                if (hit != null) pos = hit.getFirst();
                 else if (attempt == ATTEMPTS - 1) pos = new BlockPos(x, settings.biomeY(), z);
+                if (pos != null) found.add(pos.getX() + "," + pos.getZ() + (hit != null ? " " + hit.getSecond().unwrapKey()
+                        .map(k -> k.location().getPath()).orElse("?") : " no biome"));
             }
             result.add(ChunkPos.asLong(pos.getX() >> 4, pos.getZ() >> 4));
         }
         LivingKingdomsWorld.LOGGER.info("fixed_count salt {} in {} ({}): {} positions {}", salt(), level.dimension().location(), size.id(),
-                result.size(), result.stream().map(c -> new ChunkPos(c).getMiddleBlockPosition(0).toShortString()).toList());
+                result.size(), found);
         return result;
     }
 

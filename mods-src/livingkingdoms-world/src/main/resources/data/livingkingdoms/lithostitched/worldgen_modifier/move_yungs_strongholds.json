@@ -1,0 +1,11 @@
+{
+  "predicate": {
+    "type": "lithostitched:mod_loaded",
+    "mod_id": "betterstrongholds"
+  },
+  "type": "lithostitched:remove_structure_set_entries",
+  "structure_sets": "betterstrongholds:stronghold",
+  "structures": [
+    "betterstrongholds:stronghold"
+  ]
+}
