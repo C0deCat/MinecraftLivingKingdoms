@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 # Lithostitched 1.8 worldgen modifiers
@@ -49,6 +49,7 @@ Used in M1-B to change other mods' structures without copying their files (allow
 | `lithostitched:remove_structure_set_entries` | `structure_sets` (set or list), `structures` (list); optional `predicate`, `priority` | Removes the listed structures from the sets; a set left empty places nothing |
 | `lithostitched:add_structure_set_entries` | like the above, plus weights | Adds structures to existing sets |
 | `lithostitched:set_structure_spawn_condition` | `structures`, `spawn_condition` (a Lithostitched placement condition), `append` (default `true`) | Wraps the structure in a delegating structure that only starts where the condition holds |
+| `lithostitched:set_pool_element_processors` | `template_pools` (pool or list), `processor_list` (an id or an inline list), optional `locations` (template ids), `append` (default `true`), `predicate`, `priority` | For every single-template element of the pools (also inside list and delegating elements) whose template is in `locations` (all if absent): processors become the old ones (if `append`) plus the list. Read in the installed 1.8.1 JAR, 2026-11-09 |
 
 Placement condition types in that branch: `all_of`, `any_of`, `not`, `true`, `grid`, `height_filter`, `in_biome`, `multiple_of`, `offset`, `sample_density`, `sample_noise_router`. Their fields are checked in the installed JAR before each use.
 

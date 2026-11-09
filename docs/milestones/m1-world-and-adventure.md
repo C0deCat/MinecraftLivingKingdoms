@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 # M1 — Finite world generation and adventure progression
@@ -55,7 +55,7 @@ Done 2026-11-08: all Base and Tool mods installed, gameplay verified on Large fo
 
 Done 2026-11-09: the census found rare overlaps and mostly false steep flags, so no placement modifier was needed; D&T villages stay as placeholder variants; the renderer is gameplay verified by the user on Large. One placement defect, the hanging D&T bunker entrance, is fixed in C1; other leftovers are TD-15 to TD-20 ([exec plan](../exec-plans/completed/2026-11-08-m1-reconcile.md)).
 
-**C — integrate.** The content manifest with its validator, then the visual profile, in two steps.
+**C — integrate.** The content manifest with its validator, then the visual profile, in two steps, in one [exec plan](../exec-plans/active/2026-11-09-m1-integrate.md).
 
 **C1 — World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
 - at least one reachable Stronghold with a valid portal;
@@ -67,7 +67,13 @@ Done 2026-11-09: the census found rare overlaps and mostly false steep flags, so
 
 The validator checks structure presence, location, physical access and input resources. A single `locate` is not a completability check. If a structure is missing: another seed, overridden generation conditions, or a safely placed template. It is built on the `/lkworld structures` census of M1-B and takes over its numbers: entrances buried or floating, steep pieces, water share, and overlaps between structures of different sets, which a set's single `exclusion_zone` cannot prevent (seen: the D&T bunker cut into a Terralith fortified village, 2026-11-09). Unverified facts for it: TD-13, TD-16, TD-17, TD-18.
 
-Structure polish, also in C1 (from M1-B, 2026-11-09, with the user): a `livingkingdoms:foundation` structure processor in our world mod. In a piece's bottom layer it either extends hanging columns down to the ground or drops them (`mode` extend / drop, `block`, `max_depth`); it only touches columns inside the chunk being generated, and skips `terrain_matching` pieces. It is attached to other mods' pools by id with Lithostitched `set_pool_element_processors`, never by copying their files. First target: the Dungeons and Taverns bunker start pool `nova_structures:bunker_enterance` (a ruin of pillars that hangs over slopes, since the bunker is `rigid` with `terrain_adaptation: none`); then other entrances the census flags. Rejected for this: a wrapper structure with `beard_thin` (applies to all 94 bunker pieces, including underground rooms) and a relief placement condition (hides the defect, fewer bunkers in mountains).
+Rules for C1 (2026-11-09, with the user):
+- **Counts are researched.** How many structures of each kind a world gets differs between seeds, so categories, per-size targets and the mega-dungeon list come from measurements over several seeds and sizes. The aim: frequent and varied rewards for exploring without cluttering the world. The user agrees the numbers before they enter the manifest.
+- **Systematic gaps are fixed in generation.** A mandatory structure missing on a size across seeds is fixed within C1 (overridden generation conditions or a safely placed structure), not only by choosing another seed.
+- **Access is geometric, per category.** No pathfinding. Each manifest category says which checks apply: a ruin may have a partly buried or awkward entrance as long as it is logically intact; what must not hang in the air does not hang.
+- **The manifest is data of the world mod** (`data/livingkingdoms/content_manifest/`), so the in-game validator reads it and later milestones add entries the same way.
+
+Structure polish, also in C1 (from M1-B, 2026-11-09, with the user): a `livingkingdoms_world:foundation` structure processor (registered types use the mod id namespace) in our world mod. In a piece's bottom layer it either extends hanging columns down to the ground or drops them (`mode` extend / drop, `block`, `max_depth`); it only touches columns inside the chunk being generated, and skips `terrain_matching` pieces. It is attached to other mods' pools by id with Lithostitched `set_pool_element_processors`, never by copying their files. First target: the Dungeons and Taverns bunker start pool `nova_structures:bunker_enterance` (a ruin of pillars that hangs over slopes, since the bunker is `rigid` with `terrain_adaptation: none`); then other entrances the census flags. Rejected for this: a wrapper structure with `beard_thin` (applies to all 94 bunker pieces, including underground rooms) and a relief placement condition (hides the defect, fewer bunkers in mountains).
 
 **C2 — visual profile.** Choose the pack's shader pack before M1 is accepted, so the world is judged in its final look (2026-11-08, with the user): 1–2 candidates from Modrinth, licenses recorded, settings, FPS on the host PC. The shader pack is an optional packwiz file; the pack must look and run acceptably without it. Weather, seasons, fog and Distant Horizons are re-checked with it in [M7](m7-atmosphere.md).
 
