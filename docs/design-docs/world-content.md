@@ -1,11 +1,11 @@
 ---
-status: draft
+status: active
 last_reviewed: 2026-11-09
 ---
 
 # World content: structure density and the World Content Manifest
 
-What the finite world contains, how dense it is, and which content is mandatory. The manifest (M1-C1) turns the agreed numbers into checks; later milestones add their structures the same way (M3 magic places, M4 settlements). Status `draft` until the generation changes are measured: the measurements are facts; proposals 1–5 were agreed with the user on 2026-11-09 ([exec plan](../exec-plans/active/2026-11-09-m1-integrate.md), steps 5 and 5a).
+What the finite world contains, how dense it is, and which content is mandatory. The manifest (M1-C1) turns the agreed numbers into checks; later milestones add their structures the same way (M3 magic places, M4 settlements). The measurements are facts; changes 1–5 were agreed with the user on 2026-11-09 and are measured below ([exec plan](../exec-plans/active/2026-11-09-m1-integrate.md), steps 5 and 5a).
 
 ## How it was measured
 
@@ -83,6 +83,7 @@ Causes found:
 - **`abandoned_temple`** is in WDA's minor set as well and common (7–14 per Large world), so it is not a mega-dungeon.
 - **Locating.** Vanilla structure search (`/locate`, eyes of ender, explorer maps) only knows concentric rings and random spread; a mixin in our world mod adds the `fixed_count` points to it.
 - **Land share:** `LandLift` ([ADR-0004 amendment](../decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-09-minimum-land-share)).
+- **Result** (2026-11-09, Small / Medium / Large × 4 seeds): 0 critical gaps on all 12 worlds. Strongholds, mega-dungeons and Lich towers exactly at the set counts; Wroughtnaut 2–3 / 4–8 / 6–13, Void Blossom 3–4 / 4–6 / 7–14; reachable adventure areas 90–97 / 192–232 / 402–461 of 19 kinds. Open warnings: hanging pieces of some structures and underground overlaps (TD-22).
 
 ## Manifest categories
 

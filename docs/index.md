@@ -53,7 +53,7 @@ last_reviewed: YYYY-MM-DD
 | [design-docs/magic-system.md](design-docs/magic-system.md) | Magic roles and shared mana | active |
 | [design-docs/settlement-model.md](design-docs/settlement-model.md) | Residents and villages | draft |
 | [design-docs/simulation-model.md](design-docs/simulation-model.md) | Unloaded-world simulation | draft |
-| [design-docs/world-content.md](design-docs/world-content.md) | Structure density, mandatory content, manifest categories | draft |
+| [design-docs/world-content.md](design-docs/world-content.md) | Structure density, mandatory content, manifest categories | active |
 | [decisions/README.md](decisions/README.md) | ADR index and lightweight decisions D-xx | active |
 | [decisions/ADR-0001-own-settlement-mod.md](decisions/ADR-0001-own-settlement-mod.md) | Own settlement mod instead of Millénaire | stable |
 | [decisions/ADR-0002-milestone-order.md](decisions/ADR-0002-milestone-order.md) | Milestone order after magic | stable |
