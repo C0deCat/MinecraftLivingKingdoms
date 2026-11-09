@@ -222,8 +222,8 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
 ## Steps
 
 - [x] 0. Git: drop the unrelated WIP commit `55331b7`; work and push only on `main-e2iix5`.
-- [ ] 1. Docs first: ADR-0005, D-21, glossary terms, this plan, index rows; `npm run docs:check`.
-- [ ] 2. Testkit skeleton:
+- [x] 1. Docs first: ADR-0005, D-21, glossary terms, this plan, index rows; `npm run docs:check`.
+- [x] 2. Testkit skeleton:
   - bridge with `hello`, `ping`, `state`, `quit`;
   - the `living-kingdoms-e2e` instance in `instance.ts`;
   - `tools/pack/src/e2e.ts` with start / attach / `--keep`;
@@ -240,6 +240,16 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
 ## Progress log
 
 - 2026-11-09 — Research and design with the user in a cloud session: options compared, ADR-0005 written, conventions approved; step 0 done.
+- 2026-11-09 — Step 1: ADR-0005, D-21, glossary Testing terms, this plan; docs:check clean.
+- 2026-11-09 — Step 2, cloud session (Linux), build passed:
+  - testkit mod with the bridge and the session ops `hello`, `ping`, `state`, `quit`; `./gradlew build` passes;
+  - `instance.ts` gains the `living-kingdoms-e2e` target with test `options.txt`; the testkit JAR is kept out of the play instance and the test server (`builtOwnJars`);
+  - `tools/pack/src/e2e.ts` (attach / restart on a JAR or pack change / launch / `--keep`);
+  - `tests/e2e` with Vitest 5.0.5 and `specs/session/hello.spec.ts`;
+  - `npm run e2e:unit`: 8 harness tests pass; `tsc` passes for the harness and `tools/pack`;
+  - the launcher was run end to end against a fake driver on port 25598: attach + both hello specs pass; a stale testkit hash triggers a restart.
+
+  Not run: the real client, the Prism e2e instance, the cold-start and attach times (Windows host).
 
 ## Decision log
 
@@ -252,3 +262,9 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
   - waits in ticks instead of `expect.poll`;
   - strict F4 with no quarantine.
 - 2026-11-09 — Plain TCP with JSON lines on 127.0.0.1:25598: no libraries on either side; the test server already uses 25599.
+- 2026-11-09 — GameTest is disabled in production launches. NeoForge 21.1.265 `GameTestHooks.isGametestEnabled()` requires `!FMLLoader.isProduction()`, so the installer-based test server cannot run GameTests and the `npm run gametest` design in step 7 changes: run the ModDevGradle `gameTestServer` with the pack's server mods on the runtime classpath. Verify in step 7.
+- 2026-11-09 — Vitest 5 replaced `test.use` with `test.override`. Convention S2 means `test.override({ world, reset })` at the top of the file; the rule is unchanged.
+- 2026-11-09 — Pins:
+  - vitest 5.0.5, vite 8.3.5 (Vitest 5 makes vite a peer), typescript 6.0.3, @types/node 22.20.4, all at least two weeks old;
+  - `tests/e2e/.npmrc` sets `legacy-peer-deps`, because npm 10 crashes on Vitest 5's optional peers, and every peer we need is a direct devDependency.
+- 2026-11-09 — The cloud environment "MinecraftLivingKingdoms" (personal) allows the NeoForge, Parchment and Mojang Maven hosts, so cloud sessions can run `./gradlew build`.

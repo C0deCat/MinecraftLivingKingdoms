@@ -6,6 +6,7 @@ Our NeoForge 1.21.1 mods, one Gradle build with one project per mod. Rules from 
 | --- | --- | --- |
 | `livingkingdoms-core` | `livingkingdoms_core` | Stable IDs, regions, time, world state; depends only on NeoForge |
 | `livingkingdoms-world` | `livingkingdoms_world` | World sizes, borders, world edge, content manifest ([ADR-0004](../docs/decisions/ADR-0004-world-sizes-and-dimensions.md)) |
+| `livingkingdoms-testkit` | `livingkingdoms_testkit` | Dev-only: e2e driver, flat test preset, GameTests; never in the pack ([ADR-0005](../docs/decisions/ADR-0005-test-framework.md)) |
 
 ## Build
 

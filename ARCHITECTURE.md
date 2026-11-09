@@ -38,10 +38,10 @@ Directories are created when they get real content.
 
 ```text
 modpack/            pack.toml, index.toml, mods/*.pw.toml, config/, kubejs/, resourcepacks/, datapacks/
-mods-src/           one Gradle build: livingkingdoms-core/, livingkingdoms-world/ (exist), settlements/, economy-adapter/, world-materializer/
+mods-src/           one Gradle build: livingkingdoms-core/, livingkingdoms-world/, livingkingdoms-testkit/ (dev-only, never in the pack) (exist), settlements/, economy-adapter/, world-materializer/
 content/            cultures/, buildings/, npc-visuals/ (the World Content Manifest is data of livingkingdoms-world)
-tools/              doc-lint/, pack/ (exist: setup, instance, launch, verify-mods), bin/ (generated, ignored), world-validator/, sim-inspector/
-tests/              smoke/, worldgen/, gameplay/, magic/, settlements/, longevity/
+tools/              doc-lint/, pack/ (exist: setup, instance, launch, verify-mods, e2e), bin/ (generated, ignored), world-validator/, sim-inspector/
+tests/              e2e/ (exists: Vitest specs and harness for the testkit driver, own package.json), later smoke/, worldgen/, gameplay/, magic/, settlements/, longevity/
 docs/               knowledge base — see docs/index.md
 runtime/            generated, ignored by Git
 ```

@@ -1,0 +1,20 @@
+{
+  "name": "living-kingdoms-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Living Kingdoms e2e tests: TypeScript specs on Vitest that drive the game through the testkit mod (ADR-0005)",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "specs": "vitest run --config vitest.config.ts",
+    "unit": "vitest run --config vitest.unit.config.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "typescript": "6.0.3",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
+  }
+}

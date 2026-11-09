@@ -15,6 +15,8 @@
     "verify-mods": "node tools/pack/src/verify-mods.ts",
     "smoke": "node tools/pack/src/smoke.ts",
     "test-server": "node tools/pack/src/test-server.ts",
-    "validate-world": "node tools/pack/src/validate-world.ts"
+    "validate-world": "node tools/pack/src/validate-world.ts",
+    "e2e": "node tools/pack/src/e2e.ts",
+    "e2e:unit": "npm --prefix tests/e2e run unit"
   }
 }
