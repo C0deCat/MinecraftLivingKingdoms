@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 # Quality
@@ -15,7 +15,7 @@ Grades: `—` not started · `D` exists, unverified · `C` runtime passed · `B`
 | --- | --- | --- |
 | Docs and agent harness | C | Doc linter and Stop hook exist; no CI yet (no GitHub remote) |
 | Infrastructure (M0) | C | Accepted in singleplayer; clean clone reproduces identical JARs. No CI. LAN/server are M10 |
-| World and adventure (M1) | C | M1-A1 (base generator) done: sizes, selector, borders, dimension scales and the world edge are gameplay-verified by the user on Large; Test/Small/Medium generation checked on the test server only. M1-A2 structure and boss mods installed (40 pack mods): gameplay verified by the user on Large for a stronghold, a WDA dungeon and a BoMD arena; other structures checked by `/locate` on the test server only. No reconcile pass (M1-B), no content manifest or validator (M1-C), one short client spark reading (see Performance baselines) |
+| World and adventure (M1) | C | M1-A1 (base generator) done: sizes, selector, borders, dimension scales and the world edge are gameplay-verified by the user on Large; Test/Small/Medium generation checked on the test server only. M1-A2 structure and boss mods installed (40 pack mods): gameplay verified by the user on Large for a stronghold, a WDA dungeon and a BoMD arena; other structures checked by `/locate` on the test server only. M1-B (reconcile) done: `/lkworld structures` census on the test server, renderer (Sodium + Iris) gameplay verified by the user on Large; one known placement defect (hanging D&T bunker entrance, fixed in M1-C1). No content manifest or validator (M1-C), no shader pack (M1-C2); teleports into fresh terrain stall the server for seconds (TD-20) |
 | Household (M2) | — | — |
 | Magic (M3) | — | — |
 | Settlements (M4) | — | — |
@@ -31,6 +31,7 @@ Grades: `—` not started · `D` exists, unverified · `C` runtime passed · `B`
 | --- | --- | --- | --- | --- | --- |
 | 2026-11-06 | 0.0.1 (4 mods) | New default world, singleplayer, ~30 s after join, host PC (Core Ultra 9 275HX, 32 GB, RTX 5070 Ti Laptop) | 20.0 | 4.8 / 10.4 (10 s window) | 1.0 / 6.0 GB |
 | 2026-11-08 | 40 mods + our 2 (M1-A2) | Large world, singleplayer, `/spark health` ~1 min after the last of three teleports, host PC | 20.0 (5 m: 16.85, incl. teleports) | 3.5 / 4.6 (10 s); 4.4 / 6.9, max 41.4 (1 m) | 1.5 / 6.0 GB |
+| 2026-11-09 | 42 mods + our 2 (M1-B, Sodium + Iris, shader pack off) | Large world, singleplayer, `/spark health` ~7 min after the last teleport, standing in a cluster of a D&T shrine, a D&T bunker and a Terralith fortified village, host PC; client 430–690 FPS, 290 at a Mowzie's grove with particles | not usable: the integrated server pauses when the game loses focus (5 s: 20.0) | 10.5 / 16.8, max 20.7 (10 s); 10.4 / 15.9, max 74.4 (1 m) | 1.7 / 6.0 GB |
 | 2026-11-07 | 0.1.0 (8 mods + our 2) | Large world with the F3 edge, singleplayer, `/spark health` ~80 s after load, host PC | 20.0 (5 m: 19.94) | 5.5 / 10.7 (10 s); 5.4 / 14.3, max 259.6 (1 m, includes load) | 1.4 / 6.0 GB |
 
 Worldgen speed on the test server (Chunky, radius 512 = 4,225 chunks, fresh world, seed `livingkingdoms`, host PC):

@@ -54,8 +54,8 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | VillagersTradingPlus | 1.1.1 | M1 | Datapack-driven villager trades (The Graveyard dependency) | both | — | runtime-ok | GPL-3.0; touches villager trades: check against MCA and our trade in M4-B and M6 |
 | The Graveyard (Fabric/Neoforge) | 4.0.1 | M1 | Graveyards, crypts, haunted houses, undead, Lich boss (`graveyard:*`) | both | Geckolib, VillagersTradingPlus | runtime-ok | GPL-3.0; adds "overrun" villages (5 biomes) — M1-B village decision |
 | Mowzie's Mobs | 1.8.2 | M1 | Enemies and bosses: Ferrous Wroughtnaut, Frostmaw, Umvuthi, Sculptor (`mowziesmobs:*`) | both | Geckolib | runtime-ok | Custom license: credit with a link to its CurseForge page ([licenses](licenses.md#notes-on-specific-licenses)); its own assets log two GeckoLib errors on resource load (`supernova`, `attack_single`: a `nan` in the animation expression), those two animations do not play |
-| Sodium | 0.8.13 | M1 | Renderer: chunk rendering and FPS | client | — | installed | PolyForm Shield 1.0.0 (non-compete, modpacks allowed); client only, the test server runs without it |
-| Iris Shaders | 1.8.14-beta.1 | M1 | Shader loader for the M1-C2 shader pack | client | Sodium | installed | LGPL-3.0; beta build for NeoForge 1.21.1 |
+| Sodium | 0.8.13 | M1 | Renderer: chunk rendering and FPS | client | — | runtime-ok | PolyForm Shield 1.0.0 (non-compete, modpacks allowed); client only, the test server runs without it; gameplay verified with the GeckoLib mods 2026-11-08 |
+| Iris Shaders | 1.8.14-beta.1 | M1 | Shader loader for the M1-C2 shader pack | client | Sodium | runtime-ok | LGPL-3.0; beta build for NeoForge 1.21.1; shader pack off until M1-C2 |
 | The Twilight Forest | 4.8.3345 | M1 | Adventure dimension with a boss chain, 1:1 with the Overworld (ADR-0004) | both | — | runtime-ok | CurseForge; code LGPL-2.1+, structures and sounds ARR |
 
 **Side:** `both` / `client` / `server`.

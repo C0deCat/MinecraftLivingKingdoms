@@ -1,11 +1,11 @@
 ---
-status: active
-last_reviewed: 2026-11-08
+status: stable
+last_reviewed: 2026-11-09
 ---
 
 # M1-B — reconcile the world and adventure mods
 
-**Status:** Active
+**Status:** Completed
 
 ## Goal
 
@@ -25,7 +25,7 @@ The world mods of M1-A work as one world: one village source until M4, no struct
 - [x] 3. Baseline census: Large, seeds `livingkingdoms` and `alpha`, Chunky radius 1,536 in the Overworld, Nether and End.
 - [x] 4. Fixes as Lithostitched modifiers in our world mod, picked from the census, one at a time with a census run after each. Outcome: no placement modifier needed; the D&T village removal was tried and reverted (decision log).
 - [x] 5. Renderer: Sodium + Iris as client-side mods; verify-mods, smoke, test server without them; user check of GeckoLib mobs, structures, FPS and spark.
-- [ ] 6. After-census on the same seeds; user flight over a new Large world with the renderer; close the plan, leftovers to M1-C1 or the tech-debt tracker.
+- [x] 6. After-census on the same seeds; user flight over a new Large world with the renderer; close the plan, leftovers to M1-C1 or the tech-debt tracker.
 
 ## Progress log
 
@@ -40,6 +40,7 @@ The world mods of M1-A work as one world: one village source until M4, no struct
 - 2026-11-08 — `remove_dnt_villages` reverted (with the user): vanilla has no birch, jungle or swamp villages, so removing the D&T ones left those biomes without villages. The census numbers above with 269 starts include the removal; the baseline (270) is the state after the revert. Fresh Large server, seed `livingkingdoms`: `/locate structure nova_structures:village_birch` finds it again at (688, −992), 1,207 blocks. Status: runtime passed on the server.
 - 2026-11-08 — User client check with Sodium + Iris (shader pack off), new Large world, seed `livingkingdoms`, render distance 12. Seen: D&T birch village in old-growth birch forest and jungle village on stilts in lukewarm ocean, BoMD Lich tower among ice spikes, Mowzie's Umvuthana grove with Umvuthi's boss bar and its GeckoLib mobs rendering; no render defects. FPS 290–690 (lowest at the grove: particles), integrated server 4–12 ms per tick between teleports, heap 1.2–2.0 / 6 GB. Every teleport into fresh terrain stalls the server 2.4–9.5 s ("Can't keep up"); `/spark health` 45 s after the last one: TPS 5.7 (5 s), 12.1 (1 min), ticks med 6.1 / p95 13.1 / max 624 ms — taken during chunk generation, so not comparable to the idle 2026-11-08 reading. Not seen: the bunker entrance at (99, −909), the Wrought Chamber (inside a mountain). Status: gameplay verified for rendering; steady-state spark pending.
 - 2026-11-09 — User check at the bunker, seed `livingkingdoms`: a cluster of the D&T combat shrine tier 3 (entrance (60, 158, −914); its advancement is `nova_structures:adventure/find_shrine`), the D&T bunker and a Terralith fortified village (their pieces overlap by 528 blocks: the bunker set excludes only `minecraft:villages`, Terralith's village is another set). The bunker's start piece (pool `bunker_enterance`: a 3×6×3 or 7×6×7 ruin of stone brick pillars with a ladder jigsaw down) hangs in the air on the downhill side: the bunker is `rigid` with `terrain_adaptation: none`, so nothing fills under it. Real placement defect, the first one found in game. Options under discussion: our own structure definition reusing the D&T start pool with `beard_thin`; our processor on the start pool; our Lithostitched placement condition (relief under the start); accept. Spark, client at the bunker, about 6 min after the last teleport: ticks med 10.4 / p95 15.9 / max 74.4 ms over 1 min, heap 1.7 / 6 GB; TPS 20 (5 s) but 1.1 (10 s) and 4.7 (1 min) because the integrated server pauses when the game loses focus ("Saving and pausing game"), so in singleplayer only the tick durations are a usable reading.
+- 2026-11-09 — Closed. The user flew over a new Large world with the renderer (D&T villages, shrine, bunker, Lich tower, Umvuthana grove): no render defects, one placement defect (hanging bunker entrance, fixed in M1-C1). Results: D&T villages kept as placeholder variants, no Lithostitched placement modifier needed, `/lkworld structures` census in our world mod, renderer installed and gameplay verified. Leftovers: the foundation processor, census entrance and steepness numbers and cross-set overlaps in M1-C1 (M1 spec); slow WDA `/locate`, the D&T End Castle in the eye-of-ender tag, D&T fortress pools, witch huts, VillagersTradingPlus and chunk-generation stalls in the tech-debt tracker (TD-15 to TD-20). Status: gameplay verified.
 
 ## Decision log
 
