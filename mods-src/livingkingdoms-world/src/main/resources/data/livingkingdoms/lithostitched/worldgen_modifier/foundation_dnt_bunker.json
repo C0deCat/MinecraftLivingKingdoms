@@ -1,0 +1,17 @@
+{
+  "predicate": {
+    "type": "lithostitched:mod_loaded",
+    "mod_id": "mr_dungeons_andtaverns"
+  },
+  "type": "lithostitched:set_pool_element_processors",
+  "template_pools": "nova_structures:bunker_enterance",
+  "processor_list": {
+    "processors": [
+      {
+        "processor_type": "livingkingdoms_world:foundation",
+        "mode": "extend",
+        "max_depth": 16
+      }
+    ]
+  }
+}

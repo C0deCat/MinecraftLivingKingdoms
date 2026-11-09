@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import javax.imageio.ImageIO;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.network.chat.Component;
@@ -45,8 +46,18 @@ final class WorldMapCommand {
                                 .executes(context -> CoastProfile.start(context.getSource(), IntegerArgumentType.getInteger(context, "rays")))))
                 .then(Commands.literal("structures")
                         .executes(context -> StructureCensus.start(context.getSource(), 1536))
+                        .then(Commands.literal("border").executes(context -> StructureCensus.startBorder(context.getSource(), false)))
+                        .then(Commands.literal("all").executes(context -> StructureCensus.startBorder(context.getSource(), true)))
                         .then(Commands.argument("radius", IntegerArgumentType.integer(64, 16384))
                                 .executes(context -> StructureCensus.start(context.getSource(), IntegerArgumentType.getInteger(context, "radius")))))
+                .then(Commands.literal("grounding")
+                        .then(Commands.argument("structure", ResourceLocationArgument.id())
+                                .executes(context -> GroundingCheck.start(context.getSource(),
+                                        ResourceLocationArgument.getId(context, "structure").toString(), 1536))
+                                .then(Commands.argument("radius", IntegerArgumentType.integer(64, 16384))
+                                        .executes(context -> GroundingCheck.start(context.getSource(),
+                                                ResourceLocationArgument.getId(context, "structure").toString(),
+                                                IntegerArgumentType.getInteger(context, "radius"))))))
                 .then(Commands.literal("map")
                         .executes(context -> render(context, 0))
                         .then(Commands.argument("step", IntegerArgumentType.integer(4, 256))
@@ -91,15 +102,19 @@ final class WorldMapCommand {
         RandomState random = level.getChunkSource().randomState();
 
         BufferedImage image = new BufferedImage(pixels, pixels, BufferedImage.TYPE_INT_RGB);
+        int[][] heights = new int[pixels][];
         java.util.concurrent.atomic.AtomicLong landCounter = new java.util.concurrent.atomic.AtomicLong();
         long started = System.currentTimeMillis();
         // Rows in parallel: noise sampling is thread-safe (vanilla worldgen samples it from worker threads).
         java.util.stream.IntStream.range(0, pixels).parallel().forEach(py -> {
             int[] row = new int[pixels];
+            int[] heightRow = new int[pixels];
+            heights[py] = heightRow;
             for (int px = 0; px < pixels; px++) {
                 int x = -half + px * step + step / 2;
                 int z = -half + py * step + step / 2;
                 int height = generator.getBaseHeight(x, z, Heightmap.Types.OCEAN_FLOOR_WG, level, random);
+                heightRow[px] = height;
                 Holder<Biome> biome = generator.getBiomeSource().getNoiseBiome(
                         QuartPos.fromBlock(x), QuartPos.fromBlock(Math.max(height, SEA_LEVEL)), QuartPos.fromBlock(z), random.sampler());
                 if (height >= SEA_LEVEL) landCounter.incrementAndGet();
@@ -111,9 +126,11 @@ final class WorldMapCommand {
         });
         long land = landCounter.get();
         Path file = level.getServer().getWorldPath(LevelResource.ROOT).resolve("livingkingdoms").resolve("map-" + size.id() + ".png");
+        Path heightsFile = file.resolveSibling("heights-" + size.id() + ".csv");
         try {
             Files.createDirectories(file.getParent());
             ImageIO.write(image, "png", file.toFile());
+            writeHeights(heightsFile, heights, -half, step);
         } catch (IOException e) {
             LivingKingdomsWorld.LOGGER.error("Could not write map {}", file, e);
             return;
@@ -123,6 +140,25 @@ final class WorldMapCommand {
                 size.id(), pixels, pixels, step, landShare, System.currentTimeMillis() - started, file.toAbsolutePath());
         LivingKingdomsWorld.LOGGER.info(message);
         source.getServer().execute(() -> source.sendSuccess(() -> Component.literal(message), false));
+    }
+
+    /**
+     * The sampled ground heights for offline analysis: a header line {@code # origin <x>,<z> step <n>},
+     * then one line per row (north to south) of comma-separated heights, west to east. The sample of
+     * column {@code px}, row {@code py} is at {@code origin + p * step + step / 2}.
+     */
+    private static void writeHeights(Path file, int[][] heights, int origin, int step) throws IOException {
+        try (java.io.Writer w = Files.newBufferedWriter(file, java.nio.charset.StandardCharsets.UTF_8)) {
+            w.write("# origin " + origin + "," + origin + " step " + step + "\n");
+            for (int[] row : heights) {
+                StringBuilder line = new StringBuilder(row.length * 4);
+                for (int i = 0; i < row.length; i++) {
+                    if (i > 0) line.append(',');
+                    line.append(row[i]);
+                }
+                w.write(line.append('\n').toString());
+            }
+        }
     }
 
     private static int color(int height, Holder<Biome> biome) {
