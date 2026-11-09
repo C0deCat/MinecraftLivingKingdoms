@@ -28,7 +28,10 @@ import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType;
@@ -141,7 +144,7 @@ public final class FixedCountPlacement extends StructurePlacement {
 
         ChunkGenerator generator = level.getChunkSource().getGenerator();
         BiomeSource biomes = generator.getBiomeSource();
-        List<Structure> structures = structuresOfThisSet(level);
+        List<StructureSet.StructureSelectionEntry> structures = entriesOfThisSet(level);
         Set<Long> result = new HashSet<>();
         List<String> found = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -198,28 +201,48 @@ public final class FixedCountPlacement extends StructurePlacement {
         return result;
     }
 
-    /** The structures of the structure set that uses this placement. */
-    private List<Structure> structuresOfThisSet(ServerLevel level) {
+    /** The entries of the structure set that uses this placement. */
+    private List<StructureSet.StructureSelectionEntry> entriesOfThisSet(ServerLevel level) {
         return level.registryAccess().registryOrThrow(Registries.STRUCTURE_SET).stream()
                 .filter(set -> set.placement() == this)
                 .flatMap(set -> set.structures().stream())
-                .map(entry -> entry.structure().value())
                 .toList();
     }
 
     /**
-     * Id of the first structure of the set that generates a valid start in this chunk and stands on the
-     * ground (entrance not floating, no piece mostly hanging, see {@link StructureScan#grounded}; skipped
-     * for {@code floating_ok}), or null.
+     * Id of the structure that worldgen will place in this chunk, if it stands on the ground (entrance
+     * not floating, no piece mostly hanging, see {@link StructureScan#grounded}; skipped for
+     * {@code floating_ok}), or null. The pick repeats vanilla {@code ChunkGenerator.createStructures}:
+     * entries drawn by weight with the chunk's large-feature seed, the first valid start wins.
      */
-    private String generatesAt(ServerLevel level, ChunkGeneratorStructureState state, List<Structure> structures, ChunkPos chunk) {
+    private String generatesAt(ServerLevel level, ChunkGeneratorStructureState state, List<StructureSet.StructureSelectionEntry> entries,
+                               ChunkPos chunk) {
         ChunkGenerator generator = level.getChunkSource().getGenerator();
-        for (Structure structure : structures) {
+        List<StructureSet.StructureSelectionEntry> left = new ArrayList<>(entries);
+        WorldgenRandom pick = new WorldgenRandom(new LegacyRandomSource(0L));
+        pick.setLargeFeatureSeed(state.getLevelSeed(), chunk.x, chunk.z);
+        int total = 0;
+        for (StructureSet.StructureSelectionEntry entry : left) total += entry.weight();
+        while (!left.isEmpty()) {
+            int index = 0;
+            if (entries.size() > 1) {
+                int roll = pick.nextInt(total);
+                for (StructureSet.StructureSelectionEntry entry : left) {
+                    roll -= entry.weight();
+                    if (roll < 0) break;
+                    index++;
+                }
+            }
+            StructureSet.StructureSelectionEntry entry = left.get(index);
+            Structure structure = entry.structure().value();
             StructureStart start = structure.generate(level.registryAccess(), generator, generator.getBiomeSource(), state.randomState(),
                     level.getStructureManager(), state.getLevelSeed(), chunk, 0, level, structure.biomes()::contains);
-            if (!start.isValid()) continue;
-            ResourceLocation id = level.registryAccess().registryOrThrow(Registries.STRUCTURE).getKey(structure);
-            if (settings.floatingOk().contains(id) || StructureScan.grounded(level, structure, start)) return id.getPath();
+            if (start.isValid()) {
+                ResourceLocation id = level.registryAccess().registryOrThrow(Registries.STRUCTURE).getKey(structure);
+                return settings.floatingOk().contains(id) || StructureScan.grounded(level, structure, start) ? id.getPath() : null;
+            }
+            left.remove(index);
+            total -= entry.weight();
         }
         return null;
     }

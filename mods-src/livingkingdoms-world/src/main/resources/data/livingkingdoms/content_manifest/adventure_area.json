@@ -1,6 +1,6 @@
 {
   "category": "adventure_area",
-  "description": "Large adventure areas of different nature and difficulty (spec: 3-5).",
+  "description": "Large adventure areas of different nature and difficulty (spec: 3-5). The D&T bunker entrance is grounded by our foundation processor, which the noise measurement cannot see, so only its other pieces are checked.",
   "dimension": "minecraft:overworld",
   "structures": [
     "nova_structures:bunker",
@@ -41,7 +41,8 @@
       "entrance": "any"
     },
     "nova_structures:bunker": {
-      "entrance": "ok"
+      "entrance": "any",
+      "max_hanging": 0.25
     },
     "dungeons_arise:heavenly_conqueror": {
       "entrance": "any"

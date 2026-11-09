@@ -187,6 +187,8 @@ final class WorldValidator {
         // Overlaps that touch a mandatory structure.
         overlaps.forEach((dimension, list) -> {
             for (Overlap o : list) {
+                // Pairs of one mod are its own layout (the Twilight Forest places all landmarks in one grid).
+                if (o.a().namespace().equals(o.b().namespace())) continue;
                 if (mandatory.contains(o.a().id()) || mandatory.contains(o.b().id())) {
                     issues.add(new Issue(Severity.WARNING, "overlaps", String.format(Locale.ROOT, "%s at %s cuts into %s at %s (%d blocks) in %s",
                             o.a().id(), at(o.a()), o.b().id(), at(o.b()), o.volume(), dimension)));
