@@ -6,7 +6,7 @@ hash = "6537a7219d3ea921e76fa2a1f9cde171c01ca4ae729ea91c9e538179e22ad592"
 
 [[files]]
 file = "config/mowziesmobs-common.toml"
-hash = "eb86ec7bc491dfd6d5e11104ea3978ceeaf72d3bb98513d523c74435eecc5cc4"
+hash = "666fd97ec2ef017b6998c562dd898a11a55757010e7681c7ce273320c1c404c7"
 
 [[files]]
 file = "config/sparsestructures.json5"
