@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
@@ -43,7 +44,7 @@ public final class LivingKingdomsWorld {
         STRUCTURE_PLACEMENT_TYPES.register(modEventBus);
         NeoForge.EVENT_BUS.addListener(LandLift::onLevelLoad);
         NeoForge.EVENT_BUS.addListener(ContentManifest::onAddReloadListeners);
-        NeoForge.EVENT_BUS.addListener(FixedCountPlacement::onLevelLoad);
+        NeoForge.EVENT_BUS.addListener(EventPriority.LOW, FixedCountPlacement::onLevelLoad);
         NeoForge.EVENT_BUS.addListener(FixedCountPlacement::onLevelUnload);
         NeoForge.EVENT_BUS.addListener(WorldSizeState::onServerAboutToStart);
         NeoForge.EVENT_BUS.addListener(WorldBorders::onServerStarted);
