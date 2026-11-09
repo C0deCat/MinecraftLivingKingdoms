@@ -1,0 +1,21 @@
+// Living Kingdoms: structure spread on the finite map (M1-C1, docs/design-docs/world-content.md).
+// A factor multiplies a structure set's spacing and separation; the count falls with its square.
+// The mod requires a game restart to apply changes.
+{
+  // Default of the mod, kept: about a quarter of the structure mods' own density (measured 2026-11-09).
+  "spreadFactor": 2,
+
+  // Every structure set gets its own salt, hashed from its id, so sets with equal salts do not overlap.
+  "idBasedSalt": true,
+
+  "customSpreadFactors": [
+    // The mod's default.
+    { "structure": "minecraft:mansion", "factor": 2 },
+    // YUNG's strongholds: undo the doubling, so Small and Medium have room for several (0-1 on Small at 2).
+    { "structure": "betterstrongholds:stronghold", "factor": 1 },
+    // Bosses as rarities: Ferrous Wroughtnaut 251-342 and Void Blossom 46-57 per Large world at 2;
+    // target about 5-15 per Large world, in proportion on smaller sizes.
+    { "structure": "mowziesmobs:wrought_chambers", "factor": 11 },
+    { "structure": "bosses_of_mass_destruction:void_blossom", "factor": 4.5 }
+  ]
+}

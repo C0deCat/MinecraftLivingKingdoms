@@ -1,0 +1,11 @@
+{
+  "predicate": {
+    "type": "lithostitched:mod_loaded",
+    "mod_id": "bosses_of_mass_destruction"
+  },
+  "type": "lithostitched:remove_structure_set_entries",
+  "structure_sets": "bosses_of_mass_destruction:lich_tower",
+  "structures": [
+    "bosses_of_mass_destruction:lich_tower"
+  ]
+}

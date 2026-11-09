@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -25,17 +26,23 @@ public final class LivingKingdomsWorld {
 
     private static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSOR_TYPES =
             DeferredRegister.create(Registries.STRUCTURE_PROCESSOR, MOD_ID);
+    private static final DeferredRegister<StructurePlacementType<?>> STRUCTURE_PLACEMENT_TYPES =
+            DeferredRegister.create(Registries.STRUCTURE_PLACEMENT, MOD_ID);
 
     static {
         DENSITY_FUNCTION_TYPES.register("edge_falloff", () -> EdgeFalloff.MAP_CODEC);
         DENSITY_FUNCTION_TYPES.register("edge_bias", () -> EdgeBias.MAP_CODEC);
         DENSITY_FUNCTION_TYPES.register("edge_erosion", () -> EdgeErosion.MAP_CODEC);
         STRUCTURE_PROCESSOR_TYPES.register("foundation", () -> FoundationProcessor.TYPE);
+        STRUCTURE_PLACEMENT_TYPES.register("fixed_count", () -> FixedCountPlacement.TYPE);
     }
 
     public LivingKingdomsWorld(IEventBus modEventBus) {
         DENSITY_FUNCTION_TYPES.register(modEventBus);
         STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
+        STRUCTURE_PLACEMENT_TYPES.register(modEventBus);
+        NeoForge.EVENT_BUS.addListener(FixedCountPlacement::onLevelLoad);
+        NeoForge.EVENT_BUS.addListener(FixedCountPlacement::onLevelUnload);
         NeoForge.EVENT_BUS.addListener(WorldSizeState::onServerAboutToStart);
         NeoForge.EVENT_BUS.addListener(WorldBorders::onServerStarted);
         NeoForge.EVENT_BUS.addListener(BorderSync::onLoggedIn);

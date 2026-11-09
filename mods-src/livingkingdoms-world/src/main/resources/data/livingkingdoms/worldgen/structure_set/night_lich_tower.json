@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "bosses_of_mass_destruction" }
+  ],
+  "structures": [
+    { "structure": "bosses_of_mass_destruction:lich_tower", "weight": 1 }
+  ],
+  "placement": {
+    "type": "livingkingdoms_world:fixed_count",
+    "salt": 1709112602,
+    "counts": { "small": 2, "medium": 3, "large": 4 },
+    "preferred_biomes": "#bosses_of_mass_destruction:has_structure/lich_tower",
+    "edge_margin": 768,
+    "search_radius": 512
+  }
+}

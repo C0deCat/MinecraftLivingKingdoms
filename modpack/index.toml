@@ -2,7 +2,11 @@ hash-format = "sha256"
 
 [[files]]
 file = "CHANGELOG.md"
-hash = "6d783688c1fe7064a617e39b0c2bd1da9da9ae7605dd8d6d16fc759513cb829d"
+hash = "6537a7219d3ea921e76fa2a1f9cde171c01ca4ae729ea91c9e538179e22ad592"
+
+[[files]]
+file = "config/sparsestructures.json5"
+hash = "275b0a80ee77d0942021be8bc0ca072cdb05f8fc6e8907072628585027fbd691"
 
 [[files]]
 file = "config/tectonic.json"
