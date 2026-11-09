@@ -19,6 +19,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | [ADR-0002](ADR-0002-milestone-order.md) | Milestone order: settlements → simulation → economy and states → atmosphere → cultures | Accepted, amended by ADR-0003 | 2026-11-06 |
 | [ADR-0003](ADR-0003-multiplayer-milestone.md) | Singleplayer first; multiplayer (LAN, dedicated server) is M10, release M11 | Accepted | 2026-11-06 |
 | [ADR-0004](ADR-0004-world-sizes-and-dimensions.md) | Fixed world sizes 2k/8k/12k/16k, per-size Nether ratio, 1:1 Twilight Forest, finite-world edge | Accepted | 2026-11-06 |
+| [ADR-0005](ADR-0005-test-framework.md) | Two test layers: GameTest for mechanics, our e2e driver with TypeScript tests on Vitest | Accepted | 2026-11-09 |
 
 ## Lightweight decisions
 
@@ -41,9 +42,10 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | D-15 | Singleplayer is the only play and test mode until M10; Open to LAN (1–4 players) and the dedicated server are M10 ([ADR-0003](ADR-0003-multiplayer-milestone.md)); code stays server-safe throughout | Locked (changed 2026-11-06) |
 | D-16 | Code and assets of closed (ARR) mods are never copied or decompiled into the repo; behavior changes via configs, datapacks, KubeJS, Mixins in our mod | Hard constraint |
 | D-17 | All documentation, code comments, commit messages and identifiers are in English | Locked |
-| D-18 | No vanilla world types: worlds are created only from our size presets through our selector screen; the pack is never tuned or tested for vanilla types ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked |
+| D-18 | No vanilla world types: worlds are created only from our size presets through our selector screen; the pack is never tuned or tested for vanilla types ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)); test-only exception: D-21 | Locked |
 | D-19 | One term, one meaning ([terms and labels](../documentation.md#terms-and-labels), [glossary](../glossary.md)). Every milestone runs phases A foundation → B reconcile → C integrate → D accept; parts of a phase are steps labelled M1-A1, M1-A2 | Locked (2026-11-07) |
-| D-20 | Every new world, of any size and any seed (the player's choice, random allowed), has all its chunks generated with Chunky at creation, because the settlement simulation needs the whole map. This needs our own generation optimizer; if it cannot be made fast enough, the fallback is a pre-generated world shipped as the main format, with generating one's own world as an option (2026-11-09, with the user; TD-21) | Locked |
+| D-20 | Every new world, of any size and any seed (the player's choice, random allowed), has all its chunks generated with Chunky at creation, because the settlement simulation needs the whole map. This needs our own generation optimizer; if it cannot be made fast enough, the fallback is a pre-generated world shipped as the main format, with generating one's own world as an option (2026-11-09, with the user; TD-21); test worlds are exempt (D-21) | Locked |
+| D-21 | Test worlds only: the testkit mod (never part of the pack) has a flat test world preset for mechanics tests, an exception to D-18 that players never see and that is never used to check worldgen; test worlds are exempt from D-20, and each test decides its Chunky radius ([ADR-0005](ADR-0005-test-framework.md), 2026-11-09, with the user) | Locked |
 
 ## ADR template
 

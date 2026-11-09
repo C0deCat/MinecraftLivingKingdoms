@@ -40,3 +40,20 @@ Three separate scales; do not mix their words.
 | Open ocean | The outermost part of the outer ocean, where land is guaranteed absent (the cap) | [lithostitched-1.8.md](references/lithostitched-1.8.md) |
 | Edge band | The band along the border where the edge bias sinks the land (up to 2,048 blocks in) | [lithostitched-1.8.md](references/lithostitched-1.8.md) |
 | Cap | `edge_falloff`, the upper limit for continentalness that keeps the open ocean | [lithostitched-1.8.md](references/lithostitched-1.8.md) |
+
+## Testing
+
+The words step, phase and stage belong to milestones, and smoke belongs to `npm run smoke`; tests do not reuse them. Snapshot is not used for stored worlds.
+
+| Term | Meaning | Defined in |
+| --- | --- | --- |
+| Test layer | GameTest (server-side mechanics), e2e (the real client through our driver) or worldgen tools (`/lkworld`, `validate-world`); a test goes to the lowest layer that can catch its bug | [ADR-0005](decisions/ADR-0005-test-framework.md) |
+| testkit | Our dev-only mod `livingkingdoms_testkit`: the e2e driver, the flat test preset and our GameTests; never part of the pack | [ADR-0005](decisions/ADR-0005-test-framework.md) |
+| e2e driver | The client part of testkit that executes protocol ops sent by the TypeScript harness | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
+| Protocol op | One command of the e2e driver (`world.create`, `player.useItemOn`, `query.block`, …); the list lives in `tests/e2e/harness/protocol.ts` | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
+| Screen object | A TypeScript class that models one Minecraft screen and is named after its Java class (`CreateWorldScreen`) | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
+| World tier | Which world an e2e file runs in: `flat` (test preset), `cached` (copy of a world cache entry) or `fresh` (new world) | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
+| World cache entry | A stored test world keyed by the pack, our worldgen, size, seed and Chunky radius; invalid as soon as any of them changes | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
+| Arena | The plot of a test world that one e2e test gets for itself; coordinates in a test are relative to it | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
+| Reset level | How much is reset before an e2e test: `arena`, `world` (copy the cache entry again) or `fresh` (new world) | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
+| Test tag | `@quick`, `@slow` or `@visual` in a test name; not a Minecraft block or item tag | [test framework plan](exec-plans/active/2026-11-09-test-framework.md) |
