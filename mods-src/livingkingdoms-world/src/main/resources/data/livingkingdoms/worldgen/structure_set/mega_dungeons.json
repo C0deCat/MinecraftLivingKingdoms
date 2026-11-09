@@ -40,6 +40,9 @@
       "large": 5
     },
     "preferred_biomes": "#livingkingdoms:has_structure/mega_dungeon",
-    "edge_margin": 768
+    "edge_margin": 768,
+    "floating_ok": [
+      "dungeons_arise:mechanical_nest"
+    ]
   }
 }

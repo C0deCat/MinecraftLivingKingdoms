@@ -18,6 +18,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
@@ -66,13 +68,15 @@ public final class FixedCountPlacement extends StructurePlacement {
     }
 
     /** Our fields; grouped, because a codec group takes at most eight fields after the common ones. */
-    record Settings(Counts counts, HolderSet<Biome> preferredBiomes, int biomeY, int edgeMargin, int searchRadius) {
+    record Settings(Counts counts, HolderSet<Biome> preferredBiomes, int biomeY, int edgeMargin, int searchRadius,
+                    List<ResourceLocation> floatingOk) {
         static final MapCodec<Settings> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Counts.CODEC.fieldOf("counts").forGetter(Settings::counts),
                 RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("preferred_biomes").forGetter(Settings::preferredBiomes),
                 Codec.INT.optionalFieldOf("biome_y", 64).forGetter(Settings::biomeY),
                 Codec.intRange(0, 8192).optionalFieldOf("edge_margin", 512).forGetter(Settings::edgeMargin),
-                Codec.intRange(0, 1024).optionalFieldOf("search_radius", 160).forGetter(Settings::searchRadius)
+                Codec.intRange(0, 1024).optionalFieldOf("search_radius", 160).forGetter(Settings::searchRadius),
+                ResourceLocation.CODEC.listOf().optionalFieldOf("floating_ok", List.of()).forGetter(Settings::floatingOk)
         ).apply(instance, Settings::new));
     }
 
@@ -82,6 +86,8 @@ public final class FixedCountPlacement extends StructurePlacement {
 
     static final StructurePlacementType<FixedCountPlacement> TYPE = () -> CODEC;
     private static final int ATTEMPTS = 8;
+    private static final int LATTICE = 128;
+    private static final int LATTICE_TESTS = 48;
 
     /** Levels by their structure state, registered on load: the placement needs their biome source. */
     private static final Map<ChunkGeneratorStructureState, ServerLevel> LEVELS = new ConcurrentHashMap<>();
@@ -133,7 +139,8 @@ public final class FixedCountPlacement extends StructurePlacement {
         for (int i = 0; i < grid * grid; i++) cells.add(i);
         Collections.shuffle(cells, new java.util.Random(random.nextLong()));
 
-        BiomeSource biomes = level.getChunkSource().getGenerator().getBiomeSource();
+        ChunkGenerator generator = level.getChunkSource().getGenerator();
+        BiomeSource biomes = generator.getBiomeSource();
         List<Structure> structures = structuresOfThisSet(level);
         Set<Long> result = new HashSet<>();
         List<String> found = new ArrayList<>();
@@ -141,23 +148,47 @@ public final class FixedCountPlacement extends StructurePlacement {
             int index = cells.get(i);
             ChunkPos chosen = null;
             String note = "";
-            // Several points in the cell: the first whose biome fits and where one of the set's structures
-            // actually generates wins, so the count is met unless the whole cell is unsuitable.
-            for (int attempt = 0; attempt < ATTEMPTS; attempt++) {
+            // Random points in the cell, each moved to the nearest preferred biome; then, for rare biomes, a
+            // lattice over the whole cell. The first point where one of the set's structures generates and
+            // stands on the ground wins, so the count is met unless the whole cell is unsuitable.
+            for (int attempt = 0; attempt < ATTEMPTS && note.isEmpty(); attempt++) {
                 int x = (int) (-inner + (index % grid + 0.2 + 0.6 * random.nextDouble()) * cell);
                 int z = (int) (-inner + (index / grid + 0.2 + 0.6 * random.nextDouble()) * cell);
                 Pair<BlockPos, Holder<Biome>> hit = biomes.findBiomeHorizontal(x, settings.biomeY(), z,
                         settings.searchRadius(), settings.preferredBiomes()::contains, random, state.randomState().sampler());
-                BlockPos pos = hit != null ? hit.getFirst() : new BlockPos(x, settings.biomeY(), z);
-                ChunkPos chunk = new ChunkPos(pos);
+                ChunkPos chunk = new ChunkPos(hit != null ? hit.getFirst() : new BlockPos(x, settings.biomeY(), z));
                 if (chosen == null) chosen = chunk;
                 String generated = hit == null ? null : generatesAt(level, state, structures, chunk);
                 if (generated != null) {
                     chosen = chunk;
                     note = generated + " after " + (attempt + 1);
-                    break;
                 }
-                note = "none fits after " + (attempt + 1);
+            }
+            if (note.isEmpty()) {
+                List<int[]> lattice = new ArrayList<>();
+                double x0 = -inner + (index % grid) * cell;
+                double z0 = -inner + (index / grid) * cell;
+                for (double dx = LATTICE / 2.0; dx < cell; dx += LATTICE) {
+                    for (double dz = LATTICE / 2.0; dz < cell; dz += LATTICE) lattice.add(new int[] {(int) (x0 + dx), (int) (z0 + dz)});
+                }
+                Collections.shuffle(lattice, new java.util.Random(random.nextLong()));
+                int tests = 0;
+                for (int[] p : lattice) {
+                    if (tests >= LATTICE_TESTS) break;
+                    // At the surface: biomes are 3D, and under a mountain y 64 is already an underground biome.
+                    int surface = generator.getBaseHeight(p[0], p[1], Heightmap.Types.WORLD_SURFACE_WG, level, state.randomState());
+                    Holder<Biome> biome = biomes.getNoiseBiome(p[0] >> 2, surface >> 2, p[1] >> 2, state.randomState().sampler());
+                    if (!settings.preferredBiomes().contains(biome)) continue;
+                    tests++;
+                    ChunkPos chunk = new ChunkPos(new BlockPos(p[0], surface, p[1]));
+                    String generated = generatesAt(level, state, structures, chunk);
+                    if (generated != null) {
+                        chosen = chunk;
+                        note = generated + " on the lattice after " + tests;
+                        break;
+                    }
+                }
+                if (note.isEmpty()) note = "none fits (" + ATTEMPTS + " points, " + tests + " lattice tests)";
             }
             result.add(chosen.toLong());
             found.add(chosen.getMiddleBlockX() + "," + chosen.getMiddleBlockZ() + " " + note);
@@ -176,15 +207,19 @@ public final class FixedCountPlacement extends StructurePlacement {
                 .toList();
     }
 
-    /** Id of the first structure of the set that generates a valid start in this chunk, or null. */
-    private static String generatesAt(ServerLevel level, ChunkGeneratorStructureState state, List<Structure> structures, ChunkPos chunk) {
+    /**
+     * Id of the first structure of the set that generates a valid start in this chunk and stands on the
+     * ground (entrance not floating, no piece mostly hanging, see {@link StructureScan#grounded}; skipped
+     * for {@code floating_ok}), or null.
+     */
+    private String generatesAt(ServerLevel level, ChunkGeneratorStructureState state, List<Structure> structures, ChunkPos chunk) {
         ChunkGenerator generator = level.getChunkSource().getGenerator();
         for (Structure structure : structures) {
             StructureStart start = structure.generate(level.registryAccess(), generator, generator.getBiomeSource(), state.randomState(),
                     level.getStructureManager(), state.getLevelSeed(), chunk, 0, level, structure.biomes()::contains);
-            if (start.isValid()) {
-                return level.registryAccess().registryOrThrow(Registries.STRUCTURE).getKey(structure).getPath();
-            }
+            if (!start.isValid()) continue;
+            ResourceLocation id = level.registryAccess().registryOrThrow(Registries.STRUCTURE).getKey(structure);
+            if (settings.floatingOk().contains(id) || StructureScan.grounded(level, structure, start)) return id.getPath();
         }
         return null;
     }

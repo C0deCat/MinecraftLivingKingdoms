@@ -5,6 +5,10 @@ file = "CHANGELOG.md"
 hash = "6537a7219d3ea921e76fa2a1f9cde171c01ca4ae729ea91c9e538179e22ad592"
 
 [[files]]
+file = "config/mowziesmobs-common.toml"
+hash = "eb86ec7bc491dfd6d5e11104ea3978ceeaf72d3bb98513d523c74435eecc5cc4"
+
+[[files]]
 file = "config/sparsestructures.json5"
 hash = "f14ef8dc5d6e55904cb745960418d19c930152f56f77841b7d33081497f33e07"
 

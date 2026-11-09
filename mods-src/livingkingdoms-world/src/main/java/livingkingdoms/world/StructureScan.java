@@ -330,6 +330,21 @@ final class StructureScan {
                 relief, water, hanging, hangingPiece, entranceBox, entrance);
     }
 
+    /**
+     * Whether a freshly generated start stands on the ground: true for structures that are not surface
+     * structures or not in a dimension with terrain; otherwise its entrance must not float and no piece
+     * may hang over more than {@link StructureCensus#HANGING_SHARE} of its footprint. Used by the
+     * {@code fixed_count} placement to reject points on cliffs.
+     */
+    static boolean grounded(ServerLevel level, Structure structure, StructureStart start) {
+        boolean terrain = level.dimensionType().natural() && !level.dimensionType().hasCeiling();
+        if (!terrain || structure.step() != GenerationStep.Decoration.SURFACE_STRUCTURES) return true;
+        ChunkGenerator generator = level.getChunkSource().getGenerator();
+        Start s = measure(level, generator, level.getChunkSource().randomState(), level.getWorldBorder(), true, generator.getSeaLevel(),
+                "check:start", structure, start);
+        return !s.entrance().equals("floating") && s.hanging() <= StructureCensus.HANGING_SHARE;
+    }
+
     /** Template ids of jigsaw pieces (from the pool element), piece type ids of the others. */
     private static Set<String> templates(List<StructurePiece> pieces) {
         Set<String> result = new LinkedHashSet<>();

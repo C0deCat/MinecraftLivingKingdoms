@@ -4,6 +4,22 @@
     "minecraft:snowy_plains",
     "minecraft:ice_spikes",
     "minecraft:snowy_slopes",
-    "minecraft:frozen_peaks"
+    "minecraft:frozen_peaks",
+    "minecraft:snowy_taiga",
+    "minecraft:snowy_slopes",
+    "minecraft:grove",
+    "minecraft:frozen_peaks",
+    {
+      "id": "terralith:ice_marsh",
+      "required": false
+    },
+    {
+      "id": "terralith:snowy_shield",
+      "required": false
+    },
+    {
+      "id": "terralith:alpine_grove",
+      "required": false
+    }
   ]
 }

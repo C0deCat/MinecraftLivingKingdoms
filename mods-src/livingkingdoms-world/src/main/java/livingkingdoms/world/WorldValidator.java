@@ -199,6 +199,7 @@ final class WorldValidator {
         checkWitchHuts(starts.getOrDefault(Level.OVERWORLD.location(), List.of()), info);
         checkLand(overworld, issues, info);
         checkSettlementLand(overworld, size, starts.getOrDefault(Level.OVERWORLD.location(), List.of()), info);
+        surfaceBiomes(overworld, size, info);
 
         long critical = issues.stream().filter(i -> i.severity() == Severity.CRITICAL).count();
         long warnings = issues.size() - critical;
@@ -324,6 +325,28 @@ final class WorldValidator {
         }).count();
         info.add(String.format(Locale.ROOT, "Settlement land: %d free gentle land cells of %d blocks (%d in the map); target 30-60 settlements.",
                 free, CELL, cells * cells));
+    }
+
+    /** Share of the land surface per biome on a 96² grid, to explain missing biome-bound structures. */
+    private static void surfaceBiomes(ServerLevel level, WorldSize size, List<String> info) {
+        ChunkGenerator generator = level.getChunkSource().getGenerator();
+        RandomState random = level.getChunkSource().randomState();
+        int grid = 96;
+        double step = size.side() / (double) grid;
+        double half = size.side() / 2.0;
+        Map<String, Long> counts = IntStream.range(0, grid * grid).parallel().mapToObj(i -> {
+            int x = (int) (-half + (i % grid + 0.5) * step);
+            int z = (int) (-half + (i / grid + 0.5) * step);
+            int y = generator.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, random);
+            if (generator.getBaseHeight(x, z, Heightmap.Types.OCEAN_FLOOR_WG, level, random) < generator.getSeaLevel()) return null;
+            return generator.getBiomeSource().getNoiseBiome(x >> 2, y >> 2, z >> 2, random.sampler()).unwrapKey()
+                    .map(k -> k.location().toString()).orElse("?");
+        }).filter(java.util.Objects::nonNull).collect(java.util.stream.Collectors.groupingBy(b -> b, java.util.stream.Collectors.counting()));
+        long land = counts.values().stream().mapToLong(Long::longValue).sum();
+        String list = counts.entrySet().stream().sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .map(e -> String.format(Locale.ROOT, "%s %.1f%%", e.getKey(), 100.0 * e.getValue() / Math.max(1, land)))
+                .collect(java.util.stream.Collectors.joining(", "));
+        info.add("Surface biomes on land (" + counts.size() + "): " + list + ".");
     }
 
     private static double distance(Start a, Start b) {
