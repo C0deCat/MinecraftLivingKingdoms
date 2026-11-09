@@ -43,6 +43,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | D-17 | All documentation, code comments, commit messages and identifiers are in English | Locked |
 | D-18 | No vanilla world types: worlds are created only from our size presets through our selector screen; the pack is never tuned or tested for vanilla types ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked |
 | D-19 | One term, one meaning ([terms and labels](../documentation.md#terms-and-labels), [glossary](../glossary.md)). Every milestone runs phases A foundation → B reconcile → C integrate → D accept; parts of a phase are steps labelled M1-A1, M1-A2 | Locked (2026-11-07) |
+| D-20 | Every new world, of any size and any seed (the player's choice, random allowed), has all its chunks generated with Chunky at creation, because the settlement simulation needs the whole map. This needs our own generation optimizer; if it cannot be made fast enough, the fallback is a pre-generated world shipped as the main format, with generating one's own world as an option (2026-11-09, with the user; TD-21) | Locked |
 
 ## ADR template
 

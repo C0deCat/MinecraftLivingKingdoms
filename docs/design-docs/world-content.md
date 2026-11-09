@@ -5,7 +5,7 @@ last_reviewed: 2026-11-09
 
 # World content: structure density and the World Content Manifest
 
-What the finite world contains, how dense it is, and which content is mandatory. The manifest (M1-C1) turns the agreed numbers into checks; later milestones add their structures the same way (M3 magic places, M4 settlements). Status `draft`: the measurements are facts, the proposals wait for the user's agreement ([exec plan](../exec-plans/active/2026-11-09-m1-integrate.md), step 5).
+What the finite world contains, how dense it is, and which content is mandatory. The manifest (M1-C1) turns the agreed numbers into checks; later milestones add their structures the same way (M3 magic places, M4 settlements). Status `draft` until the generation changes are measured: the measurements are facts; proposals 1–5 were agreed with the user on 2026-11-09 ([exec plan](../exec-plans/active/2026-11-09-m1-integrate.md), steps 5 and 5a).
 
 ## How it was measured
 
@@ -56,13 +56,13 @@ Causes found:
 
 **Other dimensions** (Small, seed `livingkingdoms`): Nether 4 YUNG's fortresses, 3 bastions, 4 Gauntlet arenas; End 15 End cities, 15 Obsidilith arenas; Twilight Forest at 1:1 the whole boss chain, at least 16 of each boss structure.
 
-## Proposals (to agree)
+## Agreed changes
 
 1. **Overall density stays.** Minor content every ~130 blocks, notable every ~350, major every ~600 on land is frequent and varied. The clutter is the minor tier; thin the Moog's decorations only if the user finds them crowded in the client.
 2. **Strongholds:** a Sparse Structures factor of 1 for `betterstrongholds:stronghold` (undoes the doubling), checked to give at least 2 reachable strongholds on every Small seed; otherwise our own override of the placement.
 3. **Mega-dungeons:** the largest WDA structures in their own structure set (our data, by id; removed from WDA's shared set with Lithostitched), spaced so Small gets at least 2 and Large about 6–10, apart from each other and from villages. Candidates: monastery, abandoned_temple, mechanical_nest, scorched_mines, thornborn_towers, keep_kayra, shiraz_palace, plague_asylum, foundry, mining_complex.
-4. **Bosses as rarities:** fewer Wrought chambers and Void Blossoms (target set by the user, for example 5–15 per Large world), and at least 1 Night Lich tower on every size.
-5. **Small land share:** the validator flags a world with less than 20% land; such seeds are not reference seeds.
+4. **Bosses as rarities:** Wrought chambers and Void Blossoms about 5–15 per Large world (in proportion on smaller sizes), and at least 1 Night Lich tower on every size.
+5. **Land share:** players choose any seed and every world is pre-generated at creation (D-20), so the generator itself guarantees a minimum land share; the validator reports it.
 
 ## Manifest categories
 

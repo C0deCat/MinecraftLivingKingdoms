@@ -80,7 +80,7 @@ Facts checked on 2026-11-06:
 
 - Content targets scale with the size: mandatory structures (M1-C), settlement and state counts (M4, M6), the simulation grid (16² / 64² / 96² / 128² cells). Tracked as TD-10.
 - Our Nether dimension types may surprise mods that check the vanilla Nether type. This is checked in M1-A and again with every later mod that touches the Nether.
-- Pre-generating a Large world is about 1M chunks: hours of work and 5–10 GB. It is only needed for the M11 final map.
+- Pre-generating a Large world is about 1M chunks: hours of work and 5–10 GB. Every new world is pre-generated at creation (D-20, 2026-11-09), so this cost is met on every world creation; a generation optimizer is TD-21.
 - The dedicated server picks a size with `level-type=livingkingdoms:<size>` (M10).
 
 ## Amendment 2026-11-06: world-edge spike result
