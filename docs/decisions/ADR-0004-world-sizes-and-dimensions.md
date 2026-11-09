@@ -1,11 +1,11 @@
 ---
 status: stable
-last_reviewed: 2026-11-08
+last_reviewed: 2026-11-09
 ---
 
 # ADR-0004: Fixed world sizes, dimension scales and the finite-world edge
 
-**Status:** Accepted; amended 2026-11-06 with the world-edge spike result, a factual correction, a gentler world edge and a natural coast profile (see the end) · **Date:** 2026-11-06
+**Status:** Accepted; amended 2026-11-06 with the world-edge spike result, a factual correction, a gentler world edge, a natural coast profile, Test as a development size and a minimum land share (see the end) · **Date:** 2026-11-06
 
 ## Context
 
@@ -177,3 +177,11 @@ Gameplay feedback on D1 from the user (Large, in game): every coast had the same
 ## Amendment 2026-11-08: Test is a development size
 
 Decided with the user in M1-B. On four seeds the Test size (2,048) had no stronghold inside its ±1,024 border (strongholds keep the vanilla concentric rings from ~1,280 blocks) and no Nether fortress inside the ±256 Nether border. Test is therefore a development size: it is for quick checks of generation, commands and mods, not for play. Completability targets, the World Content Manifest and the validator (M1-C1) cover Small, Medium and Large only. The selector labels it "Test (2,048, development)". Making Test completable would need per-size structure placement or placed structures; that is not planned.
+
+## Amendment 2026-11-09: minimum land share
+
+Decided with the user in M1-C1. Players choose any seed and every world is pre-generated at creation (D-20), so a seed whose map is nearly all ocean must be corrected by the generator; a validator warning cannot help a player. Measured before the change: land share of the whole map 28–36% on three Small seeds and 10% on seed `20261107` (a few islands); Medium 31–46%, Large 38–49%.
+
+- **Land lift.** When the Overworld of a new save loads, before its first chunk, `LandLift` samples the land share of the whole map from the noise (128² points). Below 25% it finds, by bisection, a lift that is added to Tectonic's raw continentalness inside `edge_bias` (`land_lift: true` in `edge_raw_continents`; the same lever as Tectonic's `ocean_offset`), so the continents grow while the edge still sinks to the open ocean. At or above 25% nothing changes.
+- **Save.** The lift is stored in `data/livingkingdoms_land.dat` with the shares before and after, so a loaded world keeps its terrain; changing the target later does not alter existing saves.
+- **Result.** Small, seed `20261107`: 9.8% → 25.1% land, lift 0.19; the islands joined into one land mass with straits, the outer ocean stays. Calibration takes about 67 s at world creation (11 noise samplings of the map).

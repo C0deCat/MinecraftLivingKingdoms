@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-07
+last_reviewed: 2026-11-09
 ---
 
 # Compatibility matrix
@@ -24,7 +24,7 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | Terralith | 2.6.2 | M1 | Biome variety | both | Lithostitched | runtime-ok | Stardust Labs License (see licenses.md); pinned by version URL because `packwiz modrinth add` picked the older 2.5.8 |
 | Structure Layout Optimizer | 1.0.12 | M1 | Faster jigsaw structure and NBT piece generation | both | Resourceful Config | runtime-ok | MIT; Modrinth marks it server-only, needed on the integrated server in singleplayer |
 | Resourceful Config | 3.0.11 | M1 | Config library (Structure Layout Optimizer, later Better Archeology) | both | — | runtime-ok | MIT |
-| Sparse Structures | 3.0 | M1 | One config for the spread of all structures on the finite map | both | — | runtime-ok | MIT; default config until M1-B |
+| Sparse Structures | 3.0 | M1 | One config for the spread of all structures on the finite map | both | — | runtime-ok | MIT; tuned in `modpack/config/sparsestructures.json5` (M1-C1): global factor 2 kept, strongholds 1, Wrought chambers 11, Void Blossom 4.5 ([world-content](design-docs/world-content.md)) |
 | Chunky | 1.4.23 | M1 | Pre-generation for timing and worldgen checks | both | — | runtime-ok | GPL-3.0; the pop4959 world pre-generator |
 | YUNG's API | 5.1.9 | M1 | Library for YUNG's structure mods | both | — | runtime-ok | LGPL-3.0 |
 | YUNG's Better Strongholds | 5.1.3 | M1 | Stronghold with the End portal, replaces the vanilla one (`betterstrongholds:stronghold`, in `#minecraft:eye_of_ender_located`) | both | YUNG's API | runtime-ok | LGPL-3.0; keeps the vanilla concentric rings, so the Test size has no stronghold inside its border (Test is a development size, ADR-0004 amendment 2026-11-08) |
@@ -38,7 +38,7 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | YUNG's Better Nether Fortresses | 3.1.5 | M1 | Reworked Nether fortress (blaze spawners, progression) | both | YUNG's API | runtime-ok | LGPL-3.0 |
 | YUNG's Better End Island | 3.1.2 | M1 | Reworked main End island and dragon fight | both | YUNG's API | runtime-ok | LGPL-3.0 |
 | YUNG's Extras | 5.1.1 | M1 | Small vanilla+ structures and features | both | YUNG's API | runtime-ok | LGPL-3.0 |
-| When Dungeons Arise | 2.1.68 | M1 | Large dungeons and landmarks (`dungeons_arise:*`, 40 structures), mega-dungeon candidates | both | — | runtime-ok | ARR: config and placement only ([licenses](licenses.md#project-rules)); logs "Couldn't load advancements" for two of its advancements |
+| When Dungeons Arise | 2.1.68 | M1 | Large dungeons and landmarks (`dungeons_arise:*`, 40 structures), mega-dungeon candidates | both | — | runtime-ok | ARR: config and placement only ([licenses](licenses.md#project-rules)); logs "Couldn't load advancements" for two of its advancements. M1-C1: 9 large structures moved to our `livingkingdoms:mega_dungeons` set; foundry, mining_complex and plague_asylum get overworld biomes in their tags (they start in Terralith cave biomes); foundry logs a missing pool `foundry_corridor_gears` |
 | Dungeons and Taverns | 4.4.4 | M1 | Taverns, small dungeons, points of interest in all three dimensions (`nova_structures:*`) | both | — | runtime-ok | ARR: config and placement only; adds its own villages (birch, jungle, swamp, hamlet) and overrides `minecraft:village_taiga` — kept as variants of the placeholder village source until M4-B (M1-B decision); structures with item frames log "Block-attached entity at invalid position" |
 | Structory | 1.3.14 | M1 | Ruins, chapels, manors, small points of interest (`structory:*`) | both | — | runtime-ok | Stardust Labs License; pinned to the `1.21.x` file: the newer "26.x" universal files list 1.21.1 but Towers 1.0.17 fails to load ("Missing ModLoader") |
 | Structory: Towers | 1.0.15 | M1 | Biome-themed towers and outposts (`structory_towers:*`) | both | — | runtime-ok | Stardust Labs License; pinned to the `1.21.x` file, see Structory |
@@ -50,7 +50,7 @@ Registry of the pack's mods: what is installed, why, which version and how well 
 | Geckolib | 4.9.3 | M1 | Animation library (BoMD, Mowzie's Mobs, The Graveyard) | both | — | runtime-ok | MIT |
 | Cloth Config API | 15.0.140 | M1 | Config library (BoMD) | both | — | runtime-ok | LGPL-3.0 |
 | CERBON's API | 1.3.0 | M1 | Library for Bosses of Mass Destruction | both | — | runtime-ok | LGPL-3.0 |
-| Bosses of Mass Destruction Forge | 1.3.3 | M1 | Four bosses with arenas: Night Lich tower and Void Blossom (Overworld), Gauntlet (Nether), Obsidilith (End) | both | Geckolib, Cloth Config API, CERBON's API | runtime-ok | LGPL-3.0 |
+| Bosses of Mass Destruction Forge | 1.3.3 | M1 | Four bosses with arenas: Night Lich tower and Void Blossom (Overworld), Gauntlet (Nether), Obsidilith (End) | both | Geckolib, Cloth Config API, CERBON's API | runtime-ok | LGPL-3.0; M1-C1: the Lich tower moved to our `livingkingdoms:night_lich_tower` set (2 / 3 / 4 per Small / Medium / Large), Void Blossom rarer via Sparse Structures |
 | VillagersTradingPlus | 1.1.1 | M1 | Datapack-driven villager trades (The Graveyard dependency) | both | — | runtime-ok | GPL-3.0; touches villager trades: check against MCA and our trade in M4-B and M6 |
 | The Graveyard (Fabric/Neoforge) | 4.0.1 | M1 | Graveyards, crypts, haunted houses, undead, Lich boss (`graveyard:*`) | both | Geckolib, VillagersTradingPlus | runtime-ok | GPL-3.0; adds "overrun" villages (5 biomes) — M1-B village decision |
 | Mowzie's Mobs | 1.8.2 | M1 | Enemies and bosses: Ferrous Wroughtnaut, Frostmaw, Umvuthi, Sculptor (`mowziesmobs:*`) | both | Geckolib | runtime-ok | Custom license: credit with a link to its CurseForge page ([licenses](licenses.md#notes-on-specific-licenses)); its own assets log two GeckoLib errors on resource load (`supernova`, `attack_single`: a `nan` in the animation expression), those two animations do not play |
