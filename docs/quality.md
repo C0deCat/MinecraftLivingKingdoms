@@ -54,7 +54,7 @@ The 2026-11-06 row is preliminary: the window included spawn generation and was 
 | --- | --- | --- |
 | Install | Clean client from Git | Launches without manually downloading JARs |
 | Play mode | Singleplayer (M0–M9); Open to LAN with 2–4 clients and a dedicated server (M10) | World opens and plays; from M10 joins work without desync of our mechanics |
-| Generation | Several seeds and one reference world | All mandatory structures and chains reachable |
+| Generation | Within a milestone: 3 Large worlds of different seeds; at its acceptance: Small, Medium and Large × 4 seeds (D-21). No reference world: every world of any seed is checked by its own numbers (D-20) | `npm run validate-world` reports no critical gap: all mandatory structures and chains reachable |
 | Recipes | Cross-mod ingredient combinations | No blocking duplicates or exploits |
 | Mana | Ars + Iron's in one pool | No double regeneration or wrong deductions |
 | NPCs | Families, age, construction, trade | IDs and state survive a world reload |

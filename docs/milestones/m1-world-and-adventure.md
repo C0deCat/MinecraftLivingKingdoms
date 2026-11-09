@@ -85,7 +85,7 @@ State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, 
 
 - A chosen seed produces a reproducible, varied map.
 - Core Minecraft progression and key modded adventures are possible.
-- The validator report has no critical gaps.
+- The validator report has no critical gaps on Small, Medium and Large × 4 seeds (`npm run validate-world -- --full`, D-21).
 - Generating and loading new chunks shows no critical errors; performance measured on the host PC, with and without the shader pack.
 
 ## Out of scope
