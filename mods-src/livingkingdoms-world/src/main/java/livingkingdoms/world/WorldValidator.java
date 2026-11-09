@@ -36,7 +36,6 @@ import net.minecraft.tags.StructureTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -235,6 +234,15 @@ final class WorldValidator {
     }
 
     /** Why a start is not reachable under the access rule, or null. Unmeasured starts pass. */
+    /** The save's height grid; a save created before the grid gets it now, stored on the server thread. */
+    private static HeightGrid heightGrid(ServerLevel overworld, WorldSize size) {
+        HeightGrid stored = HeightGrid.stored(overworld);
+        if (stored != null) return stored;
+        HeightGrid grid = HeightGrid.compute(overworld, size);
+        overworld.getServer().submit(() -> grid.store(overworld)).join();
+        return grid;
+    }
+
     /** Logs how long a step of the validation took; returns the current time for the next step. */
     private static long timing(String step, long since) {
         long now = System.currentTimeMillis();
@@ -319,23 +327,25 @@ final class WorldValidator {
      * surface structure touches. M4 and M6 plan 30-60 settlements and 6-10 states.
      */
     private static void checkSettlementLand(ServerLevel level, WorldSize size, List<Start> starts, List<String> info) {
-        ChunkGenerator generator = level.getChunkSource().getGenerator();
-        RandomState random = level.getChunkSource().randomState();
-        int seaLevel = generator.getSeaLevel();
+        int seaLevel = level.getChunkSource().getGenerator().getSeaLevel();
+        HeightGrid grid = heightGrid(level, size);
+        int per = CELL / HeightGrid.STEP;
         int cells = size.side() / CELL;
         int half = size.side() / 2;
         List<BoundingBox> boxes = starts.stream().filter(s -> s.surface() && s.inside()).map(Start::box).toList();
         long free = IntStream.range(0, cells * cells).parallel().filter(i -> {
             int x0 = -half + (i % cells) * CELL;
             int z0 = -half + (i / cells) * CELL;
-            int[][] samples = {{64, 64}, {16, 16}, {112, 16}, {16, 112}, {112, 112}};
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;
-            for (int[] s : samples) {
-                int h = generator.getBaseHeight(x0 + s[0], z0 + s[1], Heightmap.Types.OCEAN_FLOOR_WG, level, random);
-                if (h < seaLevel) return false;
-                min = Math.min(min, h);
-                max = Math.max(max, h);
+            // The grid points inside the cell (2 x 2 for 128-block cells).
+            for (int di = 0; di < per; di++) {
+                for (int dj = 0; dj < per; dj++) {
+                    int h = grid.height((i % cells) * per + di, (i / cells) * per + dj);
+                    if (h < seaLevel) return false;
+                    min = Math.min(min, h);
+                    max = Math.max(max, h);
+                }
             }
             if (max - min > CELL_RELIEF) return false;
             BoundingBox cell = new BoundingBox(x0, -64, z0, x0 + CELL - 1, 320, z0 + CELL - 1);
@@ -345,18 +355,17 @@ final class WorldValidator {
                 free, CELL, cells * cells));
     }
 
-    /** Share of the land surface per biome on a 96² grid, to explain missing biome-bound structures. */
+    /** Share of the land surface per biome on the height grid, to explain missing biome-bound structures. */
     private static void surfaceBiomes(ServerLevel level, WorldSize size, List<String> info) {
         ChunkGenerator generator = level.getChunkSource().getGenerator();
         RandomState random = level.getChunkSource().randomState();
-        int grid = 96;
-        double step = size.side() / (double) grid;
-        double half = size.side() / 2.0;
-        Map<String, Long> counts = IntStream.range(0, grid * grid).parallel().mapToObj(i -> {
-            int x = (int) (-half + (i % grid + 0.5) * step);
-            int z = (int) (-half + (i / grid + 0.5) * step);
-            int y = generator.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, random);
-            if (generator.getBaseHeight(x, z, Heightmap.Types.OCEAN_FLOOR_WG, level, random) < generator.getSeaLevel()) return null;
+        HeightGrid grid = heightGrid(level, size);
+        int n = grid.points();
+        Map<String, Long> counts = IntStream.range(0, n * n).parallel().mapToObj(i -> {
+            int x = grid.x(i % n);
+            int z = grid.z(i / n);
+            int y = grid.height(i % n, i / n);
+            if (y < generator.getSeaLevel()) return null;
             return generator.getBiomeSource().getNoiseBiome(x >> 2, y >> 2, z >> 2, random.sampler()).unwrapKey()
                     .map(k -> k.location().toString()).orElse("?");
         }).filter(java.util.Objects::nonNull).collect(java.util.stream.Collectors.groupingBy(b -> b, java.util.stream.Collectors.counting()));
