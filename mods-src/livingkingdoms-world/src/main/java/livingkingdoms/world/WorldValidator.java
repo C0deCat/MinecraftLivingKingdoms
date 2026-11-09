@@ -231,7 +231,7 @@ final class WorldValidator {
         if (access.entrance().equals("ok") && !s.entrance().equals("ok")) return "entrance " + s.entrance();
         if (access.entrance().equals("buried_ok") && s.entrance().equals("floating")) return "entrance floating";
         if (access.maxHanging() >= 0 && s.hanging() > access.maxHanging()) {
-            return String.format(Locale.ROOT, "a piece %.0f%% hanging at %s", s.hanging() * 100, center(s.hangingPiece()));
+            return String.format(Locale.ROOT, "a piece %.0f%% hanging at %s (%s)", s.hanging() * 100, center(s.hangingPiece()), s.hangingTemplate());
         }
         if (!access.allowWater() && s.water() > StructureCensus.WET_SHARE) return String.format(Locale.ROOT, "%.0f%% under water", s.water() * 100);
         return null;

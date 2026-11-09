@@ -110,7 +110,7 @@ final class StructureScan {
      */
     record Start(String id, String step, String adaptation, String biome, BoundingBox box, List<BoundingBox> pieces,
                  Set<String> templates, boolean inside, double slope, int relief, double water, double hanging,
-                 BoundingBox hangingPiece, BoundingBox entranceBox, String entrance) {
+                 BoundingBox hangingPiece, String hangingTemplate, BoundingBox entranceBox, String entrance) {
         String namespace() {
             return id.substring(0, id.indexOf(':'));
         }
@@ -301,11 +301,13 @@ final class StructureScan {
         double water = -1;
         double hanging = -1;
         BoundingBox hangingPiece = entranceBox;
+        String hangingTemplate = "-";
         String entrance = "-";
         if (terrain && step.equals(GenerationStep.Decoration.SURFACE_STRUCTURES.getName())) {
             int wet = 0;
             int total = 0;
-            for (BoundingBox piece : pieces) {
+            for (int i = 0; i < pieces.size(); i++) {
+                BoundingBox piece = pieces.get(i);
                 // Small pieces (paths, shafts) exaggerate slope; buried pieces do not show the terrain.
                 if (Math.max(piece.getXSpan(), piece.getZSpan()) < MIN_PIECE) continue;
                 Footprint ground = footprint(generator, level, random, piece, seaLevel, pieces);
@@ -319,6 +321,7 @@ final class StructureScan {
                 if (pieceHanging > hanging) {
                     hanging = pieceHanging;
                     hangingPiece = piece;
+                    hangingTemplate = template(rawPieces.get(i));
                 }
                 wet += ground.wet();
                 total += ground.total();
@@ -327,7 +330,7 @@ final class StructureScan {
             entrance = entranceState(generator, level, random, entranceBox, seaLevel, pieces);
         }
         return new Start(id, step, structure.terrainAdaptation().getSerializedName(), biome, box, pieces, templates, inside, slope,
-                relief, water, hanging, hangingPiece, entranceBox, entrance);
+                relief, water, hanging, hangingPiece, hangingTemplate, entranceBox, entrance);
     }
 
     /**
@@ -349,16 +352,21 @@ final class StructureScan {
     private static Set<String> templates(List<StructurePiece> pieces) {
         Set<String> result = new LinkedHashSet<>();
         for (StructurePiece piece : pieces) {
-            if (piece instanceof PoolElementStructurePiece pooled) {
-                // SinglePoolElement keeps its template id private; its toString is "Single[Left[ns:path]]".
-                Matcher matcher = RESOURCE_ID.matcher(pooled.getElement().toString());
-                while (matcher.find()) result.add(matcher.group());
-            } else {
-                ResourceLocation type = BuiltInRegistries.STRUCTURE_PIECE.getKey(piece.getType());
-                if (type != null) result.add(type.toString());
-            }
+            String id = template(piece);
+            if (!id.equals("-")) result.add(id);
         }
         return result;
+    }
+
+    /** Template id of a jigsaw piece (from the pool element), piece type id of the others, "-" if unknown. */
+    private static String template(StructurePiece piece) {
+        if (piece instanceof PoolElementStructurePiece pooled) {
+            // SinglePoolElement keeps its template id private; its toString is "Single[Left[ns:path]]".
+            Matcher matcher = RESOURCE_ID.matcher(pooled.getElement().toString());
+            return matcher.find() ? matcher.group() : "-";
+        }
+        ResourceLocation type = BuiltInRegistries.STRUCTURE_PIECE.getKey(piece.getType());
+        return type != null ? type.toString() : "-";
     }
 
     private static String biomeAt(ServerLevel level, ChunkGenerator generator, RandomState random, BoundingBox box) {

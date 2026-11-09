@@ -184,17 +184,17 @@ final class StructureCensus {
     private static void writeStarts(Path file, List<Start> starts) throws IOException {
         try (Writer w = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
             w.write("id,namespace,step,min_x,min_y,min_z,max_x,max_y,max_z,pieces,inside_border,piece_slope,piece_relief,water_share,"
-                    + "entrance,entrance_x,entrance_y,entrance_z,adaptation,biome,hanging_share,hanging_x,hanging_y,hanging_z,template_namespaces\n");
+                    + "entrance,entrance_x,entrance_y,entrance_z,adaptation,biome,hanging_share,hanging_x,hanging_y,hanging_z,hanging_template,template_namespaces\n");
             for (Start s : starts) {
                 BoundingBox b = s.box();
                 BoundingBox e = s.entranceBox();
                 BoundingBox h = s.hangingPiece();
                 String namespaces = s.templates().stream().map(t -> t.substring(0, t.indexOf(':')))
                         .collect(Collectors.toCollection(TreeSet::new)).stream().collect(Collectors.joining("|"));
-                w.write(String.format(Locale.ROOT, "%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%b,%.3f,%d,%.3f,%s,%d,%d,%d,%s,%s,%.3f,%d,%d,%d,%s%n",
+                w.write(String.format(Locale.ROOT, "%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%b,%.3f,%d,%.3f,%s,%d,%d,%d,%s,%s,%.3f,%d,%d,%d,%s,%s%n",
                         s.id(), s.namespace(), s.step(), b.minX(), b.minY(), b.minZ(), b.maxX(), b.maxY(), b.maxZ(), s.pieces().size(),
                         s.inside(), s.slope(), s.relief(), s.water(), s.entrance(), e.getCenter().getX(), e.maxY(), e.getCenter().getZ(),
-                        s.adaptation(), s.biome(), s.hanging(), h.getCenter().getX(), h.minY(), h.getCenter().getZ(), namespaces));
+                        s.adaptation(), s.biome(), s.hanging(), h.getCenter().getX(), h.minY(), h.getCenter().getZ(), s.hangingTemplate(), namespaces));
             }
         }
     }
