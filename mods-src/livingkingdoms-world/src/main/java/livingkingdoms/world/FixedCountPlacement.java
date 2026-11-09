@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.Vec3i;
@@ -23,7 +24,10 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -34,14 +38,15 @@ import net.neoforged.neoforge.event.level.LevelEvent;
  * seeds without it. The inside of the dimension's border minus {@code edge_margin} is split into a
  * grid of about {@code count} cells; each chosen cell gets one point, moved to the nearest biome of
  * {@code preferred_biomes} within {@code search_radius} blocks, as vanilla does for stronghold rings.
- * The structure set then picks and generates a structure there as usual (retrying the other entries
- * if the first one does not fit), so the count is an upper bound that the validator checks.
+ * Up to eight points per cell are tried: a point is taken when one of the set's structures generates a
+ * valid start there (tested with the same call worldgen makes), so the count is met unless a whole cell
+ * is unsuitable; the set then picks and generates its structure there as usual.
  *
  * <p>Positions depend on the seed, the salt and the world size of the save, and are computed once
  * per dimension, on first use. The biome source is not reachable from the structure state, so the
  * levels register themselves on load ({@link #onLevelLoad}).
  */
-final class FixedCountPlacement extends StructurePlacement {
+public final class FixedCountPlacement extends StructurePlacement {
     record Counts(int test, int small, int medium, int large) {
         static final Codec<Counts> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Codec.intRange(0, 4096).optionalFieldOf("test", 0).forGetter(Counts::test),
@@ -104,7 +109,7 @@ final class FixedCountPlacement extends StructurePlacement {
     }
 
     /** The chunks of this world that get a start, for the validator and debugging. */
-    List<ChunkPos> positionsFor(ChunkGeneratorStructureState state) {
+    public List<ChunkPos> positionsFor(ChunkGeneratorStructureState state) {
         return positions.computeIfAbsent(state, this::computePositions).stream().map(ChunkPos::new).toList();
     }
 
@@ -129,27 +134,59 @@ final class FixedCountPlacement extends StructurePlacement {
         Collections.shuffle(cells, new java.util.Random(random.nextLong()));
 
         BiomeSource biomes = level.getChunkSource().getGenerator().getBiomeSource();
+        List<Structure> structures = structuresOfThisSet(level);
         Set<Long> result = new HashSet<>();
         List<String> found = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             int index = cells.get(i);
-            BlockPos pos = null;
-            // A few points in the cell, so a cell whose first point has no fitting biome nearby still gets one.
-            for (int attempt = 0; attempt < ATTEMPTS && pos == null; attempt++) {
+            ChunkPos chosen = null;
+            String note = "";
+            // Several points in the cell: the first whose biome fits and where one of the set's structures
+            // actually generates wins, so the count is met unless the whole cell is unsuitable.
+            for (int attempt = 0; attempt < ATTEMPTS; attempt++) {
                 int x = (int) (-inner + (index % grid + 0.2 + 0.6 * random.nextDouble()) * cell);
                 int z = (int) (-inner + (index / grid + 0.2 + 0.6 * random.nextDouble()) * cell);
-                Pair<BlockPos, net.minecraft.core.Holder<Biome>> hit = biomes.findBiomeHorizontal(x, settings.biomeY(), z,
+                Pair<BlockPos, Holder<Biome>> hit = biomes.findBiomeHorizontal(x, settings.biomeY(), z,
                         settings.searchRadius(), settings.preferredBiomes()::contains, random, state.randomState().sampler());
-                if (hit != null) pos = hit.getFirst();
-                else if (attempt == ATTEMPTS - 1) pos = new BlockPos(x, settings.biomeY(), z);
-                if (pos != null) found.add(pos.getX() + "," + pos.getZ() + (hit != null ? " " + hit.getSecond().unwrapKey()
-                        .map(k -> k.location().getPath()).orElse("?") : " no biome"));
+                BlockPos pos = hit != null ? hit.getFirst() : new BlockPos(x, settings.biomeY(), z);
+                ChunkPos chunk = new ChunkPos(pos);
+                if (chosen == null) chosen = chunk;
+                String generated = hit == null ? null : generatesAt(level, state, structures, chunk);
+                if (generated != null) {
+                    chosen = chunk;
+                    note = generated + " after " + (attempt + 1);
+                    break;
+                }
+                note = "none fits after " + (attempt + 1);
             }
-            result.add(ChunkPos.asLong(pos.getX() >> 4, pos.getZ() >> 4));
+            result.add(chosen.toLong());
+            found.add(chosen.getMiddleBlockX() + "," + chosen.getMiddleBlockZ() + " " + note);
         }
         LivingKingdomsWorld.LOGGER.info("fixed_count salt {} in {} ({}): {} positions {}", salt(), level.dimension().location(), size.id(),
                 result.size(), found);
         return result;
+    }
+
+    /** The structures of the structure set that uses this placement. */
+    private List<Structure> structuresOfThisSet(ServerLevel level) {
+        return level.registryAccess().registryOrThrow(Registries.STRUCTURE_SET).stream()
+                .filter(set -> set.placement() == this)
+                .flatMap(set -> set.structures().stream())
+                .map(entry -> entry.structure().value())
+                .toList();
+    }
+
+    /** Id of the first structure of the set that generates a valid start in this chunk, or null. */
+    private static String generatesAt(ServerLevel level, ChunkGeneratorStructureState state, List<Structure> structures, ChunkPos chunk) {
+        ChunkGenerator generator = level.getChunkSource().getGenerator();
+        for (Structure structure : structures) {
+            StructureStart start = structure.generate(level.registryAccess(), generator, generator.getBiomeSource(), state.randomState(),
+                    level.getStructureManager(), state.getLevelSeed(), chunk, 0, level, structure.biomes()::contains);
+            if (start.isValid()) {
+                return level.registryAccess().registryOrThrow(Registries.STRUCTURE).getKey(structure).getPath();
+            }
+        }
+        return null;
     }
 
     @Override

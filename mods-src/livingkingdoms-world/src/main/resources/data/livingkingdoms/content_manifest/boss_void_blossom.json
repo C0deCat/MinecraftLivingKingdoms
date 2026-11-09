@@ -1,0 +1,17 @@
+{
+  "category": "boss",
+  "description": "Bosses of Mass Destruction Void Blossom (underground).",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "bosses_of_mass_destruction:void_blossom"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

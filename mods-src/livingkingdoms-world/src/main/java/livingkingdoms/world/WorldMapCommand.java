@@ -50,6 +50,7 @@ final class WorldMapCommand {
                         .then(Commands.literal("all").executes(context -> StructureCensus.startBorder(context.getSource(), true)))
                         .then(Commands.argument("radius", IntegerArgumentType.integer(64, 16384))
                                 .executes(context -> StructureCensus.start(context.getSource(), IntegerArgumentType.getInteger(context, "radius")))))
+                .then(Commands.literal("validate").executes(context -> WorldValidator.start(context.getSource())))
                 .then(Commands.literal("grounding")
                         .then(Commands.argument("structure", ResourceLocationArgument.id())
                                 .executes(context -> GroundingCheck.start(context.getSource(),

@@ -1,0 +1,59 @@
+{
+  "category": "adventure_area",
+  "description": "Large adventure areas of different nature and difficulty (spec: 3-5).",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "nova_structures:bunker",
+    "nova_structures:ruin_town",
+    "nova_structures:shrine_combat_tier_3",
+    "nova_structures:shrine_combat_tier_4",
+    "nova_structures:shrine_combat_tier_5",
+    "dungeons_arise:illager_fort",
+    "dungeons_arise:bandit_towers",
+    "dungeons_arise:coliseum",
+    "dungeons_arise:illager_campsite",
+    "dungeons_arise:typhon",
+    "dungeons_arise:bathhouse",
+    "dungeons_arise:abandoned_temple",
+    "dungeons_arise:mushroom_mines",
+    "dungeons_arise:infested_temple",
+    "dungeons_arise:heavenly_conqueror",
+    "dungeons_arise:heavenly_rider",
+    "dungeons_arise:heavenly_challenger",
+    "betterdeserttemples:desert_temple",
+    "betterjungletemples:jungle_temple",
+    "graveyard:crypt",
+    "minecraft:mansion"
+  ],
+  "min": {
+    "small": 5,
+    "medium": 8,
+    "large": 12
+  },
+  "min_kinds": 3,
+  "severity": "critical",
+  "access": {
+    "entrance": "buried_ok",
+    "max_hanging": 0.25
+  },
+  "access_by_structure": {
+    "graveyard:crypt": {
+      "entrance": "any"
+    },
+    "nova_structures:bunker": {
+      "entrance": "ok"
+    },
+    "dungeons_arise:heavenly_conqueror": {
+      "entrance": "any"
+    },
+    "dungeons_arise:heavenly_rider": {
+      "entrance": "any"
+    },
+    "dungeons_arise:heavenly_challenger": {
+      "entrance": "any"
+    },
+    "dungeons_arise:mushroom_mines": {
+      "entrance": "any"
+    }
+  }
+}

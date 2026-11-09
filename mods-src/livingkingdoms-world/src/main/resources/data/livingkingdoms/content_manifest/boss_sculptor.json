@@ -1,0 +1,17 @@
+{
+  "category": "boss",
+  "description": "Mowzie's Mobs Sculptor (monastery).",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "mowziesmobs:monastery"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

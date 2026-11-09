@@ -49,6 +49,18 @@ final class LandLift {
             this.after = after;
         }
 
+        double value() {
+            return value;
+        }
+
+        double before() {
+            return before;
+        }
+
+        double after() {
+            return after;
+        }
+
         static Data load(CompoundTag tag, HolderLookup.Provider registries) {
             return new Data(tag.getDouble("lift"), tag.getDouble("land_before"), tag.getDouble("land_after"));
         }

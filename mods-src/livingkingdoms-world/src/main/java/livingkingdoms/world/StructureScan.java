@@ -135,6 +135,11 @@ final class StructureScan {
 
     /** Runs off the server thread; chunk loads are handed to the server thread. */
     static Result scan(ServerLevel level, Area area) {
+        return scan(level, area, id -> true);
+    }
+
+    /** As {@link #scan(ServerLevel, Area)}, measuring the terrain only of starts whose id passes {@code measured}. */
+    static Result scan(ServerLevel level, Area area, java.util.function.Predicate<String> measured) {
         long started = System.currentTimeMillis();
         Registry<Structure> registry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         ChunkGenerator generator = level.getChunkSource().getGenerator();
@@ -165,7 +170,7 @@ final class StructureScan {
         List<Start> starts = found.parallelStream().map(entry -> {
             ResourceLocation key = registry.getKey(entry.getKey());
             String id = key != null ? key.toString() : "unknown:unregistered";
-            return measure(level, generator, random, border, terrain, seaLevel, id, entry.getKey(), entry.getValue());
+            return measure(level, generator, random, border, terrain && measured.test(id), seaLevel, id, entry.getKey(), entry.getValue());
         }).toList();
         long now = System.currentTimeMillis();
         String method = String.format(java.util.Locale.ROOT, "%s, %d ms finding starts, %d ms measuring", label, loaded - started, now - loaded);
@@ -177,6 +182,11 @@ final class StructureScan {
      * {@link ProtoChunk} and vanilla {@link ChunkGenerator#createStructures} runs on it, so the
      * selection, generation and other mods' hooks into it (YUNG's and Moog's disable vanilla
      * structures there) are exactly those of real worldgen. The world keeps no trace of the run.
+     *
+     * <p>Vanilla generates structure starts one chunk at a time, and some mods rely on it: the Twilight
+     * Forest's knight stronghold keeps shared state and can throw when two run at once, and its and
+     * Mowzie's monastery's piece layouts may come out slightly different (same starts). A chunk that
+     * throws is generated again afterwards, one at a time.
      */
     private static List<Map.Entry<Structure, StructureStart>> direct(ServerLevel level, Area area, AtomicLong attempts) {
         ChunkGeneratorStructureState state = level.getChunkSource().getGeneratorState();
@@ -188,13 +198,31 @@ final class StructureScan {
         List<long[]> chunks = candidateChunks(level, area);
         attempts.set(chunks.size());
         Queue<Map.Entry<Structure, StructureStart>> found = new ConcurrentLinkedQueue<>();
-        chunks.parallelStream().forEach(pos -> {
+        Queue<long[]> failed = new ConcurrentLinkedQueue<>();
+        java.util.function.Consumer<long[]> generate = pos -> {
             ProtoChunk chunk = new ProtoChunk(new ChunkPos((int) pos[0], (int) pos[1]), UpgradeData.EMPTY, level, biomes, null);
             generator.createStructures(registries, state, structures, chunk, templates);
             for (Map.Entry<Structure, StructureStart> entry : chunk.getAllStarts().entrySet()) {
                 if (entry.getValue().isValid()) found.add(Map.entry(entry.getKey(), entry.getValue()));
             }
+        };
+        chunks.parallelStream().forEach(pos -> {
+            try {
+                generate.accept(pos);
+            } catch (RuntimeException e) {
+                failed.add(pos);
+            }
         });
+        for (long[] pos : failed) {
+            try {
+                generate.accept(pos);
+            } catch (RuntimeException e) {
+                LivingKingdomsWorld.LOGGER.error("Structure starts of chunk {}, {} in {} failed", pos[0], pos[1], level.dimension().location(), e);
+            }
+        }
+        if (!failed.isEmpty()) {
+            LivingKingdomsWorld.LOGGER.info("Structure scan of {}: {} chunks generated again one at a time", level.dimension().location(), failed.size());
+        }
         return new ArrayList<>(found);
     }
 
@@ -280,7 +308,7 @@ final class StructureScan {
             for (BoundingBox piece : pieces) {
                 // Small pieces (paths, shafts) exaggerate slope; buried pieces do not show the terrain.
                 if (Math.max(piece.getXSpan(), piece.getZSpan()) < MIN_PIECE) continue;
-                Footprint ground = footprint(generator, level, random, piece, seaLevel);
+                Footprint ground = footprint(generator, level, random, piece, seaLevel, pieces);
                 if (piece.maxY() < ground.lowest()) continue;
                 double pieceSlope = ground.relief() / (double) Math.max(1, Math.max(piece.getXSpan(), piece.getZSpan()));
                 if (pieceSlope > slope) {
@@ -296,7 +324,7 @@ final class StructureScan {
                 total += ground.total();
             }
             water = total > 0 ? wet / (double) total : 0;
-            entrance = entranceState(generator, level, random, entranceBox, seaLevel);
+            entrance = entranceState(generator, level, random, entranceBox, seaLevel, pieces);
         }
         return new Start(id, step, structure.terrainAdaptation().getSerializedName(), biome, box, pieces, templates, inside, slope,
                 relief, water, hanging, hangingPiece, entranceBox, entrance);
@@ -326,23 +354,31 @@ final class StructureScan {
 
     /**
      * Where the start piece (the entrance of a jigsaw structure) sits against the ground under it:
-     * {@code buried} if its top is below the lowest ground, {@code floating} if its bottom is more
-     * than {@value #FLOAT_GAP} blocks above the highest ground, otherwise {@code ok}.
+     * {@code buried} if its top is below the lowest ground, {@code floating} if more than half of its
+     * footprint hangs (see {@link #footprint}), otherwise {@code ok}.
      */
-    static String entranceState(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox entrance, int seaLevel) {
-        Footprint ground = footprint(generator, level, random, entrance, seaLevel);
+    static String entranceState(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox entrance, int seaLevel,
+                                List<BoundingBox> pieces) {
+        Footprint ground = footprint(generator, level, random, entrance, seaLevel, pieces);
         if (entrance.maxY() < ground.lowest()) return "buried";
-        if (entrance.minY() > ground.lowest() + ground.relief() + FLOAT_GAP) return "floating";
+        if (ground.hanging() * 2 > ground.total()) return "floating";
         return "ok";
     }
 
     /**
      * Ground under a box from the generator noise: relief, samples below sea level, samples where the
-     * box bottom is more than {@value #FLOAT_GAP} blocks above the ground, all samples, lowest ground.
+     * box hangs, all samples, lowest ground. A sample hangs where the box bottom is more than
+     * {@value #FLOAT_GAP} blocks above the ground and no other piece of the same structure lies right
+     * under it: the floors of a tower are separate jigsaw pieces standing on each other.
      */
     record Footprint(int relief, int wet, int hanging, int total, int lowest) {}
 
     static Footprint footprint(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox box, int seaLevel) {
+        return footprint(generator, level, random, box, seaLevel, List.of());
+    }
+
+    static Footprint footprint(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox box, int seaLevel,
+                               List<BoundingBox> pieces) {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         int wet = 0;
@@ -355,11 +391,22 @@ final class StructureScan {
                 max = Math.max(max, height);
                 if (height < seaLevel) wet++;
                 // The heightmap is the first free block above the ground.
-                if (box.minY() > height + FLOAT_GAP) hanging++;
+                if (box.minY() > height + FLOAT_GAP && !supported(box, pieces, x, z)) hanging++;
                 total++;
             }
         }
         return new Footprint(max - min, wet, hanging, total, min);
+    }
+
+    /** Whether another piece's top lies within {@value #FLOAT_GAP} blocks under the box bottom at this column. */
+    private static boolean supported(BoundingBox box, List<BoundingBox> pieces, int x, int z) {
+        for (BoundingBox other : pieces) {
+            if (other == box || x < other.minX() || x > other.maxX() || z < other.minZ() || z > other.maxZ()) continue;
+            if (other.maxY() < box.minY() + 1 && other.maxY() >= box.minY() - 1 - FLOAT_GAP) return true;
+            // Overlapping boxes (a piece reaching into the one above it) also carry it.
+            if (other.minY() < box.minY() && other.maxY() >= box.minY()) return true;
+        }
+        return false;
     }
 
     /** Intersecting pairs of starts, found with a sweep over minX; volume counts intersecting pieces only. */

@@ -1,0 +1,17 @@
+{
+  "category": "boss",
+  "description": "Mowzie's Mobs Frostmaw.",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "mowziesmobs:frostmaw_spawn"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

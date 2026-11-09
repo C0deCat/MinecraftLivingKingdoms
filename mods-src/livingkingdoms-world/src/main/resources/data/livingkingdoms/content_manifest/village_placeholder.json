@@ -1,0 +1,22 @@
+{
+  "category": "village_placeholder",
+  "description": "Vanilla-style villages until M4 (vanilla, D&T, Terralith); reconciled in M4-B.",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "#minecraft:village",
+    "nova_structures:village_birch",
+    "nova_structures:village_jungle",
+    "nova_structures:village_swamp",
+    "terralith:fortified_village",
+    "terralith:fortified_desert_village"
+  ],
+  "min": {
+    "small": 3,
+    "medium": 5,
+    "large": 8
+  },
+  "severity": "warning",
+  "access": {
+    "entrance": "any"
+  }
+}

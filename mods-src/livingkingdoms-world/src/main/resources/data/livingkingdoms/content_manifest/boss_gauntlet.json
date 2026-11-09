@@ -1,0 +1,17 @@
+{
+  "category": "boss",
+  "description": "Bosses of Mass Destruction Gauntlet arena.",
+  "dimension": "minecraft:the_nether",
+  "structures": [
+    "bosses_of_mass_destruction:gauntlet_arena"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

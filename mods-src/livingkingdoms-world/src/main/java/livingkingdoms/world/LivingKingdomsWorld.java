@@ -42,6 +42,7 @@ public final class LivingKingdomsWorld {
         STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
         STRUCTURE_PLACEMENT_TYPES.register(modEventBus);
         NeoForge.EVENT_BUS.addListener(LandLift::onLevelLoad);
+        NeoForge.EVENT_BUS.addListener(ContentManifest::onAddReloadListeners);
         NeoForge.EVENT_BUS.addListener(FixedCountPlacement::onLevelLoad);
         NeoForge.EVENT_BUS.addListener(FixedCountPlacement::onLevelUnload);
         NeoForge.EVENT_BUS.addListener(WorldSizeState::onServerAboutToStart);

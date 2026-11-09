@@ -1,0 +1,17 @@
+{
+  "category": "progression",
+  "description": "Trial chambers (trial keys, mace).",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "minecraft:trial_chambers"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "warning",
+  "access": {
+    "entrance": "any"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "category": "boss",
+  "description": "Mowzie's Mobs Ferrous Wroughtnaut (wrought chamber, underground).",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "mowziesmobs:wrought_chamber"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

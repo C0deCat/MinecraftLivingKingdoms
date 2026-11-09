@@ -1,0 +1,41 @@
+{
+  "category": "mega_dungeon",
+  "description": "The largest When Dungeons Arise structures, placed by our mega-dungeon sets.",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "dungeons_arise:monastery",
+    "dungeons_arise:mechanical_nest",
+    "dungeons_arise:scorched_mines",
+    "dungeons_arise:thornborn_towers",
+    "dungeons_arise:keep_kayra",
+    "dungeons_arise:shiraz_palace",
+    "dungeons_arise:plague_asylum",
+    "dungeons_arise:foundry",
+    "dungeons_arise:mining_complex"
+  ],
+  "min": {
+    "small": 2,
+    "medium": 3,
+    "large": 5
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "buried_ok",
+    "max_hanging": 0.25
+  },
+  "spacing": 1000,
+  "access_by_structure": {
+    "dungeons_arise:mechanical_nest": {
+      "entrance": "any"
+    },
+    "dungeons_arise:plague_asylum": {
+      "entrance": "any"
+    },
+    "dungeons_arise:foundry": {
+      "entrance": "any"
+    },
+    "dungeons_arise:mining_complex": {
+      "entrance": "any"
+    }
+  }
+}

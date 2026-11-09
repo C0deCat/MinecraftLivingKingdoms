@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mowziesmobs"
+    }
+  ],
+  "structures": [
+    {
+      "structure": "mowziesmobs:monastery",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "livingkingdoms_world:fixed_count",
+    "salt": 1709112613,
+    "counts": {
+      "small": 1,
+      "medium": 1,
+      "large": 1
+    },
+    "preferred_biomes": "#c:is_mountain/peak",
+    "edge_margin": 768,
+    "search_radius": 512
+  }
+}

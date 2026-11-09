@@ -59,14 +59,32 @@ Causes found:
 ## Agreed changes
 
 1. **Overall density stays.** Minor content every ~130 blocks, notable every ~350, major every ~600 on land is frequent and varied. The clutter is the minor tier; thin the Moog's decorations only if the user finds them crowded in the client.
-2. **Strongholds:** a Sparse Structures factor of 1 for `betterstrongholds:stronghold` (undoes the doubling), checked to give at least 2 reachable strongholds on every Small seed; otherwise our own override of the placement.
-3. **Mega-dungeons:** the largest WDA structures in their own structure set (our data, by id; removed from WDA's shared set with Lithostitched), spaced so Small gets at least 2 and Large about 6–10, apart from each other and from villages. Candidates: monastery, abandoned_temple, mechanical_nest, scorched_mines, thornborn_towers, keep_kayra, shiraz_palace, plague_asylum, foundry, mining_complex.
+2. **Strongholds:** at least 2 reachable on every size. A Sparse Structures factor of 1 still left one Small seed with a single stronghold and up to 23 on Large, so they moved to our own placement (below).
+3. **Mega-dungeons:** the largest WDA structures in their own structure set (our data, by id; removed from WDA's shared set with Lithostitched), spaced so Small gets at least 2 and Large about 6–10, apart from each other and from villages. The final list of 9 is below.
 4. **Bosses as rarities:** Wrought chambers and Void Blossoms about 5–15 per Large world (in proportion on smaller sizes), and at least 1 Night Lich tower on every size.
 5. **Land share:** players choose any seed and every world is pre-generated at creation (D-20), so the generator itself guarantees a minimum land share; the validator reports it.
 
+## How it is implemented
+
+- **Rarity:** Sparse Structures factors in `modpack/config/sparsestructures.json5` (Wrought chambers 11, Void Blossom 4.5).
+- **Guaranteed content:** our placement type `livingkingdoms_world:fixed_count` places a set number of starts per world size: the map inside the open-ocean ring is split into a grid of about that many cells, each chosen cell gets one point moved to a preferred biome. Our structure sets in `livingkingdoms-world` use it; the structures are removed from their mods' own sets with Lithostitched:
+
+  | Set | Structures | Small / Medium / Large |
+  | --- | --- | --- |
+  | `strongholds` | YUNG's stronghold | 3 / 4 / 6 |
+  | `mega_dungeons` | WDA monastery, mechanical_nest, scorched_mines, thornborn_towers, keep_kayra, shiraz_palace | 2 / 3 / 5 |
+  | `mega_dungeons_underground` | WDA plague_asylum, foundry, mining_complex | 1 / 1 / 2 |
+  | `night_lich_tower` | BoMD Lich tower | 2 / 3 / 4 |
+
+  The count is an upper bound: a structure can still fail at its point (the surface mega-dungeons have narrow biome lists), so the validator checks the minimum.
+- **Biome checks underground.** YUNG's stronghold and the three underground WDA structures check their biome at their start height, where Terralith places its cave biomes, which their tags lack; the Lich tower checks at the chunk center just under the surface. These structures are placed only by our sets, whose points already sit in fitting surface biomes, so our tag files add `#minecraft:is_overworld` to their biome tags. Without that, WDA's underground ones never generated and most stronghold points failed.
+- **`abandoned_temple`** is in WDA's minor set as well and common (7–14 per Large world), so it is not a mega-dungeon.
+- **Locating.** Vanilla structure search (`/locate`, eyes of ender, explorer maps) only knows concentric rings and random spread; a mixin in our world mod adds the `fixed_count` points to it.
+- **Land share:** `LandLift` ([ADR-0004 amendment](../decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-09-minimum-land-share)).
+
 ## Manifest categories
 
-Proposed for the manifest entries, with the access rule of each (geometric checks, decided 2026-11-09):
+The manifest is data of the world mod, `data/livingkingdoms/content_manifest/*.json`, one entry per file; the format is documented in `ContentManifest.java`. `/lkworld validate` checks a world against it and `npm run validate-world` runs it over several seeds. Access rules are geometric (decided 2026-11-09):
 
 | Category | Examples | Access rule |
 | --- | --- | --- |

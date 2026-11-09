@@ -57,6 +57,13 @@ public enum WorldSize {
         return ResourceLocation.fromNamespaceAndPath("livingkingdoms", id);
     }
 
+    public static Optional<WorldSize> byId(String id) {
+        for (WorldSize size : values()) {
+            if (size.id.equals(id)) return Optional.of(size);
+        }
+        return Optional.empty();
+    }
+
     public static Optional<WorldSize> byNetherType(ResourceKey<DimensionType> type) {
         for (WorldSize size : values()) {
             if (size.netherType.equals(type)) return Optional.of(size);

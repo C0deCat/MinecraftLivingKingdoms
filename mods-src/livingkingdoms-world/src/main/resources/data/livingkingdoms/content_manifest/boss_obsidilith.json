@@ -1,0 +1,17 @@
+{
+  "category": "boss",
+  "description": "Bosses of Mass Destruction Obsidilith arena.",
+  "dimension": "minecraft:the_end",
+  "structures": [
+    "bosses_of_mass_destruction:obsidilith_arena"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

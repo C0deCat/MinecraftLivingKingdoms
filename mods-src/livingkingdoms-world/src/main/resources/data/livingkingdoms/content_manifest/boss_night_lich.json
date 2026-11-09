@@ -1,0 +1,18 @@
+{
+  "category": "boss",
+  "description": "Bosses of Mass Destruction Night Lich; placed by our night_lich_tower set (2/3/4).",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "bosses_of_mass_destruction:lich_tower"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "buried_ok",
+    "max_hanging": 0.25
+  }
+}

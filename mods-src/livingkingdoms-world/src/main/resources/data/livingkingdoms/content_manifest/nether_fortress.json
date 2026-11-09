@@ -1,0 +1,17 @@
+{
+  "category": "progression",
+  "description": "YUNG's Nether fortress: blaze rods, nether wart, wither skeletons.",
+  "dimension": "minecraft:the_nether",
+  "structures": [
+    "betterfortresses:fortress"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

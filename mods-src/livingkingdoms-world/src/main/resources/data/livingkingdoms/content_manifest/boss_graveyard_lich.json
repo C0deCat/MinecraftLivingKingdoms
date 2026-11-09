@@ -1,0 +1,18 @@
+{
+  "category": "boss",
+  "description": "The Graveyard Lich, summoned at its altar.",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "graveyard:altar"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "buried_ok",
+    "max_hanging": 0.25
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "category": "boss",
+  "description": "The Twilight Forest progression: every boss structure at 1:1.",
+  "dimension": "twilightforest:twilight_forest",
+  "structures": [
+    "twilightforest:naga_courtyard",
+    "twilightforest:lich_tower",
+    "twilightforest:labyrinth",
+    "twilightforest:hydra_lair",
+    "twilightforest:knight_stronghold",
+    "twilightforest:dark_tower",
+    "twilightforest:yeti_cave",
+    "twilightforest:aurora_palace",
+    "twilightforest:troll_cave",
+    "twilightforest:final_castle"
+  ],
+  "min": {
+    "small": 10,
+    "medium": 10,
+    "large": 10
+  },
+  "min_kinds": 10,
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

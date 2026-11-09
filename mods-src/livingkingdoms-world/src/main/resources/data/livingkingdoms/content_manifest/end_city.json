@@ -1,0 +1,17 @@
+{
+  "category": "progression",
+  "description": "End city (elytra, shulker shells) on the bounded End's outer islands (TD-13).",
+  "dimension": "minecraft:the_end",
+  "structures": [
+    "minecraft:end_city"
+  ],
+  "min": {
+    "small": 1,
+    "medium": 1,
+    "large": 1
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "graveyard"
+    }
+  ],
+  "structures": [
+    {
+      "structure": "graveyard:altar",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "livingkingdoms_world:fixed_count",
+    "salt": 1709112614,
+    "counts": {
+      "small": 1,
+      "medium": 1,
+      "large": 1
+    },
+    "preferred_biomes": "#graveyard:has_structure/altar",
+    "edge_margin": 768,
+    "search_radius": 512
+  }
+}

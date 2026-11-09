@@ -1,0 +1,17 @@
+{
+  "category": "progression",
+  "description": "End portal; eyes of ender lead here. Placed by our strongholds set (3/4/6).",
+  "dimension": "minecraft:overworld",
+  "structures": [
+    "betterstrongholds:stronghold"
+  ],
+  "min": {
+    "small": 2,
+    "medium": 2,
+    "large": 2
+  },
+  "severity": "critical",
+  "access": {
+    "entrance": "any"
+  }
+}

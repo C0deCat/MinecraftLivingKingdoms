@@ -14,6 +14,7 @@
     "launch": "node tools/pack/src/launch.ts",
     "verify-mods": "node tools/pack/src/verify-mods.ts",
     "smoke": "node tools/pack/src/smoke.ts",
-    "test-server": "node tools/pack/src/test-server.ts"
+    "test-server": "node tools/pack/src/test-server.ts",
+    "validate-world": "node tools/pack/src/validate-world.ts"
   }
 }
