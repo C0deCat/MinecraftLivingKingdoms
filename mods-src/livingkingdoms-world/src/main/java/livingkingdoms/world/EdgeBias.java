@@ -31,10 +31,13 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  * {@code above_min}: wide beaches and lowlands. Where its {@code below} noise is high the part below
  * is compressed, down to {@code below_min}: shallows and lagoons instead of an immediate drop.
  * Elsewhere the coast keeps the generator's own profile, so cliffs and steep shores remain.
+ *
+ * <p><b>Land lift.</b> With {@code land_lift} the input is first raised by the save's
+ * {@link LandLift}, which guarantees a minimum land share for seeds that would be nearly all ocean.
  */
 public record EdgeBias(DensityFunction input, DensityFunction jitter, int start, double maxShare, int openOcean,
                        double jitterBlocks, double depth, double coast, double windowBelow, double windowAbove,
-                       double naturalGradient, double minCompression, Shore shore) implements DensityFunction {
+                       double naturalGradient, double minCompression, Shore shore, boolean landLift) implements DensityFunction {
     /** Noise-selected shore styles: further compression above and below the waterline. */
     public record Shore(DensityFunction above, DensityFunction below, double aboveMin, double belowMin) {
         public static final Codec<Shore> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -69,7 +72,8 @@ public record EdgeBias(DensityFunction input, DensityFunction jitter, int start,
             Codec.doubleRange(0, 2).fieldOf("window_above").forGetter(EdgeBias::windowAbove),
             Codec.doubleRange(1e-6, 1).fieldOf("natural_gradient").forGetter(EdgeBias::naturalGradient),
             Codec.doubleRange(0.01, 1).fieldOf("min_compression").forGetter(EdgeBias::minCompression),
-            Shore.CODEC.fieldOf("shore").forGetter(EdgeBias::shore)
+            Shore.CODEC.fieldOf("shore").forGetter(EdgeBias::shore),
+            Codec.BOOL.optionalFieldOf("land_lift", false).forGetter(EdgeBias::landLift)
     ).apply(instance, EdgeBias::new));
     public static final KeyDispatchDataCodec<EdgeBias> CODEC = KeyDispatchDataCodec.of(MAP_CODEC);
 
@@ -79,6 +83,7 @@ public record EdgeBias(DensityFunction input, DensityFunction jitter, int start,
     public double compute(FunctionContext context) {
         double value = input.compute(context);
         if (DISABLED) return value;
+        if (landLift) value += LandLift.current();
         int side = WorldSizeState.current().side();
         double half = side / 2.0;
         double toEdge = EdgeFalloff.distanceToEdge(context.blockX(), context.blockZ(), half);
@@ -123,7 +128,7 @@ public record EdgeBias(DensityFunction input, DensityFunction jitter, int start,
     @Override
     public DensityFunction mapAll(Visitor visitor) {
         return visitor.apply(new EdgeBias(input.mapAll(visitor), jitter.mapAll(visitor), start, maxShare, openOcean,
-                jitterBlocks, depth, coast, windowBelow, windowAbove, naturalGradient, minCompression, shore.mapAll(visitor)));
+                jitterBlocks, depth, coast, windowBelow, windowAbove, naturalGradient, minCompression, shore.mapAll(visitor), landLift));
     }
 
     @Override
@@ -133,7 +138,7 @@ public record EdgeBias(DensityFunction input, DensityFunction jitter, int start,
 
     @Override
     public double maxValue() {
-        return input.maxValue() + windowBelow;
+        return input.maxValue() + windowBelow + (landLift ? LandLift.MAX_LIFT : 0);
     }
 
     @Override

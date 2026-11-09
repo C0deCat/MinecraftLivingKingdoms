@@ -9,6 +9,7 @@
         "type": "minecraft:min",
         "argument1": {
           "type": "livingkingdoms_world:edge_bias",
+          "land_lift": true,
           "input": {
             "type": "lithostitched:wrapped_marker"
           },
