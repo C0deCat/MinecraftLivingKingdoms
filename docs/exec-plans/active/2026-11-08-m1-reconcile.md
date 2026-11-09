@@ -24,7 +24,7 @@ The world mods of M1-A work as one world: one village source until M4, no struct
 - [x] 2. `/lkworld structures [radius]` census in `livingkingdoms-world`: structure starts in the radius, bounding boxes, border check, footprint relief and water share for surface structures, overlapping pairs; CSV in the world folder and a summary.
 - [x] 3. Baseline census: Large, seeds `livingkingdoms` and `alpha`, Chunky radius 1,536 in the Overworld, Nether and End.
 - [x] 4. Fixes as Lithostitched modifiers in our world mod, picked from the census, one at a time with a census run after each. Outcome: no placement modifier needed; the D&T village removal was tried and reverted (decision log).
-- [ ] 5. Renderer: Sodium + Iris as client-side mods; verify-mods, smoke, test server without them; user check of GeckoLib mobs, structures, FPS and spark.
+- [x] 5. Renderer: Sodium + Iris as client-side mods; verify-mods, smoke, test server without them; user check of GeckoLib mobs, structures, FPS and spark.
 - [ ] 6. After-census on the same seeds; user flight over a new Large world with the renderer; close the plan, leftovers to M1-C1 or the tech-debt tracker.
 
 ## Progress log
@@ -50,3 +50,5 @@ The world mods of M1-A work as one world: one village source until M4, no struct
 - 2026-11-08 — Not changed in M1-B: other mods' templates (license rule) and the slow `/locate` of large WDA structures (a known issue for commands, not a worldgen defect).
 - 2026-11-08 — Terralith fortified villages stay as a vanilla-style variant in the single placeholder village source (with the user), like the D&T taiga variant; reconciled with all vanilla villages in M4-B.
 - 2026-11-08 — No `max_relief` spawn condition: the steep-ground flags were false positives on in-game inspection (with the user). Steepness stays a census number for M1-C1 (reachable entrances), not a placement rule.
+- 2026-11-09 — The hanging bunker entrance is fixed in M1-C1, not M1-B (with the user): it is polish, not a conflict between mods. Fix: our `livingkingdoms:foundation` processor attached to the D&T start pool with Lithostitched; the `beard_thin` wrapper and a relief condition are rejected (M1 spec, C1).
+- 2026-11-09 — Village walkability (doors reachable on foot, steps of at most one block) goes to M4 (with the user): measured in M4-B, a layout rule and acceptance criterion of our settlements. The user likes the Terralith fortified village buildings: noted in M4 as a reference, used by id or as a style, never copied.

@@ -32,6 +32,7 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 | Ours | `livingkingdoms-settlements` | Settlement, membership, profession, home, workplace, tasks, storage, development plan |
 | Ours | `livingkingdoms-core` (minimal) | Stable IDs, event log, save format version |
 | Research | MineColonies / Structurize and other open mods | Possible source of construction and logistics code if the license allows |
+| Reference | Terralith fortified villages (`terralith:fortified_village`, `terralith:fortified_desert_village`) | The user likes their buildings (2026-11-09): use them by referencing Terralith's template pools by id while Terralith is in the pack, or build our own templates in a similar style. Never copy or ship Terralith's files (Stardust Labs License, [licenses.md](../licenses.md)) |
 | Later | [MCA Capitals](https://www.curseforge.com/minecraft/mc-mods/mca-capitals) | Politics — [M6](m6-economy-and-states.md) |
 
 ## Phases
@@ -41,7 +42,7 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 - Open construction and worker-NPC mods: licenses and code suitability.
 - Prototype: an MCA resident performs one task of our mod and survives a world reload.
 
-**B — reconcile.** Vanilla villages and villagers, vanilla professions, MCA residents spawning outside our villages, village structures from M1, the Better Archeology Archeologist villager and its tents. Lumberjacks are built for vanilla and Terralith trees; Dynamic Trees is decided in M7 (TD-06).
+**B — reconcile.** Vanilla villages and villagers, vanilla professions, MCA residents spawning outside our villages, village structures from M1 (vanilla, Dungeons and Taverns variants, Terralith fortified villages), the Better Archeology Archeologist villager and its tents. Jigsaw villages often break walking routes: street steps of 2+ blocks where `terrain_matching` streets follow steep terrain, doors above or below the street, houses over drops (seen in M1, 2026-11-09). Measure it (share of doors reachable on foot from the village center and back) before deciding how far the placeholder villages are repaired. Lumberjacks are built for vanilla and Terralith trees; Dynamic Trees is decided in M7 (TD-06).
 
 **C — integrate.** Slices S1–S4 in order, each released.
 
@@ -50,6 +51,7 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 ## Acceptance
 
 - Several villages work for dozens of in-game days in the loaded world: growth, production, families.
+- Walkable layout (with the user, 2026-11-09): from every home and workplace door a player and an MCA resident can walk to the village center and back with steps of at most one block, in generated villages and after growth. This is a rule of our layout and builder (site choice by slope, levelled plots, paths found with a step limit), not a repair afterwards.
 - World reload without losing residents, storage or buildings.
 - Verified in singleplayer (multiplayer checks in [M10](m10-multiplayer.md)).
 - TPS measured on the host PC in an agreed scenario.
