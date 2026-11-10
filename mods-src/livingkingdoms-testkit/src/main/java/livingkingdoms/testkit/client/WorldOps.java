@@ -32,7 +32,7 @@ import net.minecraft.world.level.storage.PrimaryLevelData;
 
 /**
  * World ops: create a flat test world, open, leave, delete and list saves. Test worlds use the testkit's flat
- * preset (D-22) and are named with the {@code e2e-} prefix, so deletion never touches a player's world.
+ * preset (D-23) and are named with the {@code e2e-} prefix, so deletion never touches a player's world.
  */
 final class WorldOps {
     static final String PREFIX = "e2e-";

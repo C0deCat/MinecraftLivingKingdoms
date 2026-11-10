@@ -7,7 +7,7 @@ import { selectSlot } from "./helpers/player.ts";
 import { waitTicks } from "./helpers/wait.ts";
 import type { BlockPos, Vec3 } from "./protocol.ts";
 
-/** Surface of the flat test preset: grass at y −61, the player stands at y −60 (D-22 preset layers). */
+/** Surface of the flat test preset: grass at y −61, the player stands at y −60 (D-23 preset layers). */
 export const FLOOR_Y = -61;
 export const SIZE = 16;
 /** Plots sit close together so their chunks stay loaded; a reused plot is cleared anyway. */

@@ -12,7 +12,7 @@ export function runWorldName(): string {
 
 /**
  * Makes sure this run's flat test world is open: reuses it when it already is, reopens it when it exists,
- * otherwise deletes older e2e- worlds and creates it (world tier `flat`, D-22).
+ * otherwise deletes older e2e- worlds and creates it (world tier `flat`, D-23).
  */
 export async function ensureRunWorld(mc: GameClient): Promise<string> {
   const name = runWorldName();

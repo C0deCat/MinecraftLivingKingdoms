@@ -1,0 +1,26 @@
+{
+  "predicate": {
+    "type": "lithostitched:mod_loaded",
+    "mod_id": "mr_dungeons_andtaverns"
+  },
+  "type": "lithostitched:set_pool_element_processors",
+  "template_pools": [
+    "nova_structures:ruin_town",
+    "nova_structures:ruin_town_center",
+    "nova_structures:ruin_town_not_center",
+    "nova_structures:ruin_town_plot_house_large",
+    "nova_structures:ruin_town_plot_house_large_slim",
+    "nova_structures:ruin_town_plot_house_medium",
+    "nova_structures:ruin_town_plot_house_medium_slim",
+    "nova_structures:ruin_town_plot_l_house"
+  ],
+  "processor_list": {
+    "processors": [
+      {
+        "processor_type": "livingkingdoms_world:foundation",
+        "mode": "extend",
+        "max_depth": 16
+      }
+    ]
+  }
+}

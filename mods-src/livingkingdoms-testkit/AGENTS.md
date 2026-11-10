@@ -1,6 +1,6 @@
 # AGENTS.md — livingkingdoms-testkit
 
-Dev-only NeoForge 1.21.1 mod `livingkingdoms_testkit`: the e2e driver for `tests/e2e/`, the flat test preset (D-22) and our GameTests. Design: [ADR-0005](../../docs/decisions/ADR-0005-test-framework.md), plan: [test framework](../../docs/exec-plans/active/2026-11-09-test-framework.md). Rules from the root [AGENTS.md](../../AGENTS.md) and [mods-src/AGENTS.md](../AGENTS.md) apply.
+Dev-only NeoForge 1.21.1 mod `livingkingdoms_testkit`: the e2e driver for `tests/e2e/`, the flat test preset (D-23) and our GameTests. Design: [ADR-0005](../../docs/decisions/ADR-0005-test-framework.md), plan: [test framework](../../docs/exec-plans/active/2026-11-09-test-framework.md). Rules from the root [AGENTS.md](../../AGENTS.md) and [mods-src/AGENTS.md](../AGENTS.md) apply.
 
 ## Rules
 

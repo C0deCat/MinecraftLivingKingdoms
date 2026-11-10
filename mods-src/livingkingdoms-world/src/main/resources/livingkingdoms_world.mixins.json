@@ -4,7 +4,8 @@
   "package": "livingkingdoms.world.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ChunkGeneratorMixin"
+    "ChunkGeneratorMixin",
+    "SinglePoolElementAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -74,9 +74,15 @@ function syncServerMods(java: string): void {
   for (const jar of builtOwnJars({ testkit: false })) copyFileSync(jar.path, join(modsDir, jar.name));
 }
 
+/**
+ * Server heap: 2 GB below the client's 8 GB (D-22), because in singleplayer the client and the
+ * integrated server share one heap; worlds are validated under what a player at the minimum has.
+ */
+const SERVER_HEAP = "6G";
+
 function writeServerConfig(size: string, jvm: string[], seed: string): void {
   writeFileSync(join(SERVER_DIR, "eula.txt"), "# Accepted by the user for this local test server (2026-11-06).\neula=true\n");
-  writeFileSync(join(SERVER_DIR, "user_jvm_args.txt"), ["-Xmx4G", ...jvm].join("\n") + "\n");
+  writeFileSync(join(SERVER_DIR, "user_jvm_args.txt"), [`-Xmx${SERVER_HEAP}`, ...jvm].join("\n") + "\n");
   writeFileSync(
     join(SERVER_DIR, "server.properties"),
     [

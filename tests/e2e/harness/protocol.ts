@@ -131,7 +131,7 @@ export const OP_DOCS: { [K in OpName]: OpDoc } = {
   ping: { group: "session", summary: "Answers immediately; checks that the driver is reachable." },
   state: { group: "session", summary: "Open screen, whether a world is loaded, client game time, dimension, paused and loading flags, open save name." },
   quit: { group: "session", summary: "Replies, then closes the game." },
-  "world.create": { group: "world", summary: "Creates and opens a test world (name starts with e2e-) on the testkit flat preset (D-22) with the R2 game rules; returns when the player is in." },
+  "world.create": { group: "world", summary: "Creates and opens a test world (name starts with e2e-) on the testkit flat preset (D-23) with the R2 game rules; returns when the player is in." },
   "world.open": { group: "world", summary: "Opens an existing save; returns when the player is in." },
   "world.leave": { group: "world", summary: "Saves and quits to the title screen, like Save and Quit; nothing outside a world." },
   "world.delete": { group: "world", summary: "Deletes a closed test world (e2e- names only)." },

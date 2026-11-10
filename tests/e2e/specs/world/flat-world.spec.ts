@@ -1,4 +1,4 @@
-// The run's flat test world (D-22) opens and the arena puts the player on its floor.
+// The run's flat test world (D-23) opens and the arena puts the player on its floor.
 import { assertThat } from "../../harness/aaa.ts";
 import { blockAt } from "../../harness/helpers/query.ts";
 import { playerState } from "../../harness/helpers/player.ts";

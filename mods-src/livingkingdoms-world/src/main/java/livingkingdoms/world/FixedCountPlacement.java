@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinWorkerThread;
 import java.util.stream.IntStream;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -127,6 +129,9 @@ public final class FixedCountPlacement extends StructurePlacement {
         }
     }
 
+    /** Threads of the search at level load; see {@link #onLevelLoad}. */
+    private static final int SEARCH_THREADS = 4;
+
     private final Settings settings;
     private final Map<ChunkGeneratorStructureState, Set<Long>> positions = new ConcurrentHashMap<>();
 
@@ -156,7 +161,21 @@ public final class FixedCountPlacement extends StructurePlacement {
         if (placements.isEmpty()) return;
         int before = data.sets.size();
         long started = System.currentTimeMillis();
-        placements.parallelStream().forEach(p -> p.positionsFor(state));
+        // A dedicated pool: the parallel streams of the search (sets, and cells inside each set) run in it
+        // instead of the common pool, so at most SEARCH_THREADS structure starts are generated at once.
+        // With every core at work, large jigsaw starts (WDA mega-dungeons) ran a 4 GB server out of heap.
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        ForkJoinPool pool = new ForkJoinPool(SEARCH_THREADS, p -> {
+            ForkJoinWorkerThread thread = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(p);
+            thread.setContextClassLoader(loader);
+            thread.setName("livingkingdoms-fixed-count-" + thread.getPoolIndex());
+            return thread;
+        }, null, false);
+        try {
+            pool.submit(() -> placements.parallelStream().forEach(p -> p.positionsFor(state))).join();
+        } finally {
+            pool.shutdown();
+        }
         int searched = data.sets.size() - before;
         if (searched > 0) {
             data.setDirty();

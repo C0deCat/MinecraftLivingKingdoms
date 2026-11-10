@@ -45,6 +45,10 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import livingkingdoms.world.mixin.SinglePoolElementAccessor;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 
 /**
@@ -67,7 +71,9 @@ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
  * sampled from the generator noise (so the structure's own blocks do not count): the worst piece
  * slope (relief under one piece divided by its longer side), the share of ground below sea level,
  * the worst share of a piece's footprint that hangs more than {@value #FLOAT_GAP} blocks above the
- * ground, and the state of the entrance (the start piece). Only pieces at least {@value #MIN_PIECE}
+ * ground, and the state of the entrance (the start piece). The noise has no beards, so a rigid piece
+ * of a {@code beard_thin} or {@code beard_box} structure hangs only above {@value #BEARD_REACH}
+ * blocks, and pieces that cannot hang are left out of the hanging share (see {@link #groundGap}). Only pieces at least {@value #MIN_PIECE}
  * blocks long whose top reaches the lowest ground under them count, so buried rooms, shafts and
  * path tiles do not.
  */
@@ -75,6 +81,11 @@ final class StructureScan {
     static final int SAMPLE_STEP = 4;
     static final int MIN_PIECE = 8;
     static final int FLOAT_GAP = 3;
+    /**
+     * Gap a beard fills under a rigid piece: the vanilla beardifier kernel reaches 12 blocks below the
+     * piece bottom and fades towards its edge, so 10 is taken as filled.
+     */
+    static final int BEARD_REACH = 10;
     private static final int BATCH = 64;
     private static final TicketType<ChunkPos> SCAN_TICKET = TicketType.create("livingkingdoms_scan", Comparator.comparingLong(ChunkPos::toLong));
     /** Region ticket distance for structure_starts: a level above FULL, so the distance is negative. */
@@ -310,7 +321,8 @@ final class StructureScan {
                 BoundingBox piece = pieces.get(i);
                 // Small pieces (paths, shafts) exaggerate slope; buried pieces do not show the terrain.
                 if (Math.max(piece.getXSpan(), piece.getZSpan()) < MIN_PIECE) continue;
-                Footprint ground = footprint(generator, level, random, piece, seaLevel, pieces);
+                int gap = groundGap(structure.terrainAdaptation(), rawPieces.get(i));
+                Footprint ground = footprint(generator, level, random, piece, seaLevel, pieces, gap);
                 if (piece.maxY() < ground.lowest()) continue;
                 double pieceSlope = ground.relief() / (double) Math.max(1, Math.max(piece.getXSpan(), piece.getZSpan()));
                 if (pieceSlope > slope) {
@@ -327,7 +339,8 @@ final class StructureScan {
                 total += ground.total();
             }
             water = total > 0 ? wet / (double) total : 0;
-            entrance = entranceState(generator, level, random, entranceBox, seaLevel, pieces);
+            int entranceGap = rawPieces.isEmpty() ? FLOAT_GAP : groundGap(structure.terrainAdaptation(), rawPieces.get(0));
+            entrance = entranceState(generator, level, random, entranceBox, seaLevel, pieces, entranceGap);
         }
         return new Start(id, step, structure.terrainAdaptation().getSerializedName(), biome, box, pieces, templates, inside, slope,
                 relief, water, hanging, hangingPiece, hangingTemplate, entranceBox, entrance);
@@ -346,6 +359,27 @@ final class StructureScan {
         Start s = measure(level, generator, level.getChunkSource().randomState(), level.getWorldBorder(), true, generator.getSeaLevel(),
                 "check:start", structure, start);
         return !s.entrance().equals("floating") && s.hanging() <= StructureCensus.HANGING_SHARE;
+    }
+
+    /**
+     * How many blocks a piece may stand above the noise ground before it counts as hanging, or -1 if it
+     * cannot hang: a {@code terrain_matching} jigsaw piece places every block on the ground, and a piece
+     * carrying our {@code foundation} processor gets its hanging columns extended or dropped. A rigid
+     * piece of a {@code beard_thin} or {@code beard_box} structure gets {@value #BEARD_REACH}, as the
+     * beard fills under it (vanilla {@code Beardifier}, which the noise height leaves out).
+     */
+    static int groundGap(TerrainAdjustment adaptation, StructurePiece piece) {
+        boolean rigid = true;
+        if (piece instanceof PoolElementStructurePiece pooled) {
+            StructurePoolElement element = pooled.getElement();
+            if (element.getProjection() == StructureTemplatePool.Projection.TERRAIN_MATCHING) return -1;
+            if (element instanceof SinglePoolElement single
+                    && ((SinglePoolElementAccessor) single).livingkingdoms$processors().value().list().stream()
+                    .anyMatch(p -> p instanceof FoundationProcessor)) return -1;
+            rigid = element.getProjection() == StructureTemplatePool.Projection.RIGID;
+        }
+        boolean beard = adaptation == TerrainAdjustment.BEARD_THIN || adaptation == TerrainAdjustment.BEARD_BOX;
+        return beard && rigid ? BEARD_REACH : FLOAT_GAP;
     }
 
     /** Template ids of jigsaw pieces (from the pool element), piece type ids of the others. */
@@ -378,11 +412,11 @@ final class StructureScan {
     /**
      * Where the start piece (the entrance of a jigsaw structure) sits against the ground under it:
      * {@code buried} if its top is below the lowest ground, {@code floating} if more than half of its
-     * footprint hangs (see {@link #footprint}), otherwise {@code ok}.
+     * footprint hangs more than {@code gap} blocks (see {@link #footprint}, {@link #groundGap}), otherwise {@code ok}.
      */
     static String entranceState(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox entrance, int seaLevel,
-                                List<BoundingBox> pieces) {
-        Footprint ground = footprint(generator, level, random, entrance, seaLevel, pieces);
+                                List<BoundingBox> pieces, int gap) {
+        Footprint ground = footprint(generator, level, random, entrance, seaLevel, pieces, gap);
         if (entrance.maxY() < ground.lowest()) return "buried";
         if (ground.hanging() * 2 > ground.total()) return "floating";
         return "ok";
@@ -391,7 +425,7 @@ final class StructureScan {
     /**
      * Ground under a box from the generator noise: relief, samples below sea level, samples where the
      * box hangs, all samples, lowest ground. A sample hangs where the box bottom is more than
-     * {@value #FLOAT_GAP} blocks above the ground and no other piece of the same structure lies right
+     * {@code gap} blocks ({@value #FLOAT_GAP} by default, -1: never) above the ground and no other piece of the same structure lies right
      * under it: the floors of a tower are separate jigsaw pieces standing on each other.
      */
     record Footprint(int relief, int wet, int hanging, int total, int lowest) {}
@@ -402,6 +436,11 @@ final class StructureScan {
 
     static Footprint footprint(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox box, int seaLevel,
                                List<BoundingBox> pieces) {
+        return footprint(generator, level, random, box, seaLevel, pieces, FLOAT_GAP);
+    }
+
+    static Footprint footprint(ChunkGenerator generator, ServerLevel level, RandomState random, BoundingBox box, int seaLevel,
+                               List<BoundingBox> pieces, int gap) {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         int wet = 0;
@@ -414,7 +453,7 @@ final class StructureScan {
                 max = Math.max(max, height);
                 if (height < seaLevel) wet++;
                 // The heightmap is the first free block above the ground.
-                if (box.minY() > height + FLOAT_GAP && !supported(box, pieces, x, z)) hanging++;
+                if (gap >= 0 && box.minY() > height + gap && !supported(box, pieces, x, z)) hanging++;
                 total++;
             }
         }
