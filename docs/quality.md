@@ -57,6 +57,13 @@ Structure mods cost little in generation time (about 10% over the run-to-run spr
 
 The 2026-11-06 row is preliminary: the window included spawn generation and was shorter than the planned 2–3 minutes.
 
+e2e driver speed on the host PC (`npm run e2e -- specs/session/hello.spec.ts`, 44 pack files + our 2 + testkit, shaders off; [ADR-0005](decisions/ADR-0005-test-framework.md)):
+
+| Date | Case | Time |
+| --- | --- | --- |
+| 2026-11-10 | Cold start: Prism launch until the driver answers (it starts during client setup, before the title screen) | 26–28 s |
+| 2026-11-10 | Attach to a client left open with `--keep` | 5–11 ms; the whole run with Vitest 1–2 s |
+
 ## End-to-end test bars
 
 | Area | Test set | Acceptance bar |

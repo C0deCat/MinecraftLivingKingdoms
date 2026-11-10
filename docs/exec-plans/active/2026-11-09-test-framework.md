@@ -250,6 +250,14 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
   - the launcher was run end to end against a fake driver on port 25598: attach + both hello specs pass; a stale testkit hash triggers a restart.
 
   Not run: the real client, the Prism e2e instance, the cold-start and attach times (Windows host).
+- 2026-11-10 — Step 2 on the host PC after merging `main`, runtime passed:
+  - two fixes: the bridge bound `::1` only (`InetAddress.getLoopbackAddress()` prefers IPv6 in the game JVM), so the launcher never reached it on 127.0.0.1; it now binds the IPv4 literal. The pack's `iris.properties` (M1-C2) turned Complementary on in the e2e instance; `prepareE2eInstance` now sets `enableShaders=false` after the mod sync;
+  - `npm run e2e:unit` 8 tests, `tsc` (harness + `tools/pack`), `./gradlew build`, `docs:check` pass on Windows;
+  - `npm run e2e -- specs/session/hello.spec.ts`: both specs pass. Cold start until the driver answers 26–28 s; attach with `--keep` 5–11 ms, the whole run 1–2 s (quality.md);
+  - a stale pack fingerprint restarts the client and the specs pass on the new one; a deliberately broken assertion fails the run with exit code 1; without `--keep` the client quits at the end;
+  - the play instance and the test server have no testkit JAR.
+
+  Not run: `npm run smoke` (another session was working on the play instance and the test server), F2 artifacts (step 5), the world cache (step 3).
 
 ## Decision log
 
