@@ -55,7 +55,7 @@ Done 2026-11-08: all Base and Tool mods installed, gameplay verified on Large fo
 
 Done 2026-11-09: the census found rare overlaps and mostly false steep flags, so no placement modifier was needed; D&T villages stay as placeholder variants; the renderer is gameplay verified by the user on Large. One placement defect, the hanging D&T bunker entrance, is fixed in C1; other leftovers are TD-15 to TD-20 ([exec plan](../exec-plans/completed/2026-11-08-m1-reconcile.md)).
 
-**C — integrate.** The content manifest with its validator, then the visual profile, in two steps, in one [exec plan](../exec-plans/active/2026-11-09-m1-integrate.md).
+**C — integrate.** The content manifest with its validator, then the visual profile, in two steps, in one [exec plan](../exec-plans/completed/2026-11-09-m1-integrate.md).
 
 **C1 — World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
 - at least one reachable Stronghold with a valid portal;
@@ -79,7 +79,7 @@ State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, 
 
 **C2 — visual profile.** Choose the pack's shader pack before M1 is accepted, so the world is judged in its final look (2026-11-08, with the user): 1–2 candidates from Modrinth, licenses recorded, settings, FPS on the host PC. The shader pack is an optional packwiz file; the pack must look and run acceptably without it. Weather, seasons, fog and Distant Horizons are re-checked with it in [M7](m7-atmosphere.md).
 
-Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default shader pack, enabled for new installs by the pack's `config/iris.properties` (kept by packwiz-installer once the player changes it); **Photon** stays as an alternative. Both are optional client files downloaded from Modrinth; without them Iris runs with shaders off.
+Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default shader pack, enabled for new installs by the pack's `config/iris.properties` (kept by packwiz-installer once the player changes it); **Photon** stays as an alternative. Both are optional client files downloaded from Modrinth; without them Iris runs with shaders off. Measured on the host PC: about 600 FPS in the open without shaders, 92 FPS with Complementary on High (`quality.md`). C2 done 2026-11-10.
 
 **D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled.
 

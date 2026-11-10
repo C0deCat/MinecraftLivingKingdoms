@@ -1,11 +1,11 @@
 ---
-status: active
-last_reviewed: 2026-11-09
+status: stable
+last_reviewed: 2026-11-10
 ---
 
 # M1-C — integrate: World Content Manifest, validator, structure polish, shader pack
 
-**Status:** Active
+**Status:** Completed
 
 ## Goal
 
@@ -38,8 +38,8 @@ C1
 
 C2
 - [x] 11. Shader pack research: 1–2 candidates on Modrinth (for example Complementary Reimagined, BSL): license, Iris 1.8 support, cost. Ask the user before adding; optional client packwiz file downloaded from Modrinth, never shipped as a file.
-- [ ] 12. Settings; FPS and spark on Large with and without it; the user judges the look; compatibility matrix, licenses, quality.
-- [ ] 13. Close the plan; M1-D (acceptance) is next.
+- [x] 12. Settings; FPS and spark on Large with and without it; the user judges the look; compatibility matrix, licenses, quality.
+- [x] 13. Close the plan; M1-D (acceptance) is next.
 
 ## Notes for the steps
 
@@ -69,6 +69,7 @@ C2
 - 2026-11-10 — Step 11: Complementary Reimagined r5.9.3 and Photon v1.4 added with the user's approval as optional client files in `modpack/shaderpacks/` (downloaded from Modrinth, off until chosen in the Iris menu); `verify-mods` now checks shader packs (Iris loader, the instance's `shaderpacks/`); `npm run smoke` reaches the title screen with only the known GeckoLib errors. Status: installed; the look and FPS test with the user is next (step 12).
 - 2026-11-10 — Step 12, first look by the user on Large (seed `livingkingdoms`, old growth pine taiga at a lake near (−995, 64, −4400), noon, render distance 16, 2560×1369, RTX 5070 Ti Laptop, Core Ultra 9 275HX), both packs on their default High profile, read from F3: Photon 114 FPS (p50 113, p98 56, p99.5 26), GPU 100%; Complementary Reimagined 92 FPS (p50 92, p98 76, p99.5 73), GPU 99%. Views differ (east and south), so the averages are close to a tie; Complementary's frame times are much steadier. `/spark health` under Complementary: tick 4.3/5.3/6.9/9.7 ms (min/median/p95/max, 10 s), the server is not affected by the shader pack (the low 10 s and 1 min TPS are the game paused in the shader menu). No baseline without shaders at the same spot yet (M1-B: 430–690 FPS elsewhere).
 - 2026-11-10 — Default shader pack shipped: `modpack/config/iris.properties` (shaders on, Complementary Reimagined) with `preserve = true` in the index, so packwiz-installer writes it only when the file is missing. Checked on the instance: a missing file is installed with Complementary; a player's choice (Photon) survives a rerun of the installer. Remaining for step 12: FPS without shaders at the same spot, settings, `quality.md`.
+- 2026-11-10 — Step 12 done: FPS without shaders, by the user, about 600 in the open and 800–1,000 in closed spaces; with the default High profiles Complementary 92 FPS and Photon 114 FPS (another view); numbers in `quality.md`. Settings stay at the packs' default High profile; lower presets are the player's choice. Step 13: plan closed; C1 and C2 done. Leftovers: TD-13, TD-15, TD-20, TD-22 (decided in M1-D), TD-23 (credit before release). Next: M1-D acceptance, which runs the 12-world validation (D-21).
 
 ## Decision log
 

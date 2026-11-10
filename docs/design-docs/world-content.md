@@ -5,7 +5,7 @@ last_reviewed: 2026-11-09
 
 # World content: structure density and the World Content Manifest
 
-What the finite world contains, how dense it is, and which content is mandatory. The manifest (M1-C1) turns the agreed numbers into checks; later milestones add their structures the same way (M3 magic places, M4 settlements). The measurements are facts; changes 1–5 were agreed with the user on 2026-11-09 and are measured below ([exec plan](../exec-plans/active/2026-11-09-m1-integrate.md), steps 5 and 5a).
+What the finite world contains, how dense it is, and which content is mandatory. The manifest (M1-C1) turns the agreed numbers into checks; later milestones add their structures the same way (M3 magic places, M4 settlements). The measurements are facts; changes 1–5 were agreed with the user on 2026-11-09 and are measured below ([exec plan](../exec-plans/completed/2026-11-09-m1-integrate.md), steps 5 and 5a).
 
 ## How it was measured
 
