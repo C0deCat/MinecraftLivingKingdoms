@@ -3,7 +3,7 @@
 // and the pack's mods installed by packwiz-installer from modpack/pack.toml.
 // Usage: npm run instance   (safe to rerun; it brings the instance back in sync with the pack)
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { E2E_INSTANCE_NAME, INSTANCE_NAME, MINECRAFT_VERSION, NEOFORGE_VERSION, PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP, PRISM_WINDOWS } from "./pins.ts";
 import { MODPACK_DIR, MODS_SRC_DIR, OWN_JAR_PREFIX, RUNTIME_DIR, TOOLS_BIN, builtOwnJars, capture, fail, fetchPinned, findExecutable, run } from "./lib.ts";
 import { setupTools } from "./setup-tools.ts";
@@ -45,6 +45,12 @@ const E2E_OPTIONS: Record<string, string> = {
   skipMultiplayerWarning: "true",
   soundCategory_master: "0.0",
 };
+/**
+ * Iris options of the e2e instance (`key=value` lines of config/iris.properties), merged after every mod sync.
+ * The pack ships Complementary Reimagined switched on (M1-C2); e2e runs without shaders (convention F1, quality.md).
+ * packwiz-installer preserves the file once installed, so the merge survives later syncs.
+ */
+const E2E_IRIS_OPTIONS: Record<string, string> = { enableShaders: "false" };
 const PACK_TOML = join(MODPACK_DIR, "pack.toml");
 
 /** Memory for the game JVM, in MiB. Tuned for the 32 GB host PC; adjust after spark measurements. */
@@ -127,17 +133,18 @@ function writeInstance(target: InstanceTarget): void {
   for (const pin of [PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP]) {
     copyFileSync(join(TOOLS_BIN, pin.file), join(target.gameDir, pin.file));
   }
-  if (target.testkit) writeOptions(join(target.gameDir, "options.txt"), E2E_OPTIONS);
+  if (target.testkit) writeOptions(join(target.gameDir, "options.txt"), E2E_OPTIONS, ":");
 }
 
-/** Merges managed `key:value` lines into options.txt, keeping every other option the game wrote. */
-function writeOptions(path: string, values: Record<string, string>): void {
+/** Merges managed `key<sep>value` lines into an options file, keeping every other line the game wrote. */
+function writeOptions(path: string, values: Record<string, string>, separator: ":" | "="): void {
   const lines = existsSync(path) ? readFileSync(path, "utf8").split(/\r?\n/).filter((l) => l !== "") : [];
   for (const [key, value] of Object.entries(values)) {
-    const index = lines.findIndex((l) => l.startsWith(`${key}:`));
-    if (index >= 0) lines[index] = `${key}:${value}`;
-    else lines.push(`${key}:${value}`);
+    const index = lines.findIndex((l) => l.startsWith(`${key}${separator}`));
+    if (index >= 0) lines[index] = `${key}${separator}${value}`;
+    else lines.push(`${key}${separator}${value}`);
   }
+  mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, lines.join("\n") + "\n");
 }
 
@@ -211,6 +218,7 @@ export async function prepareE2eInstance(options: { build: boolean }): Promise<v
   await ensurePrism();
   writeInstance(E2E_INSTANCE);
   syncMods(E2E_INSTANCE);
+  writeOptions(join(E2E_INSTANCE.gameDir, "config", "iris.properties"), E2E_IRIS_OPTIONS, "=");
   buildOwnMods(E2E_INSTANCE, options);
 }
 
