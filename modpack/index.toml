@@ -5,6 +5,11 @@ file = "CHANGELOG.md"
 hash = "6537a7219d3ea921e76fa2a1f9cde171c01ca4ae729ea91c9e538179e22ad592"
 
 [[files]]
+file = "config/iris.properties"
+hash = "15adad6678ad87a19fb1f5ef6432053e04b6d8ecbf1edf88411090f2e66a05da"
+preserve = true
+
+[[files]]
 file = "config/mowziesmobs-common.toml"
 hash = "666fd97ec2ef017b6998c562dd898a11a55757010e7681c7ce273320c1c404c7"
 
@@ -228,10 +233,10 @@ metafile = true
 
 [[files]]
 file = "shaderpacks/complementary-reimagined.pw.toml"
-hash = "ec38bcf1a6c66687d8132180f0e52228311277435cb1dad26089868d7edc54f1"
+hash = "6b85a8d25b98385595d25b00d5ce3a6891562f90a1b05f87e0ec797ee19c0f06"
 metafile = true
 
 [[files]]
 file = "shaderpacks/photon-shader.pw.toml"
-hash = "48bf81dde94e092ac78a4e86c379d3f43b5677fa45e934eb2e97921a31c49270"
+hash = "4a6c5ab72aee53f9a6169714f2a36c4e910d335b112f3a9656ae446f3ba8f6ba"
 metafile = true

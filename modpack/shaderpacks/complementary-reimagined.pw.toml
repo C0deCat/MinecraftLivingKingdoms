@@ -15,4 +15,4 @@ version = "Bqen1mJX"
 [option]
 optional = true
 default = true
-description = "Shader pack for Iris (M1-C2 candidate); downloaded, off until chosen in the Iris menu"
+description = "Default shader pack (Iris); switch it off or change it in Options > Video Settings > Shader Packs"

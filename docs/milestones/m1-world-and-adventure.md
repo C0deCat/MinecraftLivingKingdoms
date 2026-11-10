@@ -79,6 +79,8 @@ State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, 
 
 **C2 — visual profile.** Choose the pack's shader pack before M1 is accepted, so the world is judged in its final look (2026-11-08, with the user): 1–2 candidates from Modrinth, licenses recorded, settings, FPS on the host PC. The shader pack is an optional packwiz file; the pack must look and run acceptably without it. Weather, seasons, fog and Distant Horizons are re-checked with it in [M7](m7-atmosphere.md).
 
+Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default shader pack, enabled for new installs by the pack's `config/iris.properties` (kept by packwiz-installer once the player changes it); **Photon** stays as an alternative. Both are optional client files downloaded from Modrinth; without them Iris runs with shaders off.
+
 **D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled.
 
 ## Acceptance
