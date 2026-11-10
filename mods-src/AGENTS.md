@@ -6,6 +6,7 @@ Our NeoForge 1.21.1 mods, one Gradle build with one project per mod. Rules from 
 | --- | --- | --- |
 | `livingkingdoms-core` | `livingkingdoms_core` | Stable IDs, regions, time, world state; depends only on NeoForge |
 | `livingkingdoms-world` | `livingkingdoms_world` | World sizes, borders, world edge, content manifest ([ADR-0004](../docs/decisions/ADR-0004-world-sizes-and-dimensions.md)) |
+| `livingkingdoms-settlements` | `livingkingdoms_settlements` | Settlements of MCA Reborn residents: resident records, work, the MCA adapter ([ADR-0030](../docs/decisions/ADR-0030-resident-integration.md)); GPL-3.0-only |
 | `livingkingdoms-testkit` | `livingkingdoms_testkit` | Dev-only: e2e driver, flat test preset, GameTests; never in the pack ([ADR-0005](../docs/decisions/ADR-0005-test-framework.md)) |
 
 ## Build
@@ -19,7 +20,8 @@ Our NeoForge 1.21.1 mods, one Gradle build with one project per mod. Rules from 
 
 - Server-safe: no `net.minecraft.client.*` in common code; client code in separate classes registered with `@Mod(dist = Dist.CLIENT)` or `@EventBusSubscriber(value = Dist.CLIENT)`; world state changes only on the server thread.
 - Check APIs against NeoForge 21.1 sources (`build/moddev/artifacts/neoforge-*-sources.jar` after a build); examples for other versions often do not compile here.
-- The license of our mods is not chosen yet (placeholder in `gradle.properties`, see [licenses.md](../docs/licenses.md)).
+- Licenses: `livingkingdoms-settlements` is GPL-3.0-only (D-52); the other mods are not decided yet (placeholder in `gradle.properties`, see [licenses.md](../docs/licenses.md)). Do not move code out of the settlement mod into the others.
+- `./gradlew :livingkingdoms-settlements:runGameTestServer` runs the settlement GameTests with MCA Reborn (D-51).
 
 ## Origin
 

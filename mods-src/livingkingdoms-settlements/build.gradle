@@ -1,0 +1,33 @@
+// livingkingdoms-settlements: settlements, residents and their work on MCA Reborn (ADR-0001, ADR-0030).
+apply from: rootProject.file('gradle/neoforge-mod.gradle')
+
+repositories {
+    // MCA Reborn is taken from Modrinth, the same file the pack installs.
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Modrinth'
+                url = 'https://api.modrinth.com/maven'
+            }
+        }
+        filter {
+            includeGroup 'maven.modrinth'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':livingkingdoms-core')
+
+    // Compiled against MCA Reborn and run with it in dev runs (GameTests); never bundled.
+    compileOnly "maven.modrinth:minecraft-comes-alive-reborn:${mca_modrinth_version}"
+    localRuntime "maven.modrinth:minecraft-comes-alive-reborn:${mca_modrinth_version}"
+}
+
+neoForge {
+    mods {
+        livingkingdoms_core {
+            sourceSet(project(':livingkingdoms-core').sourceSets.main)
+        }
+    }
+}
