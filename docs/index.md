@@ -33,7 +33,7 @@ last_reviewed: YYYY-MM-DD
 | Doc | Purpose | Status |
 | --- | --- | --- |
 | [milestones/m0-infrastructure.md](milestones/m0-infrastructure.md) | Reproducible pack from Git | stable |
-| [milestones/m1-world-and-adventure.md](milestones/m1-world-and-adventure.md) | Finite world, adventure progression | active |
+| [milestones/m1-world-and-adventure.md](milestones/m1-world-and-adventure.md) | Finite world, adventure progression | stable |
 | [milestones/m2-household.md](milestones/m2-household.md) | Farming, food, crafts, decor | active |
 | [milestones/m3-magic.md](milestones/m3-magic.md) | Magic ecosystem | active |
 | [milestones/m4-settlements.md](milestones/m4-settlements.md) | Our settlement mod on MCA Reborn | active |
@@ -67,7 +67,7 @@ last_reviewed: YYYY-MM-DD
 | --- | --- | --- |
 | [exec-plans/README.md](exec-plans/README.md) | Exec plan format and list | active |
 | [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md) | Open items and unverified facts | active |
-| [exec-plans/active/2026-11-10-m1-accept.md](exec-plans/active/2026-11-10-m1-accept.md) | M1-D accept: surface foundations, full validation, gameplay check | active |
+| [exec-plans/completed/2026-11-10-m1-accept.md](exec-plans/completed/2026-11-10-m1-accept.md) | M1-D accept: surface foundations, full validation, gameplay check | stable |
 | [exec-plans/active/2026-11-09-test-framework.md](exec-plans/active/2026-11-09-test-framework.md) | Test framework: testkit mod, e2e driver, GameTest layer, conventions | active |
 | [exec-plans/completed/2026-11-09-m1-integrate.md](exec-plans/completed/2026-11-09-m1-integrate.md) | M1-C integrate: content manifest, validator, foundation processor, shader pack | active |
 | [exec-plans/completed/2026-11-08-m1-reconcile.md](exec-plans/completed/2026-11-08-m1-reconcile.md) | M1-B reconcile: villages, census, renderer | stable |

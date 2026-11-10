@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-10
 ---
 
 # World content: structure density and the World Content Manifest
@@ -84,6 +84,7 @@ Causes found:
 - **Locating.** Vanilla structure search (`/locate`, eyes of ender, explorer maps) only knows concentric rings and random spread; a mixin in our world mod adds the `fixed_count` points to it.
 - **Land share:** `LandLift` ([ADR-0004 amendment](../decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-09-minimum-land-share)).
 - **Result** (2026-11-09, Small / Medium / Large × 4 seeds): 0 critical gaps on all 12 worlds. Strongholds, mega-dungeons and Lich towers exactly at the set counts; Wroughtnaut 2–3 / 4–8 / 6–13, Void Blossom 3–4 / 4–6 / 7–14; reachable adventure areas 90–97 / 192–232 / 402–461 of 19 kinds. Open warnings: hanging pieces of some structures and underground overlaps (TD-22).
+- **Result at acceptance** (2026-11-10, M1-D, the same 12 worlds after the scan fix and the new `foundation` pools): 0 critical gaps; warnings Small 18–29, Medium 27–46, Large 70–75 (before: 20–118). Remaining warnings: underground bunker pieces and shrine elevators (TD-22), Typhon, woodland mansions (vanilla fills under them after placement), Umvuthana groves, single WDA pieces, and overlaps.
 
 ## Manifest categories
 

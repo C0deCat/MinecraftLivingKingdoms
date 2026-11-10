@@ -1,5 +1,5 @@
 ---
-status: active
+status: stable
 last_reviewed: 2026-11-10
 ---
 
@@ -35,7 +35,7 @@ A beautiful, bounded and fully completable adventure world. Later stages extend 
 | Tool | [Chunky](https://github.com/pop4959/Chunky) (pop4959) | Pre-generation and checks; not the ore-"chunks" mod with the same name |
 | Tool | [Structure Layout Optimizer](https://modrinth.com/mod/structure-layout-optimizer), [Sparse Structures](https://modrinth.com/mod/sparsestructures) | Faster jigsaw generation; one config for structure density on the finite map |
 | Base (client) | [Sodium](https://modrinth.com/mod/sodium) + [Iris](https://modrinth.com/mod/iris) | Renderer and shader loader, installed in M1-B (2026-11-08). NeoForge 1.21.1 builds exist (Sodium 0.8.13, Iris 1.8.14 beta, checked 2026-11-08). Sodium is PolyForm Shield 1.0.0 (non-compete, modpacks allowed), Iris LGPL-3.0. Embeddium is the fallback renderer (LGPL, last 1.21.1 file 2025-01); Oculus has no 1.21.1 build |
-| Candidate (client, optional) | Shader pack, e.g. [Complementary Reimagined](https://modrinth.com/shader/complementary-reimagined) or [BSL](https://modrinth.com/shader/bsl-shaders) | Chosen in M1-C2; an optional packwiz file, so the pack runs without it. Both have custom or ARR licenses: link only, never shipped as a file |
+| Base (client, optional) | Shader packs [Complementary Reimagined](https://modrinth.com/shader/complementary-reimagined) (default) and [Photon](https://modrinth.com/shader/photon-shader) (alternative) | Chosen in M1-C2; optional packwiz files, so the pack runs without them. Custom licenses: downloaded from Modrinth, never shipped as files; Complementary must be credited (TD-23) |
 
 Rejected for M1 (2026-11-07): CTOV and Towns and Towers (a second village source next to ours), L_Ender's Cataclysm (ND license) — see [Rejected mods](../compatibility-matrix.md#rejected-mods). Considered and not taken now: The Aether, Deeper and Darker (each new dimension needs border code and validator coverage), Illager Invasion, Mutant Monsters, Artifacts.
 
@@ -81,7 +81,7 @@ State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, 
 
 Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default shader pack, enabled for new installs by the pack's `config/iris.properties` (kept by packwiz-installer once the player changes it); **Photon** stays as an alternative. Both are optional client files downloaded from Modrinth; without them Iris runs with shaders off. Measured on the host PC: about 600 FPS in the open without shaders, 92 FPS with Complementary on High (`quality.md`). C2 done 2026-11-10.
 
-**D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled ([exec plan](../exec-plans/active/2026-11-10-m1-accept.md)).
+**D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled ([exec plan](../exec-plans/completed/2026-11-10-m1-accept.md)).
 
 Decided 2026-11-10 with the user:
 - Surface pieces that hang over slopes (D&T ruin town roads, WDA abandoned temple roads, illager campsite streets, Typhon, bathhouse bases) are grounded by the `foundation` processor before acceptance; underground bunker hallways and rooms and `graveyard:crypt` overlaps stay warnings for M7 (TD-22).
@@ -90,12 +90,20 @@ Decided 2026-11-10 with the user:
 - The slow `/locate` of large WDA structures and `/locate` results beyond the border do not block; they are TD-15 for M11.
 - The gameplay bar is a creative and teleport checklist by the user on a fresh Large world, not a survival run.
 
+Done 2026-11-10, M1 accepted in singleplayer. The hanging scan no longer counts `terrain_matching` pieces and allows for beards, which removed most surface warnings (they came from the scan, not the world); the `foundation` processor now also covers D&T ruin towns and WDA bathhouse bases and campsite tents. The `fixed_count` search at world creation runs on 4 threads, after a 4 GB test server ran out of heap, and the pack allocates 8 GB to the game (D-22). Leftovers: TD-22 (underground pieces, M7), TD-15 (`/locate`, M11).
+
 ## Acceptance
 
 - A chosen seed produces a reproducible, varied map.
 - Core Minecraft progression and key modded adventures are possible.
 - The validator report has no critical gaps on Small, Medium and Large × 4 seeds (`npm run validate-world -- --full`, D-21).
 - Generating and loading new chunks shows no critical errors; performance measured on the host PC, with and without the shader pack.
+
+Result 2026-11-10 ([exec plan](../exec-plans/completed/2026-11-10-m1-accept.md)):
+- Reproducible: Large `livingkingdoms` created twice gives the same entries, counts and positions; varied: 17–19 kinds of adventure areas and 110 surface biomes on a Large world.
+- Progression gameplay verified by the user on a fresh Large world (random seed, Complementary on): eye of ender to a stronghold, a YUNG's Nether fortress, the dragon killed, the Naga courtyard and the Lich tower in the Twilight Forest, a WDA monastery, a BoMD arena and a Mowzie's place; the fixed ruin town, bathhouse and campsite and an untouched Typhon look right.
+- `npm run validate-world -- --full`: 0 critical gaps on all 12 worlds; the user's world: 0 critical, 82 warnings.
+- No new ERROR/FATAL lines in generation; spark on the host PC with and without the shader pack in [quality](../quality.md#performance-baselines).
 
 ## Out of scope
 
