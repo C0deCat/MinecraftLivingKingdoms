@@ -7,7 +7,7 @@ last_reviewed: 2026-11-10
 
 - **Version:** MCA Reborn 7.7.36 for NeoForge 1.21.1, file `mca-neoforge-7.7.36-beta.3+1.21.1.jar`, mod id `mca`, GPL-3.0-only. Pinned in `modpack/mods/minecraft-comes-alive-reborn.pw.toml`.
 - **Sources:** [Modrinth](https://modrinth.com/mod/minecraft-comes-alive-reborn), [GitHub](https://github.com/Luke100000/minecraft-comes-alive) at the tag `7.7.36-beta.3+1.21.1` (commit `80bfe7d`), root package `net.conczin.mca`.
-- **Checked:** 2026-11-10, by reading the sources at that tag. Nothing below was run in the game yet; the prototype of M4-A5 verifies the parts it uses.
+- **Checked:** 2026-11-10, by reading the sources at that tag. Run in the game by the M4-A5 prototype (GameTest and e2e): the Mixin at `initializeTasks`, a resident brain built from MCA's public packages, `VillagerFactory`, `refreshBrain`, a data attachment on the entity across a save and reload, `launchIntoDestiny`. Everything else is from reading only.
 
 Class names below are relative to `net.conczin.mca`. The code is GPL: read it, never copy it into this repository (our mod's license is decided in ADR-0030).
 
@@ -29,7 +29,8 @@ Class names below are relative to `net.conczin.mca`. The code is GPL: read it, n
 
 - All behaviour is set up in one public static method: `entity.ai.brain.VillagerTasksMCA.initializeTasks(VillagerEntityMCA, Brain<VillagerEntityMCA>)`. It picks a schedule (`entity.ai.SchedulesMCA`) and adds the task packages per activity with `brain.addActivity(...)`.
 - It runs from `makeBrain` and again from `VillagerEntityMCA.refreshBrain(ServerLevel)`, which makes a new brain with `copyWithoutBehaviors()` (memories survive, behaviours do not). `refreshBrain` is called on a profession change, on growing up, on follow / stay / move and when a chore starts or stops. So behaviours added from outside are lost on the next refresh unless they are added after every `initializeTasks`.
-- There is no event and no registry for extra behaviours. The smallest hook is one Mixin at the return of `initializeTasks` that lets our adapter add an activity to the brain. Everything else goes through public API: `Brain.addActivity`, `Brain.setSchedule`, memories.
+- There is no event and no registry for extra behaviours. Our hook is one Mixin at the head of `initializeTasks`: for a resident our adapter builds the brain from MCA's public packages and our own activity and cancels MCA's build (ADR-0030, `livingkingdoms.settlements.mca`). Everything else goes through public API: `Brain.addActivity`, `Brain.setSchedule`, memories.
+- NeoForge reads an entity's data attachments before `readAdditionalSaveData`, where the brain is built on load, so the hook already sees the attachment when a saved villager is loaded.
 - Work as MCA does it: during `Activity.WORK` an adult with a job site runs the vanilla work package of its profession (`VillagerGoalPackages.getWorkPackage`), so mods that change that package also change MCA villagers.
 - Chores are MCA's own work tasks: activity `mca:chore` (`entity.ai.ActivitiesMCA.CHORE`), enum `entity.ai.Chore` (prospecting, harvesting, chopping, hunting, fishing), tasks in `entity.ai.brain.tasks.chore` (`HarvestingTask`, `ChoppingTask`, `FishingTask`, `HuntingTask`; prospecting has no task). A chore is started by a player (`VillagerBrain.assignJob(chore, player)`) and `AbstractChoreTask` stops it when that player is not online, so chores cannot drive village work. They are a working example of a `Behavior<VillagerEntityMCA>` that walks, uses a tool and fills the inventory.
 - Schedules: default 10 idle, 2000 work, 9000 meet, 11000 idle, 12500 rest; night owls and guards have their own.
@@ -69,7 +70,10 @@ Class names below are relative to `net.conczin.mca`. The code is GPL: read it, n
 
 ## Pitfalls
 
-- `launchIntoDestiny` (default true) opens MCA's character and spawn screen on a player's first join. It changes where a new player starts and puts a screen in front of every e2e world; set per pack in M4-B, and switched off for the e2e instance if it blocks tests.
+- `launchIntoDestiny` (default true) opens MCA's character and spawn screen on a player's first join. The screen pauses singleplayer, so server ticks stop and every e2e world hangs, and it can move the player away from our spawn. The pack sets it to false in `modpack/config/mca.json`; the player can still run the destiny command once (`allowDestinyCommandOnce`). Whether the pack offers the screen in another way is decided in M4-B.
+- `config/mca.json` is read with Gson: a file with only some fields works and MCA writes the full file back at startup, but a file without `"version": 2` is thrown away and replaced by the defaults.
+- In development runs MCA Reborn loads from the Modrinth Maven (`maven.modrinth:minecraft-comes-alive-reborn:<version id>`) as a normal mod; its JAR is in official mappings, so no remapping is needed.
+- Spawn a villager for a test through `entity.VillagerFactory` (`newVillager(level).withPosition(...).withAge(0).spawn(reason)`). A villager created without MCA's own spawn path has no name, gender or family entry, and the factory picks a random age when none is given, so it can be a child.
 - Optional online features exist and are off by default: chat AI (`enableVillagerChatAI`), online TTS (`enableOnlineTTS`), a skin library (`immersiveLibraryUrl`). Keep them off in the pack config.
 - MCA's village managers and our settlement rules would both assign guards, marriages, births and homes. One owner per piece of data (ADR-0001): ADR-0030 says which side owns what.
 - MCA has no config switch for its village managers as a whole; the levers are `guardSpawnFraction`, `marriageChancePerMinute`, `villagerProcreationChancePerMinute`, `innSpawnsAdventurers`, `innSpawnsCultists`, `innSpawnsWanderingTraders`, `taxesFactor`, `bountyHunterInterval`.

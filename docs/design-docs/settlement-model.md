@@ -36,7 +36,7 @@ M4 builds the areas below slice by slice (D-50, [what deepens where](../mileston
 
 ## Open design questions
 
-- Can MCA residents receive tasks from outside, or does their AI need Mixin patches?
-- Building templates: own format, vanilla structure NBT, or Structurize (license permitting)?
+Answered by [ADR-0030](../decisions/ADR-0030-resident-integration.md): tasks reach a resident through the vanilla Brain with one Mixin into MCA; buildings are vanilla structure templates plus our definition.
+
 - How MCA's own births and deaths interact with village population rules.
 - MCA Reborn has its own villages and buildings, professions, player ranks and rank tasks. For each area above: do we keep MCA's system, switch it off or extend it? One owner per piece of data either way.

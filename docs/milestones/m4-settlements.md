@@ -100,8 +100,7 @@ Each area gets a first pass, is deepened later in M4 and continues in a later mi
 
 ## Open questions
 
-Answered in M4-A: how MCA Reborn works inside ([mca-reborn-7.7](../references/mca-reborn-7.7.md)), the licenses of construction and worker mods ([licenses](../licenses.md#construction-and-worker-mods-as-code-sources)), the license of our mod (D-52).
+Answered in M4-A: how MCA Reborn works inside ([mca-reborn-7.7](../references/mca-reborn-7.7.md)), the licenses of construction and worker mods ([licenses](../licenses.md#construction-and-worker-mods-as-code-sources)), the license of our mod (D-52), and that residents can be given tasks from outside with one Mixin ([ADR-0030](../decisions/ADR-0030-resident-integration.md#verification-2026-11-10)).
 
-- Does the integration of [ADR-0030](../decisions/ADR-0030-resident-integration.md) hold in the game: our brain for a resident, the attachment, a task that survives a reload (prototype M4-A5).
-- The remaining MCA Reborn config switches for the pack: the first-join screen, inn guests, taxes, bounty hunters (M4-B).
+- The remaining MCA Reborn config switches for the pack: inn guests, taxes, bounty hunters, and whether the first-join screen that the pack now turns off is offered in another way (M4-B).
 - How many settlements per world size, and where the starting villages come from (TD-10, M4-B).

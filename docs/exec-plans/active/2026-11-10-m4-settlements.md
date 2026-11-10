@@ -47,7 +47,7 @@ On the branch, phase A:
   - the format of a profession and of a building template with levels;
   - where settlement GameTests live (D-51);
   - asked separately: the license of our mod, settlement counts per size (TD-10).
-- [ ] M4-A5: prototype:
+- [x] M4-A5: prototype:
   - Core: stable IDs and the save format version in SavedData;
   - new project `mods-src/livingkingdoms-settlements/` with the MCA adapter package `livingkingdoms.settlements.mca`;
   - one task: a resident walks to ripe wheat, harvests it and delivers it to a chest, by tags;
@@ -87,6 +87,15 @@ On `main` after the merge:
 - 2026-11-10 — M4-A3, research only: MineColonies and Structurize are GPL-3.0 with NeoForge 1.21.1 branches; the worker-NPC mods checked are closed, not on 1.21.1 or not needed ([licenses](../../licenses.md#construction-and-worker-mods-as-code-sources)). Outcome: own construction and logistics on vanilla structure templates and the vanilla Brain; their code only under GPL-3.0 and after asking the user. TD-02 closed. Their code was not read in detail.
 - 2026-11-10 — M4-A4, proposed: [ADR-0030](../../decisions/ADR-0030-resident-integration.md) written from the research (resident record plus attachment, tasks through the Brain with one Mixin, our rules decide and MCA carries out, vanilla structure templates, D-51 for GameTests). The license of the settlement mod is decided with the user: GPL-3.0-only (D-52). The ADR waits for the user's acceptance; the prototype starts after it. Nothing of the ADR was run in the game.
 - 2026-11-10 — ADR-0030 accepted by the user; D-51 locked. The prototype M4-A5 starts.
+- 2026-11-10 — M4-A5 prototype, runtime passed:
+  - Core: `StableId` (`kind:number`) and `CoreSaveData` (save format version 1, ID counters);
+  - new mod `livingkingdoms_settlements` 0.0.1 (GPL-3.0-only): resident records in save data, the ID attachment, the labor activity and schedule, the harvest-and-deliver task (tags, item-handler capability), the MCA adapter with its one Mixin, `/lksettle spawn | assign | dismiss | status`;
+  - `./gradlew build` passes; `./gradlew :livingkingdoms-settlements:runGameTestServer`: 2 GameTests pass (a resident harvests three wheat, replants and delivers; a villager without an order leaves the field alone). The first of them failed while the villager could not work, so it does detect a broken task;
+  - `npm run e2e -- specs/settlements/resident-task-reload.spec.ts` passes in about 20 s: harvest, delivery, save → quit → reopen, second harvest, one resident record; the whole `npm run e2e` passes (13 tests), `npm run e2e:unit` 14 tests;
+  - `npm run smoke`: title screen after 28 s, 53 mods, only the 2 known GeckoLib ERROR lines; `npm run verify-mods` OK; `npm run test-server -- --size test --cmd "lksettle status"` answers on the dedicated test server;
+  - found on the way: MCA's first-join screen pauses the game and hung the e2e world, so the pack now ships `config/mca.json` with `launchIntoDestiny` false; GameTest coordinates start one below the template.
+
+  Not checked: gameplay by the user; a resident's whole day (rest, meeting, panic, night) and behaviour inside a real village; several residents on one field; a full or missing chest beyond the code path; performance. `npm run validate-world` was not run (worldgen is unchanged).
 
 ## Decision log
 
@@ -99,3 +108,7 @@ On `main` after the merge:
 - 2026-11-10 — `livingkingdoms-settlements` is GPL-3.0-only and our other mods are decided before the first public release (D-52, the user's choice): only the settlement mod touches MCA Reborn, and the world generation sources need not be opened for that.
 - 2026-11-10 — For residents our adapter builds the brain from MCA's public packages and leaves out MCA's job-site package (ADR-0030, proposed): otherwise MCA would keep assigning and removing professions next to ours. Adding our activity to MCA's finished brain is the fallback.
 - 2026-11-10 — Marriages, births, guards and homes are decided by our settlement rules and carried out through MCA's public methods, with MCA's own village managers set to 0 in the pack config (ADR-0030, proposed): one owner per decision, and M5 can run the same rules off-screen.
+- 2026-11-10 — The pack sets MCA's `launchIntoDestiny` to false: the screen pauses singleplayer in front of every new world, which hangs e2e, and it can move the player away from our spawn. The destiny command stays available once per player; M4-B decides with the user whether the pack offers the screen another way.
+- 2026-11-10 — The prototype's order keeps no task state in the record: each trip is chosen again from the order, the world and the inventory. It survives a reload without a saved state machine; S1 adds saved task state only where a profession needs it.
+- 2026-11-10 — GameTests sit in the main source set of the settlement mod (package `gametest`), not in a separate source set: NeoForge only looks for them when GameTest is enabled, which a production launch never is, and one source set keeps the build simple.
+- 2026-11-10 — `/lksettle spawn` exists because `/summon` with NBT skips MCA's spawn setup and without NBT gives a random age: tests need an adult made the way MCA makes one.

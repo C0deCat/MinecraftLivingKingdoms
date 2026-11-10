@@ -21,7 +21,7 @@ The M4-A2 research read MCA Reborn 7.7.36 at the tag of the installed file ([mca
 - Player hearts, village reputation, ranks and rank tasks exist in MCA; ranks and rank tasks, buttons and dialogue trees are data, interaction commands are a fixed `switch`.
 - [M5](../milestones/m5-simulation.md) computes villages without loaded entities: a birth in an unloaded village creates a resident record first and the entity later.
 
-Nothing here was run in the game yet. The prototype M4-A5 tests points 1 to 3; a point the prototype disproves is amended here before work continues.
+Nothing here was run in the game when the ADR was written. The prototype M4-A5 tests points 1 to 3; its result is in the [verification](#verification-2026-11-10) section.
 
 ## Decision
 
@@ -77,3 +77,12 @@ Nothing here was run in the game yet. The prototype M4-A5 tests points 1 to 3; a
 - The data model of the [settlement model](../design-docs/settlement-model.md) is the record of point 1; its areas table says what each slice adds.
 - The MCA rank screen and our standing can show different things to a player until S7 settles what MCA's ranks mean in our villages.
 - If the prototype shows that building the brain ourselves misses behaviour MCA adds elsewhere, we fall back to adding our activity to MCA's brain and handle the profession reassignment separately.
+
+## Verification (2026-11-10)
+
+The M4-A5 prototype ran points 1, 2 and 5 in the game; the decisions stand unchanged.
+
+- Point 1: a resident record in our save data and the ID attachment on the MCA entity both survive save → quit → reopen (e2e spec `tests/e2e/specs/settlements/resident-task-reload.spec.ts`).
+- Point 2: the Mixin applies in development and in the production instance; a resident with a brain built by our adapter harvests ripe wheat, replants it and delivers the harvest to a chest during our labor activity, and goes on after a reload; an MCA villager that is not a resident keeps MCA's brain and leaves the field alone (GameTests `HarvestOrderTests`).
+- Point 5: `./gradlew :livingkingdoms-settlements:runGameTestServer` loads MCA Reborn from the Modrinth Maven and runs the tests in about a second.
+- Not run yet: point 3 beyond the brain (profession mapping, homes, guards, marriage and births, the config switches), point 4, and a resident's whole day (rest, meeting, panic) inside a real village. Slices S1, S2, S4 and S5 cover them.
