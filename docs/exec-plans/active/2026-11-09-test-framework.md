@@ -17,7 +17,7 @@ Done means the two seed specs and one sample GameTest reach runtime passed on th
 
 ## Context
 
-- Decisions: [ADR-0005](../../decisions/ADR-0005-test-framework.md), D-21 (flat test preset as an exception to D-18; test worlds exempt from D-20).
+- Decisions: [ADR-0005](../../decisions/ADR-0005-test-framework.md), D-22 (flat test preset as an exception to D-18; test worlds exempt from D-20).
 - Taken with the user on 2026-11-09:
   - TypeScript tests in the Playwright style, not JSON scenarios;
   - Vitest pinned exactly as a dev dependency of `tests/e2e/` only;
@@ -192,7 +192,7 @@ They go verbatim into the `e2e-test` skill and `tests/e2e/AGENTS.md`. Rule IDs a
   - `hello` compares it with the mod's op list. On a mismatch the run fails with "op X declared in protocol.ts but not implemented in testkit".
   - `npm run e2e:catalog` writes `docs/references/e2e-protocol.md` from it, and `docs:check` fails when that file is stale (like the skill-sync check).
 - **ADR-0005**: test framework. Two layers, TS + Vitest. Alternatives with reasons: JSON scenarios, MineClient Bridge, Fabric Client GameTest, node:test.
-- **D-21**: the test-only flat preset is an exception to D-18; test worlds are exempt from D-20. Add a cross-reference in the D-18 and D-20 rows.
+- **D-22**: the test-only flat preset is an exception to D-18; test worlds are exempt from D-20. Add a cross-reference in the D-18 and D-20 rows.
 - **`docs/quality.md`**: a "Test layers" section with the boundary table.
 - **Glossary**: the terms above.
 - **AGENTS.md**:
@@ -222,7 +222,7 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
 ## Steps
 
 - [x] 0. Git: drop the unrelated WIP commit `55331b7`; work and push only on `main-e2iix5`.
-- [x] 1. Docs first: ADR-0005, D-21, glossary terms, this plan, index rows; `npm run docs:check`.
+- [x] 1. Docs first: ADR-0005, D-22, glossary terms, this plan, index rows; `npm run docs:check`.
 - [x] 2. Testkit skeleton:
   - bridge with `hello`, `ping`, `state`, `quit`;
   - the `living-kingdoms-e2e` instance in `instance.ts`;
@@ -240,7 +240,7 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
 ## Progress log
 
 - 2026-11-09 — Research and design with the user in a cloud session: options compared, ADR-0005 written, conventions approved; step 0 done.
-- 2026-11-09 — Step 1: ADR-0005, D-21, glossary Testing terms, this plan; docs:check clean.
+- 2026-11-09 — Step 1: ADR-0005, D-22, glossary Testing terms, this plan; docs:check clean.
 - 2026-11-09 — Step 2, cloud session (Linux), build passed:
   - testkit mod with the bridge and the session ops `hello`, `ping`, `state`, `quit`; `./gradlew build` passes;
   - `instance.ts` gains the `living-kingdoms-e2e` target with test `options.txt`; the testkit JAR is kept out of the play instance and the test server (`builtOwnJars`);
@@ -255,7 +255,7 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
 
 - 2026-11-09 — TypeScript tests in the Playwright style instead of JSON scenarios: loops, shared helpers and waits need a real language, and one long-running client is easier to drive from a Node runner (ADR-0005).
 - 2026-11-09 — Vitest instead of node:test: Playwright-style fixtures, assertions and reporters for one pinned dev dependency outside the root tooling (ADR-0005).
-- 2026-11-09 — Flat test preset only in testkit and test worlds exempt from D-20 (D-21): mechanics tests in seconds without worldgen; full pre-generation would make every test world cost hours.
+- 2026-11-09 — Flat test preset only in testkit and test worlds exempt from D-20 (D-22): mechanics tests in seconds without worldgen; full pre-generation would make every test world cost hours.
 - 2026-11-09 — Conventions approved after removing contradictions:
   - one naming scheme;
   - terms that do not collide with step, phase, stage, smoke, snapshot, Minecraft tags or Vitest's `isolate`;
@@ -268,3 +268,4 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
   - vitest 5.0.5, vite 8.3.5 (Vitest 5 makes vite a peer), typescript 6.0.3, @types/node 22.20.4, all at least two weeks old;
   - `tests/e2e/.npmrc` sets `legacy-peer-deps`, because npm 10 crashes on Vitest 5's optional peers, and every peer we need is a direct devDependency.
 - 2026-11-09 — The cloud environment "MinecraftLivingKingdoms" (personal) allows the NeoForge, Parchment and Mojang Maven hosts, so cloud sessions can run `./gradlew build`.
+- 2026-11-10 — Merged `main` into `main-e2iix5`: `main` took D-21 for the worldgen validation sets first, so the flat test preset decision is now D-22; its text is unchanged.

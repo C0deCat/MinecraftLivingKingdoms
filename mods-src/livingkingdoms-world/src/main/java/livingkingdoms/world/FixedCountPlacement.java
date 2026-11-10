@@ -12,12 +12,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.IntStream;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -35,6 +38,7 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType;
+import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.event.level.LevelEvent;
 
 /**
@@ -47,9 +51,13 @@ import net.neoforged.neoforge.event.level.LevelEvent;
  * valid start there (tested with the same call worldgen makes), so the count is met unless a whole cell
  * is unsuitable; the set then picks and generates its structure there as usual.
  *
- * <p>Positions depend on the seed, the salt and the world size of the save, and are computed once
- * per dimension, on first use. The biome source is not reachable from the structure state, so the
- * levels register themselves on load ({@link #onLevelLoad}).
+ * <p>Positions are a fact of the save, like its size: they are searched once, when a level of a new
+ * save loads (before its first chunk; all sets and cells in parallel), and stored in
+ * {@code data/livingkingdoms_fixed_count.dat} of that dimension. A loaded world reads them and never
+ * searches again, so later changes of the code or of the counts cannot move structures of a world that
+ * is already generated; a set missing from an older save is searched once and added. The biome source
+ * is not reachable from the structure state, so the levels register themselves on load
+ * ({@link #onLevelLoad}).
  */
 public final class FixedCountPlacement extends StructurePlacement {
     record Counts(int test, int small, int medium, int large) {
@@ -92,8 +100,32 @@ public final class FixedCountPlacement extends StructurePlacement {
     private static final int LATTICE = 128;
     private static final int LATTICE_TESTS = 48;
 
+    private static final String NAME = "livingkingdoms_fixed_count";
+
     /** Levels by their structure state, registered on load: the placement needs their biome source. */
     private static final Map<ChunkGeneratorStructureState, ServerLevel> LEVELS = new ConcurrentHashMap<>();
+    /** The stored positions of each level, by its structure state. */
+    private static final Map<ChunkGeneratorStructureState, Data> SAVED = new ConcurrentHashMap<>();
+
+    /** Chunk positions per structure set id, as searched when the save was created. */
+    static final class Data extends SavedData {
+        private final Map<String, long[]> sets = new ConcurrentHashMap<>();
+
+        static Data load(CompoundTag tag, HolderLookup.Provider registries) {
+            Data data = new Data();
+            CompoundTag sets = tag.getCompound("sets");
+            for (String key : sets.getAllKeys()) data.sets.put(key, sets.getLongArray(key));
+            return data;
+        }
+
+        @Override
+        public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+            CompoundTag sets = new CompoundTag();
+            this.sets.forEach(sets::putLongArray);
+            tag.put("sets", sets);
+            return tag;
+        }
+    }
 
     private final Settings settings;
     private final Map<ChunkGeneratorStructureState, Set<Long>> positions = new ConcurrentHashMap<>();
@@ -104,12 +136,41 @@ public final class FixedCountPlacement extends StructurePlacement {
         this.settings = settings;
     }
 
+    /**
+     * Registers the level and fills the positions of all its {@code fixed_count} sets: from the save,
+     * or, for a new save, by searching them now, in parallel, before the first chunk generates. Runs
+     * after {@link LandLift}, whose lift shapes the terrain the search tests (low event priority).
+     */
     static void onLevelLoad(LevelEvent.Load event) {
-        if (event.getLevel() instanceof ServerLevel level) LEVELS.put(level.getChunkSource().getGeneratorState(), level);
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        ChunkGeneratorStructureState state = level.getChunkSource().getGeneratorState();
+        LEVELS.put(state, level);
+        Data data = level.getDataStorage().computeIfAbsent(new SavedData.Factory<>(Data::new, Data::load), NAME);
+        SAVED.put(state, data);
+        List<FixedCountPlacement> placements = state.possibleStructureSets().stream()
+                .map(set -> set.value().placement())
+                .filter(p -> p instanceof FixedCountPlacement)
+                .map(p -> (FixedCountPlacement) p)
+                .distinct()
+                .toList();
+        if (placements.isEmpty()) return;
+        int before = data.sets.size();
+        long started = System.currentTimeMillis();
+        placements.parallelStream().forEach(p -> p.positionsFor(state));
+        int searched = data.sets.size() - before;
+        if (searched > 0) {
+            data.setDirty();
+            LivingKingdomsWorld.LOGGER.info("fixed_count in {}: searched {} sets in {} ms, stored in the save", level.dimension().location(),
+                    searched, System.currentTimeMillis() - started);
+        } else {
+            LivingKingdomsWorld.LOGGER.info("fixed_count in {}: {} sets read from the save", level.dimension().location(), placements.size());
+        }
     }
 
     static void onLevelUnload(LevelEvent.Unload event) {
-        if (event.getLevel() instanceof ServerLevel level) LEVELS.remove(level.getChunkSource().getGeneratorState());
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        LEVELS.remove(level.getChunkSource().getGeneratorState());
+        SAVED.remove(level.getChunkSource().getGeneratorState());
     }
 
     @Override
@@ -128,6 +189,24 @@ public final class FixedCountPlacement extends StructurePlacement {
             LivingKingdomsWorld.LOGGER.error("fixed_count placement used before its level was registered; no starts placed");
             return Set.of();
         }
+        String key = setId(level);
+        Data data = SAVED.get(state);
+        long[] stored = data != null ? data.sets.get(key) : null;
+        if (stored != null) {
+            Set<Long> result = new HashSet<>();
+            for (long chunk : stored) result.add(chunk);
+            return result;
+        }
+        Set<Long> result = search(level, state);
+        if (data != null) {
+            data.sets.put(key, result.stream().mapToLong(Long::longValue).toArray());
+            data.setDirty();
+        }
+        return result;
+    }
+
+    /** Searches the positions of this set in a new save; see the class comment. */
+    private Set<Long> search(ServerLevel level, ChunkGeneratorStructureState state) {
         WorldSize size = WorldSizeState.current();
         int count = settings.counts().of(size);
         if (count == 0) return Set.of();
@@ -137,18 +216,18 @@ public final class FixedCountPlacement extends StructurePlacement {
         int grid = (int) Math.ceil(Math.sqrt(count));
         double cell = 2.0 * inner / grid;
 
-        RandomSource random = RandomSource.create(state.getLevelSeed() ^ (salt() * 0x9E3779B97F4A7C15L));
+        RandomSource order = RandomSource.create(state.getLevelSeed() ^ (salt() * 0x9E3779B97F4A7C15L));
         List<Integer> cells = new ArrayList<>();
         for (int i = 0; i < grid * grid; i++) cells.add(i);
-        Collections.shuffle(cells, new java.util.Random(random.nextLong()));
+        Collections.shuffle(cells, new java.util.Random(order.nextLong()));
 
         ChunkGenerator generator = level.getChunkSource().getGenerator();
         BiomeSource biomes = generator.getBiomeSource();
         List<StructureSet.StructureSelectionEntry> structures = entriesOfThisSet(level);
-        Set<Long> result = new HashSet<>();
-        List<String> found = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
+        // Cells are searched in parallel; each has its own random, so the result does not depend on the order.
+        List<Object[]> picks = IntStream.range(0, count).parallel().mapToObj(i -> {
             int index = cells.get(i);
+            RandomSource random = RandomSource.create(state.getLevelSeed() ^ (salt() * 0x9E3779B97F4A7C15L) ^ ((index + 1) * 0xC2B2AE3D27D4EB4FL));
             ChunkPos chosen = null;
             String note = "";
             // Random points in the cell, each moved to the nearest preferred biome; then, for rare biomes, a
@@ -193,12 +272,24 @@ public final class FixedCountPlacement extends StructurePlacement {
                 }
                 if (note.isEmpty()) note = "none fits (" + ATTEMPTS + " points, " + tests + " lattice tests)";
             }
-            result.add(chosen.toLong());
-            found.add(chosen.getMiddleBlockX() + "," + chosen.getMiddleBlockZ() + " " + note);
+            return new Object[] {chosen, chosen.getMiddleBlockX() + "," + chosen.getMiddleBlockZ() + " " + note};
+        }).toList();
+        Set<Long> result = new HashSet<>();
+        List<String> found = new ArrayList<>();
+        for (Object[] pick : picks) {
+            result.add(((ChunkPos) pick[0]).toLong());
+            found.add((String) pick[1]);
         }
         LivingKingdomsWorld.LOGGER.info("fixed_count salt {} in {} ({}): {} positions {}", salt(), level.dimension().location(), size.id(),
                 result.size(), found);
         return result;
+    }
+
+    /** Id of the structure set that uses this placement: the key of its positions in the save. */
+    private String setId(ServerLevel level) {
+        var sets = level.registryAccess().registryOrThrow(Registries.STRUCTURE_SET);
+        return sets.stream().filter(set -> set.placement() == this).findFirst()
+                .map(set -> String.valueOf(sets.getKey(set))).orElse("salt_" + salt());
     }
 
     /** The entries of the structure set that uses this placement. */

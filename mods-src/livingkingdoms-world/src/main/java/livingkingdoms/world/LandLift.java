@@ -20,7 +20,9 @@ import net.neoforged.neoforge.event.level.LevelEvent;
  * is found by bisection and added to the raw continentalness in {@link EdgeBias} (the same lever as
  * Tectonic's {@code ocean_offset}), so the continents grow while the edge still sinks to the open
  * ocean. The lift is stored in the save ({@code data/livingkingdoms_land.dat}), so a loaded world keeps
- * its terrain. A share at or above the target leaves the generator untouched (lift 0).
+ * its terrain. A share at or above the target leaves the generator untouched (lift 0). The share is
+ * read from the save's {@link HeightGrid}, computed here once the lift is known and stored with it;
+ * the bisection itself samples a coarser grid.
  */
 final class LandLift {
     static final double TARGET = 0.25;
@@ -85,7 +87,9 @@ final class LandLift {
         }
         long started = System.currentTimeMillis();
         WorldSize size = WorldSizeState.current();
-        double before = landShare(level, size);
+        int seaLevel = level.getChunkSource().getGenerator().getSeaLevel();
+        HeightGrid grid = HeightGrid.compute(level, size);
+        double before = grid.landShare(seaLevel);
         double found = 0;
         double after = before;
         if (before < TARGET) {
@@ -99,12 +103,14 @@ final class LandLift {
             }
             found = high;
             lift = found;
-            after = landShare(level, size);
+            grid = HeightGrid.compute(level, size);
+            after = grid.landShare(seaLevel);
         }
         lift = found;
         Data data = new Data(found, before, after);
         data.setDirty();
         level.getDataStorage().set(NAME, data);
+        grid.store(level);
         LivingKingdomsWorld.LOGGER.info(String.format(Locale.ROOT, "Land of this save (%s): %.1f%% of the map from the noise, lift %.4f -> %.1f%%, %d ms",
                 size.id(), before * 100, found, after * 100, System.currentTimeMillis() - started));
     }

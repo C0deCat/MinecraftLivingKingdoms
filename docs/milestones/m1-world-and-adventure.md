@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-10
 ---
 
 # M1 — Finite world generation and adventure progression
@@ -55,7 +55,7 @@ Done 2026-11-08: all Base and Tool mods installed, gameplay verified on Large fo
 
 Done 2026-11-09: the census found rare overlaps and mostly false steep flags, so no placement modifier was needed; D&T villages stay as placeholder variants; the renderer is gameplay verified by the user on Large. One placement defect, the hanging D&T bunker entrance, is fixed in C1; other leftovers are TD-15 to TD-20 ([exec plan](../exec-plans/completed/2026-11-08-m1-reconcile.md)).
 
-**C — integrate.** The content manifest with its validator, then the visual profile, in two steps, in one [exec plan](../exec-plans/active/2026-11-09-m1-integrate.md).
+**C — integrate.** The content manifest with its validator, then the visual profile, in two steps, in one [exec plan](../exec-plans/completed/2026-11-09-m1-integrate.md).
 
 **C1 — World Content Manifest.** Our own content manifest plus a worldgen validator. Target requirements (tunable hypotheses):
 - at least one reachable Stronghold with a valid portal;
@@ -75,17 +75,26 @@ Rules for C1 (2026-11-09, with the user):
 
 Structure polish, also in C1 (from M1-B, 2026-11-09, with the user): a `livingkingdoms_world:foundation` structure processor (registered types use the mod id namespace) in our world mod. In a piece's bottom layer it either extends hanging columns down to the ground or drops them (`mode` extend / drop, `block`, `max_depth`); it only touches columns inside the chunk being generated, and skips `terrain_matching` pieces. It is attached to other mods' pools by id with Lithostitched `set_pool_element_processors`, never by copying their files. First target: the Dungeons and Taverns bunker start pool `nova_structures:bunker_enterance` (a ruin of pillars that hangs over slopes, since the bunker is `rigid` with `terrain_adaptation: none`); then other entrances the census flags. Rejected for this: a wrapper structure with `beard_thin` (applies to all 94 bunker pieces, including underground rooms) and a relief placement condition (hides the defect, fewer bunkers in mountains).
 
-State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, adventure areas, every boss place, the Twilight Forest chain), `/lkworld validate` and `npm run validate-world` are done; 0 critical gaps on Small, Medium and Large × 4 seeds, after fixes in generation: strongholds, mega-dungeons, the Night Lich tower and four boss places get fixed counts per size by our `fixed_count` placement, and every world has at least 25% land. Counts and how they are made: [world-content](../design-docs/world-content.md). The processor fixes the bunker entrance on the server (runtime passed); the user's check in the client is pending. Other hanging pieces are warnings, TD-22.
+State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, adventure areas, every boss place, the Twilight Forest chain), `/lkworld validate` and `npm run validate-world` are done; 0 critical gaps on Small, Medium and Large × 4 seeds, after fixes in generation: strongholds, mega-dungeons, the Night Lich tower and four boss places get fixed counts per size by our `fixed_count` placement, and every world has at least 25% land. Counts and how they are made: [world-content](../design-docs/world-content.md). The processor fixes the bunker entrance (gameplay verified by the user on Large, 2026-11-10). Other hanging pieces are warnings, TD-22. Guaranteed points, the land lift and a noise height grid are computed once at world creation and stored in the save. Worldgen checks follow D-21: 3 Large worlds during the phases, 12 worlds at acceptance. C1 done 2026-11-10.
 
 **C2 — visual profile.** Choose the pack's shader pack before M1 is accepted, so the world is judged in its final look (2026-11-08, with the user): 1–2 candidates from Modrinth, licenses recorded, settings, FPS on the host PC. The shader pack is an optional packwiz file; the pack must look and run acceptably without it. Weather, seasons, fog and Distant Horizons are re-checked with it in [M7](m7-atmosphere.md).
 
-**D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled.
+Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default shader pack, enabled for new installs by the pack's `config/iris.properties` (kept by packwiz-installer once the player changes it); **Photon** stays as an alternative. Both are optional client files downloaded from Modrinth; without them Iris runs with shaders off. Measured on the host PC: about 600 FPS in the open without shaders, 92 FPS with Complementary on High (`quality.md`). C2 done 2026-11-10.
+
+**D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled ([exec plan](../exec-plans/active/2026-11-10-m1-accept.md)).
+
+Decided 2026-11-10 with the user:
+- Surface pieces that hang over slopes (D&T ruin town roads, WDA abandoned temple roads, illager campsite streets, Typhon, bathhouse bases) are grounded by the `foundation` processor before acceptance; underground bunker hallways and rooms and `graveyard:crypt` overlaps stay warnings for M7 (TD-22).
+- End gateways and outer islands after the dragon (was TD-13) are not checked separately: End cities and Obsidilith arenas are validated inside the End border on every size, and gateways are vanilla behaviour.
+- Teleport stalls into fresh terrain (was TD-20) are not a defect of the finished pack: D-20 pre-generates every world at creation (TD-21).
+- The slow `/locate` of large WDA structures and `/locate` results beyond the border do not block; they are TD-15 for M11.
+- The gameplay bar is a creative and teleport checklist by the user on a fresh Large world, not a survival run.
 
 ## Acceptance
 
 - A chosen seed produces a reproducible, varied map.
 - Core Minecraft progression and key modded adventures are possible.
-- The validator report has no critical gaps.
+- The validator report has no critical gaps on Small, Medium and Large × 4 seeds (`npm run validate-world -- --full`, D-21).
 - Generating and loading new chunks shows no critical errors; performance measured on the host PC, with and without the shader pack.
 
 ## Out of scope
@@ -96,6 +105,6 @@ State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, 
 ## Open questions
 
 - Generation on more seeds: answered in C1, every size validated on 4 seeds (`livingkingdoms`, `alpha`, `20261107`, `kingdoms`) with no critical gap; any seed is validated the same way with `npm run validate-world`. Test is a development size and is not validated (ADR-0004 amendment 2026-11-08).
-- `/locate` reports structures beyond the border (found in M1-A2); the other M1-A2 findings were settled in M1-B or moved to TD-15 to TD-19.
+- `/locate` reports structures beyond the border (found in M1-A2): moved to TD-15 (M11) in M1-D; the other M1-A2 findings were settled in M1-B or moved to TD-15 to TD-19.
 - Write the list of mandatory structures, biome roles and progression paths including Nether, End and Twilight Forest, with per-size counts: answered in C1 by the World Content Manifest and [world-content](../design-docs/world-content.md); settlement and state counts stay TD-10.
 - Does the Twilight Forest boss chain generate correctly at 1:1 on the Test and Small sizes? Answered in C1 for Small, Medium and Large: the whole chain is present on every validated world; Test is not validated.

@@ -7,7 +7,12 @@ import { join, relative, sep } from "node:path";
 import { MINECRAFT_VERSION, NEOFORGE_VERSION } from "./pins.ts";
 import { MODPACK_DIR, OWN_JAR_PREFIX, REPO_ROOT } from "./lib.ts";
 
-const GAME_MODS_DIR = join(REPO_ROOT, "runtime", "prism", "instances", "living-kingdoms", "minecraft", "mods");
+const GAME_DIR = join(REPO_ROOT, "runtime", "prism", "instances", "living-kingdoms", "minecraft");
+/** Pack folders with downloaded files: the Modrinth loader each file must be for, and its file type. */
+const FOLDERS: Record<string, { loader: string; ext: string }> = {
+  mods: { loader: "neoforge", ext: ".jar" },
+  shaderpacks: { loader: "iris", ext: ".zip" },
+};
 const MATRIX = "docs/compatibility-matrix.md";
 const LICENSES = "docs/licenses.md";
 
@@ -74,6 +79,8 @@ function tableRows(doc: string, heading: string): string[][] {
 
 interface PackMod {
   metafile: string;
+  /** Pack folder of the metafile: mods or shaderpacks. */
+  folder: string;
   name: string;
   filename: string;
   side: string;
@@ -130,8 +137,11 @@ function readMods(): PackMod[] {
     const meta = parseToml(readFileSync(join(MODPACK_DIR, file), "utf8"));
     const download = meta.sections.get("download") ?? {};
     const modrinth = meta.sections.get("update.modrinth");
+    const folder = file.split("/")[0];
+    if (!FOLDERS[folder]) error(`modpack/${file}: downloads into "${folder}", which verify-mods does not know. Use mods/ or shaderpacks/.`);
     mods.push({
       metafile: file,
+      folder,
       name: String(meta.root.name),
       filename: String(meta.root.filename),
       side: String(meta.root.side ?? "both"),
@@ -192,8 +202,9 @@ async function checkModrinth(mods: PackMod[]): Promise<void> {
       error(`${mod.metafile}: Modrinth version ${mod.modrinthVersion} not found (deleted upstream?). Re-add the mod with packwiz.`);
       continue;
     }
-    if (!version.loaders.includes("neoforge")) {
-      error(`${mod.metafile}: ${version.version_number} is for ${version.loaders.join("/")}, not NeoForge. Pick a NeoForge file.`);
+    const loader = FOLDERS[mod.folder]?.loader ?? "neoforge";
+    if (!version.loaders.includes(loader)) {
+      error(`${mod.metafile}: ${version.version_number} is for ${version.loaders.join("/")}, not ${loader}. Pick a ${loader} file.`);
     }
     if (!version.game_versions.includes(MINECRAFT_VERSION)) {
       error(`${mod.metafile}: ${version.version_number} does not list Minecraft ${MINECRAFT_VERSION}. Pick a ${MINECRAFT_VERSION} file.`);
@@ -239,17 +250,20 @@ function checkRegistry(mods: PackMod[]): void {
 }
 
 function checkInstance(mods: PackMod[]): void {
-  if (!existsSync(GAME_MODS_DIR)) return; // no instance yet: nothing to compare
-  const expected = new Set(mods.filter((m) => m.side !== "server").map((m) => m.filename));
-  const present = readdirSync(GAME_MODS_DIR).filter((f) => f.endsWith(".jar"));
-  for (const jar of present) {
-    if (jar.startsWith(OWN_JAR_PREFIX)) continue; // built from mods-src/ by `npm run instance`
-    if (!expected.has(jar)) {
-      error(`Instance has ${jar}, which is not in the pack. Delete it from ${relative(REPO_ROOT, GAME_MODS_DIR)} or add the mod via packwiz.`);
+  if (!existsSync(join(GAME_DIR, "mods"))) return; // no instance yet: nothing to compare
+  for (const [folder, { ext }] of Object.entries(FOLDERS)) {
+    const dir = join(GAME_DIR, folder);
+    const expected = new Set(mods.filter((m) => m.folder === folder && m.side !== "server").map((m) => m.filename));
+    const present = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(ext)) : [];
+    for (const file of present) {
+      if (file.startsWith(OWN_JAR_PREFIX)) continue; // built from mods-src/ by `npm run instance`
+      if (!expected.has(file)) {
+        error(`Instance has ${file}, which is not in the pack. Delete it from ${relative(REPO_ROOT, dir)} or add it via packwiz.`);
+      }
     }
-  }
-  for (const jar of expected) {
-    if (!present.includes(jar)) error(`Instance is missing ${jar}. Run \`npm run instance\`.`);
+    for (const file of expected) {
+      if (!present.includes(file)) error(`Instance is missing ${folder}/${file}. Run \`npm run instance\`.`);
+    }
   }
 }
 

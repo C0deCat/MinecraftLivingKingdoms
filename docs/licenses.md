@@ -80,6 +80,8 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 | Mowzie's Mobs | Custom (ARR unless stated; see notes) | Modrinth, CurseForge | Yes (link, credit + CurseForge link required) | No | Faithful changes only | 2026-11-07, CurseForge license page |
 | Sodium | PolyForm Shield 1.0.0 (non-compete; use and modpacks allowed) | Modrinth | Yes (link) | No | No | 2026-11-08, Modrinth page |
 | Iris Shaders | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-08, Modrinth page |
+| Complementary Shaders - Reimagined | Complementary License Agreement 1.7 (custom): a modpack may add it through Modrinth or CurseForge, unmodified, credited on the pack page if enabled by default | Modrinth | Yes (link) | No | No | 2026-11-10, License.txt in the source repo |
+| Photon Shaders | Photon Shaders License Agreement (custom, all rights reserved except the listed grants): may be part of a modpack; no re-upload to Modrinth or CurseForge without permission | Modrinth | Yes (link) | No | No | 2026-11-10, LICENSE in the source repo |
 | The Twilight Forest | Code LGPL-2.1-or-later; assets per ASSET_LICENSE; sounds and structures ARR | CurseForge | Yes (link) | Code only | Sounds/structures: no | 2026-11-06, GitHub LICENSE and README |
 
 Templates and tools whose files are in the repository:

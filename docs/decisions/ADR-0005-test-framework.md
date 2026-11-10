@@ -40,7 +40,7 @@ Two layers, chosen per test by the lowest layer that can catch the bug:
    - tests are TypeScript in the Playwright style, run by **Vitest** (exact pin, dev dependency of `tests/e2e/` only);
    - `npm run e2e` owns the game lifecycle: start or attach, world cache.
 
-The conventions, the command set and the speed tactics are in the [test framework plan](../exec-plans/active/2026-11-09-test-framework.md), until the `e2e-test` skill and `tests/e2e/AGENTS.md` exist. A test-only flat world preset and the exemption of test worlds from full pre-generation are D-21.
+The conventions, the command set and the speed tactics are in the [test framework plan](../exec-plans/active/2026-11-09-test-framework.md), until the `e2e-test` skill and `tests/e2e/AGENTS.md` exist. A test-only flat world preset and the exemption of test worlds from full pre-generation are D-22.
 
 ## Options considered
 
