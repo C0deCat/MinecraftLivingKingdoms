@@ -84,7 +84,7 @@ Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default sha
 **D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled ([exec plan](../exec-plans/completed/2026-11-10-m1-accept.md)).
 
 Decided 2026-11-10 with the user:
-- Surface pieces that hang over slopes (D&T ruin town roads, WDA abandoned temple roads, illager campsite streets, Typhon, bathhouse bases) are grounded by the `foundation` processor before acceptance; underground bunker hallways and rooms and `graveyard:crypt` overlaps stay warnings for M7 (TD-22).
+- Surface pieces that hang over slopes are fixed before acceptance (the outcome is below: most flags came from the scan, and the processor covers ruin towns, bathhouse bases and campsite tents; Typhon was left as is after a look in game); underground bunker hallways and rooms and `graveyard:crypt` overlaps stay warnings for M7 (TD-22).
 - End gateways and outer islands after the dragon (was TD-13) are not checked separately: End cities and Obsidilith arenas are validated inside the End border on every size, and gateways are vanilla behaviour.
 - Teleport stalls into fresh terrain (was TD-20) are not a defect of the finished pack: D-20 pre-generates every world at creation (TD-21).
 - The slow `/locate` of large WDA structures and `/locate` results beyond the border do not block; they are TD-15 for M11.

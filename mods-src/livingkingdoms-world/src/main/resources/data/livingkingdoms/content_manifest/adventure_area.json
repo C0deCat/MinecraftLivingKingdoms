@@ -1,6 +1,6 @@
 {
   "category": "adventure_area",
-  "description": "Large adventure areas of different nature and difficulty (spec: 3-5). The D&T bunker entrance is grounded by our foundation processor, which the noise measurement cannot see, so only its other pieces are checked.",
+  "description": "Large adventure areas of different nature and difficulty (spec: 3-5). Pieces carrying our foundation processor (D&T bunker entrance, ruin towns, WDA bathhouse bases and campsite tents) are left out of the hanging share by the scan.",
   "dimension": "minecraft:overworld",
   "structures": [
     "nova_structures:bunker",

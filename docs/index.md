@@ -69,7 +69,7 @@ last_reviewed: YYYY-MM-DD
 | [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md) | Open items and unverified facts | active |
 | [exec-plans/completed/2026-11-10-m1-accept.md](exec-plans/completed/2026-11-10-m1-accept.md) | M1-D accept: surface foundations, full validation, gameplay check | stable |
 | [exec-plans/active/2026-11-09-test-framework.md](exec-plans/active/2026-11-09-test-framework.md) | Test framework: testkit mod, e2e driver, GameTest layer, conventions | active |
-| [exec-plans/completed/2026-11-09-m1-integrate.md](exec-plans/completed/2026-11-09-m1-integrate.md) | M1-C integrate: content manifest, validator, foundation processor, shader pack | active |
+| [exec-plans/completed/2026-11-09-m1-integrate.md](exec-plans/completed/2026-11-09-m1-integrate.md) | M1-C integrate: content manifest, validator, foundation processor, shader pack | stable |
 | [exec-plans/completed/2026-11-08-m1-reconcile.md](exec-plans/completed/2026-11-08-m1-reconcile.md) | M1-B reconcile: villages, census, renderer | stable |
 | [exec-plans/completed/2026-11-07-m1-structures.md](exec-plans/completed/2026-11-07-m1-structures.md) | M1-A2 structure and adventure mods | stable |
 | [exec-plans/completed/2026-11-06-m1-world.md](exec-plans/completed/2026-11-06-m1-world.md) | M1-A1 base generator: world sizes, dimensions, world edge | stable |

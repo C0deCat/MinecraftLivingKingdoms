@@ -25,4 +25,4 @@ last_reviewed: 2026-11-07
 ## Pitfalls
 
 - **Override path.** The override must keep TF's exact ID and path. If TF renames its dimension type, the native 1:8 scale returns silently. `/lkworld info` in the forest shows the active scale.
-- **Open question.** Whether the boss chain generates correctly at 1:1 on the small sizes (see the M1 spec) is not checked yet; it belongs to the M1-C validator.
+- **Boss chain on the smaller sizes.** Answered in M1-C1: the whole chain is present at 1:1 on every validated Small, Medium and Large world; Test is not validated.
