@@ -37,7 +37,7 @@ C1
 - [x] 10. Close C1: M1 spec, quality grade, tech-debt items, M1 open questions.
 
 C2
-- [ ] 11. Shader pack research: 1–2 candidates on Modrinth (for example Complementary Reimagined, BSL): license, Iris 1.8 support, cost. Ask the user before adding; optional client packwiz file downloaded from Modrinth, never shipped as a file.
+- [x] 11. Shader pack research: 1–2 candidates on Modrinth (for example Complementary Reimagined, BSL): license, Iris 1.8 support, cost. Ask the user before adding; optional client packwiz file downloaded from Modrinth, never shipped as a file.
 - [ ] 12. Settings; FPS and spark on Large with and without it; the user judges the look; compatibility matrix, licenses, quality.
 - [ ] 13. Close the plan; M1-D (acceptance) is next.
 
@@ -66,6 +66,7 @@ C2
 - 2026-11-09 — Height grid: the noise ground height of the Overworld every 64 blocks (256² points on Large) is computed once when a new save loads, after the land lift, and stored in `data/livingkingdoms_heights.dat`; the land lift's share, the validator's settlement cells (now the 2 × 2 grid points of each 128-block cell instead of 5 samples) and its biome histogram (now on the grid instead of 96²) read it. A save without it gets it on its first validation.
 - 2026-11-10 — Client check by the user on a new Large world, seed `livingkingdoms`: the D&T bunker entrances stand on the ground, the guaranteed structures (Graveyard altar, Night Lich tower, stronghold, monastery, mechanical nest) are where the search put them, Save and Quit and reopening work (reopen: positions read from the save, spawn 0.2 s; creation: search 73 s in the client). The invisible chunks seen earlier were not reported again. Step 4 gameplay verified; `npm run smoke` with the current code reaches the title screen in 27 s with only the two known GeckoLib errors. C1 closed. Next: C2.
 - 2026-11-10 — Step 11 research (Modrinth API, licenses read in the source repos), all with Iris builds for 1.21.1: Complementary Reimagined r5.9.3 (2026-09-15; vanilla-like and fantasy look, presets from potato to high; Complementary License Agreement 1.7: modpacks may add it through Modrinth or CurseForge, unmodified, credited on the pack page if enabled by default), Photon v1.4 (2026-10-19; semi-realistic, lists Distant Horizons and Voxy support; its license allows it in a modpack), BSL 10.1.8 (all rights reserved, no redistribution without permission; adding it as a Modrinth download is not redistribution but the terms are unclear), MakeUp Ultra Fast 9.6 (LGPL-3.0, the light fallback). Proposed for the side-by-side test: Complementary Reimagined first, Photon second. Not added yet: adding asks the user.
+- 2026-11-10 — Step 11: Complementary Reimagined r5.9.3 and Photon v1.4 added with the user's approval as optional client files in `modpack/shaderpacks/` (downloaded from Modrinth, off until chosen in the Iris menu); `verify-mods` now checks shader packs (Iris loader, the instance's `shaderpacks/`); `npm run smoke` reaches the title screen with only the known GeckoLib errors. Status: installed; the look and FPS test with the user is next (step 12).
 
 ## Decision log
 

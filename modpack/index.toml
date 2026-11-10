@@ -225,3 +225,13 @@ metafile = true
 file = "mods/yungs-extras.pw.toml"
 hash = "cfb7ce4c2b00cedd2e61f7d345b824d6bcc1471021668d2319ee2e4079108639"
 metafile = true
+
+[[files]]
+file = "shaderpacks/complementary-reimagined.pw.toml"
+hash = "ec38bcf1a6c66687d8132180f0e52228311277435cb1dad26089868d7edc54f1"
+metafile = true
+
+[[files]]
+file = "shaderpacks/photon-shader.pw.toml"
+hash = "48bf81dde94e092ac78a4e86c379d3f43b5677fa45e934eb2e97921a31c49270"
+metafile = true

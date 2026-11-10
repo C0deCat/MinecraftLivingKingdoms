@@ -25,3 +25,4 @@ last_reviewed: 2026-11-06
 - Index hashes cover exact bytes. `.gitattributes` forces LF, so checkouts on Windows keep the hashes valid; do not edit pack files with tools that convert line endings.
 - packwiz-installer removes files it installed earlier but leaves foreign JARs alone; `npm run verify-mods` reports them.
 - After any manual edit in `modpack/`, run `packwiz refresh`; `verify-mods` fails on a stale index.
+- Shader packs: `packwiz modrinth add <slug>` puts them in `modpack/shaderpacks/` with `side = "both"` (Modrinth has no environment for them); set `side = "client"` and an `[option]` block (`optional = true`, `default = true`, `description`) by hand, then `packwiz refresh`. The headless installer takes the default, so they are downloaded; Iris keeps them off until one is chosen. `verify-mods` checks them as Iris files in `shaderpacks/`.
