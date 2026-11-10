@@ -23,3 +23,4 @@ Condensed, version-pinned notes on external tools and APIs, written for agents: 
 | [lithostitched-1.8.md](lithostitched-1.8.md) | Worldgen modifiers; our world-edge modifiers | 1.8.1 |
 | [tectonic-3.0.md](tectonic-3.0.md) | Tectonic terrain functions, coast facts, pitfalls | 3.0.28 |
 | [twilight-forest-4.8.md](twilight-forest-4.8.md) | Twilight Forest scale, border and override | 4.8.3345 |
+| [mca-reborn-7.7.md](mca-reborn-7.7.md) | MCA Reborn residents, brain and tasks, villages, professions, ranks, dialogue | 7.7.36 |

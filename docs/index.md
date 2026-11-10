@@ -93,5 +93,6 @@ last_reviewed: YYYY-MM-DD
 | [references/lithostitched-1.8.md](references/lithostitched-1.8.md) | Lithostitched modifiers and our world-edge modifiers | active |
 | [references/tectonic-3.0.md](references/tectonic-3.0.md) | Tectonic terrain functions, coast facts and pitfalls | active |
 | [references/twilight-forest-4.8.md](references/twilight-forest-4.8.md) | Twilight Forest scale, border and our override | active |
+| [references/mca-reborn-7.7.md](references/mca-reborn-7.7.md) | MCA Reborn internals our settlement mod builds on | active |
 
 Outside `docs/`: [AGENTS.md](../AGENTS.md), [ARCHITECTURE.md](../ARCHITECTURE.md), [README.md](../README.md).
