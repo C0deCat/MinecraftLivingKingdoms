@@ -1,11 +1,11 @@
 ---
-status: draft
+status: stable
 last_reviewed: 2026-11-10
 ---
 
 # ADR-0030: How our settlement mod works with MCA Reborn residents
 
-**Status:** Proposed · **Date:** 2026-11-10
+**Status:** Accepted · **Date:** 2026-11-10
 
 ## Context
 

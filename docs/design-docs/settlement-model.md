@@ -18,7 +18,7 @@ How residents and villages are represented. Decision: [ADR-0001](../decisions/AD
 
 Rules:
 - One record per resident identity. No parallel NPC "twins" in different mods.
-- Proposed in [ADR-0030](../decisions/ADR-0030-resident-integration.md): a resident is a record in our SavedData keyed by a stable ID from Core; the MCA entity carries only that ID as a NeoForge attachment. Our settlement rules decide (profession, home, guards, marriage, births) and MCA carries them out.
+- [ADR-0030](../decisions/ADR-0030-resident-integration.md): a resident is a record in our SavedData keyed by a stable ID from Core; the MCA entity carries only that ID as a NeoForge attachment. Our settlement rules decide (profession, home, guards, marriage, births) and MCA carries them out.
 - `Culture` ≠ `Polity` ≠ `Settlement` (D-11): a culture is a people and its traditions, a polity is power, a settlement is an administrative-physical place.
 
 ## Areas the model covers

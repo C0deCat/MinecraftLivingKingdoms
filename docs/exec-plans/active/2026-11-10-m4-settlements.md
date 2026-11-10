@@ -40,7 +40,7 @@ On the branch, phase A:
   - MCA player ranks, reputation and rank tasks (input for S7 and S8);
   - dialogue and interaction: whether our entries and screens can be added.
 - [x] M4-A3: licenses and suitability of MineColonies, Structurize and two or three worker-NPC mods; rows in `licenses.md`; TD-02 closed.
-- [ ] M4-A4: ADR-0030 (resident integration and the data model for all areas), shown to the user before the prototype:
+- [x] M4-A4: ADR-0030 (resident integration and the data model for all areas), shown to the user before the prototype:
   - where our data lives (recommended: SavedData keyed by the stable resident ID, an attachment on the entity only as the link);
   - how a resident gets a task;
   - per area, what of MCA is kept, switched off or extended;
@@ -86,6 +86,7 @@ On `main` after the merge:
 - 2026-11-10 — M4-A2, research only: [mca-reborn-7.7](../../references/mca-reborn-7.7.md) written from the sources at the tag `7.7.36-beta.3+1.21.1`. Main findings: a resident is a vanilla `Villager` subclass with the vanilla Brain; all behaviour is set in one public static method that runs again on every brain refresh, so one Mixin there is the hook for our tasks; MCA chores need an online player and cannot drive village work; MCA has its own villages (scanned rooms), guards, marriages, births, taxes, ranks and rank tasks; buttons and dialogue are data, commands are a fixed switch; MCA fires no events. Nothing was run in the game.
 - 2026-11-10 — M4-A3, research only: MineColonies and Structurize are GPL-3.0 with NeoForge 1.21.1 branches; the worker-NPC mods checked are closed, not on 1.21.1 or not needed ([licenses](../../licenses.md#construction-and-worker-mods-as-code-sources)). Outcome: own construction and logistics on vanilla structure templates and the vanilla Brain; their code only under GPL-3.0 and after asking the user. TD-02 closed. Their code was not read in detail.
 - 2026-11-10 — M4-A4, proposed: [ADR-0030](../../decisions/ADR-0030-resident-integration.md) written from the research (resident record plus attachment, tasks through the Brain with one Mixin, our rules decide and MCA carries out, vanilla structure templates, D-51 for GameTests). The license of the settlement mod is decided with the user: GPL-3.0-only (D-52). The ADR waits for the user's acceptance; the prototype starts after it. Nothing of the ADR was run in the game.
+- 2026-11-10 — ADR-0030 accepted by the user; D-51 locked. The prototype M4-A5 starts.
 
 ## Decision log
 
