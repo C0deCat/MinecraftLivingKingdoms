@@ -50,7 +50,9 @@ public final class Bridge {
     }
 
     private void acceptLoop() {
-        try (ServerSocket server = new ServerSocket(port, 4, InetAddress.getLoopbackAddress())) {
+        // IPv4 literal, not getLoopbackAddress(): the game JVM prefers IPv6 on Windows and would bind ::1 only,
+        // while the harness connects to 127.0.0.1.
+        try (ServerSocket server = new ServerSocket(port, 4, InetAddress.getByAddress(new byte[] {127, 0, 0, 1}))) {
             LOGGER.info("Testkit e2e driver listening on 127.0.0.1:{}", port);
             while (true) {
                 Socket socket = server.accept();
