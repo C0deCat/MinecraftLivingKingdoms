@@ -91,8 +91,9 @@ On the track's folder, after `git merge origin/main`:
   - `smoke.ts` and `instance.ts` scoped to their own folder. Found on the way: `stopGame` matched games by command line, which Sodium replaces at startup, so since M1-B a smoke run left its game running; games are now matched by the Java runtime under this folder's `runtime/prism/java`;
   - `tsc` for the harness and `tools/pack`, `npm run e2e:unit` (14 tests) pass; `npm run smoke` on `main`: title screen in 25 s, the 2 known GeckoLib ERROR lines of Mowzie's Mobs, game and Prism stopped afterwards;
   - `LK_E2E_PORT=25608 npm run e2e -- specs/session/hello.spec.ts` on `main`: the client listens on the port passed as a JVM argument, both specs pass.
+- 2026-11-10 — Branches and folders created from `main` at `a232fa4`; `npm run instance` passed in each folder (48 pack mods, our two JARs). Ports by branch: M2 25609 / 25608, M3 25619 / 25618, M4 25629 / 25628. `npm run test-server -- --size test --cmd "lkworld info"` started in the M2 and M3 folders at the same moment: both worlds opened, on 25609 and 25619 (the two servers were listening one after the other, not for the same seconds). `git merge main` on each branch: already up to date.
 
-  Not run yet: two test servers at once, anything in the track folders.
+  Not run: smoke and e2e in the track folders. They need the user's Prism sign-in in each folder first.
 
 ## Decision log
 
