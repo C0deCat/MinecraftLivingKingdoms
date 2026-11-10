@@ -228,12 +228,14 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
   - the `living-kingdoms-e2e` instance in `instance.ts`;
   - `tools/pack/src/e2e.ts` with start / attach / `--keep`;
   - the `tests/e2e` package with pinned Vitest and `specs/session/hello.spec.ts`.
-- [ ] 3. World ops, the flat preset, the world cache (with Chunky radius) and reset levels `world` / `fresh`.
-- [ ] 4. Input, player, container, UI, command and query ops; screenshots; arenas and the `arena` reset.
-- [ ] 5. Harness: fixtures (`test.use({world, reset})`), AAA blocks, `waitFor` in ticks, helpers, screen objects, the failure-artifact collector, and the lint check for W2/L1.
+- [ ] 3. World ops, the flat preset, the world cache (with Chunky radius) and reset levels `world` / `fresh`. Done: world ops and the flat preset (tier `flat`). Left: the world cache, tier `cached` / `fresh`, reset levels `world` / `fresh`.
+- [ ] 4. Input, player, container, UI, command and query ops; screenshots; arenas and the `arena` reset. Done: input, player, container, command, query ops, `wait.ticks`, arenas as a harness fixture over commands. Left: `ui.*`, `screenshot`, `query.time` / `chat` / `log`, `input.scroll` / `text`.
+- [ ] 5. Harness: fixtures (`test.use({world, reset})`), AAA blocks, `waitFor` in ticks, helpers, screen objects, the failure-artifact collector, and the lint check for W2/L1. Done: fixtures (`test.override`), AAA blocks, `waitFor`, helpers. Left: screen objects, the failure-artifact collector (F2), the W2/L1 lint check.
 - [ ] 6. Seed specs:
   - `specs/_seed.spec.ts` (flat): give an item, use it on a block, assert the block state `@quick`;
   - `specs/world/size-selector.spec.ts` (`fresh` Test size via UI): pick the size in our selector, `/lkworld info` shows `test`, save → quit → reopen keeps it.
+
+  Done instead of `_seed`, at the user's request: ten simple specs (world, movement, blocks, crafting, containers, combat, reload); `specs/blocks/place.spec.ts` is the example to copy. Left: the size-selector spec (needs `ui.*` and tier `fresh`).
 - [ ] 7. GameTest layer: verify the NeoForge 21.1 mechanism, add `npm run gametest`, one sample test in testkit (N4 naming).
 - [ ] 8. Catalog generation + the `docs:check` freshness check, the `e2e-test` skill, `tests/e2e/AGENTS.md`, quality.md test layers. Close the plan when the user has run steps 2–7 on the host PC.
 
@@ -258,6 +260,14 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
   - the play instance and the test server have no testkit JAR.
 
   Not run: `npm run smoke` (another session was working on the play instance and the test server), F2 artifacts (step 5), the world cache (step 3).
+- 2026-11-10 — Ten simple specs to prove the driver controls the game (the user's request), parts of steps 3–6, runtime passed on the host PC:
+  - testkit: `world.create/open/leave/delete/list` on the flat preset (`data/livingkingdoms_testkit/worldgen/world_preset/flat.json`), `input.hold/press/look`, `player.state/walkTo/selectSlot/breakBlock/useItemOn/attack`, `container.read/click/close`, `command.run`, `query.block/inventory/entities`, `wait.ticks`; `state` gains `world` and `loading`;
+  - harness: fixtures `world` / `reset` / `arena`, one flat world per run (`e2e-flat-<run id>`, older `e2e-` worlds deleted), arenas on four nearby plots, helpers, AAA blocks, `waitFor` in ticks; 14 unit tests;
+  - specs: world opens, walk to a point, forward key, break stone, place dirt, craft planks in the inventory grid, craft a pickaxe at a crafting table, take diamonds from a chest, kill a husk, a block survives save and reload;
+  - `npm run e2e`: all 12 tests (2 hello + 10) pass in three attached runs in a row and in a cold run; `-t` runs one test; a broken assertion fails with `[assertThat]` and exit code 1. Times in quality.md;
+  - fixes found on the way are in the decision log (startup hang, experimental-world dialog, equipment tick, arena order, null fields).
+
+  Not run: `npm run smoke`; the world cache, `ui.*`, screenshots and F2 artifacts (not built yet). The world mod's hooks on the flat world were checked only by their log lines (size Large, land lift 0, no `fixed_count` search in the Overworld).
 
 ## Decision log
 
@@ -277,3 +287,13 @@ This cloud session is Linux and cannot launch the Windows Prism client, so the l
   - `tests/e2e/.npmrc` sets `legacy-peer-deps`, because npm 10 crashes on Vitest 5's optional peers, and every peer we need is a direct devDependency.
 - 2026-11-09 — The cloud environment "MinecraftLivingKingdoms" (personal) allows the NeoForge, Parchment and Mojang Maven hosts, so cloud sessions can run `./gradlew build`.
 - 2026-11-10 — Merged `main` into `main-e2iix5`: `main` took D-21 for the worldgen validation sets first, so the flat test preset decision is now D-22; its text is unchanged.
+- 2026-11-10 — Ten simple specs before the world cache (the user asked for a working proof first). The tier `flat` and the reset level `arena` cover them; the rest of steps 3–6 stays open.
+- 2026-11-10 — One flat test world per `npm run e2e` run, named `e2e-flat-<run id>` (the launcher passes `LK_E2E_RUN_ID`). It is created once (about 5 s) and reused by every spec file; older `e2e-` worlds are deleted. `world.delete` only accepts `e2e-` names, so a player's save can never be deleted by a test.
+- 2026-11-10 — Arenas are a harness fixture built from commands, not driver ops (`arena.prepare` / `arena.reset` in the op table are not needed yet). Order matters: teleport first, then kill mobs, drops and orbs, then fill, and clear the inventory last. Otherwise the player picks up the previous test's drops into slot 0 while being reset.
+- 2026-11-10 — Findings on the real client:
+  - The driver socket opens during client setup, before the startup resource reload ends. Opening a world then hangs the client for good (`Minecraft.doWorldLoad` waits for the overlay, which only finishes outside that loop). `state.loading` reports the overlay, the launcher waits for it, and world ops refuse with `not_ready`.
+  - A world created with the pack's datapack worldgen is "experimental", so NeoForge asks on every reopen until a player confirms. `world.create` marks test worlds as confirmed; `world.open` fails within 2 s with `blocked_by_screen` if any other dialog appears.
+  - The client can see a given item before the server player has ticked with it, and the held item's attribute modifiers apply only on that tick: a sword then hits like a fist and breaking is rejected. The `give` helper waits until the client has the item, then one more server tick.
+  - A killed mob stays for its 20-tick death animation; `entitiesIn` leaves dead ones out by default.
+  - Vitest fixtures are lazy: a spec that does not request `arena` gets no reset. Specs request it even when they use no coordinate; an automatic check is a candidate for the W2/L1 lint (step 5).
+  - Gson dropped null fields; the bridge now writes them, as protocol.ts types them `T | null`.

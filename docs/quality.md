@@ -57,12 +57,16 @@ Structure mods cost little in generation time (about 10% over the run-to-run spr
 
 The 2026-11-06 row is preliminary: the window included spawn generation and was shorter than the planned 2–3 minutes.
 
-e2e driver speed on the host PC (`npm run e2e -- specs/session/hello.spec.ts`, 44 pack files + our 2 + testkit, shaders off; [ADR-0005](decisions/ADR-0005-test-framework.md)):
+e2e driver speed on the host PC (`npm run e2e`, 44 pack files + our 2 + testkit, shaders off; [ADR-0005](decisions/ADR-0005-test-framework.md)):
 
 | Date | Case | Time |
 | --- | --- | --- |
 | 2026-11-10 | Cold start: Prism launch until the driver answers (it starts during client setup, before the title screen) | 26–28 s |
-| 2026-11-10 | Attach to a client left open with `--keep` | 5–11 ms; the whole run with Vitest 1–2 s |
+| 2026-11-10 | Cold start until the startup resource reload ends (the launcher's "Client ready") | 30–34 s |
+| 2026-11-10 | Attach to a client left open with `--keep` | 5–11 ms |
+| 2026-11-10 | All 12 specs (2 hello + 10 simple), attached; includes creating the run's flat world (about 5 s) | 12–13 s |
+| 2026-11-10 | All 12 specs, cold: launch, specs, quit | 58 s |
+| 2026-11-10 | One simple spec after the world exists (arena reset included) | 0.3–0.8 s; walking 2.7–4.2 s, save → quit → reopen 2–3 s |
 
 ## End-to-end test bars
 
