@@ -100,6 +100,8 @@ Each area gets a first pass, is deepened later in M4 and continues in a later mi
 
 ## Open questions
 
-- MCA Reborn architecture, API, events, data storage, license; can residents be given tasks from outside.
-- MineColonies, Structurize and worker-NPC mods — licenses and suitability.
-- License of our mod: GPLv3 if it depends deeply on MCA Reborn code.
+Answered in M4-A: how MCA Reborn works inside ([mca-reborn-7.7](../references/mca-reborn-7.7.md)), the licenses of construction and worker mods ([licenses](../licenses.md#construction-and-worker-mods-as-code-sources)), the license of our mod (D-52).
+
+- Does the integration of [ADR-0030](../decisions/ADR-0030-resident-integration.md) hold in the game: our brain for a resident, the attachment, a task that survives a reload (prototype M4-A5).
+- The remaining MCA Reborn config switches for the pack: the first-join screen, inn guests, taxes, bounty hunters (M4-B).
+- How many settlements per world size, and where the starting villages come from (TD-10, M4-B).

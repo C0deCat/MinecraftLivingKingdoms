@@ -29,7 +29,7 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 
 - Code of closed mods is never copied or decompiled into the repository (D-16).
 - No paid access to the pack or parts of it is planned: some mod licenses explicitly forbid it.
-- Our mod's license will most likely be GPLv3 if it depends deeply on MCA Reborn code (GPLv3).
+- Our settlement mod is GPL-3.0-only because it calls and patches MCA Reborn (D-52). Code from other GPL-3.0 mods may go only into that mod, and only after asking the user.
 - **ARR mods** (All Rights Reserved) that allow modpack inclusion may be in the pack as platform links. We change them only through configs, tags, biome lists and structure placement datapacks (`structure_set`, spacing, biome filters). We never ship modified copies of their code, templates or assets. Deeper changes (template edits, Mixin-level behaviour changes beyond compatibility fixes, add-ons that reuse their assets) are made only in openly licensed mods (2026-11-07, with the user).
 - **ND licenses** (CC BY-NC-ND and similar) are not used for mods we expect to extend or integrate deeply: add-ons and edited data could count as derivative works (2026-11-07, reason for rejecting L_Ender's Cataclysm).
 
@@ -90,7 +90,7 @@ Templates and tools whose files are in the repository:
 | --- | --- | --- | --- |
 | NeoForge MDK 1.21.1 ModDevGradle (commit `e93d7f0`) | MIT (template files, `TEMPLATE_LICENSE.txt` kept) | Build logic of `mods-src/` (`gradle/neoforge-mod.gradle`) | 2026-11-06, repo license file |
 
-The license of our own mods is not chosen yet; our mods carry a placeholder in `mods-src/gradle.properties` until then (see the project rules above on GPLv3).
+Our own mods: `livingkingdoms-settlements` is GPL-3.0-only (D-52, [ADR-0030](decisions/ADR-0030-resident-integration.md)). The license of `livingkingdoms-core`, `livingkingdoms-world` and the testkit is not chosen yet; they carry a placeholder in `mods-src/gradle.properties` until the first public release.
 
 Other mods are added as they are audited. "Unverified" means the value still needs to be confirmed on the mod's own page.
 

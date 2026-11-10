@@ -21,6 +21,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | [ADR-0004](ADR-0004-world-sizes-and-dimensions.md) | Fixed world sizes 2k/8k/12k/16k, per-size Nether ratio, 1:1 Twilight Forest, finite-world edge | Accepted | 2026-11-06 |
 | [ADR-0005](ADR-0005-test-framework.md) | Two test layers: GameTest for mechanics, our e2e driver with TypeScript tests on Vitest | Accepted | 2026-11-09 |
 | [ADR-0006](ADR-0006-parallel-tracks.md) | M2, M3 and M4 are developed in parallel tracks and merged in the order M2 → M3 → M4 | Accepted | 2026-11-10 |
+| [ADR-0030](ADR-0030-resident-integration.md) | How our settlement mod works with MCA Reborn residents: our record plus an attachment, tasks through the Brain with one Mixin, our rules decide and MCA carries out | Proposed | 2026-11-10 |
 
 While the tracks of [ADR-0006](ADR-0006-parallel-tracks.md) are open, new numbers come from the range of the place where the decision is written, so two branches never give out the same one: `main` D-24–29 and ADR-0007–0009, M2 D-30–39 and ADR-0010–0019, M3 D-40–49 and ADR-0020–0029, M4 D-50–59 and ADR-0030–0039.
 
@@ -53,6 +54,8 @@ While the tracks of [ADR-0006](ADR-0006-parallel-tracks.md) are open, new number
 | D-23 | Test worlds only: the testkit mod (never part of the pack) has a flat test world preset for mechanics tests, an exception to D-18 that players never see and that is never used to check worldgen; test worlds are exempt from D-20, and each test decides its Chunky radius ([ADR-0005](ADR-0005-test-framework.md), 2026-11-09, with the user) | Locked |
 
 | D-50 | M4 scope: at the end of M4 our settlement mod is close to Millénaire in what a village does and what a player can do with it, for one culture. Slices S5 (mining and trades), S6 (village development), S7 (player and village) and S8 (quests) are added to S1–S4; the data model is designed in M4-A for all of them and built slice by slice ([M4](../milestones/m4-settlements.md#what-deepens-where)). This widens the scope [ADR-0001](ADR-0001-own-settlement-mod.md) called deliberately smaller than Millénaire; its other points stand (2026-11-10, with the user) | Locked |
+| D-51 | GameTests of the settlement mod live in `livingkingdoms-settlements` and run with `./gradlew :livingkingdoms-settlements:runGameTestServer` with MCA Reborn on the development classpath, because the testkit changes only on `main` and its GameTest runner is not built yet ([ADR-0030](ADR-0030-resident-integration.md), an addition to [ADR-0005](ADR-0005-test-framework.md)) | Proposed with ADR-0030 |
+| D-52 | `livingkingdoms-settlements` is released under GPL-3.0-only, because it calls and patches MCA Reborn (GPL-3.0-only); its sources are published with its first public release. The license of our other mods is chosen before the first public release (2026-11-10, with the user; [ADR-0030](ADR-0030-resident-integration.md)) | Locked |
 
 ## ADR template
 
