@@ -107,6 +107,9 @@ async function launchClient(port: number, expected: Fingerprint): Promise<void> 
     await sleep(2000);
     const client = await tryConnect(port);
     if (client) {
+      // The driver listens from client setup on, before the resource reload ends; specs need the title screen.
+      console.log(`Driver answered after ${Math.round((Date.now() - started) / 1000)}s; waiting for the resource reload.`);
+      await waitUntilLoaded(client, started);
       client.close();
       console.log(`Client ready after ${Math.round((Date.now() - started) / 1000)}s (cold start).`);
       return;
@@ -117,6 +120,15 @@ async function launchClient(port: number, expected: Fingerprint): Promise<void> 
     }
   }
   fail(`The testkit driver did not answer on 127.0.0.1:${port} within ${LAUNCH_TIMEOUT_S}s. Log: ${log}`);
+}
+
+/** Waits until the client has finished its startup resource reload (state.loading false). */
+async function waitUntilLoaded(client: GameClient, started: number): Promise<void> {
+  while (Date.now() - started < LAUNCH_TIMEOUT_S * 1000) {
+    if (!(await client.call("state", {})).loading) return;
+    await sleep(1000);
+  }
+  fail(`The e2e client did not finish loading within ${LAUNCH_TIMEOUT_S}s. Log: ${join(E2E_INSTANCE.gameDir, "logs", "latest.log")}`);
 }
 
 function ensureTestDependencies(): void {
@@ -150,6 +162,7 @@ if (running) {
     console.log(`Restarting the running e2e client: ${reason}.`);
     await quitClient(running, port);
   } else {
+    await waitUntilLoaded(running, Date.now());
     running.close();
     attached = true;
     console.log(`Attached to the running e2e client in ${Date.now() - attachStarted} ms.`);
@@ -157,12 +170,15 @@ if (running) {
 }
 if (!attached) await launchClient(port, expected);
 
-const runDir = join(RUNTIME_DIR, "e2e", "runs", new Date().toISOString().replace(/[:.]/g, "-"));
+const startedAt = new Date().toISOString();
+const runDir = join(RUNTIME_DIR, "e2e", "runs", startedAt.replace(/[:.]/g, "-"));
+// Names this run's flat test world (e2e-flat-<run id>): one world per run, reused by every spec file.
+const runId = startedAt.replace(/[-:]/g, "").replace("T", "-").slice(0, 15);
 mkdirSync(runDir, { recursive: true });
 const vitest = spawnSync(process.execPath, [join(E2E_DIR, "node_modules", "vitest", "vitest.mjs"), "run", "--config", "vitest.config.ts", ...options.vitestArgs], {
   cwd: E2E_DIR,
   stdio: "inherit",
-  env: { ...process.env, LK_E2E_PORT: String(port), LK_E2E_RUN_DIR: runDir },
+  env: { ...process.env, LK_E2E_PORT: String(port), LK_E2E_RUN_DIR: runDir, LK_E2E_RUN_ID: runId },
 });
 console.log(`Run artifacts: ${runDir}`);
 
