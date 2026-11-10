@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-09
+last_reviewed: 2026-11-10
 ---
 
 # M1 — Finite world generation and adventure progression
@@ -81,7 +81,14 @@ State 2026-11-09: the manifest (20 entries: vanilla progression, mega-dungeons, 
 
 Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default shader pack, enabled for new installs by the pack's `config/iris.properties` (kept by packwiz-installer once the player changes it); **Photon** stays as an alternative. Both are optional client files downloaded from Modrinth; without them Iris runs with shaders off. Measured on the host PC: about 600 FPS in the open without shaders, 92 FPS with Complementary on High (`quality.md`). C2 done 2026-11-10.
 
-**D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled.
+**D — accept.** See [Acceptance](#acceptance) below; the world is accepted with the renderer and the chosen shader pack enabled ([exec plan](../exec-plans/active/2026-11-10-m1-accept.md)).
+
+Decided 2026-11-10 with the user:
+- Surface pieces that hang over slopes (D&T ruin town roads, WDA abandoned temple roads, illager campsite streets, Typhon, bathhouse bases) are grounded by the `foundation` processor before acceptance; underground bunker hallways and rooms and `graveyard:crypt` overlaps stay warnings for M7 (TD-22).
+- End gateways and outer islands after the dragon (was TD-13) are not checked separately: End cities and Obsidilith arenas are validated inside the End border on every size, and gateways are vanilla behaviour.
+- Teleport stalls into fresh terrain (was TD-20) are not a defect of the finished pack: D-20 pre-generates every world at creation (TD-21).
+- The slow `/locate` of large WDA structures and `/locate` results beyond the border do not block; they are TD-15 for M11.
+- The gameplay bar is a creative and teleport checklist by the user on a fresh Large world, not a survival run.
 
 ## Acceptance
 
@@ -98,6 +105,6 @@ Chosen 2026-11-10 with the user: **Complementary Reimagined** is the default sha
 ## Open questions
 
 - Generation on more seeds: answered in C1, every size validated on 4 seeds (`livingkingdoms`, `alpha`, `20261107`, `kingdoms`) with no critical gap; any seed is validated the same way with `npm run validate-world`. Test is a development size and is not validated (ADR-0004 amendment 2026-11-08).
-- `/locate` reports structures beyond the border (found in M1-A2); the other M1-A2 findings were settled in M1-B or moved to TD-15 to TD-19.
+- `/locate` reports structures beyond the border (found in M1-A2): moved to TD-15 (M11) in M1-D; the other M1-A2 findings were settled in M1-B or moved to TD-15 to TD-19.
 - Write the list of mandatory structures, biome roles and progression paths including Nether, End and Twilight Forest, with per-size counts: answered in C1 by the World Content Manifest and [world-content](../design-docs/world-content.md); settlement and state counts stay TD-10.
 - Does the Twilight Forest boss chain generate correctly at 1:1 on the Test and Small sizes? Answered in C1 for Small, Medium and Large: the whole chain is present on every validated world; Test is not validated.
