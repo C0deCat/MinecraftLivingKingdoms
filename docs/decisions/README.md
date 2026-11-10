@@ -52,6 +52,8 @@ While the tracks of [ADR-0006](ADR-0006-parallel-tracks.md) are open, new number
 | D-22 | The pack allocates 8 GB to the game by default, which is also its minimum requirement (the user plays with 8–12 GB); the local test server runs with 6 GB, 2 GB below the client, because in singleplayer client and integrated server share one heap (2026-11-10, with the user, after a 4 GB test server ran out of heap at world creation) | Locked |
 | D-23 | Test worlds only: the testkit mod (never part of the pack) has a flat test world preset for mechanics tests, an exception to D-18 that players never see and that is never used to check worldgen; test worlds are exempt from D-20, and each test decides its Chunky radius ([ADR-0005](ADR-0005-test-framework.md), 2026-11-09, with the user) | Locked |
 
+| D-50 | M4 scope: at the end of M4 our settlement mod is close to Millénaire in what a village does and what a player can do with it, for one culture. Slices S5 (mining and trades), S6 (village development), S7 (player and village) and S8 (quests) are added to S1–S4; the data model is designed in M4-A for all of them and built slice by slice ([M4](../milestones/m4-settlements.md#what-deepens-where)). This widens the scope [ADR-0001](ADR-0001-own-settlement-mod.md) called deliberately smaller than Millénaire; its other points stand (2026-11-10, with the user) | Locked |
+
 ## ADR template
 
 File `ADR-NNNN-short-name.md`, with the same frontmatter as other docs:
