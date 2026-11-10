@@ -47,6 +47,10 @@ Why now, constraints, links to milestones, ADRs and design docs.
 
 | Plan | Status |
 | --- | --- |
+| [2026-11-10-parallel-tracks](active/2026-11-10-parallel-tracks.md) | Active |
+| [2026-11-10-m2-household](active/2026-11-10-m2-household.md) | Active |
+| [2026-11-10-m3-magic](active/2026-11-10-m3-magic.md) | Active |
+| [2026-11-10-m4-settlements](active/2026-11-10-m4-settlements.md) | Active |
 | [2026-11-10-m1-accept](completed/2026-11-10-m1-accept.md) | Completed |
 | [2026-11-09-test-framework](active/2026-11-09-test-framework.md) | Active |
 | [2026-11-09-m1-integrate](completed/2026-11-09-m1-integrate.md) | Completed |

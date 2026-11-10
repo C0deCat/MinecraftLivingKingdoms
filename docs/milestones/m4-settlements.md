@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-07
+last_reviewed: 2026-11-10
 ---
 
 # M4 — Settlements and residents (our mod on MCA Reborn)
@@ -44,7 +44,7 @@ One culture, done cohesively; the second culture comes in [M8](m8-cultures.md).
 
 **B — reconcile.** Vanilla villages and villagers, vanilla professions, MCA residents spawning outside our villages, village structures from M1 (vanilla, Dungeons and Taverns variants, Terralith fortified villages), the Better Archeology Archeologist villager and its tents. Jigsaw villages often break walking routes: street steps of 2+ blocks where `terrain_matching` streets follow steep terrain, doors above or below the street, houses over drops (seen in M1, 2026-11-09). Measure it (share of doors reachable on foot from the village center and back) before deciding how far the placeholder villages are repaired. Lumberjacks are built for vanilla and Terralith trees; Dynamic Trees is decided in M7 (TD-06).
 
-**C — integrate.** Slices S1–S4 in order, each released.
+**C — integrate.** Slices S1–S4 in order, each released. S1 and S2 are built on the M4 track and merge into `main` after M2 and M3; S3 needs the M2 content, so S3, S4 and phase D are done on `main` after that merge, together with a recheck of phase B on the combined pack ([ADR-0006](../decisions/ADR-0006-parallel-tracks.md), [plan](../exec-plans/active/2026-11-10-m4-settlements.md)).
 
 **D — accept.** See [Acceptance](#acceptance) below.
 

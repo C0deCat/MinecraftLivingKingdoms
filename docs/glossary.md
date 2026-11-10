@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-07
+last_reviewed: 2026-11-10
 ---
 
 # Glossary
@@ -11,7 +11,9 @@ Project terms and label schemes, one meaning each ([terms and labels](documentat
 
 | Term | Meaning | Defined in |
 | --- | --- | --- |
-| Milestone (M0–M11) | One stage of the game, brought to a cohesive playable subsystem before the next starts (D-05) | [roadmap.md](roadmap.md), [milestones/](milestones/) |
+| Milestone (M0–M11) | One stage of the game, brought to a cohesive playable subsystem before it merges into `main` (D-05) | [roadmap.md](roadmap.md), [milestones/](milestones/) |
+| Track | A milestone developed on its own branch and worktree folder next to other milestones: `m2-household`, `m3-magic`, `m4-settlements` | [ADR-0006](decisions/ADR-0006-parallel-tracks.md) |
+| Merge check | The checks a track passes, with `main` merged into it, before its pull request is merged | [coordination plan](exec-plans/active/2026-11-10-parallel-tracks.md#merge-check) |
 | Phase (A–D) | A part of every milestone, always in this order and with these meanings: **A** foundation (install the base mods; in code milestones research and the first model or prototype), **B** reconcile (resolve conflicts), **C** integrate (make one cohesive subsystem), **D** accept. Written `M1-B` | [roadmap.md](roadmap.md#milestones), D-19 |
 | Step (M1-A1, M1-A2) | A part of one phase, numbered inside it. Phases are never split with letters again | [documentation.md](documentation.md#terms-and-labels) |
 | Slice (S1–S4) | A released vertical increment of our settlement mod, built in phase M4-C | [m4-settlements.md](milestones/m4-settlements.md) |

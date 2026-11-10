@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-10
 ---
 
 # Living Kingdoms — Roadmap
@@ -28,6 +28,8 @@ Each milestone has its own spec in [milestones/](milestones/). Decisions are in 
 ## Milestones
 
 Every milestone runs four phases (D-19): **A** foundation — install the base mods, or in code milestones research and the first model or prototype → **B** reconcile conflicts → **C** integrate into a cohesive subsystem → **D** accept and lock in. Parts of a phase are steps, labelled M1-A1, M1-A2 ([glossary](glossary.md)). A finished milestone is a stable foundation; changing it later is a controlled change with regression tests.
+
+M2, M3 and M4 are developed at the same time in tracks, each on its own branch, and merge into `main` in the order M2 → M3 → M4; M4 is finished on `main` after its merge ([ADR-0006](decisions/ADR-0006-parallel-tracks.md), [coordination plan](exec-plans/active/2026-11-10-parallel-tracks.md)). From M5 on the milestones are sequential again.
 
 | Milestone | Cohesive result | Base content | Custom code |
 | --- | --- | --- | --- |
@@ -62,5 +64,5 @@ Every milestone runs four phases (D-19): **A** foundation — install the base m
 | No physical simulation far away | Inconsistent world life | Abstract simulation + budgeted materialization |
 | Host PC runs client + integrated server | Tight performance budget | Profile on the host PC from M1 |
 | Multiplayer added late (M10) | Desync found late, rework of our mods | Server-safe code and server-authoritative state from the start; M10 test list |
-| "Everything at once" profiles | Errors cannot be localized | Isolated profiles, staged enabling |
+| "Everything at once" profiles | Errors cannot be localized | Isolated profiles, staged enabling; one track per milestone, merged one at a time after a merge check (ADR-0006) |
 | Unnecessary custom development | Maintenance cost | Check existing addons first |

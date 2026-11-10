@@ -7,6 +7,8 @@ last_reviewed: 2026-11-10
 
 Known gaps, unverified facts and deferred decisions. Each item names where it is resolved. Remove an item when it is done, recording the outcome in the doc it affects.
 
+While the tracks of [ADR-0006](../decisions/ADR-0006-parallel-tracks.md) are open, a new ID comes from the range of the branch that adds it: `main` TD-24–29, M2 TD-30–39, M3 TD-40–49, M4 TD-50–59.
+
 | ID | Item | Resolve in | Added |
 | --- | --- | --- | --- |
 | TD-02 | Verify MCA Reborn license, platform hosting and API on its pages ([licenses.md](../licenses.md)) | M4-A | 2026-11-06 |

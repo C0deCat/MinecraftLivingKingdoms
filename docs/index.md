@@ -60,6 +60,7 @@ last_reviewed: YYYY-MM-DD
 | [decisions/ADR-0003-multiplayer-milestone.md](decisions/ADR-0003-multiplayer-milestone.md) | Singleplayer first, multiplayer milestone M10 | stable |
 | [decisions/ADR-0004-world-sizes-and-dimensions.md](decisions/ADR-0004-world-sizes-and-dimensions.md) | World sizes, dimension scales, world edge | stable |
 | [decisions/ADR-0005-test-framework.md](decisions/ADR-0005-test-framework.md) | Test layers: GameTest and our e2e driver | stable |
+| [decisions/ADR-0006-parallel-tracks.md](decisions/ADR-0006-parallel-tracks.md) | M2, M3 and M4 in parallel tracks, merge order | stable |
 
 ## Plans
 
@@ -67,6 +68,10 @@ last_reviewed: YYYY-MM-DD
 | --- | --- | --- |
 | [exec-plans/README.md](exec-plans/README.md) | Exec plan format and list | active |
 | [exec-plans/tech-debt-tracker.md](exec-plans/tech-debt-tracker.md) | Open items and unverified facts | active |
+| [exec-plans/active/2026-11-10-parallel-tracks.md](exec-plans/active/2026-11-10-parallel-tracks.md) | Parallel tracks M2, M3, M4: rules for track sessions, merge order, merge check | active |
+| [exec-plans/active/2026-11-10-m2-household.md](exec-plans/active/2026-11-10-m2-household.md) | M2 track: household | active |
+| [exec-plans/active/2026-11-10-m3-magic.md](exec-plans/active/2026-11-10-m3-magic.md) | M3 track: magic | active |
+| [exec-plans/active/2026-11-10-m4-settlements.md](exec-plans/active/2026-11-10-m4-settlements.md) | M4 track: settlements | active |
 | [exec-plans/completed/2026-11-10-m1-accept.md](exec-plans/completed/2026-11-10-m1-accept.md) | M1-D accept: grounded surface structures, full validation, gameplay check | stable |
 | [exec-plans/active/2026-11-09-test-framework.md](exec-plans/active/2026-11-09-test-framework.md) | Test framework: testkit mod, e2e driver, GameTest layer, conventions | active |
 | [exec-plans/completed/2026-11-09-m1-integrate.md](exec-plans/completed/2026-11-09-m1-integrate.md) | M1-C integrate: content manifest, validator, grounding processor (then `foundation`), shader pack | stable |

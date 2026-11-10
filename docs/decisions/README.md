@@ -16,10 +16,13 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | ADR | Decision | Status | Date |
 | --- | --- | --- | --- |
 | [ADR-0001](ADR-0001-own-settlement-mod.md) | Our own settlement mod on MCA Reborn instead of Millénaire | Accepted | 2026-11-06 |
-| [ADR-0002](ADR-0002-milestone-order.md) | Milestone order: settlements → simulation → economy and states → atmosphere → cultures | Accepted, amended by ADR-0003 | 2026-11-06 |
+| [ADR-0002](ADR-0002-milestone-order.md) | Milestone order: settlements → simulation → economy and states → atmosphere → cultures | Accepted, amended by ADR-0003 and ADR-0006 | 2026-11-06 |
 | [ADR-0003](ADR-0003-multiplayer-milestone.md) | Singleplayer first; multiplayer (LAN, dedicated server) is M10, release M11 | Accepted | 2026-11-06 |
 | [ADR-0004](ADR-0004-world-sizes-and-dimensions.md) | Fixed world sizes 2k/8k/12k/16k, per-size Nether ratio, 1:1 Twilight Forest, finite-world edge | Accepted | 2026-11-06 |
 | [ADR-0005](ADR-0005-test-framework.md) | Two test layers: GameTest for mechanics, our e2e driver with TypeScript tests on Vitest | Accepted | 2026-11-09 |
+| [ADR-0006](ADR-0006-parallel-tracks.md) | M2, M3 and M4 are developed in parallel tracks and merged in the order M2 → M3 → M4 | Accepted | 2026-11-10 |
+
+While the tracks of [ADR-0006](ADR-0006-parallel-tracks.md) are open, new numbers come from the range of the place where the decision is written, so two branches never give out the same one: `main` D-24–29 and ADR-0007–0009, M2 D-30–39 and ADR-0010–0019, M3 D-40–49 and ADR-0020–0029, M4 D-50–59 and ADR-0030–0039.
 
 ## Lightweight decisions
 
@@ -28,8 +31,8 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | D-01 | Minecraft 1.21.1 + NeoForge + Java; do not port the game to another engine or language | Locked |
 | D-02 | Stay on 1.21.1: as of 2026-11-06 Ars Nouveau, Iron's Spells, Ars 'n Spells, Farmer's Delight, the Let's Do mods and MCA Capitals have no NeoForge builds above 1.21.1 ([check](../compatibility-matrix.md#platform-check-2026-11-06)). NeoForge pinned to 21.1.265 on 2026-11-06 (`tools/pack/src/pins.ts`, `modpack/pack.toml`) | Locked; revisit when core mods move to 26.x |
 | D-03 | Four fixed square world sizes including the outer ocean: Test 2,048, Small 8,192, Medium 12,288, Large 16,384 (default); geography is finite, political borders are dynamic ([ADR-0004](ADR-0004-world-sizes-and-dimensions.md)) | Locked (changed 2026-11-06) |
-| D-04 | Light-gameplay and magic mods come before settlements and NPCs | Locked |
-| D-05 | Each stage is brought to a cohesive playable subsystem before moving on | Locked |
+| D-04 | Light-gameplay and magic mods are merged into `main` and released before settlements and NPCs; their development may overlap in tracks ([ADR-0006](ADR-0006-parallel-tracks.md)) | Locked (changed 2026-11-10) |
+| D-05 | Each stage is brought to a cohesive playable subsystem before it merges into `main`, so `main` only ever holds a cohesive playable state ([ADR-0006](ADR-0006-parallel-tracks.md)) | Locked (changed 2026-11-10) |
 | D-06 | Ars Nouveau — universal modern magic; Iron's — powerful ancient magic; Occultism — ritual/secret magic ([magic-system](../design-docs/magic-system.md)) | Locked as design |
 | D-07 | Shared personal mana for Ars and Iron's with a conversion rate; Source separate; Occultism without a shared bar | Locked |
 | D-08 | Iron's scrolls are reproducible with the mod's own tools; no hunt for consumable scrolls | Locked |
@@ -38,7 +41,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | D-11 | Culture ≠ political entity ≠ settlement | Locked |
 | D-12 | Modified third-party structures/code are distributed only within licenses and permissions | Hard constraint |
 | D-13 | Millénaire is not used; settlements are our own mod on MCA Reborn ([ADR-0001](ADR-0001-own-settlement-mod.md)) | Locked |
-| D-14 | Milestone order after magic ([ADR-0002](ADR-0002-milestone-order.md)); multiplayer M10 and release M11 ([ADR-0003](ADR-0003-multiplayer-milestone.md)) | Locked |
+| D-14 | Milestone order after magic ([ADR-0002](ADR-0002-milestone-order.md)); multiplayer M10 and release M11 ([ADR-0003](ADR-0003-multiplayer-milestone.md)); M2, M3 and M4 are developed in parallel tracks and merged in that order ([ADR-0006](ADR-0006-parallel-tracks.md)) | Locked (changed 2026-11-10) |
 | D-15 | Singleplayer is the only play and test mode until M10; Open to LAN (1–4 players) and the dedicated server are M10 ([ADR-0003](ADR-0003-multiplayer-milestone.md)); code stays server-safe throughout | Locked (changed 2026-11-06) |
 | D-16 | Code and assets of closed (ARR) mods are never copied or decompiled into the repo; behavior changes via configs, datapacks, KubeJS, Mixins in our mod | Hard constraint |
 | D-17 | All documentation, code comments, commit messages and identifiers are in English | Locked |
