@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "CHANGELOG.md"
-hash = "6537a7219d3ea921e76fa2a1f9cde171c01ca4ae729ea91c9e538179e22ad592"
+hash = "006df1865ff984e8425bbe62f5efc8935b98281f7437d36fd6d6c3b9913ba851"
 
 [[files]]
 file = "config/iris.properties"
@@ -84,6 +84,11 @@ metafile = true
 [[files]]
 file = "mods/mes-moogs-end-structures.pw.toml"
 hash = "66e27964c598c333a9082695989d293e554c42a8a295c6cfdc56685bb01d0f4e"
+metafile = true
+
+[[files]]
+file = "mods/minecraft-comes-alive-reborn.pw.toml"
+hash = "21fd5aa24c3dcd3da912d6f0fd37df905c108bf613a18bafe9bb97ee2576b42c"
 metafile = true
 
 [[files]]

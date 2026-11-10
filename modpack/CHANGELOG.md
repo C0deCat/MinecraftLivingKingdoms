@@ -2,6 +2,11 @@
 
 One entry per pack change: what changed, how it was launched, the result. The commit that makes the change is the backup of the previous state. Test worlds are disposable until M11 (release).
 
+## Unreleased — M4
+
+- Added MCA Reborn 7.7.36 (Modrinth, file `mca-neoforge-7.7.36-beta.3+1.21.1.jar`), M4-A1. On the `m4-settlements` branch only until the M4 merge (ADR-0006).
+- Launch report: `npm run smoke` before the addition (title screen after 26 s, 51 mods) and after it (30 s, 52 mods, `mca 7.7.36-beta.3+1.21.1`); both with only the 2 known GeckoLib ERROR lines of Mowzie's Mobs. `npm run verify-mods` OK (45 mods). No world opened yet.
+
 ## 0.1.0 — 2026-11-06 (M1-A1, base generator)
 
 - Added Lithostitched 1.8.1, Tectonic 3.0.28, Terralith 2.6.2 (Modrinth), The Twilight Forest 4.8.3345 and Bounded Not Free 1.3.5 (CurseForge), one at a time.

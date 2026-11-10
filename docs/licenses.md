@@ -37,7 +37,7 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 
 | Mod | License | Hosted on | In pack | Fork | Assets | Checked |
 | --- | --- | --- | --- | --- | --- | --- |
-| MCA Reborn | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
+| MCA Reborn | GPL-3.0-only | Modrinth, CurseForge | Yes (link) | No (GPL allows a fork that stays GPL with open sources; not planned) | No | 2026-11-10, Modrinth page and `LICENSE` in the GitHub repo (branch `1.21.1`) |
 | MCA Capitals | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
 | spark | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | ModernFix | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
