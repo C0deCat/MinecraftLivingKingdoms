@@ -14,8 +14,8 @@ export const INSTANCE_DIR = join(PRISM_DIR, "instances", INSTANCE_NAME);
 export const GAME_DIR = join(INSTANCE_DIR, "minecraft");
 const PACK_TOML = join(MODPACK_DIR, "pack.toml");
 
-/** Memory for the game JVM, in MiB. Tuned for the 32 GB host PC; adjust after spark measurements. */
-const MAX_MEM_MIB = 6144;
+/** Memory for the game JVM, in MiB: the pack's default and minimum requirement (D-22). */
+const MAX_MEM_MIB = 8192;
 const MIN_MEM_MIB = 2048;
 
 function checkPackVersions(): void {
