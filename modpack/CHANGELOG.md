@@ -6,6 +6,8 @@ One entry per pack change: what changed, how it was launched, the result. The co
 
 - Added MCA Reborn 7.7.36 (Modrinth, file `mca-neoforge-7.7.36-beta.3+1.21.1.jar`), M4-A1. On the `m4-settlements` branch only until the M4 merge (ADR-0006).
 - Launch report: `npm run smoke` before the addition (title screen after 26 s, 51 mods) and after it (30 s, 52 mods, `mca 7.7.36-beta.3+1.21.1`); both with only the 2 known GeckoLib ERROR lines of Mowzie's Mobs. `npm run verify-mods` OK (45 mods). No world opened yet.
+- Added `config/mca.json` with `launchIntoDestiny` false: MCA's first-join screen paused the game in front of every new world (found by the e2e run) and can move the player away from our spawn. The destiny command stays available once per player.
+- Our mod `livingkingdoms_settlements` 0.0.1 (M4-A prototype) is built from `mods-src/` into the instance; `livingkingdoms_core` gains stable IDs and the save format version.
 
 ## 0.1.0 — 2026-11-06 (M1-A1, base generator)
 
