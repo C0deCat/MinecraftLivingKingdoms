@@ -64,7 +64,7 @@ Each area gets a first pass, is deepened later in M4 and continues in a later mi
 | Base | [MCA Reborn](https://www.curseforge.com/minecraft/mc-mods/minecraft-comes-alive-reborn) | The only representation of a resident: body, personality, family, appearance, dialogue |
 | Ours | `livingkingdoms-settlements` | Settlement, membership, profession, home, workplace, tasks, storage, development plan |
 | Ours | `livingkingdoms-core` (minimal) | Stable IDs, event log, save format version |
-| Research | MineColonies / Structurize and other open mods | Possible source of construction and logistics code if the license allows |
+| Reference | MineColonies / Structurize (GPL-3.0) | Ideas for construction and logistics; code only under GPL-3.0 and after asking the user ([licenses](../licenses.md#construction-and-worker-mods-as-code-sources)). Not pack mods |
 | Reference | Terralith fortified villages (`terralith:fortified_village`, `terralith:fortified_desert_village`) | The user likes their buildings (2026-11-09): use them by referencing Terralith's template pools by id while Terralith is in the pack, or build our own templates in a similar style. Never copy or ship Terralith's files (Stardust Labs License, [licenses.md](../licenses.md)) |
 | Later | [MCA Capitals](https://www.curseforge.com/minecraft/mc-mods/mca-capitals) | Politics — [M6](m6-economy-and-states.md) |
 

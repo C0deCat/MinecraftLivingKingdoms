@@ -20,7 +20,7 @@ last_reviewed: 2026-11-10
 - The branch has no M2 or M3 content until those tracks merge. Farmers and other workers read item and block tags, not item ids, so the M2 crops fit in later.
 - Mechanics are tested on the flat test preset (D-23) through GameTest and e2e ([ADR-0005](../../decisions/ADR-0005-test-framework.md)); a testkit change is made on `main`.
 - MCA Reborn sources are read from a clone in `runtime/research/mca-reborn/` (ignored by Git, branch `1.21.1` of the author's GitHub repository). Its code is GPL-3.0 and is not copied into this repository.
-- Open items resolved here: TD-02 (MCA Reborn license and API), TD-10 (settlement counts per size), TD-19 (VillagersTradingPlus) in the [tech-debt tracker](../tech-debt-tracker.md).
+- Open items resolved here: TD-10 (settlement counts per size) and TD-19 (VillagersTradingPlus) in the [tech-debt tracker](../tech-debt-tracker.md). TD-02 (MCA Reborn license and API) was closed in M4-A3.
 - Shared libraries added on this track: none yet.
 - Files that mention the slices and change only on `main` (to do there, not on this branch): the glossary row "Slice (S1–S4)", the roadmap rows that say "S1–S4", the track table and merge order of the coordination plan.
 
@@ -30,8 +30,8 @@ On the branch, phase A:
 
 - [x] Session start: fetch, merge `main` if it moved, baseline smoke before MCA Reborn.
 - [x] Scope recorded: D-50, the spec with slices S1–S8, the areas in the settlement model, this plan.
-- [ ] M4-A1: MCA Reborn 7.7.36 added with packwiz; `npm run verify-mods`, `npm run smoke`, a look at MCA residents in a village; compatibility matrix, licenses, pack changelog.
-- [ ] M4-A2: MCA Reborn research from its sources, written as `docs/references/mca-reborn-7.7.md`:
+- [x] M4-A1: MCA Reborn 7.7.36 added with packwiz; `npm run verify-mods`, `npm run smoke`, a look at MCA residents in a village; compatibility matrix, licenses, pack changelog.
+- [x] M4-A2: MCA Reborn research from its sources, written as `docs/references/mca-reborn-7.7.md`:
   - residents: how to find them, what is stable across a reload, how vanilla villagers are replaced and which config controls it;
   - tasks from outside: the Brain (activities, schedules, tasks), what needs a Mixin;
   - data: what MCA keeps on the entity and in SavedData, whether attachments fit;
@@ -39,7 +39,7 @@ On the branch, phase A:
   - MCA professions, guards, the link to vanilla professions and trades (input for TD-19);
   - MCA player ranks, reputation and rank tasks (input for S7 and S8);
   - dialogue and interaction: whether our entries and screens can be added.
-- [ ] M4-A3: licenses and suitability of MineColonies, Structurize and two or three worker-NPC mods; rows in `licenses.md`; TD-02 closed.
+- [x] M4-A3: licenses and suitability of MineColonies, Structurize and two or three worker-NPC mods; rows in `licenses.md`; TD-02 closed.
 - [ ] M4-A4: ADR-0030 (resident integration and the data model for all areas), shown to the user before the prototype:
   - where our data lives (recommended: SavedData keyed by the stable resident ID, an attachment on the entity only as the link);
   - how a resident gets a task;
@@ -82,6 +82,9 @@ On `main` after the merge:
   - scope widened with the user (D-50): slices S5–S8, the order of the slices and the areas table in the spec, the areas in the settlement model, phase A steps refined here.
 
   Checked while planning, read-only: MCA Reborn has a NeoForge 1.21.1 release 7.7.36 on Modrinth (2026-08-16), GPL-3.0-only, sources on GitHub (branch `1.21.1`, package `net.conczin.mca`, built against NeoForge 21.1.234), with its own village classes (`Village`, `Building`, `VillageManager`).
+- 2026-11-10 — M4-A1, runtime passed for the launch: MCA Reborn 7.7.36 added with packwiz (Modrinth version `S2Ln2tIn`); `npm run smoke` reaches the title screen in 30 s with 52 mods and no new ERROR lines; `npm run verify-mods` OK. Not checked: a world with MCA residents (the prototype and M4-B do that).
+- 2026-11-10 — M4-A2, research only: [mca-reborn-7.7](../../references/mca-reborn-7.7.md) written from the sources at the tag `7.7.36-beta.3+1.21.1`. Main findings: a resident is a vanilla `Villager` subclass with the vanilla Brain; all behaviour is set in one public static method that runs again on every brain refresh, so one Mixin there is the hook for our tasks; MCA chores need an online player and cannot drive village work; MCA has its own villages (scanned rooms), guards, marriages, births, taxes, ranks and rank tasks; buttons and dialogue are data, commands are a fixed switch; MCA fires no events. Nothing was run in the game.
+- 2026-11-10 — M4-A3, research only: MineColonies and Structurize are GPL-3.0 with NeoForge 1.21.1 branches; the worker-NPC mods checked are closed, not on 1.21.1 or not needed ([licenses](../../licenses.md#construction-and-worker-mods-as-code-sources)). Outcome: own construction and logistics on vanilla structure templates and the vanilla Brain; their code only under GPL-3.0 and after asking the user. TD-02 closed. Their code was not read in detail.
 
 ## Decision log
 
@@ -89,3 +92,5 @@ On `main` after the merge:
 - 2026-11-10 — The data model is designed in M4-A for all areas (professions, building levels, player standing, quests) and built slice by slice, so a later slice adds data and tasks instead of reworking an earlier one.
 - 2026-11-10 — S5 comes right after S2 (the user chose professions as the first area to deepen): it needs no M2 content, and the builder needs stone and metal.
 - 2026-11-10 — MCA Reborn sources are cloned into `runtime/research/` for reading instead of being browsed online: the research needs searches across the whole code base, and `runtime/` is never committed.
+- 2026-11-10 — The clone is read at the tag `7.7.36-beta.3+1.21.1`, not at the head of the branch `1.21.1`: the installed file is built from the tag, and the two differ in 77 files (village and room scanner, navigation).
+- 2026-11-10 — TD-10 (settlement counts per size) moves from M4-A to M4-B: the numbers depend on the census of the M1 villages and on where our starting villages come from, which phase B measures.

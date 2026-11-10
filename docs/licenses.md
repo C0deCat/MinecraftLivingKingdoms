@@ -1,6 +1,6 @@
 ---
 status: active
-last_reviewed: 2026-11-07
+last_reviewed: 2026-11-10
 ---
 
 # Mod licenses and usage rules
@@ -37,7 +37,7 @@ A reference for "can we include, modify, distribute this" decisions. This is not
 
 | Mod | License | Hosted on | In pack | Fork | Assets | Checked |
 | --- | --- | --- | --- | --- | --- | --- |
-| MCA Reborn | GPL-3.0-only | Modrinth, CurseForge | Yes (link) | No (GPL allows a fork that stays GPL with open sources; not planned) | No | 2026-11-10, Modrinth page and `LICENSE` in the GitHub repo (branch `1.21.1`) |
+| MCA Reborn | GPL-3.0-only | Modrinth (its CurseForge page was not checked) | Yes (link) | No (GPL allows a fork that stays GPL with open sources; not planned) | No | 2026-11-10, Modrinth page and `LICENSE` in the GitHub repo (branch `1.21.1`) |
 | MCA Capitals | GPLv3 (unverified, early research) | CurseForge, Modrinth | ? | ? | ? | Not checked |
 | spark | GPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
 | ModernFix | LGPL-3.0-only | Modrinth | Yes (link) | No | No | 2026-11-06, Modrinth page |
@@ -99,6 +99,22 @@ Other mods are added as they are audited. "Unverified" means the value still nee
 - **Terralith (Stardust Labs License).** Its "Prohibited uses" bans using Stardust Labs works "to configure, test, debug, or augment any artificial intelligence, neural network, or other generative system" and in "any AI project". AI agents configure and test this pack. On 2026-11-06 the user decided to use Terralith anyway, reading the clause as being about building or training AI systems, not about making a game with AI-assisted tooling. Revisit if Stardust Labs clarifies or changes the license, and before the public release. Other obligations: unmodified only, credit Stardust Labs with a link, overrides only as add-on datapacks. The same license and decision cover Structory and Structory: Towers (2026-11-07).
 - **Mowzie's Mobs (custom license, checked 2026-11-07 on the [CurseForge license page](https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs/license)).** "All Rights Reserved unless otherwise explicitly stated". Private play and modpacks are outside its scope; public distribution requires crediting "Mowzie's Mobs" with a link to its CurseForge page, forbids selling its content and forbids competing projects. Alterations are allowed if they stay faithful to the source material; modpack integration and story changes are named as allowed, drastic changes need the author's agreement. Compatible with the pack; candidate for M1-A2 (step 14 of the [structures plan](exec-plans/completed/2026-11-07-m1-structures.md)).
 - **The Twilight Forest.** We override one data file (the dimension type's `coordinate_scale`, ADR-0004) from our own mod; no TF code, sounds or structures are copied.
+
+### Construction and worker mods as code sources
+
+Checked 2026-11-10 for M4-A3 ([M4](milestones/m4-settlements.md)): open mods whose construction, logistics or worker code could be reused in `livingkingdoms-settlements`. None of them is in the pack or proposed for it; each brings its own NPC or colony model, and residents exist once, as MCA Reborn entities ([ADR-0001](decisions/ADR-0001-own-settlement-mod.md)). Their code was not read in detail yet; "Code use" says what the license allows.
+
+| Mod | License | NeoForge 1.21.1 | Code use | Source checked |
+| --- | --- | --- | --- | --- |
+| MineColonies | GPL-3.0 | Yes (branch `release/1.21`, Minecraft 1.21.1) | Allowed if our mod is GPL-3.0 with open sources. Its workers are its own citizen entities inside a colony, request and building system, so code would be adapted piece by piece, not taken as a library | GitHub `ldtteam/minecolonies`, license file and `gradle.properties`; the Modrinth page is stale (2023), releases are on CurseForge |
+| Structurize | GPL-3.0 | Yes (branch `version/1.21`) | Same condition. Blueprint format and placement tools; as a pack mod it needs BlockUI and Domum Ornamentum (both GPL-3.0) | GitHub `ldtteam/Structurize` |
+| Villager Workers | All Rights Reserved | No (Forge only) | No | Modrinth page |
+| Hired Workers | MIT | No | Not applicable to 1.21.1 | Modrinth page |
+| Guard Villagers | Custom; assets All Rights Reserved | Yes | Not needed: MCA Reborn has guards and archers | Modrinth page, `LICENSE` in the GitHub repo |
+| Easy NPC | MIT | Yes | Not needed: an NPC configuration framework with its own entities | Modrinth page |
+| SmartBrainLib | MPL-2.0 | Yes | A Brain helper library; not needed while MCA residents use the vanilla Brain | Modrinth page |
+
+Outcome: we build construction and logistics ourselves on vanilla structure templates and the vanilla Brain, and treat MineColonies and Structurize as references for ideas. Taking code from them is possible only under GPL-3.0 and is asked from the user case by case ([AGENTS.md](../AGENTS.md#ask-the-user-first)).
 
 ## 3. Rejected mods
 
