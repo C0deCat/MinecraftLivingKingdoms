@@ -9,3 +9,6 @@ Dev-only NeoForge 1.21.1 mod `livingkingdoms_testkit`: the e2e driver for `tests
 - The socket listens on 127.0.0.1 only (default port 25598, `-Dlivingkingdoms.testkit.port`). Socket threads only parse and write; each op moves its work to the client thread (`OnClient`) or the integrated server thread.
 - Every op is declared in `tests/e2e/harness/protocol.ts` and registered in an `*Ops` class here. `hello` reports the registered names; the harness refuses to run when the two lists differ. Bump `PROTOCOL_VERSION` in both places when the wire format changes.
 - Errors the test author can fix are `OpError(code, message, hint)`. The hint says what to change.
+- Threads: client state through `OnClient`, world state through `OnServer` (the integrated server thread); an op that spans ticks uses `TickTasks` (client ticks) or `TickTasks.serverTicks`.
+- Never open a world while `state.loading` is true (the startup reload overlay): `Minecraft.doWorldLoad` then never returns. World ops refuse with `not_ready`.
+- Test worlds are named `e2e-…`; `world.delete` accepts nothing else.

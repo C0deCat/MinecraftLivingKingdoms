@@ -1,6 +1,7 @@
 package livingkingdoms.testkit.client;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
@@ -32,7 +33,8 @@ import org.slf4j.Logger;
 public final class Bridge {
     public static final int DEFAULT_PORT = 25598;
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final Gson GSON = new Gson();
+    /** Null fields are written: protocol.ts types them as `T | null`, never as missing. */
+    private static final Gson GSON = new GsonBuilder().serializeNulls().create();
     private static final AtomicInteger CONNECTIONS = new AtomicInteger();
 
     private final OpRegistry ops;

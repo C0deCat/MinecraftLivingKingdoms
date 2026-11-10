@@ -20,7 +20,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion;
 
-/** Session ops: hello, ping, state, quit. */
+/** Session ops: hello, ping, state (screen, world, tick), quit. */
 final class SessionOps {
     /** File-name prefix of our own JARs; their hashes let the launcher decide whether a running client is current. */
     private static final String OWN_JAR_PREFIX = "livingkingdoms_";
@@ -76,6 +76,9 @@ final class SessionOps {
         result.add("tick", level == null ? JsonNull.INSTANCE : new com.google.gson.JsonPrimitive(level.getGameTime()));
         result.addProperty("dimension", level == null ? null : level.dimension().location().toString());
         result.addProperty("paused", mc.isPaused());
+        // The resource-reload overlay is up during startup; worlds must not be opened until it is gone.
+        result.addProperty("loading", mc.getOverlay() != null);
+        result.addProperty("world", WorldOps.currentWorld(mc));
         return result;
     }
 
