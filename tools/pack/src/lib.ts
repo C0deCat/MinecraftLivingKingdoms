@@ -1,6 +1,6 @@
 // Shared helpers for the pack tooling: paths, pinned downloads, running tools.
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { spawnSync, type SpawnSyncOptions } from "node:child_process";
 import type { PinnedDownload } from "./pins.ts";
@@ -12,6 +12,23 @@ export const RUNTIME_DIR = join(REPO_ROOT, "runtime");
 export const MODS_SRC_DIR = join(REPO_ROOT, "mods-src");
 /** File-name prefix of the JARs built from mods-src/ (mod ids start with livingkingdoms_). */
 export const OWN_JAR_PREFIX = "livingkingdoms_";
+/** The dev-only testkit mod (ADR-0005): installed only into the e2e instance, never into the play instance or the pack. */
+export const TESTKIT_JAR_PREFIX = "livingkingdoms_testkit";
+
+/** JARs built from mods-src/ (`<project>/build/libs`), without sources JARs; the testkit only when asked for. */
+export function builtOwnJars(options: { testkit: boolean }): { name: string; path: string }[] {
+  const jars: { name: string; path: string }[] = [];
+  for (const project of readdirSync(MODS_SRC_DIR, { withFileTypes: true }).filter((e) => e.isDirectory())) {
+    const libs = join(MODS_SRC_DIR, project.name, "build", "libs");
+    if (!existsSync(libs)) continue;
+    for (const name of readdirSync(libs)) {
+      if (!name.startsWith(OWN_JAR_PREFIX) || !name.endsWith(".jar") || name.endsWith("-sources.jar")) continue;
+      if (name.startsWith(TESTKIT_JAR_PREFIX) && !options.testkit) continue;
+      jars.push({ name, path: join(libs, name) });
+    }
+  }
+  return jars;
+}
 
 const EXE = process.platform === "win32" ? ".exe" : "";
 export const PACKWIZ_BIN = join(TOOLS_BIN, `packwiz${EXE}`);

@@ -33,6 +33,8 @@ export const PRISM_WINDOWS: PinnedDownload = {
 };
 
 export const INSTANCE_NAME = "living-kingdoms";
+/** Prism instance for e2e tests: the pack plus the dev-only testkit mod (ADR-0005). */
+export const E2E_INSTANCE_NAME = "living-kingdoms-e2e";
 
 /** NeoForge installer, used only for the local headless worldgen test server (npm run test-server). */
 export const NEOFORGE_INSTALLER: PinnedDownload = {

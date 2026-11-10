@@ -16,7 +16,7 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync
 import { join } from "node:path";
 import { spawn } from "node:child_process";
 import { NEOFORGE_INSTALLER, NEOFORGE_VERSION, PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP } from "./pins.ts";
-import { MODPACK_DIR, MODS_SRC_DIR, OWN_JAR_PREFIX, RUNTIME_DIR, TOOLS_BIN, fail, fetchPinned, findExecutable, run } from "./lib.ts";
+import { MODPACK_DIR, MODS_SRC_DIR, OWN_JAR_PREFIX, RUNTIME_DIR, TOOLS_BIN, builtOwnJars, fail, fetchPinned, findExecutable, run } from "./lib.ts";
 import { setupTools } from "./setup-tools.ts";
 
 const SERVER_DIR = join(RUNTIME_DIR, "test-server");
@@ -71,13 +71,7 @@ function syncServerMods(java: string): void {
   const modsDir = join(SERVER_DIR, "mods");
   mkdirSync(modsDir, { recursive: true });
   for (const old of readdirSync(modsDir).filter((f) => f.startsWith(OWN_JAR_PREFIX))) rmSync(join(modsDir, old));
-  for (const project of readdirSync(MODS_SRC_DIR, { withFileTypes: true }).filter((e) => e.isDirectory())) {
-    const libs = join(MODS_SRC_DIR, project.name, "build", "libs");
-    if (!existsSync(libs)) continue;
-    for (const jar of readdirSync(libs).filter((f) => f.startsWith(OWN_JAR_PREFIX) && f.endsWith(".jar") && !f.endsWith("-sources.jar"))) {
-      copyFileSync(join(libs, jar), join(modsDir, jar));
-    }
-  }
+  for (const jar of builtOwnJars({ testkit: false })) copyFileSync(jar.path, join(modsDir, jar.name));
 }
 
 /**

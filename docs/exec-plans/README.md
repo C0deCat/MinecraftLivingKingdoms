@@ -48,6 +48,7 @@ Why now, constraints, links to milestones, ADRs and design docs.
 | Plan | Status |
 | --- | --- |
 | [2026-11-10-m1-accept](active/2026-11-10-m1-accept.md) | Active |
+| [2026-11-09-test-framework](active/2026-11-09-test-framework.md) | Active |
 | [2026-11-09-m1-integrate](completed/2026-11-09-m1-integrate.md) | Completed |
 | [2026-11-08-m1-reconcile](completed/2026-11-08-m1-reconcile.md) | Completed |
 | [2026-11-07-m1-structures](completed/2026-11-07-m1-structures.md) | Completed |

@@ -13,3 +13,4 @@ rootProject.name = 'living-kingdoms-mods'
 
 include 'livingkingdoms-core'
 include 'livingkingdoms-world'
+include 'livingkingdoms-testkit'
