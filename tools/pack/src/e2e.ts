@@ -2,7 +2,7 @@
 // 1. Builds our mods (unless --no-build) and installs the e2e test dependencies on first use.
 // 2. Attaches to a running e2e client when its JARs and pack match; otherwise quits it and launches a fresh one
 //    from the `living-kingdoms-e2e` Prism instance (pack mods + testkit + test options).
-// 3. Runs Vitest with LK_E2E_PORT and LK_E2E_RUN_DIR (runtime/e2e/runs/<timestamp>/), then quits the game
+// 3. Runs Vitest with LK_E2E_PORT (by default the track's port, tools/pack/src/track.ts) and LK_E2E_RUN_DIR (runtime/e2e/runs/<timestamp>/), then quits the game
 //    unless --keep.
 //
 // Usage: npm run e2e -- [--keep] [--no-build] [--restart] [vitest args...]
@@ -17,7 +17,8 @@ import { spawn, spawnSync } from "node:child_process";
 import { E2E_INSTANCE_NAME } from "./pins.ts";
 import { MODPACK_DIR, MODS_SRC_DIR, REPO_ROOT, RUNTIME_DIR, builtOwnJars, fail, run, sha256File } from "./lib.ts";
 import { E2E_INSTANCE, PRISM_DIR, PRISM_EXE, prepareE2eInstance } from "./instance.ts";
-import { DEFAULT_PORT, GameClient } from "../../../tests/e2e/harness/client.ts";
+import { E2E_PORT } from "./track.ts";
+import { GameClient } from "../../../tests/e2e/harness/client.ts";
 import type { HelloResult } from "../../../tests/e2e/harness/protocol.ts";
 
 const E2E_DIR = join(REPO_ROOT, "tests", "e2e");
@@ -96,7 +97,7 @@ async function launchClient(port: number, expected: Fingerprint): Promise<void> 
       `listening on 127.0.0.1:${port} yourself and rerun: \`npm run e2e\` attaches to it.`);
   }
   if (!existsSync(PRISM_EXE)) fail("No Prism yet. Run `npm run instance` first.");
-  await prepareE2eInstance({ build: false });
+  await prepareE2eInstance({ build: false, port });
   const log = join(E2E_INSTANCE.gameDir, "logs", "latest.log");
   console.log(`Launching ${E2E_INSTANCE_NAME}...`);
   spawn(PRISM_EXE, ["--dir", PRISM_DIR, "--launch", E2E_INSTANCE_NAME], { detached: true, stdio: "ignore" }).unref();
@@ -144,7 +145,8 @@ function buildMods(): void {
 }
 
 const options = parseArgs();
-const port = Number(process.env.LK_E2E_PORT ?? DEFAULT_PORT);
+// The port follows the track branch (ADR-0006), so two track folders can run e2e at once.
+const port = E2E_PORT;
 ensureTestDependencies();
 if (options.build) buildMods();
 const expected = currentFingerprint();

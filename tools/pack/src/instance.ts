@@ -106,7 +106,7 @@ function writeIni(path: string, section: string, values: Record<string, string>)
   writeFileSync(path, lines.filter((l, i) => l !== "" || i < lines.length - 1).join("\n") + "\n");
 }
 
-function writeInstance(target: InstanceTarget): void {
+function writeInstance(target: InstanceTarget, jvmArgs = ""): void {
   mkdirSync(target.gameDir, { recursive: true });
   const mmcPack = {
     components: [
@@ -128,6 +128,8 @@ function writeInstance(target: InstanceTarget): void {
     MinMemAlloc: String(MIN_MEM_MIB),
     OverrideCommands: "false",
     PreLaunchCommand: "",
+    OverrideJavaArgs: jvmArgs ? "true" : "false",
+    JvmArgs: jvmArgs,
   });
 
   for (const pin of [PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP]) {
@@ -183,12 +185,31 @@ export function buildOwnMods(target: InstanceTarget = PLAY_INSTANCE, options: { 
   }
 }
 
+/** A path as a PowerShell single-quoted string. */
+const psQuote = (path: string) => `'${path.replaceAll("'", "''")}'`;
+
+/**
+ * PowerShell pipeline that lists the Prism Launcher processes of this checkout. Every track folder has its own
+ * portable Prism (ADR-0006), so a Prism of another folder is not ours to refuse or to stop.
+ */
+export const OWN_PRISM_PROCESSES =
+  `Get-CimInstance Win32_Process -Filter "Name='prismlauncher.exe'" | Where-Object { $_.ExecutablePath -eq ${psQuote(PRISM_EXE)} }`;
+
+/**
+ * PowerShell pipeline that lists the game processes of this checkout: every Java process that runs on the Java
+ * runtime Prism downloaded into this checkout's `runtime/prism/java`. The command line cannot be used: Sodium
+ * replaces it at startup (its Nvidia driver workaround), so it no longer names the instance.
+ */
+export const OWN_GAME_PROCESSES =
+  `Get-CimInstance Win32_Process -Filter "Name='javaw.exe' OR Name='java.exe'" | ` +
+  `Where-Object { $_.ExecutablePath -like ${psQuote(join(PRISM_DIR, "java", "*"))} }`;
+
 /** Prism keeps instance settings in memory and writes them back on exit, overwriting our instance.cfg. */
 function refuseIfPrismRunning(): void {
   if (process.platform !== "win32") return;
-  const tasks = capture("tasklist", ["/FI", "IMAGENAME eq prismlauncher.exe", "/NH"]);
-  if (tasks.toLowerCase().includes("prismlauncher.exe")) {
-    fail("Prism Launcher is running. Close it completely (it rewrites instance settings on exit), then rerun `npm run instance`.");
+  const count = capture("powershell.exe", ["-NoProfile", "-Command", `@(${OWN_PRISM_PROCESSES}).Count`]).trim();
+  if (Number(count) > 0) {
+    fail("Prism Launcher of this checkout is running. Close it completely (it rewrites instance settings on exit), then rerun `npm run instance`.");
   }
 }
 
@@ -211,12 +232,13 @@ export async function prepareInstance(): Promise<void> {
  * Brings the e2e instance in sync: the same pack mods as the play instance, plus the testkit and test options.
  * Called by `npm run e2e` before it launches the game; Prism must not be running (it rewrites instance.cfg).
  */
-export async function prepareE2eInstance(options: { build: boolean }): Promise<void> {
+export async function prepareE2eInstance(options: { build: boolean; port: number }): Promise<void> {
   refuseIfPrismRunning();
   checkPackVersions();
   await setupTools();
   await ensurePrism();
-  writeInstance(E2E_INSTANCE);
+  // The testkit driver listens on the track's port (tools/pack/src/track.ts).
+  writeInstance(E2E_INSTANCE, `-Dlivingkingdoms.testkit.port=${options.port}`);
   syncMods(E2E_INSTANCE);
   writeOptions(join(E2E_INSTANCE.gameDir, "config", "iris.properties"), E2E_IRIS_OPTIONS, "=");
   buildOwnMods(E2E_INSTANCE, options);

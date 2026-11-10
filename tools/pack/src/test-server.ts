@@ -18,6 +18,7 @@ import { spawn } from "node:child_process";
 import { NEOFORGE_INSTALLER, NEOFORGE_VERSION, PACKWIZ_INSTALLER, PACKWIZ_INSTALLER_BOOTSTRAP } from "./pins.ts";
 import { MODPACK_DIR, MODS_SRC_DIR, OWN_JAR_PREFIX, RUNTIME_DIR, TOOLS_BIN, builtOwnJars, fail, fetchPinned, findExecutable, run } from "./lib.ts";
 import { setupTools } from "./setup-tools.ts";
+import { TEST_SERVER_PORT } from "./track.ts";
 
 const SERVER_DIR = join(RUNTIME_DIR, "test-server");
 const SIZES = ["test", "small", "medium", "large"];
@@ -90,7 +91,7 @@ function writeServerConfig(size: string, jvm: string[], seed: string): void {
       `level-type=livingkingdoms\\:${size}`,
       `level-seed=${seed}`,
       "server-ip=127.0.0.1",
-      "server-port=25599",
+      `server-port=${TEST_SERVER_PORT}`,
       "max-players=1",
       "view-distance=6",
       "simulation-distance=6",

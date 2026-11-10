@@ -6,19 +6,18 @@ import { join } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { INSTANCE_NAME } from "./pins.ts";
 import { fail } from "./lib.ts";
-import { GAME_DIR, INSTANCE_DIR, PRISM_DIR, PRISM_EXE, buildOwnMods, syncMods } from "./instance.ts";
+import { GAME_DIR, INSTANCE_DIR, OWN_GAME_PROCESSES, OWN_PRISM_PROCESSES, PRISM_DIR, PRISM_EXE, buildOwnMods, syncMods } from "./instance.ts";
 
 const LOG = join(GAME_DIR, "logs", "latest.log");
 const TIMEOUT_S = 300;
 const TITLE_MARKER = /Sound engine started/;
 const FAILURE_MARKER = /---- Minecraft Crash Report ----|Crash report saved|Exception in thread "main"|Stopping!/;
 
+/** Stops the games and the Prism of this checkout only: other track folders run their own (ADR-0006). */
 function stopGame(): void {
   if (process.platform !== "win32") return;
-  const script =
-    "Get-CimInstance Win32_Process -Filter \"Name='javaw.exe' OR Name='java.exe'\" | " +
-    `Where-Object { $_.CommandLine -like '*${INSTANCE_NAME}*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }; ` +
-    "Stop-Process -Name prismlauncher -Force -ErrorAction SilentlyContinue";
+  const stop = "ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }";
+  const script = `${OWN_GAME_PROCESSES} | ${stop}; ${OWN_PRISM_PROCESSES} | ${stop}`;
   spawnSync("powershell.exe", ["-NoProfile", "-Command", script], { stdio: "ignore" });
 }
 
