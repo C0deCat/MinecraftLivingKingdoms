@@ -364,7 +364,7 @@ final class StructureScan {
     /**
      * How many blocks a piece may stand above the noise ground before it counts as hanging, or -1 if it
      * cannot hang: a {@code terrain_matching} jigsaw piece places every block on the ground, and a piece
-     * carrying our {@code foundation} processor gets its hanging columns extended or dropped. A rigid
+     * carrying our {@code grounding} processor gets its hanging columns extended or dropped. A rigid
      * piece of a {@code beard_thin} or {@code beard_box} structure gets {@value #BEARD_REACH}, as the
      * beard fills under it (vanilla {@code Beardifier}, which the noise height leaves out).
      */
@@ -375,7 +375,7 @@ final class StructureScan {
             if (element.getProjection() == StructureTemplatePool.Projection.TERRAIN_MATCHING) return -1;
             if (element instanceof SinglePoolElement single
                     && ((SinglePoolElementAccessor) single).livingkingdoms$processors().value().list().stream()
-                    .anyMatch(p -> p instanceof FoundationProcessor)) return -1;
+                    .anyMatch(p -> p instanceof GroundingProcessor)) return -1;
             rigid = element.getProjection() == StructureTemplatePool.Projection.RIGID;
         }
         boolean beard = adaptation == TerrainAdjustment.BEARD_THIN || adaptation == TerrainAdjustment.BEARD_BOX;

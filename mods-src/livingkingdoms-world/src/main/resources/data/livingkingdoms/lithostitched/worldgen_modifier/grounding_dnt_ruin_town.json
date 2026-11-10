@@ -17,7 +17,7 @@
   "processor_list": {
     "processors": [
       {
-        "processor_type": "livingkingdoms_world:foundation",
+        "processor_type": "livingkingdoms_world:grounding",
         "mode": "extend",
         "max_depth": 16
       }

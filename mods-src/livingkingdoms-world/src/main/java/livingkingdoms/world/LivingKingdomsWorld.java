@@ -34,7 +34,7 @@ public final class LivingKingdomsWorld {
         DENSITY_FUNCTION_TYPES.register("edge_falloff", () -> EdgeFalloff.MAP_CODEC);
         DENSITY_FUNCTION_TYPES.register("edge_bias", () -> EdgeBias.MAP_CODEC);
         DENSITY_FUNCTION_TYPES.register("edge_erosion", () -> EdgeErosion.MAP_CODEC);
-        STRUCTURE_PROCESSOR_TYPES.register("foundation", () -> FoundationProcessor.TYPE);
+        STRUCTURE_PROCESSOR_TYPES.register("grounding", () -> GroundingProcessor.TYPE);
         STRUCTURE_PLACEMENT_TYPES.register("fixed_count", () -> FixedCountPlacement.TYPE);
     }
 

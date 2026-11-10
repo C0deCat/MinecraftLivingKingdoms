@@ -9,7 +9,7 @@ What the finite world contains, how dense it is, and which content is mandatory.
 
 ## How it was measured
 
-- Pack of 2026-11-09 (M1-B state plus the `foundation` processor), Sparse Structures at its default `spreadFactor` 2 (every structure set's spacing doubled, so about a quarter of the mods' own density).
+- Pack of 2026-11-09 (M1-B state plus the `foundation` processor, now `grounding`), Sparse Structures at its default `spreadFactor` 2 (every structure set's spacing doubled, so about a quarter of the mods' own density).
 - Test server, fresh worlds: Small, Medium, Large × seeds `livingkingdoms`, `alpha`, `20261107`, `kingdoms`; `/lkworld structures border` (all starts inside the Overworld border, from the generator, no chunks generated) and `/lkworld map` (height grid). Analysis: `tools/pack/src/structure-density.ts` and the run notes in the exec plan.
 - Land is the share of the height grid at or above sea level. "Distance" is from 2,000 random land points to the nearest entrance (start piece) of a structure; walking speed is about 4.3 blocks/s.
 - Tiers by the largest side of the start's bounding box (a jigsaw box includes empty space, so this is rough): minor < 48, notable 48–139, major ≥ 140. Decorations (Moog's piles, haystacks, lanterns, trees, carts, benches, ponds; The Graveyard's dead and memorial trees; buried treasure) are not counted as rewards.
@@ -84,7 +84,7 @@ Causes found:
 - **Locating.** Vanilla structure search (`/locate`, eyes of ender, explorer maps) only knows concentric rings and random spread; a mixin in our world mod adds the `fixed_count` points to it.
 - **Land share:** `LandLift` ([ADR-0004 amendment](../decisions/ADR-0004-world-sizes-and-dimensions.md#amendment-2026-11-09-minimum-land-share)).
 - **Result** (2026-11-09, Small / Medium / Large × 4 seeds): 0 critical gaps on all 12 worlds. Strongholds, mega-dungeons and Lich towers exactly at the set counts; Wroughtnaut 2–3 / 4–8 / 6–13, Void Blossom 3–4 / 4–6 / 7–14; reachable adventure areas 90–97 / 192–232 / 402–461 of 19 kinds. Open warnings: hanging pieces of some structures and underground overlaps (TD-22).
-- **Result at acceptance** (2026-11-10, M1-D, the same 12 worlds after the scan fix and the new `foundation` pools): 0 critical gaps; warnings Small 18–29, Medium 27–46, Large 70–75 (before: 20–118). Remaining warnings: underground bunker pieces and shrine elevators (TD-22), Typhon, woodland mansions (vanilla fills under them after placement), Umvuthana groves, single WDA pieces, and overlaps.
+- **Result at acceptance** (2026-11-10, M1-D, the same 12 worlds after the scan fix and the new `grounding` pools): 0 critical gaps; warnings Small 18–29, Medium 27–46, Large 70–75 (before: 20–118). Remaining warnings: underground bunker pieces and shrine elevators (TD-22), Typhon, woodland mansions (vanilla fills under them after placement), Umvuthana groves, single WDA pieces, and overlaps.
 
 ## Manifest categories
 

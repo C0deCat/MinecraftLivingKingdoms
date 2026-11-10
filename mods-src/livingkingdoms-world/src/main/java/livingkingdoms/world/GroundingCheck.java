@@ -19,7 +19,7 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
  * entrance (its start piece), unlike the census, which reads the generator noise. The chunks under
  * each entrance in the radius are fully generated; then every column whose lowest solid block lies
  * in the piece's bottom layer counts as hanging if the block under it is not ground. Used to verify
- * the {@code foundation} processor. Logs {@code Grounding <structure>: ...} with one line per start.
+ * the {@code grounding} processor. Logs {@code Grounding <structure>: ...} with one line per start.
  */
 final class GroundingCheck {
     private GroundingCheck() {}

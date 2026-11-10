@@ -40,6 +40,7 @@ Three separate scales; do not mix their words.
 | Open ocean | The outermost part of the outer ocean, where land is guaranteed absent (the cap) | [lithostitched-1.8.md](references/lithostitched-1.8.md) |
 | Edge band | The band along the border where the edge bias sinks the land (up to 2,048 blocks in) | [lithostitched-1.8.md](references/lithostitched-1.8.md) |
 | Cap | `edge_falloff`, the upper limit for continentalness that keeps the open ocean | [lithostitched-1.8.md](references/lithostitched-1.8.md) |
+| Grounding | A structure standing on the ground instead of hanging over a slope: made by the `livingkingdoms_world:grounding` structure processor (named `foundation` until 2026-11-10, renamed so it does not clash with phase A), checked by `/lkworld grounding` and the hanging share of the scan | [M1 spec](milestones/m1-world-and-adventure.md#phases), [world-content](design-docs/world-content.md) |
 
 ## Testing
 

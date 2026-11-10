@@ -23,7 +23,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
 /**
- * {@code livingkingdoms_world:foundation}: grounds the bottom layer of a rigid piece that hangs over
+ * {@code livingkingdoms_world:grounding}: grounds the bottom layer of a rigid piece that hangs over
  * a slope. For every column whose lowest solid block lies in the piece's bottom layer and has no
  * ground under it, {@code extend} fills down to the ground with {@code block} (default: the column's
  * own bottom block) for at most {@code max_depth} blocks; a column that does not reach the ground
@@ -36,7 +36,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
  * (they carry a {@link GravityProcessor}) follow the ground already and are left alone.
  * Attached to other mods' pools with Lithostitched {@code set_pool_element_processors}.
  */
-final class FoundationProcessor extends StructureProcessor {
+final class GroundingProcessor extends StructureProcessor {
     enum Mode implements StringRepresentable {
         EXTEND("extend"),
         DROP("drop");
@@ -54,19 +54,19 @@ final class FoundationProcessor extends StructureProcessor {
         }
     }
 
-    static final MapCodec<FoundationProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    static final MapCodec<GroundingProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Mode.CODEC.fieldOf("mode").forGetter(p -> p.mode),
             BlockState.CODEC.optionalFieldOf("block").forGetter(p -> p.block),
             Codec.intRange(1, 64).optionalFieldOf("max_depth", 16).forGetter(p -> p.maxDepth)
-    ).apply(instance, FoundationProcessor::new));
+    ).apply(instance, GroundingProcessor::new));
 
-    static final StructureProcessorType<FoundationProcessor> TYPE = () -> CODEC;
+    static final StructureProcessorType<GroundingProcessor> TYPE = () -> CODEC;
 
     private final Mode mode;
     private final Optional<BlockState> block;
     private final int maxDepth;
 
-    FoundationProcessor(Mode mode, Optional<BlockState> block, int maxDepth) {
+    GroundingProcessor(Mode mode, Optional<BlockState> block, int maxDepth) {
         this.mode = mode;
         this.block = block;
         this.maxDepth = maxDepth;

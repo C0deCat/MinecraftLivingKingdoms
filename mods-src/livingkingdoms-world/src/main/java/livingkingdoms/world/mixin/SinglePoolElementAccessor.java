@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 /**
  * Reads the processor list of a single-template pool element, so the structure scan knows which
- * pieces our {@code foundation} processor grounds (Lithostitched {@code set_pool_element_processors}
+ * pieces our {@code grounding} processor grounds (Lithostitched {@code set_pool_element_processors}
  * replaces this field with the old list plus ours).
  */
 @Mixin(SinglePoolElement.class)
