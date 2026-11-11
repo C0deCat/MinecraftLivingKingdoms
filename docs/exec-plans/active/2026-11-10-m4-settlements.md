@@ -57,7 +57,10 @@ On the branch, phase A:
 
 On the branch, after phase A (refined when A is closed):
 
-- [ ] M4-B reconcile: vanilla villages and villagers, MCA residents outside our villages, the M1 village structures, the Archeologist, TD-19, the walkable-layout measurement.
+- [ ] M4-B1: the measurement tool `/lksettle survey` (village starts inside the border, doors reachable on foot from the centre, who lives in each village, professions, trades), CSV in `<world>/livingkingdoms/`.
+- [ ] M4-B2: survey of the M1 villages on Large worlds of the three D-21 seeds: walkable share per village source, residents MCA / vanilla / other, the Archeologist, professions and trades with VillagersTradingPlus (TD-19).
+- [ ] M4-B3: decisions with the user, one question each, from the survey: what the M1 villages become when our settlements exist (the source of the starting villages), settlement counts per size (TD-10), the remaining MCA config switches (inn guests, taxes, bounty hunters, the first-join screen).
+- [ ] M4-B4: the decisions applied (pack config, manifest entry, docs), `npm run validate-world`, smoke and e2e; M4-B closed with a gameplay check by the user.
 - [ ] M4-C slice S1: village base.
 - [ ] M4-C slice S2: builder, walkable layout, building levels.
 - [ ] M4-C slice S5: mining and trades.

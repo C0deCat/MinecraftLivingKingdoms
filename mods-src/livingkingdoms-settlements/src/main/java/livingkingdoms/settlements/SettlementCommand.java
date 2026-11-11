@@ -9,6 +9,7 @@ import java.util.Optional;
 import livingkingdoms.settlements.mca.McaAdapter;
 import livingkingdoms.settlements.resident.ResidentRecord;
 import livingkingdoms.settlements.resident.Residents;
+import livingkingdoms.settlements.survey.VillageSurvey;
 import livingkingdoms.settlements.work.HarvestOrder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -30,7 +31,8 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
  *   <li>{@code assign <villager> harvest <field> <storage> [radius]} makes an MCA villager a
  *       resident with a harvest order;</li>
  *   <li>{@code dismiss <villager>} makes it an ordinary MCA villager again;</li>
- *   <li>{@code status} lists the resident records, loaded or not.</li>
+ *   <li>{@code status} lists the resident records, loaded or not;</li>
+ *   <li>{@code survey [max]} measures the villages the world generates ({@link VillageSurvey}).</li>
  * </ul>
  */
 final class SettlementCommand {
@@ -59,7 +61,11 @@ final class SettlementCommand {
                         .then(Commands.argument("villager", EntityArgument.entity())
                                 .executes(SettlementCommand::dismiss)))
                 .then(Commands.literal("status")
-                        .executes(SettlementCommand::status)));
+                        .executes(SettlementCommand::status))
+                .then(Commands.literal("survey")
+                        .executes(context -> VillageSurvey.start(context.getSource(), Integer.MAX_VALUE))
+                        .then(Commands.argument("max", IntegerArgumentType.integer(1))
+                                .executes(context -> VillageSurvey.start(context.getSource(), IntegerArgumentType.getInteger(context, "max"))))));
     }
 
     private static int spawn(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
