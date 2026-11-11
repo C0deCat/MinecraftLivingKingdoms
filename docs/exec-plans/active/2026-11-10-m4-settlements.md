@@ -57,8 +57,8 @@ On the branch, phase A:
 
 On the branch, after phase A (refined when A is closed):
 
-- [ ] M4-B1: the measurement tool `/lksettle survey` (village starts inside the border, doors reachable on foot from the centre, who lives in each village, professions, trades), CSV in `<world>/livingkingdoms/`.
-- [ ] M4-B2: survey of the M1 villages on Large worlds of the three D-21 seeds: walkable share per village source, residents MCA / vanilla / other, the Archeologist, professions and trades with VillagersTradingPlus (TD-19).
+- [x] M4-B1: the measurement tool `/lksettle survey` (village starts inside the border, doors reachable on foot from the centre, who lives in each village, professions, trades), CSV in `<world>/livingkingdoms/`.
+- [x] M4-B2: survey of the M1 villages on Large worlds of the three D-21 seeds: walkable share per village source, residents MCA / vanilla / other, the Archeologist, professions and trades with VillagersTradingPlus (TD-19).
 - [ ] M4-B3: decisions with the user, one question each, from the survey: what the M1 villages become when our settlements exist (the source of the starting villages), settlement counts per size (TD-10), the remaining MCA config switches (inn guests, taxes, bounty hunters, the first-join screen).
 - [ ] M4-B4: the decisions applied (pack config, manifest entry, docs), `npm run validate-world`, smoke and e2e; M4-B closed with a gameplay check by the user.
 - [ ] M4-C slice S1: village base.
@@ -100,6 +100,8 @@ On `main` after the merge:
 
   Not checked: gameplay by the user; a resident's whole day (rest, meeting, panic, night) and behaviour inside a real village; several residents on one field; a full or missing chest beyond the code path; performance. `npm run validate-world` was not run (worldgen is unchanged).
 - 2026-11-11 — M4-A closed, gameplay verified by the user for the task: in the play instance a villager spawned with `/lksettle spawn` and given an order harvested the wheat, replanted it and put wheat and seeds into the chest. The user did not report a save and reload in the play instance; that part rests on the e2e spec. Next: M4-B.
+- 2026-11-11 — M4-B1, runtime passed: `/lksettle survey [max]` in the settlement mod (structure tag `village_source`, `Walkability`, `VillageSurvey`); 3 GameTests with known layouts (5 GameTests in all pass). The first run reported 0 reachable doors in two villages: the centre was the position nearest to the bell, often the rim of the well. The centre is now the largest walkable area around the bell, at its level or below.
+- 2026-11-11 — M4-B2, measured on Large worlds of the seeds `livingkingdoms`, `alpha`, `20261107` (test server, about 20 min each): 179 villages, 87% of doors reachable, 47% of villages fully walkable, all 1,858 residents are MCA villagers. Table and findings: [settlement-model](../../design-docs/settlement-model.md#the-villages-the-world-generates-today). Not measured: VillagersTradingPlus trades on MCA residents (TD-19), the Archeologist camps, villages after residents have lived in them for days.
 
 ## Decision log
 
