@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "CHANGELOG.md"
-hash = "77b9869e28109b4041b86d52438ad5ef18841edb08d894fe63cee19b60b1029e"
+hash = "57ec406a19e88a74550ea27950738d52c5af67a009a5cbfb363f72b55faaf146"
 
 [[files]]
 file = "config/iris.properties"
@@ -11,7 +11,7 @@ preserve = true
 
 [[files]]
 file = "config/mca.json"
-hash = "d1ac3a57da97608129d3851c42562e4f0001a80899893ac05f694ce3f5f2c324"
+hash = "66455db4dc9d06db7d7f18a828d42577d4722bd3f839d3ced1e4d2a61adfa1ed"
 
 [[files]]
 file = "config/mowziesmobs-common.toml"

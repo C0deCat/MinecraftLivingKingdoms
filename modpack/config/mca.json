@@ -1,4 +1,5 @@
 {
   "version": 2,
-  "launchIntoDestiny": false
+  "launchIntoDestiny": false,
+  "allowDestinyTeleportation": false
 }

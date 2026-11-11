@@ -70,7 +70,7 @@ Class names below are relative to `net.conczin.mca`. The code is GPL: read it, n
 
 ## Pitfalls
 
-- `launchIntoDestiny` (default true) opens MCA's character and spawn screen on a player's first join. The screen pauses singleplayer, so server ticks stop and every e2e world hangs, and it can move the player away from our spawn. The pack sets it to false in `modpack/config/mca.json`; the player can still run the destiny command once (`allowDestinyCommandOnce`). Whether the pack offers the screen in another way is decided in M4-B.
+- `launchIntoDestiny` (default true) opens MCA's character and spawn screen on a player's first join. The screen pauses singleplayer, so server ticks stop and every e2e world hangs, and it can move the player away from our spawn. The pack sets it to false in `modpack/config/mca.json`; the player can still run the destiny command once (`allowDestinyCommandOnce`). D-55 keeps it that way and also sets `allowDestinyTeleportation` to false, so the command opens the character editor without the teleport.
 - `config/mca.json` is read with Gson: a file with only some fields works and MCA writes the full file back at startup, but a file without `"version": 2` is thrown away and replaced by the defaults.
 - In development runs MCA Reborn loads from the Modrinth Maven (`maven.modrinth:minecraft-comes-alive-reborn:<version id>`) as a normal mod; its JAR is in official mappings, so no remapping is needed.
 - Spawn a villager for a test through `entity.VillagerFactory` (`newVillager(level).withPosition(...).withAge(0).spawn(reason)`). A villager created without MCA's own spawn path has no name, gender or family entry, and the factory picks a random age when none is given, so it can be a child.

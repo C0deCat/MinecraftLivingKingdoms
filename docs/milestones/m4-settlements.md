@@ -19,8 +19,8 @@ Scope (D-50, with the user, 2026-11-10): at the end of M4 the mod is close to Mi
 
 | Slice | Content | What the player gets |
 | --- | --- | --- |
-| S1 — Village base | Starting villages from templates, MCA residents assigned to a village, homes, shared storage, the profession framework (a profession is data plus a set of tasks), farmer and lumberjack | A populated world where residents work |
-| S2 — Builder | Development plan, construction from templates using storage resources, visible progress, building levels on one or two upgrade lines | Villages grow before your eyes |
+| S1 — Village base | Starting villages adopted from the ones the world generates (D-53), MCA residents assigned to a village, homes, shared storage, the profession framework (a profession is data plus a set of tasks), farmer and lumberjack | A populated world where residents work |
+| S2 — Builder | Development plan, construction from templates using storage resources, visible progress, building levels on one or two upgrade lines; our layout with the walkable rule places the starting villages and the M1 village sources are switched off (D-53) | Villages grow before your eyes |
 | S3 — Kitchen and crafts | Cook, baker, brewer on Farmer's Delight and Let's Do recipes; simple trade with the player from the village stock | Link to the M2 household gameplay |
 | S4 — Population growth | MCA families produce new residents, housing, profession assignment; several villages | Villages develop over years |
 | S5 — Mining and trades | Miner, mason, smith, herder, guard; the chain ore → ingot → tool → worker, so a village supplies its own stone, metal and tools | Villages that depend on nothing but their land |
@@ -102,5 +102,8 @@ Each area gets a first pass, is deepened later in M4 and continues in a later mi
 
 Answered in M4-A: how MCA Reborn works inside ([mca-reborn-7.7](../references/mca-reborn-7.7.md)), the licenses of construction and worker mods ([licenses](../licenses.md#construction-and-worker-mods-as-code-sources)), the license of our mod (D-52), and that residents can be given tasks from outside with one Mixin ([ADR-0030](../decisions/ADR-0030-resident-integration.md#verification-2026-11-10)).
 
-- The remaining MCA Reborn config switches for the pack: inn guests, taxes, bounty hunters, and whether the first-join screen that the pack now turns off is offered in another way (M4-B).
-- How many settlements per world size, and where the starting villages come from (TD-10, M4-B).
+Answered in M4-B: starting villages are the generated ones in S1 and our own from S2 (D-53), every generated village is a settlement until then (D-54), the destiny screen (D-55).
+
+- MCA's inn guests, taxes and bounty hunters keep MCA's defaults for now: they need a building a player scans with MCA's blueprint or a player with a bad reputation. They are decided in S7 together with MCA's ranks.
+- MCA's guard, marriage and birth managers are switched off in the slice that brings our rule for them (S5 for guards, S4 for marriage and births), not earlier, so villages do not lose them in between ([ADR-0030](../decisions/ADR-0030-resident-integration.md)).
+- Final settlement counts per world size (TD-10, S2).
