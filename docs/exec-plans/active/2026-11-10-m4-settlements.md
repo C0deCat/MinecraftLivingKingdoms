@@ -53,7 +53,7 @@ On the branch, phase A:
   - one task: a resident walks to ripe wheat, harvests it and delivers it to a chest, by tags;
   - debug command `/lksettle` (assign, status);
   - a GameTest and the e2e spec `tests/e2e/specs/settlements/resident-task-reload.spec.ts` (the task and the resident link survive save → quit → reopen).
-- [ ] M4-A closed: spec open questions answered, progress log with the status reached, a gameplay check by the user, push.
+- [x] M4-A closed: spec open questions answered, progress log with the status reached, a gameplay check by the user, push.
 
 On the branch, after phase A (refined when A is closed):
 
@@ -96,6 +96,7 @@ On `main` after the merge:
   - found on the way: MCA's first-join screen pauses the game and hung the e2e world, so the pack now ships `config/mca.json` with `launchIntoDestiny` false; GameTest coordinates start one below the template.
 
   Not checked: gameplay by the user; a resident's whole day (rest, meeting, panic, night) and behaviour inside a real village; several residents on one field; a full or missing chest beyond the code path; performance. `npm run validate-world` was not run (worldgen is unchanged).
+- 2026-11-11 — M4-A closed, gameplay verified by the user for the task: in the play instance a villager spawned with `/lksettle spawn` and given an order harvested the wheat, replanted it and put wheat and seeds into the chest. The user did not report a save and reload in the play instance; that part rests on the e2e spec. Next: M4-B.
 
 ## Decision log
 
