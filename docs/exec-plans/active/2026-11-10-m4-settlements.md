@@ -65,7 +65,7 @@ On the branch, after phase A (refined when A is closed):
   - [x] S1-1 settlements: a settlement record for every generated village (D-53, D-54), found when one of its chunks loads; MCA villagers inside it become its residents; `/lksettle status` lists settlements; all of it survives a reload.
   - [x] S1-2 site safety (TD-51): open lava next to the buildings of an adopted village is removed chunk by chunk as the village loads, a smithy's own lava stays.
   - [ ] S1-3 profession framework: a profession is data (workplace, tasks, inputs and outputs by tag, tools) mapped to a villager profession; a settlement gives professions to its adult residents; a resident without work from us keeps MCA's brain.
-  - [ ] S1-4 shared storage: the stock of a settlement lives in its record, reachable through a storage block the mod places at the centre.
+  - [ ] S1-4 shared storage ([ADR-0031](../../decisions/ADR-0031-settlement-storage.md)): storage points with roles (workplace store, warehouse) in chests, own building first and the warehouse for the rest, a table of balances in the settlement record, and the chests our mod places in an adopted village (a warehouse at the bell, a store at each workplace).
   - [ ] S1-5 farmer: works the fields of its settlement and delivers to the storage (the prototype order becomes a profession task).
   - [ ] S1-6 lumberjack: fells and replants trees around the settlement (vanilla and Terralith trees, TD-06) and delivers to the storage.
   - [ ] S1-7 homes: a resident has a bed in its settlement.
@@ -136,3 +136,4 @@ On `main` after the merge:
 - 2026-11-12 — A resident without work from us keeps the brain MCA builds (`Residents.hasWork`): adopting a village must not take professions, trades and daily life from its villagers before our professions exist (S1-3).
 - 2026-11-12 — Villages are adopted from structure references of loaded chunks, not by scanning the world: every chunk a structure reaches into points to its start, so a village becomes a settlement whichever of its chunks loads first, and work on a chunk is queued to the next server tick because loading the start chunk inside a chunk-load event can deadlock.
 - 2026-11-12 — Lava next to buildings hardens (source to obsidian, flowing to cobblestone) instead of being removed: no hole is left and nothing flows in from the rest of the lake.
+- 2026-11-12 — The stock of a settlement lives in chests, not in its record (ADR-0031, the user's design): residents work at their own building and go to the warehouse only for what is missing or left over. A table of current balances in the record serves the unloaded world; it is not a transaction log.

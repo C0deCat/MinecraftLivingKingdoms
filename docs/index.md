@@ -62,6 +62,7 @@ last_reviewed: YYYY-MM-DD
 | [decisions/ADR-0005-test-framework.md](decisions/ADR-0005-test-framework.md) | Test layers: GameTest and our e2e driver | stable |
 | [decisions/ADR-0006-parallel-tracks.md](decisions/ADR-0006-parallel-tracks.md) | M2, M3 and M4 in parallel tracks, merge order | stable |
 | [decisions/ADR-0030-resident-integration.md](decisions/ADR-0030-resident-integration.md) | Our settlement mod and MCA Reborn residents: data, tasks, ownership, license | stable |
+| [decisions/ADR-0031-settlement-storage.md](decisions/ADR-0031-settlement-storage.md) | Settlement stock in chests with roles, balances for the unloaded world | stable |
 
 ## Plans
 

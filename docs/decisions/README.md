@@ -22,6 +22,7 @@ A decision made in a chat or elsewhere does not exist for agents until it is wri
 | [ADR-0005](ADR-0005-test-framework.md) | Two test layers: GameTest for mechanics, our e2e driver with TypeScript tests on Vitest | Accepted | 2026-11-09 |
 | [ADR-0006](ADR-0006-parallel-tracks.md) | M2, M3 and M4 are developed in parallel tracks and merged in the order M2 → M3 → M4 | Accepted | 2026-11-10 |
 | [ADR-0030](ADR-0030-resident-integration.md) | How our settlement mod works with MCA Reborn residents: our record plus an attachment, tasks through the Brain with one Mixin, our rules decide and MCA carries out | Accepted | 2026-11-10 |
+| [ADR-0031](ADR-0031-settlement-storage.md) | The stock of a settlement lives in chests with roles (workplace store, warehouse), with a table of balances in the settlement record for the unloaded world | Accepted | 2026-11-12 |
 
 While the tracks of [ADR-0006](ADR-0006-parallel-tracks.md) are open, new numbers come from the range of the place where the decision is written, so two branches never give out the same one: `main` D-24–29 and ADR-0007–0009, M2 D-30–39 and ADR-0010–0019, M3 D-40–49 and ADR-0020–0029, M4 D-50–59 and ADR-0030–0039.
 

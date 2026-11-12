@@ -19,7 +19,7 @@ Scope (D-50, with the user, 2026-11-10): at the end of M4 the mod is close to Mi
 
 | Slice | Content | What the player gets |
 | --- | --- | --- |
-| S1 — Village base | Starting villages adopted from the ones the world generates (D-53), MCA residents assigned to a village, homes, shared storage, the profession framework (a profession is data plus a set of tasks), farmer and lumberjack | A populated world where residents work |
+| S1 — Village base | Starting villages adopted from the ones the world generates (D-53), MCA residents assigned to a village, homes, shared storage in chests ([ADR-0031](../decisions/ADR-0031-settlement-storage.md)), the profession framework (a profession is data plus a set of tasks), farmer and lumberjack | A populated world where residents work |
 | S2 — Builder | Development plan, construction from templates using storage resources, visible progress, building levels on one or two upgrade lines; our layout with the walkable rule places the starting villages and the M1 village sources are switched off (D-53) | Villages grow before your eyes |
 | S3 — Kitchen and crafts | Cook, baker, brewer on Farmer's Delight and Let's Do recipes; simple trade with the player from the village stock | Link to the M2 household gameplay |
 | S4 — Population growth | MCA families produce new residents, housing, profession assignment; several villages | Villages develop over years |
