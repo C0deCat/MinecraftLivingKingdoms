@@ -86,6 +86,7 @@ Each area gets a first pass, is deepened later in M4 and continues in a later mi
 ## Acceptance
 
 - Several villages work for dozens of in-game days in the loaded world: growth, production, families.
+- A village is not destroyed by its surroundings: no open lava next to its buildings and no other structure inside it, in adopted villages (S1) and on the sites our layout chooses (S2) (TD-51).
 - A village supplies itself: food, wood, stone, metal and tools come from its own residents (S1, S3, S5).
 - A village started as a hamlet reaches the top of the building tree without the player's help (S2, S6).
 - The player can earn reputation, trade, order a building, get a house and complete quests in a village (S3, S7, S8).

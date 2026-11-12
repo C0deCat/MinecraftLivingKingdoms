@@ -1,5 +1,7 @@
 package livingkingdoms.settlements.survey;
 
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,18 +24,22 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 import net.minecraft.world.level.storage.LevelResource;
@@ -45,7 +51,7 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
  * structures in the tag {@code livingkingdoms_settlements:village_source}) inside the Overworld
  * border. Each village is generated and loaded, left alone for a while so its villagers appear
  * and MCA replaces them, and then measured: doors reachable on foot from the centre
- * ({@link Walkability}) and who lives there.
+ * ({@link Walkability}), who lives there, and open lava and fire next to its buildings.
  *
  * <p>Output: {@code <world>/livingkingdoms/villages.csv} and {@code village-doors.csv}, a log line
  * per village and a last line {@code Village survey done: ...}. One village at a time, on the
@@ -58,11 +64,13 @@ public final class VillageSurvey {
     /** Ticks a loaded village is left alone: MCA replaces one villager per tick, and POIs settle. */
     private static final int SETTLE_TICKS = 200;
     private static final int LOAD_TIMEOUT_TICKS = 20 * 600;
+    /** Lava this close to a building sets it on fire sooner or later. */
+    private static final int HAZARD_REACH = 4;
 
     private record Village(String id, StructureStart start) {}
 
     private record Row(String id, BlockPos centre, int pieces, Walkability.Result walk, int mca, int vanilla, int otherNpc, int golems,
-            int unemployed, int withTrades, Map<String, Integer> professions) {}
+            int unemployed, int withTrades, Map<String, Integer> professions, int openLava, int fire) {}
 
     private static VillageSurvey running;
 
@@ -76,6 +84,7 @@ public final class VillageSurvey {
     private List<ChunkPos> forced = List.of();
     private int waited;
     private int settled;
+    private final LongSet hazardsSeen = new LongOpenHashSet();
 
     private VillageSurvey(CommandSourceStack source, ServerLevel level, List<Village> villages) {
         this.source = source;
@@ -195,17 +204,31 @@ public final class VillageSurvey {
                 professions.merge(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString(), 1, Integer::sum);
             }
         }
+        // Fire hazards: lava with air above it, and burning blocks, inside or right next to a piece of the village.
+        int openLava = 0;
+        int fire = 0;
+        BlockPos.MutableBlockPos above = new BlockPos.MutableBlockPos();
+        for (StructurePiece piece : village.start().getPieces()) {
+            BoundingBox near = piece.getBoundingBox().inflatedBy(HAZARD_REACH);
+            for (BlockPos pos : BlockPos.betweenClosed(near.minX(), near.minY(), near.minZ(), near.maxX(), near.maxY(), near.maxZ())) {
+                if (!hazardsSeen.add(pos.asLong())) continue;
+                BlockState state = level.getBlockState(pos);
+                if (state.is(BlockTags.FIRE)) fire++;
+                else if (state.getFluidState().is(FluidTags.LAVA) && level.getBlockState(above.setWithOffset(pos, 0, 1, 0)).isAir()) openLava++;
+            }
+        }
+        hazardsSeen.clear();
         return new Row(village.id(), box.getCenter(), village.start().getPieces().size(), walk, mca, vanilla, otherNpc, golems,
-                unemployed, withTrades, professions);
+                unemployed, withTrades, professions, openLava, fire);
     }
 
     private static String describe(Row row) {
         Walkability.Result walk = row.walk();
         return String.format(Locale.ROOT, "Village %s at %s: %d pieces, doors %d/%d reachable from %d walkable positions, centre %s, residents %d MCA / %d vanilla / %d other, "
-                        + "%d golems, %d with trades, professions %s",
+                        + "%d golems, %d with trades, open lava %d, fire %d, professions %s",
                 row.id(), row.centre().toShortString(), row.pieces(), walk.reachedDoors(), walk.doors().size(), walk.reachedCells(),
                 walk.centre().isEmpty() ? "none" : walk.bell() ? "bell" : "middle", row.mca(), row.vanilla(), row.otherNpc(), row.golems(),
-                row.withTrades(), row.professions());
+                row.withTrades(), row.openLava(), row.fire(), row.professions());
     }
 
     private void finish() {
@@ -213,17 +236,17 @@ public final class VillageSurvey {
         try {
             Files.createDirectories(dir);
             List<String> lines = new ArrayList<>();
-            lines.add("structure,x,y,z,pieces,centre,reached_cells,doors,doors_reached,share,mca,vanilla,other_npc,golems,unemployed,with_trades,professions");
+            lines.add("structure,x,y,z,pieces,centre,reached_cells,doors,doors_reached,share,mca,vanilla,other_npc,golems,unemployed,with_trades,open_lava,fire,professions");
             List<String> doorLines = new ArrayList<>();
             doorLines.add("structure,village_x,village_z,x,y,z,reached,gap");
             for (Row row : rows) {
                 Walkability.Result walk = row.walk();
                 int doors = walk.doors().size();
-                lines.add(String.format(Locale.ROOT, "%s,%d,%d,%d,%d,%s,%d,%d,%d,%.3f,%d,%d,%d,%d,%d,%d,\"%s\"",
+                lines.add(String.format(Locale.ROOT, "%s,%d,%d,%d,%d,%s,%d,%d,%d,%.3f,%d,%d,%d,%d,%d,%d,%d,%d,\"%s\"",
                         row.id(), row.centre().getX(), row.centre().getY(), row.centre().getZ(), row.pieces(),
                         walk.centre().isEmpty() ? "none" : walk.bell() ? "bell" : "middle", walk.reachedCells(), doors, walk.reachedDoors(),
                         doors == 0 ? 0.0 : (double) walk.reachedDoors() / doors, row.mca(), row.vanilla(), row.otherNpc(), row.golems(),
-                        row.unemployed(), row.withTrades(), row.professions()));
+                        row.unemployed(), row.withTrades(), row.openLava(), row.fire(), row.professions()));
                 for (Walkability.Door door : walk.doors()) {
                     doorLines.add(String.format(Locale.ROOT, "%s,%d,%d,%d,%d,%d,%b,%d", row.id(), row.centre().getX(), row.centre().getZ(),
                             door.pos().getX(), door.pos().getY(), door.pos().getZ(), door.reached(), door.gap()));
@@ -241,9 +264,11 @@ public final class VillageSurvey {
         int mca = rows.stream().mapToInt(Row::mca).sum();
         int vanilla = rows.stream().mapToInt(Row::vanilla).sum();
         int other = rows.stream().mapToInt(Row::otherNpc).sum();
+        long withLava = rows.stream().filter(row -> row.openLava() > 0).count();
+        long burning = rows.stream().filter(row -> row.fire() > 0).count();
         String done = String.format(Locale.ROOT, "Village survey done: %d of %d villages measured, doors %d/%d reachable (%.0f%%), "
-                        + "%d villages fully walkable, residents %d MCA / %d vanilla / %d other, %d s -> %s",
-                rows.size(), found, reached, doors, doors == 0 ? 0.0 : 100.0 * reached / doors, fullyWalkable, mca, vanilla, other,
+                        + "%d villages fully walkable, %d with open lava next to a building, %d burning, residents %d MCA / %d vanilla / %d other, %d s -> %s",
+                rows.size(), found, reached, doors, doors == 0 ? 0.0 : 100.0 * reached / doors, fullyWalkable, withLava, burning, mca, vanilla, other,
                 (System.currentTimeMillis() - startedMillis) / 1000, dir.resolve("villages.csv").toAbsolutePath());
         LivingKingdomsSettlements.LOGGER.info(done);
         source.sendSuccess(() -> Component.literal(done), false);
