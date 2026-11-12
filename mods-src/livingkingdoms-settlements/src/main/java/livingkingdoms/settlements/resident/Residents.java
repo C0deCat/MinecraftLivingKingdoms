@@ -65,10 +65,34 @@ public final class Residents {
             return existing.get();
         }
         StableId id = CoreSaveData.get(server).next(ID_KIND);
-        ResidentRecord record = new ResidentRecord(id, body.getUUID(), body.getName().getString(), Optional.empty(), 0);
+        ResidentRecord record = new ResidentRecord(id, body.getUUID(), body.getName().getString(), Optional.empty(), Optional.empty(), 0);
         SettlementSaveData.get(server).add(record);
         body.setData(RESIDENT_ID, id);
         return record;
+    }
+
+    /** Makes the villager a resident of the settlement. */
+    public static ResidentRecord join(Villager body, StableId settlement) {
+        ResidentRecord record = enlist(body);
+        record.setSettlement(Optional.of(settlement));
+        SettlementSaveData.get(requireServer(body)).setDirty();
+        return record;
+    }
+
+    public static Optional<StableId> settlementOf(Entity entity) {
+        return recordOf(entity).flatMap(ResidentRecord::settlement);
+    }
+
+    /**
+     * Whether our mod has given the resident work. A resident without work keeps the brain MCA builds, so a
+     * villager of an adopted village goes on living as before until its settlement employs it.
+     */
+    public static boolean hasWork(Entity entity) {
+        return recordOf(entity).flatMap(ResidentRecord::order).isPresent();
+    }
+
+    public static long countIn(MinecraftServer server, StableId settlement) {
+        return SettlementSaveData.get(server).all().stream().filter(record -> record.settlement().filter(settlement::equals).isPresent()).count();
     }
 
     /** Removes the record and the link; the villager goes back to being an ordinary MCA villager. */

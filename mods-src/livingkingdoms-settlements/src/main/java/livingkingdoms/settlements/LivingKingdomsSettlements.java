@@ -2,6 +2,7 @@ package livingkingdoms.settlements;
 
 import com.mojang.logging.LogUtils;
 import livingkingdoms.settlements.resident.Residents;
+import livingkingdoms.settlements.settlement.Settlements;
 import livingkingdoms.settlements.survey.VillageSurvey;
 import livingkingdoms.settlements.work.Labor;
 import net.neoforged.bus.api.IEventBus;
@@ -26,5 +27,9 @@ public final class LivingKingdomsSettlements {
         NeoForge.EVENT_BUS.addListener(Residents::onDeath);
         NeoForge.EVENT_BUS.addListener(SettlementCommand::register);
         NeoForge.EVENT_BUS.addListener(VillageSurvey::onServerTick);
+        NeoForge.EVENT_BUS.addListener(Settlements::onChunkLoad);
+        NeoForge.EVENT_BUS.addListener(Settlements::onServerTick);
+        NeoForge.EVENT_BUS.addListener(Settlements::onServerStopped);
+        NeoForge.EVENT_BUS.addListener(Settlements::onEntityJoin);
     }
 }

@@ -57,11 +57,11 @@ public final class McaAdapter {
      * leaves out MCA's job-site package so the resident neither takes nor loses a profession by
      * itself. Called from the Mixin on every brain build.
      *
-     * @return false when MCA should build the brain: not a resident, a child, a guard, or a
+     * @return false when MCA should build the brain: not a resident, a resident without work, a child, a guard, or a
      *         villager told by a player to follow or stay
      */
     public static boolean buildResidentBrain(VillagerEntityMCA villager, Brain<VillagerEntityMCA> brain) {
-        if (!Residents.isResident(villager)) return false;
+        if (!Residents.isResident(villager) || !Residents.hasWork(villager)) return false;
         if (brain.getMemoryInternal(MemoryModuleTypeMCA.STAYING).isPresent()) return false;
         if (brain.getMemoryInternal(MemoryModuleTypeMCA.PLAYER_FOLLOWING).isPresent()) return false;
         if (AgeState.byCurrentAge(villager.getAge()) != AgeState.ADULT) return false;

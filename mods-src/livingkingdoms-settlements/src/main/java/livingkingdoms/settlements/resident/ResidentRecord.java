@@ -17,6 +17,7 @@ public final class ResidentRecord {
             StableId.CODEC.fieldOf("id").forGetter(ResidentRecord::id),
             UUIDUtil.CODEC.fieldOf("entity").forGetter(ResidentRecord::entity),
             Codec.STRING.fieldOf("name").forGetter(ResidentRecord::name),
+            StableId.CODEC.optionalFieldOf("settlement").forGetter(ResidentRecord::settlement),
             HarvestOrder.CODEC.optionalFieldOf("order").forGetter(ResidentRecord::order),
             Codec.INT.optionalFieldOf("delivered", 0).forGetter(ResidentRecord::delivered)
     ).apply(instance, ResidentRecord::new));
@@ -24,13 +25,15 @@ public final class ResidentRecord {
     private final StableId id;
     private final UUID entity;
     private String name;
+    private Optional<StableId> settlement;
     private Optional<HarvestOrder> order;
     private int delivered;
 
-    ResidentRecord(StableId id, UUID entity, String name, Optional<HarvestOrder> order, int delivered) {
+    ResidentRecord(StableId id, UUID entity, String name, Optional<StableId> settlement, Optional<HarvestOrder> order, int delivered) {
         this.id = id;
         this.entity = entity;
         this.name = name;
+        this.settlement = settlement;
         this.order = order;
         this.delivered = delivered;
     }
@@ -49,6 +52,11 @@ public final class ResidentRecord {
         return name;
     }
 
+    /** The settlement the resident belongs to; empty for a resident made by command outside any. */
+    public Optional<StableId> settlement() {
+        return settlement;
+    }
+
     public Optional<HarvestOrder> order() {
         return order;
     }
@@ -60,6 +68,10 @@ public final class ResidentRecord {
 
     void setName(String name) {
         this.name = name;
+    }
+
+    void setSettlement(Optional<StableId> settlement) {
+        this.settlement = settlement;
     }
 
     void setOrder(Optional<HarvestOrder> order) {

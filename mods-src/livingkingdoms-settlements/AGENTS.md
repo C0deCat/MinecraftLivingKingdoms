@@ -2,7 +2,7 @@
 
 NeoForge 1.21.1 mod `livingkingdoms_settlements`: settlements whose residents are MCA Reborn villagers. Decisions: [ADR-0001](../../docs/decisions/ADR-0001-own-settlement-mod.md), [ADR-0030](../../docs/decisions/ADR-0030-resident-integration.md); spec: [M4](../../docs/milestones/m4-settlements.md); model: [settlement-model](../../docs/design-docs/settlement-model.md); MCA facts: [mca-reborn-7.7](../../docs/references/mca-reborn-7.7.md). Rules from the root [AGENTS.md](../../AGENTS.md) and [mods-src/AGENTS.md](../AGENTS.md) apply.
 
-State: the M4-A prototype. One order (harvest crops, deliver to a container), the debug command `/lksettle`, no settlements yet.
+State: slice S1 in progress. Every generated village becomes a settlement and its MCA villagers its residents (`settlement` package), open lava next to its buildings hardens (`SiteSafety`, TD-51); one order from the prototype (harvest crops, deliver to a container); the debug command `/lksettle` with the village survey (`survey` package).
 
 ## Rules
 

@@ -9,6 +9,8 @@ import java.util.Optional;
 import livingkingdoms.settlements.mca.McaAdapter;
 import livingkingdoms.settlements.resident.ResidentRecord;
 import livingkingdoms.settlements.resident.Residents;
+import livingkingdoms.settlements.settlement.SettlementRecord;
+import livingkingdoms.settlements.settlement.Settlements;
 import livingkingdoms.settlements.survey.VillageSurvey;
 import livingkingdoms.settlements.work.HarvestOrder;
 import net.minecraft.commands.CommandSourceStack;
@@ -31,7 +33,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
  *   <li>{@code assign <villager> harvest <field> <storage> [radius]} makes an MCA villager a
  *       resident with a harvest order;</li>
  *   <li>{@code dismiss <villager>} makes it an ordinary MCA villager again;</li>
- *   <li>{@code status} lists the resident records, loaded or not;</li>
+ *   <li>{@code status} lists the settlements and the resident records, loaded or not;</li>
  *   <li>{@code survey [max]} measures the villages the world generates ({@link VillageSurvey}).</li>
  * </ul>
  */
@@ -97,6 +99,13 @@ final class SettlementCommand {
 
     private static int status(CommandContext<CommandSourceStack> context) {
         CommandSourceStack source = context.getSource();
+        Collection<SettlementRecord> settlements = Settlements.all(source.getServer());
+        source.sendSuccess(() -> Component.literal("Settlements: " + settlements.size()), false);
+        for (SettlementRecord settlement : settlements) {
+            long residents = Residents.countIn(source.getServer(), settlement.id());
+            source.sendSuccess(() -> Component.literal(settlement.id() + " source=" + settlement.source() + " centre="
+                    + settlement.centre().toShortString() + " residents=" + residents), false);
+        }
         Collection<ResidentRecord> records = Residents.all(source.getServer());
         source.sendSuccess(() -> Component.literal("Residents: " + records.size()), false);
         for (ResidentRecord record : records) {
@@ -106,7 +115,8 @@ final class SettlementCommand {
                     .orElse("none");
             String body = entity == null ? "unloaded"
                     : McaAdapter.body(entity).map(villager -> "loaded activity=" + McaAdapter.activityName(villager)).orElse("loaded");
-            source.sendSuccess(() -> Component.literal(record.id() + " name=" + record.name() + " order=[" + order
+            String home = record.settlement().map(Object::toString).orElse("none");
+            source.sendSuccess(() -> Component.literal(record.id() + " name=" + record.name() + " settlement=" + home + " order=[" + order
                     + "] delivered=" + record.delivered() + " body=" + body), false);
         }
         return records.size();
